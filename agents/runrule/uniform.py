@@ -93,6 +93,7 @@ if __name__ == "__main__":
         from fractions import Fraction
         def null1(rows):
             """the integer vector spanning the null space of the rows, if it is one-dimensional"""
+            if not rows: return None                               # a cone of rank 1 has no facet
             M = [[Fraction(x) for x in r] for r in rows]; nc = len(M[0]); piv = []; r = 0
             for c in range(nc):
                 p = next((i for i in range(r, len(M)) if M[i][c] != 0), None)
