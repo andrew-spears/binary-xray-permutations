@@ -48,6 +48,7 @@ x = 1 1 0 0 1 1 1, s0 = 5, |F(x)| = 36, |G(s0)| = 24.  |G(s) minus F(x 2 z)| for
 11        0         0     104     50    512    104      2   512          0   0 332
 12        0         0     152     41    770    152      2   770          0   0 512
 13        0         0     208     54   1176    208      2  1176          4   0 784
+14        4        10     288     64   1744    284      4  1744          0   0 1176
 
 after the first zero plus one letter e: states of G (G- for e = -1) with no e-predecessor in C1L / C1
  3  |G|     8   e=0:   4/  2   e=1:       -   e=-1:   0/  0
@@ -60,7 +61,23 @@ after the first zero plus one letter e: states of G (G- for e = -1) with no e-pr
 10  |G|   332   e=0:  60/  2   e=1:  28/  0   e=-1:   0/  0
 11  |G|   512   e=0:  76/  2   e=1:  32/  0   e=-1:   0/  0
 12  |G|   770   e=0: 105/  2   e=1:  32/  0   e=-1:   4/  0
-13  |G|  1176   e=0: 140/  2   e=1:  46/  0   e=-1:       -
+13  |G|  1176   e=0: 140/  2   e=1:  46/  0   e=-1:   0/  0
+14  |G|  1744   e=0: 186/  2   e=1:  56/  0   e=-1:       -
+
+closed forms (slack <= 14)
+ 3  lvl2 - Lam = the 0 states (l|l') of level 2  | lvl2 - L0: none  | G - C1: -|3 3|-  | no 0-pred in C1: 1|2 2|1  | G-(s-1) with no (-1)-pred in C1L: none (in G: 0)
+ 4  lvl2 - Lam = the 0 states (l|l') of level 2  | lvl2 - L0: none  | G - C1: -|4 11|11 4|-  | no 0-pred in C1: -|31 31|-  | G-(s-1) with no (-1)-pred in C1L: none (in G: 0)
+ 5  lvl2 - Lam = the 0 states (l|l') of level 2  | lvl2 - L0: none  | G - C1: -|5 5|-  | no 0-pred in C1: 1|4 4|1  | G-(s-1) with no (-1)-pred in C1L: none (in G: 0)
+ 6  lvl2 - Lam = the 2 states (l|l') of level 2  | lvl2 - L0: 111|3 1|311 311|1 3|111  | G - C1: -|33 -|6 1111|2 2|1111 33|- 6|-  | no 0-pred in C1: -|42 -|51 42|- 51|-  | G-(s-1) with no (-1)-pred in C1L: none (in G: 0)
+ 7  lvl2 - Lam = the 0 states (l|l') of level 2 and 11|2111 2111|11 2|41 41|2  | lvl2 - L0: 11|2111 2111|11  | G - C1: -|7 1111|3 111|22 1|411 22|111 3|1111 411|1 7|-  | no 0-pred in C1: 11111|2 1|6 2|11111 6|1  | G-(s-1) with no (-1)-pred in C1L: none (in G: 0)
+ 8  lvl2 - Lam = the 0 states (l|l') of level 2  | lvl2 - L0: none  | G - C1: -|8 2|411 411|2 8|-  | no 0-pred in C1: -|71 11|3111 3111|11 71|-  | G-(s-1) with no (-1)-pred in C1L: none (in G: 0)
+ 9  lvl2 - Lam = the 0 states (l|l') of level 2  | lvl2 - L0: none  | G - C1: -|9 9|-  | no 0-pred in C1: 1|8 8|1  | G-(s-1) with no (-1)-pred in C1L: -|44 44|- (in G: 0)
+10  lvl2 - Lam = the 5 states (l|l') of level 2  | lvl2 - L0: 1|531 531|1  | G - C1: -|10 -|55 10|- 55|-  | no 0-pred in C1: -|91 91|-  | G-(s-1) with no (-1)-pred in C1L: none (in G: 0)
+11  lvl2 - Lam = the 0 states (l|l') of level 2  | lvl2 - L0: none  | G - C1: -|11 11|-  | no 0-pred in C1: 10|1 1|10  | G-(s-1) with no (-1)-pred in C1L: none (in G: 0)
+12  lvl2 - Lam = the 0 states (l|l') of level 2  | lvl2 - L0: none  | G - C1: -|12 12|-  | no 0-pred in C1: -|11.1 11.1|-  | G-(s-1) with no (-1)-pred in C1L: none (in G: 0)
+13  lvl2 - Lam = the 0 states (l|l') of level 2  | lvl2 - L0: none  | G - C1: -|13 13|-  | no 0-pred in C1: 12|1 1|12  | G-(s-1) with no (-1)-pred in C1L: -|66 2222|22 22|2222 66|- (in G: 0)
+14  lvl2 - Lam = the 10 states (l|l') of level 2  | lvl2 - L0: 1|751 311|32211 32211|311 751|1  | G - C1: -|14 -|77 14|- 77|-  | no 0-pred in C1: -|13.1 13.1|-  | G-(s-1) with no (-1)-pred in C1L: none (in G: 0)
+G alone does not carry a letter -2: G-(s-2) minus step_-2(G(s)) has 2 states at s = 4, 2 states at s = 8, 4 states at s = 12
 68970 (target, word) pairs: every target of slack 23, 24 in G (G- for e = -1) with at most 1 and 2 part sizes, words 2 1^j 0 e, j = 1, 2, 4: 0 without a chain into G(s0)
 300 random targets (slack 34..46, s0 >= 3, j <= 5, up to 6 more letters 0/1): 0 without a chain into G(s0)
 100 random targets (slack 84..96, s0 >= 3, j <= 5, up to 6 more letters 0/1): 0 without a chain into G(s0)

@@ -6,7 +6,7 @@ python3 tight.py 12             >> out_runs.txt   # Lemmas A, B, C, D on all sta
 python3 exit.py ones 14         >> out_runs.txt   # what is missing after 2 1^j and after 2 1^j 0
 python3 exit.py all 8 7 13      >> out_runs.txt   # (X): everything is back one letter after the first zero
 python3 exit.py true 12         >> out_runs.txt   # the missing part depends on x
-python3 fam.py 13               >> out_runs.txt   # the two routes as slack-only families
+python3 fam.py 14               >> out_runs.txt   # the two routes as slack-only families
 python3 exit.py thin 24         >> out_runs.txt   # (X) on all thin-shaped targets of slack 23, 24
 python3 exit.py random 300 40   >> out_runs.txt   # (X) on random targets, slack 34..46
 python3 exit.py random 100 90   >> out_runs.txt

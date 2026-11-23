@@ -43,3 +43,13 @@ for s in range(3, SM + 1):
         fam = Gm(s) if e < 0 else G(s)
         row.append(f"{sum(1 for u in fam if not has(u, e, C1L[s - e])):3d}/{sum(1 for u in fam if not has(u, e, C1[s - e])):3d}")
     print(f"{s:2d}  |G| {len(G(s)):5d}   e=0: {row[0]}   e=1: {row[1]}   e=-1: {row[2]}")
+print("\nclosed forms (slack <= %d)" % SM)
+def conjp(p): return tuple(sum(1 for x in p if x > i) for i in range(p[0])) if p else ()
+for s in range(3, SM + 1):
+    d = lvl2(s) - Lam[s]; sc = {u for u in lvl2(s) if u[1] == conjp(u[0])}
+    ex = [u for u in Gm(s - 1) if not has(u, -1, C1L[s])]
+    print(f"{s:2d}  lvl2 - Lam = the {len(sc)} states (l|l') of level 2" + ("" if d == sc else " and " + " ".join(sorted(map(nm, d - sc)))),
+          " | lvl2 - L0:", " ".join(sorted(map(nm, lvl2(s) - L0[s]))) or "none", " | G - C1:", " ".join(sorted(map(nm, G(s) - C1[s]))),
+          " | no 0-pred in C1:", " ".join(sorted(nm(u) for u in G(s) if not has(u, 0, C1[s]))),
+          " | G-(s-1) with no (-1)-pred in C1L:", " ".join(sorted(map(nm, ex))) or "none", "(in G: %d)" % sum(map(inG, ex)))
+print("G alone does not carry a letter -2: G-(s-2) minus step_-2(G(s)) has", ", ".join(f"{len(Gm(s - 2) - step(G(s), -2))} states at s = {s}" for s in range(2, SM + 1) if Gm(s - 2) - step(G(s), -2)))
