@@ -30,6 +30,7 @@
 //         letter after it is a block too).
 // The type always contains the slack and the last letter.   dump: print J(t) for every type with slack <= 8
 // (or <= DUMPMAX).   sizes (instead of dump): the table of |J(t)| for types ending in 0 or 1 (slack printed as 0).
+// LET=lo,hi: only words with all letters in [lo, hi] (the family and the pair test are then for that class of words).
 // Other environment variables: DIAG=1 (the first type whose set becomes empty, and the constraints on it),
 // MINIMIZE=1 (number of types after merging types with equal sets and equivalent futures), CORE=1 (compare J(t) with
 // the exact intersection C(t) of F(x) over all prefixes x of type t, small B only; also checks J(t) inside C(t)).
@@ -137,12 +138,14 @@ int main(int argc, char** argv){
         while (getline(in,line)){ Key k; stringstream t2(line); int a; while (t2>>a) k.push_back(a); if (!k.empty()) need.insert(k); } }
     if (getenv("CLAMP")) sscanf(getenv("CLAMP"),"%d,%d",&clo,&chi);
     if (getenv("CLAMPL")) sscanf(getenv("CLAMPL"),"%d,%d",&llo,&lhi);
+    int elo=-1000, ehi=1000; if (getenv("LET")) sscanf(getenv("LET"),"%d,%d",&elo,&ehi);      // only words with letters in [lo, hi]
     build();
     map<Key,int> id; vector<Key> keys; vector<vector<int8_t>> rep; vector<vector<pair<int,int>>> out;
     id[root()]=0; keys.push_back(root()); rep.push_back({}); out.push_back({});
     for (size_t q=0;q<keys.size();q++){
         Key k=keys[q]; int s=k[0], l=k[1];
         for (int e=(l==NONE?0: l<=llo?-s : max(l-1,-s)); e<=B-s; e++){     // l = lhi stands for every letter >= lhi, l = llo for every letter <= llo
+            if (e<elo||e>ehi) continue;
             Key n=upd(k,e); auto it=id.find(n); int j;
             if (it==id.end()){ j=keys.size(); id[n]=j; keys.push_back(n); auto w=rep[q]; w.push_back(e); rep.push_back(w); out.push_back({}); } else j=it->second;
             out[q].push_back({e,j});
