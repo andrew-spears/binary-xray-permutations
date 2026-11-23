@@ -65,3 +65,6 @@ fixed points and O(1) long stones; print the 'step type' sequence of each soluti
 - REPORT plan: HIT. Sections: 0 summary; 1 parity theorem + proof (Hankel, char 2); 2 corollary {0,1}{0,-1} theorem with explicit gluing;
   3 PAR criterion for all unimodal words = statement about skew Schur functions alpha/delta mod 2 (tested slack <= 7/8), extreme-term corollary;
   4 item 1-2 answers (U+ sizes, no closed form; U+01; F(1^s) superset of odd dim states; explains 'dim' weight); 5 recheck commands.
+
+## STATUS (end of session 2): REPORT.md written (HIT), extreme.py/par_lib.py added, all tests pass. par.py 9: PAR fails 4/64 at slack 8, 2/144 at slack 9.
+REMAINING: commit (explicit file list, not `git add .`), push branch devin/1795452588-unimodal, open PR into devin/1795444188-two-marks, final message.

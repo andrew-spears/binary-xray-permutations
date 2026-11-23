@@ -7,19 +7,7 @@ import sys
 from collections import defaultdict
 from parity import shape
 S = int(sys.argv[1]); cap = int(sys.argv[2]) if len(sys.argv) > 2 else S
-def conj(p):
-    return tuple(sum(1 for a in p if a > i) for i in range(p[0])) if p else ()
-def odd_states(x):
-    cur = {((), ())}
-    for k, e in enumerate(x, 1):
-        d = 2 * k + e; nxt = set()
-        for (R, C) in cur:
-            for r in range(1, d):
-                c = d - r
-                if r in R or c in C: continue
-                nxt ^= {(tuple(sorted(R + (r,))), tuple(sorted(C + (c,))))}
-        cur = nxt
-    return frozenset((tuple(a for a in shape(R) if a), tuple(a for a in shape(C) if a)) for R, C in cur)
+from par_lib import odd_states, conj
 fam = defaultdict(dict)                       # (slack, last letter) -> {O(x): shortest x}
 def rec(x, s):
     if x and x[-1] in (0, 1) and s >= 1:
