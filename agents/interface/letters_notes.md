@@ -177,7 +177,7 @@ plateaus; a proof of the passing claim has to control those ends.
   (mark E, moves down: swap with the PREVIOUS row / column).  When both marks sit on one stone they cancel and the
   position is a witness of + M -.  D alone = zigzag chain (loops from 4 witnesses at n = 10).
   With both marks free to move in any order, a witness of + M - is reachable from EVERY witness of EVERY M, n <= 13
-  (100,267 witnesses at n = 13; python3 letters_two.py 13, 7 seconds).  Not yet known: a rule for the order of the
+  (43,012 boards at n = 13; python3 letters_two.py 13, 7 seconds).  Not yet known: a rule for the order of the
   moves, and whether this says more than '+ M - is solvable'.
 - Tried and dropped: (i) signed counts / squared Vandermonde (already the red card 'at'); (ii) splitting the stones
   by row and column residues mod d (D = union of d*D_i + (tau(i) - i)): a true gluing rule, but zeros need even

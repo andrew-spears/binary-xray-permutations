@@ -13,6 +13,7 @@ def witnesses(t):                      # all placements (r_k, c_k), r_k + c_k = 
         if k == n: out.append(tuple(rows)); return
         for r in range(max(1, t[k] - n), min(n, t[k] - 1) + 1):
             c = t[k] - r
+            if k and t[k] == t[k - 1] and r < rows[k - 1]: continue      # two stones on one diagonal: count the board once
             if not ur >> r & 1 and not uc >> c & 1:
                 rows[k] = r; go(k + 1, ur | 1 << r, uc | 1 << c)
     go(0, 0, 0); return [tuple((r, t[k] - r) for k, r in enumerate(w)) for w in out]
