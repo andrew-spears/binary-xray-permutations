@@ -73,9 +73,9 @@ if __name__ == "__main__":
     seen = {}; tot = 0
     for w, C, sl in prefixes(Bd, N):
         if sl != s or not w: continue
-        tot += 1; v = tuple(coords(prim(C), cl, B))
+        tot += 1; v = tuple(coords(prim(C), cl + [k for k in classes_of([C], B) if k not in cl], B))    # a class no generator has gets its own coordinate
         if v not in seen: seen[v] = w
-    out = [(v, w) for v, w in seen.items() if not in_cone(v, G)]
+    out = [(v, w) for v, w in seen.items() if any(v[len(cl):]) or not in_cone(v[:len(cl)], G)]
     print(f"legal beginnings at slack {s} (slacks <= {Bd}, length <= {N}): {tot}, distinct directions {len(seen)}, outside C_{s}({S}): {len(out)}")
     for v, w in sorted(out, key=lambda z: len(z[1]))[:5]: print("   outside:", w, v)
     # DEL0 on pairs of generators:  N(Z, Z') = sum_t Z(t) Z'(J t),  N0 = the same after a letter 0 on the left
