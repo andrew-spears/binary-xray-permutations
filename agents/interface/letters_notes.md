@@ -149,7 +149,7 @@ This explains every loop seen: e.g. (+0-)(++0--) loops iff both blocks have the 
 - No simple algebra: for + 0^k - the entering mark visits every third stone (k = 9: stones 2, 5, 8, 11 or 1, 4, 7, 10 of the block),
   so the behaviour depends on k mod 3 and on parities; a block's behaviour is 'a second mark crossing the trail of
   the first', and deeper nesting means more trails.
-- Witnesses in K that reflect both moves exist from block length 10 (914 of 200,391 up to length 13).
+- Witnesses in K that reflect both moves exist from block length 10 (510 of 69,907 distinct boards up to length 13).
 - PASSING CLAIM (open, true for all 9,360 blocks of length <= 13): every block has, for each entering move, a witness
   in K that transmits it.  (By the transpose symmetry of K: some witness transmits some move.)  With the rounds
   lemma: choose the units bottom-up so that each transmits what reaches it; round 1 succeeds; so K is never empty.
