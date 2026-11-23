@@ -1,0 +1,25 @@
+formal words with slacks in [0, 5]: numbers of extreme rays of C_0..C_5 after each round: [[1, 1, 1, 1, 1, 1], [1, 1, 3, 3, 4, 4], [1, 1, 3, 6, 10, 12], [1, 1, 3, 6, 22, 27], [1, 1, 3, 6, 35, 54], [1, 1, 3, 6, 40, 86], [1, 1, 3, 6, 46, 110], [1, 1, 3, 6, 50, 130], [1, 1, 3, 6, 51, 140], [1, 1, 3, 6, 51, 145], [1, 1, 3, 6, 51, 146], [1, 1, 3, 6, 51, 146], [1, 1, 3, 6, 51, 146]]; stable: True
+C_3(5): classes ['(-|111)', '(-|21)', '(-|3)', '(1|11)', '(1|2)']
+   generator [0, 0, 1, 0, 1]   a formal word with this count vector (up to a factor): (3,)
+   generator [0, 1, 0, 1, 1]   a formal word with this count vector (up to a factor): (2, 1)
+   generator [0, 1, 1, 1, 0]   a formal word with this count vector (up to a factor): (1, 2)
+   generator [1, 0, 0, 1, 0]   a formal word with this count vector (up to a factor): (3, 1, -1)
+   generator [1, 1, 0, 0, 1]   a formal word with this count vector (up to a factor): (1, 2, 0)
+   generator [1, 1, 1, 0, 0]   a formal word with this count vector (up to a factor): (2, 0, 1)
+   rank 5, generators 6
+legal beginnings at slack 3 (slacks <= 7, length <= 10): 6239, distinct directions 1160, outside C_3(5): 0
+DEL0 form N(Z 0 Z') - N(Z Z') on pairs of generators of C_3(5): 4 negative of 36; symmetric: True
+    [2, 4, 2, -2, 2, 0]
+    [4, 0, 4, 0, 0, 4]
+    [2, 4, 10, 2, -2, 4]
+    [-2, 0, 2, 2, 2, 4]
+    [2, 0, -2, 2, 2, 0]
+    [0, 4, 4, 4, 0, 0]
+facets of C_3(5): 6
+    0 <= - L(-|111) + L(-|21) + L(1|11)
+    0 <= - L(-|21) + L(-|3) + L(1|2)
+    0 <= + L(-|21) - L(-|3) + L(1|2)
+    0 <= + L(-|21) + L(-|3) - L(1|2)
+    0 <= + L(-|111) - L(-|21) + L(1|11)
+    0 <= + L(-|111) + L(-|21) - L(1|11)
+all generators 0/1 vectors: True;  generator set invariant under the half-turn J: True

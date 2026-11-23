@@ -1,0 +1,8 @@
+formal words, slacks <= 5, length <= 7
+   slack 1: 34802 words, 1 polygons each (34802 tests): polygon inequality fails 0, odd sum 0  
+   slack 2: 36827 words, 2 polygons each (73654 tests): polygon inequality fails 0, odd sum 0  
+   slack 3: 37781 words, 5 polygons each (188905 tests): polygon inequality fails 0, odd sum 0  
+   slack 4: 37781 words, 10 polygons each (377810 tests): polygon inequality fails 0, odd sum 0  
+   slack 5: 37781 words, 20 polygons each (755620 tests): polygon inequality fails 3538, odd sum 0  ((1, 1, 2, 1), [((1,), (2, 2)), ((), (3, 2)), ((), (2, 2, 1))], [0, 2, 0])
+        fails 1769 times: [((), (2, 2, 1)), ((), (3, 2)), ((1,), (2, 2))]
+        fails 1769 times: [((2, 2), (1,)), ((2, 2, 1), ()), ((3, 2), ())]
