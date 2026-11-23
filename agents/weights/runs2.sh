@@ -11,5 +11,6 @@ python3 stair.py 5 6 > out2/stair_5.txt
 python3 stair.py 6 1 6 > out2/stair_6.txt
 python3 stair6.py 9 > out2/stair6.txt
 ./tail 60 > out2/tail_60.txt
-for k in 3 4 5 6 7 8; do w=""; for i in $(seq $k -1 1); do w="$w $i"; done; echo "x =$w 0"; ./fx $w 0 | tail -2; done > out2/staircase.txt
+for k in 3 4 5 6 7 8; do w=""; for i in $(seq $k -1 1); do w="$w $i"; done; echo "x =$w 0"; ./fx $w 0 | tail -2; done > out2/staircase_8.txt
+# out2/staircase.txt is the same log with k = 9 added (./fx 9 8 7 6 5 4 3 2 1 0: 1 minute, 0.9 GB); it is not regenerated here
 # near-staircases of section 2: see out2/near.txt (./fx e1 e2 ... prints the weights after every letter)
