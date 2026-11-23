@@ -3,7 +3,7 @@
  ones S B    : runs of 1.  T_b(t) = {u : slack s + b, D(u) = D(t), M_t <= M_u + b, N_t <= N_u + b, u != (lam | lam')}; prints sum over t of
                |N_1^b(t)|, |T_b(t)| for b = 1..B  (N <= T always, asserted).
  block S B   : block 1 0 -1 repeated; prints for b = 1..B the number of pairs (t, u) of slack s not joined by b blocks.
- sets S LEN  : F(x 0^b) for all prefixes x with letters in [-1, 3], length <= LEN, slacks in [0, S]: least b with F(x 0^b) = union of the
+ sets S LEN  : F(x 0^b) for all legal prefixes x (distinct diagonals) with letters in [-1, 3], length <= LEN, slacks in [0, S]: least b with F(x 0^b) = union of the
                classes that F(x) meets, maximised over x of slack s; and whether F(x) meets every class."""
 import sys, numpy as np
 from maya import Maya, dval, parts
@@ -43,15 +43,15 @@ elif mode == "block":
             cur = {t: run(Mo, cur[t], (1, 0, -1)) for t in L}; out.append(sum(len(L) - len(v) for v in cur.values()))
         print(f"s {s}: {len(L)} states; pairs (t, u) not joined by b blocks 1 0 -1, b = 1..{B}: {out}", flush=True)
 elif mode == "sets":
-    Mo = Maya(S); LEN = B; fam = {s: set() for s in range(S + 1)}; seen = set()
-    def rec(F, s, k):
-        key = (frozenset(F), s)
-        if key in seen: return
-        seen.add(key); fam[s].add(frozenset(F))
+    Mo = Maya(S); LEN = B; fam = {s: set() for s in range(S + 1)}; seen = {}
+    def rec(F, s, k, last):                              # legal prefixes: distinct diagonals, i.e. next letter >= last - 1
+        key = (frozenset(F), s, last)
+        if seen.get(key, LEN + 1) <= k: return           # revisit a set only when reached by a shorter prefix
+        seen[key] = k; fam[s].add(key[0])
         if k == LEN: return
-        for e in range(-1, 4):
-            if 0 <= s + e <= S: rec(run(Mo, F, (e,)), s + e, k + 1)
-    rec({(Mo.mask(()), Mo.mask(()))}, 0, 0)
+        for e in range(max(-1, last - 1), 4):
+            if 0 <= s + e <= S: rec(run(Mo, F, (e,)), s + e, k + 1, e)
+    rec({(Mo.mask(()), Mo.mask(()))}, 0, 0, 0)
     for s in range(2, S + 1):
         L = Mo.states(s); Kc = lambda u, p: abs(dval(Mo, u, 2 * S + 6 + p)[1]); allK = {Kc(u, 0) for u in L}; worst = 0; meets = 0
         for F in fam[s]:

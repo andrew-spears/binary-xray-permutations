@@ -36,8 +36,8 @@ commutation and the slack change on all states of slack ≤ 6. ∎
 
 **Obstruction (item 4).** N_0^b(t) ⊆ {K = K(t)} for every b, hence F(x 0^b) ⊆ {u : K(u) ∈ K(F(x))} for every b, and this
 is not everything for legal x: x = (4) has F = {4|−, 3|1, 2|2, 1|3, −|4}, all with K = 0, and 21|1, 1|21 (K = ±2) are never
-in F(4 0^b). Among prefixes with letters in [−1, 3], length ≤ 9, slacks ≤ 8: 22 of 72 sets F(x) at slack 4, 52 of 815 at
-slack 6, 107 of 2,532 at slack 8 miss a class; none at odd slack (`items.py sets 8 9`).
+in F(4 0^b). Among legal prefixes (distinct diagonals) with letters in [−1, 3], length ≤ 9, slacks ≤ 8: 3 of 14 sets F(x)
+at slack 4, 3 of 45 at slack 6, 3 of 140 at slack 8 miss a class; none at odd slack (`items.py sets 8 9`).
 
 ## 2. What is tested (item 1)
 

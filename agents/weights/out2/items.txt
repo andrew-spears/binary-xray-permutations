@@ -14,13 +14,13 @@ s 3, d = 1: tau commutes with the letter 0 on all 10 states; K -> (change of sla
 s 4, d = 1: tau commutes with the letter 0 on all 20 states; K -> (change of slack, new K): {-2: [(12, -4)], 0: [(4, -2)], 2: [(-4, 0)]}
 s 5, d = 1: tau commutes with the letter 0 on all 36 states; K -> (change of slack, new K): {-1: [(8, -3)], 1: [(0, -1)]}
 s 6, d = 1: tau commutes with the letter 0 on all 65 states; K -> (change of slack, new K): {-2: [(12, -4)], 0: [(4, -2)], 2: [(-4, 0)]}
-s 2: 4 distinct F(x); F(x) meets every |K| for 4; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 3
-s 3: 12 distinct F(x); F(x) meets every |K| for 12; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 3
-s 4: 72 distinct F(x); F(x) meets every |K| for 50; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 5
-s 5: 209 distinct F(x); F(x) meets every |K| for 209; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 5
-s 6: 815 distinct F(x); F(x) meets every |K| for 763; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 5
-s 7: 1669 distinct F(x); F(x) meets every |K| for 1669; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 5
-s 8: 2532 distinct F(x); F(x) meets every |K| for 2425; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 6
+s 2: 3 distinct F(x); F(x) meets every |K| for 3; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 3
+s 3: 6 distinct F(x); F(x) meets every |K| for 6; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 3
+s 4: 14 distinct F(x); F(x) meets every |K| for 11; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 4
+s 5: 23 distinct F(x); F(x) meets every |K| for 23; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 4
+s 6: 45 distinct F(x); F(x) meets every |K| for 42; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 5
+s 7: 83 distinct F(x); F(x) meets every |K| for 83; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 5
+s 8: 140 distinct F(x); F(x) meets every |K| for 137; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 6
 s 0: sum over t of |N_1^b(t)| / |T_b(t)|, b = 1..7: 2/2 4/4 8/8 14/14 28/28 48/48 80/80
 s 1: sum over t of |N_1^b(t)| / |T_b(t)|, b = 1..7: 4/4 8/12 18/24 40/52 76/92 152/156 248/252
 s 2: sum over t of |N_1^b(t)| / |T_b(t)|, b = 1..7: 10/10 24/32 56/88 122/174 256/316 484/528 872/896
