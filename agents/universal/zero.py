@@ -20,7 +20,8 @@ def run(words, S0=11):
     for line in out.split("\n"):
         m = re.match(r"\s+(\d+) slack (\d+) tail (\S+) y (\d+) (\d+) (\d+) missing (\d+) :(.*)", line)
         if m: res.append((w, int(m.group(1)), int(m.group(2)), m.group(3), int(m.group(4)), int(m.group(5)), [parse(t) for t in m.group(8).split()]))
-        elif line.strip(): w = line.strip()
+        elif line.startswith("word "): w = line.strip()
+        elif line.strip(): print(f"STOPPED, {w}: {line.strip()}", file=sys.stderr)
     return res
 if __name__ == "__main__":
     words = sys.argv[1:] or [l.strip() for l in sys.stdin if l.strip()]; show = int(os.environ.get("SHOW", 0)); last = None
