@@ -3725,6 +3725,28 @@
    "refs": "agents/weights/REPORT2.md"
   },
   {
+   "id": "runxray",
+   "area": "ideas",
+   "title": "A run of equal letters is a small x-ray problem of its own",
+   "status": "proved",
+   "intuition": "The machine reads one stone at a time and the hole pattern slides along as it goes, which makes long stretches hard to see. For a stretch of equal letters the sliding can be undone: what the stretch has to do is fill a fixed set I of new rows and a fixed set J of new columns, with the b stones on b evenly spaced diagonals. That is the original problem again, with evenly spaced diagonals, on a board whose rows and columns are the sets I and J instead of 1…b. Claim: a run of b equal letters joins two states exactly when this small problem has a solution.",
+   "statement": "Write a state as two sets of integers (the beads of the two Young diagrams, M(λ) = {λ_i − i}). A state u is reached from a state t by b stones with the same letter e exactly when the sets I = (M(λ_u) + b) ∖ M(λ_t) and J = (M(μ_u) + b) ∖ M(μ_t) have b elements each and there is a one-to-one pairing of I with J whose sums are e, e + 2, …, e + 2b − 2, each once.",
+   "example": "Letter 0 and b = 2: the two new rows i < i′ and the two new columns j < j′ must satisfy {i + j′, i′ + j} = {0, 2} or {i + j, i′ + j′} = {0, 2}.\nConsequence: a letter 0 never changes K = #odd(R) − #odd(C) (up to the sign change from the sliding), so zeros can only join states with the same K.",
+   "evidence": "Proof in agents/weights/REPORT3.md, Lemmas 1 and 2 (substitute x_k = i_k + k − 1 for the k-th stone); the sub-session's proof, short, not rechecked line by line by the parent. Checked against the step-by-step machine. Recheck: cd agents/weights && python3 maya.py (seconds).",
+   "refs": "agents/weights/REPORT3.md"
+  },
+  {
+   "id": "zeromix",
+   "area": "ideas",
+   "title": "Enough zeros join any two hole patterns with the same odd-even count",
+   "status": "empirical",
+   "intuition": "A stone at its evenly spaced place (letter 0) changes the hole pattern without changing its size. The card on runs shows the one thing zeros cannot change, the count K. The tests say that is the only thing: after enough zeros, a single hole pattern has spread to every pattern with its K. If this were proved, a shortest arrangement without a solution could not contain a long run of evenly spaced stones, because two of them could be deleted. Claim: zeros mix each class of K completely, in a number of steps linear in the slack.",
+   "statement": "For states t, u of slack s with the same K = #odd(R) − #odd(C): u is reached from t by b letters 0 for every b ≥ 2(s − K²) + 2.",
+   "example": "Slack 4, K = 0 (18 states): from any state, 10 zeros reach all 18; 9 are not enough from the single column.\nSets mix faster than single states: the set reached by a real beginning fills its classes after at most 6 zeros (slack ≤ 8).",
+   "evidence": "Every pair of states with slack ≤ 10 and b ≤ 26; the bound is sharp (slowest starts: one column, one row). Not proved: the natural step (b zeros work ⇒ b + 2 work) fails below the bound. Related, also tested only: blocks 1 0 −1 join every pair of states of slack ≤ 9 within 6 blocks; runs of 1 never join everything. Recheck: cd agents/weights && sh runs3.sh (2 minutes).",
+   "refs": "agents/weights/REPORT3.md"
+  },
+  {
    "id": "paritylr",
    "area": "ideas",
    "title": "Odd or even: the number of ways to place some of the stones is a Littlewood–Richardson number modulo 2",
@@ -4576,6 +4598,34 @@
    "kind": "related",
    "status": "unchecked",
    "why": "The weighted form of the same statement, with explicit weights."
+  },
+  {
+   "from": "runxray",
+   "to": "interface",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The machine restricted to a run of one letter."
+  },
+  {
+   "from": "zeromix",
+   "to": "runxray",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Uses the pairing criterion for the letter 0."
+  },
+  {
+   "from": "zeromix",
+   "to": "paritycount",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "K is the odd-even count of that card; zeros conserve it."
+  },
+  {
+   "from": "ones",
+   "to": "zeromix",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "After 1…1 the zeros fill the classes |D| ≤ b at once."
   },
   {
    "from": "paritylr",
