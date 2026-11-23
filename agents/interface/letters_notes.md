@@ -60,3 +60,38 @@ always ends on stone n (for a suitable class of witnesses closed under the chain
 by induction on n. Static argument so far: the chain map on (stone, parity) is injective and the start has no
 preimage, so it cannot cycle as long as no stone is visited in both parities; it can only stop in row n or column n.
 TODO: find the n = 10 exception (which witness, why), and the class of witnesses that is closed.
+
+## Follow-up on the zigzag chain (same session)
+- The n = 10 exception: M = + 0 - + + 0 - -, 4 of its 8 witnesses. From them the chain returns to its start (a true cycle of
+  28 moves, leapfrog.py); it never gets stuck at the border.
+- Closed class K (direct sums + chain results only, letters_closed.py 13): empty for 2 words at n = 11
+  (first: + + 0 + 0 + 0 - - - -), 8 at n = 12, 52 at n = 13. So 'take the witness the induction built' is not enough.
+- Static version (letters_static.py 11): in the picture of one witness, follow row-neighbour / column-neighbour edges
+  alternately from stone 1; this walk always ends at stone n, and if it visits no stone twice it gives a witness of + M -.
+  For every M with n <= 11 SOME witness of M has such a simple walk; no extremal witness (least displacement, fewest
+  inversions, lexicographic) always does.
+- Witnesses of small L_1 words are mostly products of rotations of intervals in rho and gamma (letters_wit.py).
+  Chains 'gamma rotates [p,q] forward, rho rotates [q,r] backward, ...' only give words whose valleys at height h hold
+  exactly h zeros, so the general construction must nest.
+- Smallest slack-only family (letters_min.py 7, integer program): 1, 2, 4, 8, 10, 16, 32 states for slack 0..6; it is
+  forced up to slack 3 and has no visible pattern. A hand description of F looks out of reach.
+
+## Leapfrog graph (proved; leapfrog_check.py, leapfrog_cycles.py)
+State: a permutation matrix on [n]^2 (coordinates r' = n+1-r and c) with one marked stone.  R: swap the marked stone's
+row with the next row, the mark stays in its row (so it passes to the other stone).  C: same with columns.
+R and C are involutions (where defined) and keep the multiset {r'+c, with the marked stone counted as r'+c+1}.
+So for a multiset b* of n targets with total n(n+1)+1, the states with that multiset form a graph X(b*) of
+alternating paths and cycles.  R is undefined iff the mark is in the last row, C iff it is in the last column.
+LEMMA. Let D be valid of size N = n+1 with largest diagonal N-2 (last letter -1) and b* its other n targets.
+Witnesses of D <-> states with the mark in the last row or column (put stone N at (n, n+1) or (n+1, n) and pull the
+stone of row n+1 / column n+1 back by one).  Hence W(D) = 2 * (number of path components of X(b*)), and
+D is solvable iff X(b*) has a component that is not a cycle.  Checked N <= 8.
+X(b*) is the union over j of the witnesses of b* - delta_j (one stone one diagonal lower), so by induction it is
+non-empty; what is missing is that not every component is a cycle.
+- 'X(b*) has no cycles' is FALSE: none for N <= 9 (2031 paths at N = 9), 8 cycles against 12216 paths at N = 10
+  (4 words, first + + 0 - + + 0 - - -).  The zigzag chain above is this walk started from 0 M 0.
+- Parity: the reflection r' <-> c maps X to itself, swapping R and C, with no fixed edge; so an odd number of symmetric
+  states forces a path.  With distinct diagonals symmetric states need every stone on the reflection line, so this only
+  proves the P_n-like words 0..0 + 0..0 -.  With repeated diagonals the count is a Langford-type matching count.
+- Signs: every move flips the sign of the permutation, so a path between two last-row ends has odd length and its two
+  witnesses have opposite signs (this is how the signed count can vanish).
