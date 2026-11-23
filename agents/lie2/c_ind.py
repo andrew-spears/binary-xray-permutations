@@ -6,7 +6,7 @@ Target m_1 > ... > m_n >= 1, even sum, m_1 + ... + m_k <= k(2n - k + 1).  defici
  (3) last row and column: a solution with stones (n, a), (b, n), a, b < n, gives a solution of C_{n-1} for
      m' = m - {two values read by them} + {x}, x = a + b or |a - b|, with a stone at (b, a) reading x, and conversely.
      Count the prime targets for which: some reduction has m' a valid target; every valid m' lifts (has a solution
-     through (b, a) reading x); the reduction with the largest two values on the two stones lifts.
+     through (b, a) reading x); among the valid reductions, one with the largest sum of the two removed values lifts (not necessarily m_1 and m_2).
 Usage: python3 c_ind.py n"""
 import sys, collections
 from ctype import targets, solutions
@@ -65,7 +65,7 @@ if n >= 3:
         if not any(r[1] for r in reds): stat["no reduction lifts"] += 1; ex.setdefault("no reduction lifts", m)
         if not all(r[1] for r in reds): stat["some valid reduction does not lift"] += 1; ex.setdefault("some valid reduction does not lift", (m, next(r[2] for r in reds if not r[1])))
         big = max(r[0] for r in reds)
-        if not any(r[1] for r in reds if r[0] == big): stat["largest-values reduction does not lift"] += 1; ex.setdefault("largest-values reduction does not lift", m)
+        if not any(r[1] for r in reds if r[0] == big): stat["valid reduction with largest removed sum does not lift"] += 1; ex.setdefault("valid reduction with largest removed sum does not lift", m)
         stat["valid reductions"] += len(reds); stat["lifting reductions"] += sum(r[1] for r in reds)
     print("  last row+column:", dict(stat))
     for k, v in ex.items(): print("     first example,", k, ":", v)
