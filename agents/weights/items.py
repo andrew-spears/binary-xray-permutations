@@ -23,7 +23,8 @@ if mode == "class":
         for b in range(1, B + 1):
             P = (P @ T > 0).astype(np.float32); Cl = (K[0][:, None] == K[b % 2][None, :]); assert not (P > Cl).any()
             last = np.where((P == Cl).all(axis=1), last, b + 1)
-        print(f"s {s}: " + "  ".join(f"K = {k}: {int((K[0] == k).sum())} states, m = {s - k * k}, b* = {int(last[K[0] == k].max())}" for k in sorted(set(K[0])) if k >= 0), flush=True)
+        bst = lambda k: (lambda v: str(v) if v <= B else f"not mixed at b = {B}")(int(last[K[0] == k].max()))
+        print(f"s {s}: " + "  ".join(f"K = {k}: {int((K[0] == k).sum())} states, m = {s - k * k}, b* = {bst(k)}" for k in sorted(set(K[0])) if k >= 0), flush=True)
 elif mode == "ones":
     for s in range(0, S + 1):
         Mo = Maya(s + B); L = Mo.states(s); out = []
