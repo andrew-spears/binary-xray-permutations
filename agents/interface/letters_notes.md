@@ -27,3 +27,14 @@ Findings so far (all small computations, scripts letters*.py):
   pushing the stone there down/left, until the shortage reaches stone n. For + 0^m - this gives P_n's two witnesses.
   The deterministic alternating chain is injective on (stone, parity), so it cannot cycle in the static picture;
   the open point is stones visited in both parities.
+- Chord picture (pair sums): points 1..2n, stone k is a chord {g-h, g+1+h} centred on the gap g = b_k - 1.
+  Conjecture = for every Landau set of n gaps there is a perfect matching of the points whose chords are centred on
+  exactly those gaps. L_1: stone k uses gap 2k-2 (-), 2k-1 (0, inside the home pair {2k-1,2k}) or 2k (+).
+  A chord that no other chord crosses can be deleted: chords inside or spanning it shift their centre by 1,
+  chords to the right by 2. Insertion at a gap is the reverse; which chords span the gap depends on the witness,
+  so this gives an induction only with control over spanning chords (not found).
+- Ansatz that fails: rho(k) = k+1 on every +, gamma(k) = k-1 on every -, zeros absorb the rest (z-m, z+m).
+  It reduces to matching zeros z with a +run start t and a -run end t' with t + t' = 2z; fails for + 0 0 - (P_4),
+  whose witnesses alternate the side that moves (dominoes). The side must be chosen per letter.
+- For c >= 2 the letter cap alone does not help: (sigma, last 1 or 2 letters) fails from slack 5 (letters.py 2 9 1 2).
+  L_1 is special because every order of letters is legal there (it sits inside 'each diagonal at most twice').
