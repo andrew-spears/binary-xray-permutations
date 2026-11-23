@@ -1,0 +1,24 @@
+x = 3 2 1 0
+0.00s 3712KB
+after letter  3 ( 1): slack  6  |F| =        27   dim 0.6460   core2 dim 0.6806   core2 dim^2 0.8811
+after letter  4 ( 0): slack  6  |F| =        40   dim 0.8382   core2 dim 0.8167   core2 dim^2 0.9371
+x = 4 3 2 1 0
+0.00s 3712KB
+after letter  4 ( 1): slack 10  |F| =       151   dim 0.5913   core2 dim 0.6469   core2 dim^2 0.8270
+after letter  5 ( 0): slack 10  |F| =       233   dim 0.7850   core2 dim 0.7819   core2 dim^2 0.9094
+x = 5 4 3 2 1 0
+0.00s 4096KB
+after letter  5 ( 1): slack 15  |F| =       982   dim 0.5788   core2 dim 0.5920   core2 dim^2 0.7599
+after letter  6 ( 0): slack 15  |F| =      1542   dim 0.7661   core2 dim 0.7677   core2 dim^2 0.9130
+x = 6 5 4 3 2 1 0
+0.03s 5888KB
+after letter  6 ( 1): slack 21  |F| =      7134   dim 0.5879   core2 dim 0.5654   core2 dim^2 0.7541
+after letter  7 ( 0): slack 21  |F| =     11090   dim 0.7520   core2 dim 0.7354   core2 dim^2 0.8904
+x = 7 6 5 4 3 2 1 0
+0.30s 18800KB
+after letter  7 ( 1): slack 28  |F| =     55108   dim 0.5946   core2 dim 0.5688   core2 dim^2 0.7655
+after letter  8 ( 0): slack 28  |F| =     84476   dim 0.7413   core2 dim 0.7262   core2 dim^2 0.8916
+x = 8 7 6 5 4 3 2 1 0
+3.56s 120932KB
+after letter  8 ( 1): slack 36  |F| =    444905   dim 0.6027   core2 dim 0.5992   core2 dim^2 0.8135
+after letter  9 ( 0): slack 36  |F| =    671385   dim 0.7319   core2 dim 0.7248   core2 dim^2 0.9030

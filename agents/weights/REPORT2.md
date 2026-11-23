@@ -49,3 +49,8 @@ Check: `python3 fx.py ones 20` compares with the machine for n ≤ 20.
   by C++ (int128 masks), weights core2 dim, core2 dim^2.
 - TODO item 3: letter-1 defect from P_{n-1}: exactly E_n (step (c)); in general (LAST): the states receiving nothing from a
   letter e are those with (R + 1 - e) ∩ X = ∅.
+- fx.cpp (./fx e1 e2 ...: |F| and weights dim, core2 dim, core2 dim^2 after every letter; matches machine at s = 20).
+  out2/staircase.txt: staircase k..1 (l=1) and k..1 0 (l=0), k = 3..8 (s = 6, 10, 15, 21, 28, 36):
+  core2 dim^2: l=1: .881 .827 .760 .754 .766 .814; l=0: .937 .909 .913 .890 .892 .903  (sum 1.64-1.82, no decay)
+  core2 dim:   l=1: .681 .647 .592 .565 .569 .599; l=0: .817 .782 .768 .735 .726 .725  (sum ~1.30-1.32 at k=6..8)
+  dim:         l=1: .646 .591 .579 .588 .595 .603; l=0: .838 .785 .766 .752 .741 .732
