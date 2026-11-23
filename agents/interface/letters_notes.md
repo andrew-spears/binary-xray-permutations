@@ -128,3 +128,12 @@ witnesses of D (mark i) and of D' (mark j) are vertices of the same graph X(D + 
   card G1 (one missing column) seen from the walk: 'k in T(D)' is 'the other stones fit the board without row n and
   column b_k - n', and G1 says the sum test decides that.  The recursion above is G1's corner peel, nothing more.
   (I re-ran one-gap boards before finding G1 / edgepeel / sum2 in state.md: same answers, nothing new.)
+
+## Flip lead (letters_flip.py 13)
+Siblings = the two witnesses of + M' - that the chain gives from the same inner witness (row first / column first);
+they are the two ends of one leapfrog path.  For + M -, M = B_1 ... B_k, block witnesses a_i in K(B_i):
+whenever the chain loops, replacing ONE a_i by its sibling makes it reach the top stone.  n <= 13: 548 loops in
+100,782 runs, no exception.  Switches that do not help are only of bystanders: + - (siblings equal, 144 times) and
++ 0 - (16 times).  'One switch always suffices' => K is never empty => L_1 by induction on the length.
+Idea for a proof (not done): a state space with TWO marks (the outer chain's and block i's own), whose moves commute
+when the marks are far apart; the loop and the sibling's path would be two boundary pieces of one surface.

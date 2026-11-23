@@ -3737,6 +3737,17 @@
    "refs": "agents/interface/letters_zigzag.py, letters_zigzag_exc.py, letters_closed.py, letters_static.py, leapfrog.py"
   },
   {
+   "id": "flip",
+   "area": "ideas",
+   "title": "A loop is cured by flipping one block",
+   "status": "empirical",
+   "intuition": "The zigzag chain can run in a closed loop, so it does not work from every solution. But the solutions the induction builds come in pairs: the chain can start with a row move or a column move, and these are the two ends of one leapfrog path. So every block inside M carries a two-way choice. In all cases seen, a loop is caused by two blocks whose choices clash, and switching one of them removes the loop. Claim: one switch always suffices.",
+   "statement": "Let M = B_1 … B_k be a word as in the card 'Every stone within one mark of evenly spaced', split at its returns to height 0 (each B_i is a single 0 or a block + M′ −). Define the class K by: K(0) is the single stone; K(+ M′ −) is the set of witnesses the zigzag chain produces from direct sums of members of K of the blocks of M′, with either first move. The two results of the chain from the same start are called siblings. Claim: if the chain from a_1 ⊕ … ⊕ a_k (a_i ∈ K(B_i), plus corner stones) closes into a loop, then for some i it reaches the last stone after a_i is replaced by its sibling.",
+   "example": "M = (+ 0 −)(+ + 0 − −), n = 10: the chain loops exactly when both blocks were built with the same first move (4 of the 8 combinations); switching either block cures it. With a 0 between the two blocks it loops exactly when they differ.",
+   "evidence": "All words + M − up to n = 13: 100,782 chain runs, 548 loops, and every loop is cured by one switch. The switches that do not help are of bystander blocks: + − (its two siblings are equal) 144 times and + 0 − 16 times; every other block cured the loop each time it was switched. No fixed rule for the choices works: always rows first fails at n = 10, alternating by nesting depth at 10, by the parity of the block's start (11), end (12) or length (10).",
+   "refs": "agents/interface/letters_flip.py (13: 4 minutes), letters_chir.py, letters_canon.py, letters_pos.py, letters_closed.py"
+  },
+  {
    "id": "leapfrog",
    "area": "ideas",
    "title": "Solutions are the ends of leapfrog paths",
@@ -4250,6 +4261,20 @@
    "kind": "implies",
    "status": "proved",
    "why": "Induction on the length: a word is a concatenation of zeros and blocks + M −; direct sums handle concatenation and the chain handles + M −."
+  },
+  {
+   "from": "flip",
+   "to": "l1",
+   "kind": "implies",
+   "status": "proved",
+   "why": "Induction on the length shows K is never empty: K of a block contains both siblings of each member, so if one combination of block witnesses loops, a switched combination is available and gives a witness of + M −; direct sums handle concatenation."
+  },
+  {
+   "from": "zigzag",
+   "to": "flip",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The weaker statement that survives: only witnesses built by the induction, and one switch allowed."
   },
   {
    "from": "leapfrog",
