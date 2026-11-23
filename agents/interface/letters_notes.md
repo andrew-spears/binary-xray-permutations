@@ -223,3 +223,17 @@ in the set, so then 'x u y solvable' implies 'x v y solvable'.
   (pair the free rows with the free columns so that the midpoints are the zeros).  Fails: + + 0 0 - - (form2.py 6).
   Witnesses of +^a 0^j -^a with fewest moves: rho rotates the pluses (1 2 .. a+1) and the minuses, pi is ONE
   transposition across the middle (e.g. +++0000---: pi = (4 7), rho = (1 2 3 4)(7 10 9 8)).
+
+## Three shortening rules for ALL words (shorten.py, run_rule.py)  -- best lead of this round
+- shorten.py B Lmax N lists every valid rule u -> v (|u| < |v| <= Lmax) at bound B and a greedy cover of the words.
+  At B = 4, 6 the cover is: 0 -> 00, 0 -> (1,0,-1), and a family on descending runs.  The family:
+  RUN(a,b): v = (a, a-1, ..., -b), u = (a-1, ..., -(b-1)) with the letter a-b doubled  (a, b >= 1).
+- At B = 10: RUN(a,b) never fails except (a,b) = (1,1) (4 of 364, from slack 6); 0 -> 00 fails (slack 8);
+  c -> (0, c) fails for every c >= 0;  PEAK 0 -> (1,0,-1) and ZERO -1 -> (0,-1) never fail.
+- PEAK + ZERO + RUN reduce every valid nonzero word (first negative letter e_j = -1, e_{j-1} = 0, e_{j-2} in {0,1};
+  proof in the docstring of run_rule.py).  B = 12: 6,061 (rule, situation) checks, 0 failures.
+- In diagonals: ZERO removes one of two stones on neighbouring diagonals c, c+1 and closes up (stones below move
+  up 1, stones above down 1); PEAK turns c-1, c, c+1 into c (below up 2, above down 2); RUN removes one stone from a
+  block of a+b+1 neighbouring diagonals (below the block up 1, above down 1).
+- To prove: F(xu) inside F(xv).  Board form: a placement of the prefix x u on rows R, columns C must be turned into a
+  placement of x v on the same hole pattern (R, C shifted by |v| - |u| with the bottom filled).

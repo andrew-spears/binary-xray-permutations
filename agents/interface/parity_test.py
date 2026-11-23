@@ -9,6 +9,7 @@ Reflected coordinates: stone j sits at (r, c) with r + c = 2j + e_j.  A stone wi
                                                                                              [necessary, proved]
 For every legal prefix x with at most K letters and slacks <= B this prints |all states|, |(P)|, |(S)|, |F(x)| summed over
 prefixes, and the first prefixes where (S) is not exact.
+'Legal' means distinct diagonals (e_{k+1} >= e_k - 1); 'l1' restricts the letters to -1, 0, +1.
 Usage: python3 parity_test.py B K [l1]"""
 import sys
 from itertools import combinations
