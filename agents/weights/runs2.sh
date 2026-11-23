@@ -1,5 +1,6 @@
 #!/bin/sh
 # Recheck of REPORT2.md.  About 3 minutes.
+cd "$(dirname "$0")" || exit 1
 g++ -O2 -o fx fx.cpp || exit 1
 g++ -O2 -o tail tail.cpp || exit 1
 mkdir -p out2
