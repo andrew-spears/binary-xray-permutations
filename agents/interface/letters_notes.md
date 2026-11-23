@@ -97,3 +97,14 @@ non-empty; what is missing is that not every component is a cycle.
   proves the P_n-like words 0..0 + 0..0 -.  With repeated diagonals the count is a Langford-type matching count.
 - Signs: every move flips the sign of the permutation, so a path between two last-row ends has odd length and its two
   witnesses have opposite signs (this is how the signed count can vanish).
+
+## Chirality of the chain (letters_chir.py, letters_canon.py, letters_pos.py)
+Each block + M - is built by a chain whose first move is R or C (the two directions of one leapfrog path, so both work
+or both loop).  Whether the NEXT chain loops depends on these choices in a clean way in small cases:
+  + (+0-)(++0--) - : loops iff the two inner blocks have the SAME outer choice (4 of 8);
+  + (+0-) 0 (++0--) - : loops iff they have DIFFERENT outer choices; inner choices never matter;
+  + (++0--)(+0-) -, + (+0-)(+0-)(+0-) -, + (+0-)(+++0---) -, + (+00-)(++0--) - : never loops.
+One fixed rule for all blocks fails: always R (first failure n = 10), alternate by nesting depth (10), by parity of the
+block's start position (11), end position (12), length (10).  So the induction needs a choice that looks at the
+neighbouring blocks; the class K of all choices is non-empty for every word with n <= 13.
+NEXT: find the rule (which pairs of blocks interact, and with what parity) and prove 'half of the choices work'.
