@@ -53,7 +53,7 @@ if __name__ == "__main__":
                     okk, last, bad = run(n, frame(a, n), m, owner); st["chain runs"] += 1; st["rounds violations"] += bad
             if len(bl) == 1 and len(M) > 1:
                 st["blocks"] += 1
-                bs = [beh(wit) for wit, _ in lists[0]]
+                bs = [beh(tuple(sorted(b))) for b in {frozenset(wit) for wit, _ in lists[0]}]   # distinct boards
                 for i, m in enumerate("RC"):
                     if not any(b.split("/")[i] != "F" for b in bs): fails.append((sym(M), m))
                 st["block witnesses"] += len(bs); st["block witnesses reflecting both moves"] += sum(b == "F/F" for b in bs)
