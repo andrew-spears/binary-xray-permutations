@@ -38,7 +38,9 @@
    - Counts (Lemma G of `../l2sets` with its shifts, table in `../onehigh/REPORT.md`): under a letter 2 a state of level ℓ ≥ 2
      has ≥ ℓ − 1 predecessors of level ℓ − 1; under a letter 0 it has ≥ ℓ of level ℓ − 1, and a level-1 state has ≥ 1 of
      level 1. Predecessors one level UP are not guaranteed: they are missing exactly for the tight states of Lemma A.
-     Letters ±1 keep the level. (For a letter 2f the bound should be ℓ − f; not checked for f ≥ 2.)
+     Odd letters keep the level. Checked on all states of slack ≤ 12 (`predcount.py 12`): under a letter 2f a state of
+     level ℓ ≥ f + 1 has ≥ ℓ − f predecessors of level ℓ − 1, for f = −2, …, 3 (so −2 gives ≥ ℓ + 1, 4 gives ≥ ℓ − 2);
+     under −1 and −3 every state has ≥ 2 and ≥ 4 predecessors of its own level, under 1, 3, 5 possibly none.
    - Data, from a true old prefix (levels 1, 2 complete): `levels.py -1 "1 1 1 1 1 0 1 2 2 2 1 0 0 0"`:
      after 2: L1 118/133, L2 48/48, L3 4/4; after 2 2: L1 292/332, L2 126/133, L3 16/16; after 2 2 2: L1 700/784,
      L2 320/332, L3 48/48, L4 1/1; then 1 0 0 0: L1 1138, 1158, 1170, 1174 of 1176, L2 506, 508, 510, 512 of 512.
