@@ -82,14 +82,16 @@ Both states have at most s ≤ p rows and fit the board. They are in G(s): with 
 holes < 0 of {λ_i − i}), c0((1^j)) = [j odd] and c0((g + 1, 1^j)) = [g even] − [j odd]; so H has class s mod 2 iff s or z_0 is even, and P has
 class [s − z_0 odd] + [z_0 odd] = s mod 2 iff not both are odd, which holds whenever P is used. They are not self-conjugate pairs and not built
 from 2 × 2 blocks (SC, E⁰). For s = 4m² + 1 the four states of A(s) must be avoided: P = ((1,1)|(3)) ∈ A(5) is the excluded case; that no other
-H or P is in A(s) I checked by machine for s ≤ 80 and did not prove for larger s (Lemma 4 of `../l1sets` builds A from a doubled staircase).
+H or P is in A(s) I checked by machine for s ≤ 80. (Added by the parent session: for s = 4m² + 1, m ≥ 2 it follows from Lemma 4 of `../l1sets`: a state of A is its
+1-predecessor plus one box, and that predecessor is the pair of staircases δ_{m−1}, δ_m with every box replaced by a 2 × 2 block, both nonempty; so both
+diagrams of a state of A contain a 2 × 2 block, while H has an empty diagram and P consists of one column and one row. m = 1 is s = 5, checked.)
 By Theorem 0 x reaches the state, by Lemma R′ T has an odd number of placements. ∎
 
 **Tested (`thm_d.py`, brute force of both counts).** n ≤ 10: 6,816 pairs (x, κ) in 755 words at n = 10 (2,461 in 286 at n = 9), 0 failures
 (states H/P at n = 10: 4175/2641); without the exclusion the single failure for n ≤ 9 is 1^5 0 −1 −2 −2 with κ = the −1.
 
 ## 5. Not checked
-- Theorem D for s = 4m² + 1 > 80 rests on the unproved "not in A(s)" above. Nobody else has read the proofs. The dominance lemma behind
+- (Closed by the note added in §4: Theorem D no longer rests on a machine check at s = 4m² + 1.) Nobody else has read the proofs. The dominance lemma behind
   Lemma R is still cited from memory (REPORT.md).
 - Relative splits with ≥ 3 stones, with both ends nonempty beyond the enumeration of §3, free parts in the middle, and any rule for two stones.
 - No comparison with the HYBRID enumeration of the other session; `rel.py` is a slow Python search meant for single words.

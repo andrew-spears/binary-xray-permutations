@@ -3776,7 +3776,7 @@
    "intuition": "This is an odd split in which both parities can be read off without computing anything. The parity of a count of partial placements is a Littlewood–Richardson number (card 'Odd or even'). That number is squeezed between two extreme shapes in dominance order, and at either extreme it is exactly 1. So if the hole pattern (λ, γ) is extreme for the stones of S and its transpose is extreme for the others, both counts are odd and the arrangement is solvable. The condition is plain arithmetic on the word: with N_t = the number of letters ≥ t in the other part-word, the letters of S must be sums of pairs of the numbers N_1 ≥ N_2 ≥ … paired off in sorted order. In every case found S is small: its least size is ⌈max |e_k| / 2⌉ or one more, and it sits near the place where the word turns from positive to negative. Claim: such an S exists for every valid word without a tight cut.",
    "statement": "Every valid word without a tight cut has a set S of stones and two partitions λ, γ such that both part-words are ≥ 0, the positive letters of the S-word, sorted, are λ + γ, and the positive letters of the other part-word, sorted, are λ′ + γ′. (S-word: u_j = d_{k_j} − 2j for the stones k_1 < k_2 < … of S. Other part-word: 2·#{stones of S after k} − e_k for k ∉ S, read from right to left.)",
    "example": "1 1 1 1 1 1 0 −1 −2 −3 (n = 10), S = stones 1 and 6: S-word (1, 9); other part-word (3, 2, 1, 0, 1, 1, 1, 1); λ = (7, 1), γ = (2): λ + γ = (9, 1) and λ′ + γ′ = (3, 2, 1, 1, 1, 1, 1).",
-   "evidence": "Proved: the criterion (an RR-split gives an odd split, hence a solution); one dominance lemma is cited from memory. Tested: every valid word without a tight cut for n ≤ 14 (27,225 words at n = 14) has an RR-split, and every unimodal one for n ≤ 15. No rule that names S: S in the first |S| columns fails at n = 9, and a given S survives a shortening step in only 74–84% of cases, so no induction on n yet.",
+   "evidence": "Proved: the criterion (an RR-split gives an odd split, hence a solution); one dominance lemma is cited from memory. Tested: every valid word without a tight cut for n ≤ 13 (19,715 words at n = 13) has an RR-split. Correction: an earlier version of this card said n ≤ 14 with 27,225 words; the program that listed the words skipped those that end steeply (such as 2 1 0 −1 −2), about half of them, and the same for the rising-then-falling test to n = 15. The numbers here are from the corrected list. No rule that names S: S in the first |S| columns fails at n = 9, and a given S survives a shortening step in only 74–84% of cases, so no induction on n yet.",
    "refs": "agents/oddsplit/REPORT.md, esplit.cpp, check_e.py"
   },
   {
@@ -4019,8 +4019,19 @@
    "intuition": "An RR-split asks for a few stones whose removal leaves a word that fits in exactly one way up to parity (card 'A few stones on chosen cells'). For a word that rises and then falls this becomes a balance: each chosen stone must have as much on its left as on its right, after the chosen stones have hidden two units from every deep letter. With letters 0 and 1 on the rising side the running total passes through every whole number, so the balance point always exists; that case (any depth on the falling side) is now also covered by the card 'No stone more than one mark above'. With a letter 2 the running total can jump over the balance point. One jump can be repaired by letting the second chosen stone sit one place further into the falling side. With three or more chosen stones no such repair is known. Claim: for letters up to 2 on the rising side and down to −4 on the falling side, two stones named by the rule above give an odd number of completions.",
    "statement": "Every valid word that consists of letters in {0, 1, 2} followed by letters in {0, −1, −2, −3, −4} has a solution, for any slack (and so does its mirror). Precisely: with t the last non-negative letter, T = Σ_{k > t} max(|e_k| − 2, 0), P(k) = e_1 + … + e_k, k_1 the first k with P(k) ≥ T, and k_2 = t + 1 if P(k_1) = T, else t + 2, the pair S = {k_1, k_2} is an RR-split.",
    "example": "2 2 1 1 0 −1 −2 −3 (n = 8): T = 1, P = 2, 4, …, so k_1 = 1 with P(k_1) = T + 1, and k_2 = t + 2 = 7.",
-   "evidence": "Hand proof in agents/oddsplit/REPORT2.md §3 (Theorem B), by a sub-session, using the RR criterion. Checked: the rule gives an odd count for every such word with n ≤ 10 by brute force, and satisfies the RR arithmetic for n ≤ 14. Smallest open statement on this line: rising side in {0, 1, 2}, falling side of any depth. The interleaved pairing behind the rule exists for every word with n ≤ 10 and fails first at n = 11 (4 3 2 1 0 −1 −2 −3 −2 −1 −1), where another RR-split still exists.",
+   "evidence": "Hand proof in agents/oddsplit/REPORT2.md §3 (Theorem B), by a sub-session, using the RR criterion. Checked: the rule gives an odd count for every such word with n ≤ 10 by brute force, and satisfies the RR arithmetic for n ≤ 14. Smallest open statement on this line: rising side in {0, 1, 2}, falling side of any depth. The interleaved pairing behind the rule is special to this family: among all words without a tight cut it fails from n = 9 (2 of 184 words), where another RR-split still exists. (An earlier version said n = 11; the word list behind it was incomplete.)",
    "refs": "agents/oddsplit/REPORT2.md §1–§5, thm_b.py, thm_c.py"
+  },
+  {
+   "id": "freeend",
+   "area": "ideas",
+   "title": "A gentle beginning absorbs depth: one chosen stone and a free end",
+   "status": "proved",
+   "intuition": "Two proved tools are combined. The parity theorem gives 'chains': a set of stones with a set of rows and columns on which they fit in an odd number of ways, by plain arithmetic on their letters. The card 'No stone more than one mark above' gives 'free parts': a beginning with no high stone can leave behind any hole pattern of a large explicit family. A mixed split cuts the stones, rows and columns into parts of these two kinds; the parts do not interact, so each one only has to be solvable on its own (Theorem M). In an RR-split a letter −h needs about h/2 chosen stones before it. With a free beginning it needs none: it uses h − 2 units of the slack that the beginning has stored. So the stored slack of a gentle beginning pays for depth later, and one chosen stone κ on an explicit cell is enough when the middle has letters between −2 and 2. These are the first proved words with a high stone before a low stone that are not rising-then-falling. Claim: with the beginning in the pattern 'a hook in the rows' or 'one column and one row' (named by z₀ and s), κ on the cell (p − s + z₀ + 1, p + z₀ + z₁ + 1) with p the length of x and z₁ the number of letters 1 before κ and −1 after it, the other stones of m fit in an odd number of ways.",
+   "statement": "Let w = x m be valid, where x has no letter above 1 and has slack s ≥ 1, and let κ be a stone of m such that the letters of m before κ are 0, 1 or 2 and the letters after κ are 0, −1 or −2. Put z₀ = (number of 0 before κ) + (number of −2 after κ). If z₀ ≤ s and (s, z₀) ≠ (5, 3), then w has a solution (and so does its mirror).",
+   "example": "x = 1 1 1 1, m = 2 1 0 −1 −1 −1 −2 −2 with κ the letter 1 of m: z₀ = 2 ≤ s = 4. A 2 comes before a −2, and x could be replaced by any beginning of slack 4 with no high stone.",
+   "evidence": "Hand proof in agents/oddsplit/REPORT3.md §1 and §4 (Theorem M, Theorem D), by a sub-session; not read by anyone else. One step (the pattern is not in the thin exceptional family at slack 4m² + 1) was machine-checked to slack 80 by the sub-session and closed by a short argument added in the report. Checked by brute force for n ≤ 10: 6,816 pairs (x, κ) in 755 words at n = 10, no failure. Not a route to everything: 2 2 2 2 2 2 2 1 0 −1 −2 −3 −4 −5 has no gentle end at all. Tested only: every valid word with a high stone before a low stone, n ≤ 9, has a mixed split with at most 2 chosen stones in the middle. No rule for two stones.",
+   "refs": "agents/oddsplit/REPORT3.md, thm_d.py (10: a few minutes), rel.py"
   },
   {
    "id": "signedcount",
@@ -4992,6 +5003,30 @@
    "kind": "related",
    "status": "unchecked",
    "why": "The first case with two stones named by a rule."
+  },
+  {
+   "from": [
+    "upone",
+    "paritylr"
+   ],
+   "to": "freeend",
+   "kind": "implies",
+   "status": "proved",
+   "why": "The beginning is a free part (any pattern of the explicit family is reachable), the rest of the middle is a chain (odd count by the parity theorem)."
+  },
+  {
+   "from": "freeend",
+   "to": "bridge",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "First proved words inside the open middle that are not rising-then-falling."
+  },
+  {
+   "from": "freeend",
+   "to": "rrsplit",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "An RR-split is the case of two chains and no free part."
   },
   {
    "from": "paritylr",
