@@ -3,9 +3,9 @@ defines a type (./types B Lm with NEED=file).  Start from all contexts of length
 work at bound B) and greedily remove contexts while the family still works (longest contexts first; within a length
 in the given order, by bisection).  Prints the surviving list: one locally minimal set, not canonical.
 Usage: python3 ctx.py B m [up|down|rand<seed>] [out file]"""
-import sys, subprocess, os, random
+import sys, subprocess, os, tempfile, random
 B=int(sys.argv[1]); m=int(sys.argv[2]); order=sys.argv[3] if len(sys.argv)>3 else "up"
-fn=sys.argv[4] if len(sys.argv)>4 else f"/tmp/need_{B}_{m}_{order}.txt"
+fn=sys.argv[4] if len(sys.argv)>4 else (lambda t: (os.close(t[0]), t[1])[1])(tempfile.mkstemp(prefix=f"need_{B}_{m}_{order}_",suffix=".txt"))
 ctx=set(); seen=set(); todo=[(0,())]
 while todo:
     s,w=todo.pop()

@@ -5,7 +5,7 @@ Usage: python3 window.py B RULE [theta_1,theta_2,...]
   small   the same, and only while the last j letters are all in [-1, 3]
   stair   the same for j = 1; for j >= 2 only if the last j letters fall by exactly 1 each
   nonincr the same, and only while the last j letters are non-increasing (window stops at a rise)"""
-import sys, subprocess, os
+import sys, subprocess, os, tempfile
 B=int(sys.argv[1]); rule=sys.argv[2]
 th=[int(a) for a in sys.argv[3].split(",")] if len(sys.argv)>3 else [3,5,9,14,20,27]
 m=sum(1 for t in th if t<=B)
@@ -26,7 +26,7 @@ while todo:
         for j in range(1,len(w2)+1):
             c=tuple(reversed(w2[-j:]))
             if keep(s+e,c): ctx.add((s+e,)+c)
-fn=f"/tmp/win_{B}_{rule}.txt"
+fd,fn=tempfile.mkstemp(prefix=f"win_{B}_{rule}_",suffix=".txt"); os.close(fd)
 with open(fn,"w") as f:
     for c in sorted(ctx): f.write(" ".join(map(str,c))+"\n")
 r=subprocess.run(["./types",str(B),f"L{max(m,1)}"],env=dict(os.environ,NEED=fn),capture_output=True,text=True).stdout.strip().split("\n")
