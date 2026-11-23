@@ -30,8 +30,9 @@ Notation as in `../weights/REPORT3.md` (Lemma 1). A state after n stones is (λ|
   The pair (a, b) is the parity class (D, K) of cards `paritycount` / REPORT3; it does not depend on n.
   **Central(s) = {slack s, c = s mod 2}.**
 - **SC** = {M = B} = {(λ|λ′)}: the states with no 1-predecessor (REPORT2 §3). Central SC states exist only for 4 | s.
-- **E⁰** = {M and B are unions of pairs {2i, 2i+1}, and M = (B − 2) ⊔ one more pair} (the diagrams 2ν2 of REPORT2,
-  Theorem 2; slack ≡ 0 mod 4, class 0): −|22, 22|− ; −|44, 44|− ; −|66, 22|2222, 2222|22, 66|− ; …
+- **E⁰** = {M and B are unions of pairs {2i, 2i+1}, and M = (B − 2) ⊔ one more pair}. A charge-0 union of such pairs is a
+  diagram with every box replaced by a 2 × 2 block and has 2-core charge 0, so E⁰ has class 0 and slack ≡ 0 mod 4. (These are the diagrams 2ν2 of REPORT2,
+  Theorem 2.) Examples: −|22, 22|− ; −|44, 44|− ; −|66, 22|2222, 2222|22, 66|− ; …
 - **A(4m² + 1)**, m ≥ 1 = {central u all of whose 1-predecessors are in SC ∪ E⁰}. Lemma 4: these are 4 states
   (Q ⊔ {κ}, Q ⊔ {y}): Q a union of pairs {2i−1, 2i} coming from a 2-core, {κ, y} one more such pair; λ and μ′ differ by one box.
   m = 1: 2|111, 11|3, 3|11, 111|2; m = 2: 422|33111, 3311|522, 522|3311, 33111|422.
@@ -105,15 +106,25 @@ Q° and Q° ⊔ {pair} are the staircases δ_{m−1}, δ_m in some order. So |A(
 *Proof.* u ∉ SC (class 1 is odd), so by Lemma 2(b) M ∖ B = {k}. If t_k ∈ SC: (B − 2) ⊔ {k − 2} ⊆ B, so B and
 M = (B ∖ y) ∪ k are closed under −2: λ, ν are 2-cores with neighbouring charges and a + b = 1, i.e. ∅ and (1): slack 1.
 So t_k ∈ E⁰. By (∗) Q = M ∖ k and Q′ = B ∪ k are unions of oe-pairs; M ∖ B = {k} gives Q ⊆ Q′, and Q′ ∖ Q = {k, y} is one
-pair. In pair indices Q° = ((Q° ⊔ {i₀}) − 2) ⊔ {p}: Q° − 2 ⊂ Q° and i₀ − 2 is a top. The predecessor is
-(2κ2 | …) for the two neighbouring 2-cores κ = δ_j, δ_{j±1}, of slack 4(T_j + T_{j±1}) = 4 max² . ∎
+pair, so B = Q′ ∖ k = Q ⊔ {y}. The last condition of (∗), Q = (Q′ − 4) ⊔ one oe-pair, reads in pair indices
+(the pair {2i − 1, 2i} has index i, i₀ = index of {k, y}) Q° = ((Q° ⊔ {i₀}) − 2) ⊔ {p}. So Q° − 2 ⊂ Q°: Q° is all
+even numbers up to some α and all odd numbers up to some β (a 2-core diagram), and i₀ − 2 ∈ Q°, i₀ ∉ Q° says
+i₀ = α + 2 or β + 2; then Q° ⊔ {i₀} is a 2-core diagram too.
+*Slack.* A 2-core diagram with tops α, β is the staircase δ_j with j = (|α − β| − 1)/2 (the j beads above the full part
+are isolated). Adding i₀ changes α − β by ±2, so the two diagrams are δ_j and δ_{j±1}. The predecessor t_k is
+(eo-pairs(Q°) | eo-pairs(Q° ⊔ {i₀})) up to the shifts, i.e. the two staircases with every box replaced by a 2 × 2 block,
+of slack 4(T_j + T_{j±1}) = 4 max(j, j ± 1)² =: 4m². So the slack of u is 4m² + 1 and {δ_j, δ_{j±1}} = {δ_{m−1}, δ_m}.
+*Count.* The charge of Q is −1, which fixes the diagram Q° of a given staircase; Q° is δ_{m−1} or δ_m (2 choices, i₀ is
+then determined), and k is either element of the pair (2 choices): at most 4 states. ∎
 
 **Lemma 5 (out of A).** Let a = (Q ⊔ {κ}, Q ⊔ {y}) ∈ A(4m² + 1), Q° ≅ δ_i (i = m − 1 or m).
 (a) a has exactly one (−1)-successor, ((Q ⊔ {κ, y}) − 1, Q + 1), and it is in E⁰.
 (b) Every 1-successor of a has at least 2i ≥ 2m − 2 predecessors under 1.
 (c) Every central 0-successor of a has at least i ≥ m − 1 central predecessors under 0.
 
-*Proof.* (a) k ∉ M_a − 1 and k + 2 ∈ B_a + 1 iff k + 1 ∈ B_a ∖ M_a = {y}. (b) The successor through k has
+*Proof.* (a) k ∉ M_a − 1 and k + 2 ∈ B_a + 1 iff k + 1 ∈ B_a ∖ M_a = {y}. The successor is (M′, B′) with
+B′ = Q + 1 and M′ = (Q ⊔ {κ, y}) − 1, both unions of eo-pairs, and M′ = (B′ − 2) ⊔ ({κ, y} − 1): it is in E⁰. Its
+(−1)-predecessors are the two elements of M′ ∖ (B′ − 2), i.e. a and the state with κ, y exchanged, both in A. (b) The successor through k has
 M_u ∖ B_u = {k} ∪ ((M_a − 1) ∖ (B_a + 1)) ⊇ {k} ∪ ((Q − 1) ∖ ((Q + 1) ∪ {y + 1})), and |Q ∖ (Q + 2)| = 2i (the i top
 beads of the staircase have a hole below). (c) Central predecessors of u are the even j ∈ M_u with j + 1 ∉ B_u (Lemma 1,
 c = 1); k is one, and so is every even j ∈ (Q − 1) ∖ (Q ∪ {y}): these are the lower elements 2q − 2 of the pairs of
@@ -123,7 +134,9 @@ Q − 1 with q − 1 ∉ Q°, i of them, minus at most one. ∎
 exist (for e = 1: u ∉ SC because central SC states have 4 | s′ and are in T). If T(s) = ∅ we are done. Otherwise:
 - **s = 0.** T(0) = ∅ by definition; ∅|∅ → ∅|∅ (letter 0), ∅|∅ → 1|−, −|1 (letter 1), and back (letter −1).
 - **4 | s, e = −1.** Lemma 2(a): ≥ 2 predecessors, at most one bad.
-- **4 | s, e = 1.** Lemma 2(b): at most one bad. If u has only one predecessor and it is bad then u ∈ A(s + 1) = T(s + 1) (Lemma 4).
+- **4 | s, e = 1.** Lemma 2(b): at most one bad. If u has only one predecessor and it is bad, then all 1-predecessors of u
+  are in SC ∪ E⁰; by Lemma 4 this happens only for s + 1 = 4m² + 1, and then u ∈ A(s + 1) = T(s + 1) by the definition of A,
+  so u ∉ G(s + 1).
 - **4 | s, e = 0.** Class 0, predecessors with k odd, at most one bad (Lemma 2(c)). If there is only one and it is
   bad, then u ∈ E⁰ or u ∈ SC (Lemma 3): u ∈ T(s).
 - **s = 4m² + 1, e = −1.** If all predecessors of u are in A then u is the successor of Lemma 5(a): u ∈ E⁰ ⊆ T(s − 1).
