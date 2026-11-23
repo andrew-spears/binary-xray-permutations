@@ -12,7 +12,8 @@ Shift: Sh(A) = (A + 1) ∪ {1}. Exactly: F(0 x) = Sh F(x) (a first stone with su
 
 ## CORRECTION (after slack 14 run)
 As set inclusions ZERO and RUN(2,1) are FALSE: RUN(2,1) fails after x = (4, 3, 2, 1) (slack reaches 13), ZERO after
-x = (2, 3, 3, 2, 2, 1, 1, 0) (slack 14); `zero_fail.py 14` prints the missing states. PEAK holds through 14.
+x = (2, 3, 3, 2, 2, 1, 1, 0) (slack 14); `zero_fail.py 14` prints the missing states. PEAK holds through slack 16 and fails at 17 after
+x = (3, 4, 3, 3, 2, 1).
 What the induction needs is only the word-level statement: x u y solvable ⇒ x v y solvable.
 
 ## The rules (machine-checked for every legal prefix with slack ≤ 12, 6,061 cases, 0 failures; see correction)

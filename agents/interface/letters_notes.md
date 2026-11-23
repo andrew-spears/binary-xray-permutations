@@ -244,3 +244,5 @@ in the set, so then 'x u y solvable' implies 'x v y solvable'.
   (x 1 1 0 reaches two states that x 2 1 0 -1 does not; slack 13 on the way), ZERO after x = (2,3,3,2,2,1,1,0)
   (slack 14).  PEAK: 1,941 situations at B = 14, 0 failures.  The missing states are alive.  What remains proved is
   the reduction: conjecture <=> PEAK, ZERO, RUN keep solvability (word level).
+- PEAK as a set inclusion also fails: x = (3,4,3,3,2,1), slack 17 (3 states of F(x 0) missing from F(x 1 0 -1));
+  it holds for slack <= 16 (sub-session, C++ check + board brute force).  All three failures are on steep prefixes.
