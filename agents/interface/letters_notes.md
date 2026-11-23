@@ -163,3 +163,24 @@ NEXT: describe what a block does to an entering mark when h marks have already p
 trail of one mark through zeros is two interleaved staircases and the next mark visits every third stone.  Guess,
 not checked: after h marks, h + 1 staircases and every (h+2)-th stone.  The reflections happen at the ends of such
 plateaus; a proof of the passing claim has to control those ends.
+
+## Round graph and two marks (letters_two.py)
+- Round graph.  For a unit U let Wit(U) be ALL its witnesses.  A mark entering by m in {R, C} is transmitted or
+  reflected; reflection is a fixed-point-free involution ref_m on the witnesses that reflect m.  The chain on + U -
+  from w is the alternating walk w, ref_R(w), ref_C(ref_R(w)), ... in the graph on Wit(U) with these two kinds of
+  edges; it loops iff the component is a cycle.  A state of the leapfrog graph of + U - with the mark on the bottom
+  stone is automatically (1,1) + (a witness of U).  Hence:
+     passing claim for U (any witness, not only K)  <=>  some PATH of the leapfrog graph of + U - visits the bottom stone,
+  and by the transpose symmetry 'some witness transmits some move' is enough.  So for L_1 it suffices to show, for
+  every block B: not every witness of B reflects both moves.
+- Two marks.  In 0 M 0 read as + M -, the bottom stone is one short (mark D, moves up) and the top stone is one over
+  (mark E, moves down: swap with the PREVIOUS row / column).  When both marks sit on one stone they cancel and the
+  position is a witness of + M -.  D alone = zigzag chain (loops from 4 witnesses at n = 10).
+  With both marks free to move in any order, a witness of + M - is reachable from EVERY witness of EVERY M, n <= 13
+  (100,267 witnesses at n = 13; python3 letters_two.py 13, 7 seconds).  Not yet known: a rule for the order of the
+  moves, and whether this says more than '+ M - is solvable'.
+- Tried and dropped: (i) signed counts / squared Vandermonde (already the red card 'at'); (ii) splitting the stones
+  by row and column residues mod d (D = union of d*D_i + (tau(i) - i)): a true gluing rule, but zeros need even
+  offsets and +/- need odd ones, so it does not lower the height of a mixed word, and P_4 is not of this form;
+  (iii) 0-cycles of interface states: at slack h the staircase cycle ((1^j),(h-j)), j = 0..h, lies in F(h) for
+  h = 1, 3 only, the hook cycle for h = 2, 4 only, neither for h = 5.
