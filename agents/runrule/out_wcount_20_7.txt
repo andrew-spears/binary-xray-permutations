@@ -1,0 +1,6 @@
+PEAK  x = 3 4 3 2 3 2 1: live states of F(xu) missing from F(xv): 1; continuations y tested 37; N(xuy) > N(xvy): 0; least N(xvy)/N(xuy) = 7.532 at y = -1 -2 -3 -4 -2 -3 -3
+RUN(1,2)  x = 5 4 3 2 1 2 1: live states of F(xu) missing from F(xv): 1; continuations y tested 215; N(xuy) > N(xvy): 0; least N(xvy)/N(xuy) = 2.916 at y = -2 -3 -4 -3 -4
+RUN(2,2)  x = 5 4 3 2 2: live states of F(xu) missing from F(xv): 1; continuations y tested 215; N(xuy) > N(xvy): 0; least N(xvy)/N(xuy) = 2.884 at y = -2 -3 -4 -1 -1 -2 -3
+RUN(3,2)  x = 4 4 3 2: live states of F(xu) missing from F(xv): 1; continuations y tested 215; N(xuy) > N(xvy): 0; least N(xvy)/N(xuy) = 2.945 at y = -1 -2 -3 -1 -2 -3 -4
+RUN(4,2)  x = 2 1 1 1 4: live states of F(xu) missing from F(xv): 2; continuations y tested 215; N(xuy) > N(xvy): 0; least N(xvy)/N(xuy) = 3.138 at y = -1 0 -1 -2 -3 -4 -5
+RUN(5,2)  x = 2 1 1 1: live states of F(xu) missing from F(xv): 4; continuations y tested 190; N(xuy) > N(xvy): 0; least N(xvy)/N(xuy) = 3.255 at y = -1 -1 -2 -3 -4 -5 -1

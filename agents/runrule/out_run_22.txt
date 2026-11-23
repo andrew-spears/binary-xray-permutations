@@ -1,0 +1,15 @@
+B = 22: 164389 interface states, 259574 situations, largest set 49010; legal prefixes with empty reachable set: 0  (every valid word with slacks <= B is solvable)
+PEAK  tested 31424 fails 6 fails1 6 failsLive 6   [x = 3 4 3 3 2 1; slack 16; missing 3 of 3426, live 3]
+ZERO  tested 12559 fails 15 fails1 15 failsLive 15   [x = 2 5 4 3 2 1 0; slack 17; missing 2 of 3778, live 2]
+RUN(1,1)  tested 31424 fails 1116 fails1 1115 failsLive 1116   [x = 3 3 3 2 1; slack 12; missing 1 of 919, live 1]
+RUN(1,2)  tested 31408 fails 3 fails1 3 failsLive 3   [x = 5 4 3 2 1 2 1; slack 18; missing 1 of 5158, live 1]
+RUN(1,3)  tested 31375 fails 5 fails1 5 failsLive 5   [x = 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1; slack 17; missing 1 of 1165, live 1]
+RUN(2,1)  tested 32301 fails 233 fails1 105 failsLive 233   [x = 4 3 2 1; slack 10; missing 2 of 928, live 2]
+RUN(2,2)  tested 32301 fails 10 fails1 10 failsLive 10   [x = 5 4 3 2 2; slack 16; missing 1 of 4660, live 1]
+RUN(3,1)  tested 15333 fails 355 fails1 336 failsLive 355   [x = 1 3 3; slack 7; missing 1 of 913, live 1]
+RUN(3,2)  tested 15333 fails 15 fails1 15 failsLive 15   [x = 4 4 3 2; slack 13; missing 1 of 4660, live 1]
+RUN(4,1)  tested 3155 fails 59 fails1 42 failsLive 59   [x = 2 1 4; slack 7; missing 2 of 4276, live 2]
+RUN(4,2)  tested 3155 fails 5 fails1 5 failsLive 5   [x = 2 1 1 1 4; slack 9; missing 2 of 5439, live 2]
+RUN(5,1)  tested 257 fails 25 fails1 23 failsLive 25   [x = 1 5; slack 6; missing 1 of 13238, live 1]
+RUN(5,2)  tested 257 fails 2 fails1 2 failsLive 2   [x = 2 1 1 1; slack 5; missing 4 of 7738, live 4]
+total checks 493566, failures 1849, with a live missing state 1849
