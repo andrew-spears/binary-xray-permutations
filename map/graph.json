@@ -3634,8 +3634,8 @@
    "intuition": "The slack measures how far an arrangement is from the start. P_n is the family with slack 1 everywhere, and it needed its own formula. This card slices the whole problem by slack instead of by board size: for a fixed bound there are arrangements of every size, but only finitely many interface states, so the question for that bound is a finite check. Each bound settled is a theorem about all n at once. A proof for every bound needs a description of which interface states are reachable after a given prefix; the red cards below are the simple descriptions that fail. What the machine shows: after a few stones with e_k = 0 every pair of diagrams of the right size is reachable, and what matters is only the part of the word since that last happened. Claim: for every bound, the machine accepts every valid word.",
    "statement": "For every B ≥ 1, the automaton A_B accepts every valid no-tight-cut word with all slacks ≤ B. Equivalently: for every B, every valid D of every size whose Landau slacks are all ≤ B has a witness.",
    "example": "B = 1: the only words are e = (1, 0, …, 0, −1), which is P_n.\nThe machine has 3 states and accepts all of them: P_n is solvable for every n.",
-   "evidence": "Settled for B ≤ 16 by complete search of A_B (see the card for B = 16). Open for B ≥ 17, where only n ≤ 22 is known.",
-   "refs": "agents/interface/README.md §2, §4"
+   "evidence": "Settled for B ≤ 16 by complete search of A_B (see the card for B = 16). Open for B ≥ 17, where only n ≤ 22 is known. The statement about stones with e_k = 0 was checked for B ≤ 8: from every reachable set of the machine after which a letter 0 is allowed, at most 7 letters 0 lead to the set of all pairs. From a single interface state this is false (at slack 1 the two states just alternate).",
+   "refs": "agents/interface/README.md §2, §4; flat.py"
   },
   {
    "id": "slack16",
@@ -3645,8 +3645,8 @@
    "intuition": "The slack of a cut is the total drift of the stones to its left. The largest slack of an arrangement of size n is about n²/8, so small boards have small slack, but so do arrangements of any size that stay close to the start. For slack up to 16 the interface machine has a few thousand states, and a program can run through all of them. Claim: every arrangement of any size whose slacks never exceed 16 has a solution.",
    "statement": "For every n, every valid D whose Landau slacks σ_k are all ≤ 16 has a witness.",
    "example": "P_n has slack 1 at every cut. A minimal move raises the slack by 1 at the cuts between its two stones,\nso P_n followed by any 15 minimal moves is covered, for every n.\nEvery D with n ≤ 11 has slack ≤ 16.",
-   "evidence": "Not a sample: the automaton A_16 (22,358 reachable states after determinising, 11 s, 0.94 GB) accepts every valid word, and by the interface card this covers every n. It is listed as empirical only because the finite check is done by a program. Three implementations agree (Python for B ≤ 8, two C++ programs for B ≤ 12). B = 17 needs more than 7 GB. Does not depend on the conjecture at any size. Recheck: g++ -O2 -o slack_dfa slack_dfa.cpp && ./slack_dfa 16.",
-   "refs": "agents/interface/slack_dfa.cpp, slack_dfa.py, slack_dfa2.cpp"
+   "evidence": "Not a sample: the automaton A_16 (22,358 reachable states after determinising, 11 s, 0.94 GB) accepts every valid word, and by the interface card this covers every n. It is listed as empirical only because the finite check is done by a program. Three implementations give the same verdict (Python for B ≤ 8, two C++ programs for B ≤ 12), and the step rule was compared with brute force on all 6,742 multisets with repeats for n ≤ 8, including the 39 with no solution. B = 17 needs more than 7 GB. Does not depend on the conjecture at any size. Recheck: g++ -O2 -o slack_dfa slack_dfa.cpp && ./slack_dfa 16.",
+   "refs": "agents/interface/slack_dfa.cpp, slack_dfa.py, slack_dfa2.cpp, audit_step.py"
   },
   {
    "id": "online",
@@ -3665,10 +3665,21 @@
    "title": "Invariant from the slack and the last few diagonals",
    "status": "disproved",
    "intuition": "An induction along the word needs an invariant: a set of interface states guaranteed reachable. Claim: the invariant can be read off from the current slack and a bounded window of recent diagonals.",
-   "statement": "For some fixed L there is a family I(σ, e_{k−L+1}, …, e_k) of nonempty sets of interface states such that every prefix with that slack and those last L letters reaches every state of I, and each step maps I onto a superset of the next I.",
+   "statement": "For some L ≤ 4 there is a family I(σ, e_{k−L+1}, …, e_k) of nonempty sets of interface states such that every prefix with that slack and those last L letters reaches every state of I, and each step maps I onto a superset of the next I.",
    "example": "Window of 2 letters, arrangements with slack ≤ 5: the largest family satisfying the step condition is empty, for instance at slack 1 after the letters (0, 0).",
-   "evidence": "Largest such family computed exactly inside slack ≤ B: a window of L = 0 or 1 letters works only for B ≤ 2, L = 2 only for B ≤ 4, L = 3 only for B ≤ 8, L = 4 only for B ≤ 13. The window that works grows with the slack bound (the thresholds fit L(L+1)/2 + L − 1), so no fixed window works. Replacing the window by the last letter plus a capped counter (length, largest slack so far, sum of slacks, largest letter, steps since the last rise) fails from B = 4.",
+   "evidence": "Largest such family computed exactly inside slack ≤ B: a window of L = 0 or 1 letters works only for B ≤ 2, L = 2 only for B ≤ 4, L = 3 only for B ≤ 8, L = 4 only for B ≤ 13. So no window of at most 4 letters works for all D, and the window needed grows with the slack bound. Windows of 5 or more letters were not run to failure. Replacing the window by the last letter plus a capped counter (length, largest slack so far, sum of slacks, largest letter, steps since the last rise) fails from B = 4.",
    "refs": "agents/interface/invariant.cpp, invariant.py, invariant_other.py"
+  },
+  {
+   "id": "meet",
+   "area": "ideas",
+   "title": "Counting: the two halves must meet at the middle cut",
+   "status": "disproved",
+   "intuition": "D has a solution exactly when some interface state at a cut can be reached both from the left and from the right. If the two reachable sets together had more elements than there are states, they would have to share one. Claim: at the middle cut they always do.",
+   "statement": "For every valid no-tight-cut D of size n and k = ⌊n/2⌋: |F_k| + |G_k| > N_k, where F_k is the set of interface states reachable by placing the k smallest diagonals, G_k the set reachable backwards by placing the n − k largest, and N_k the number of all interface states at that cut.",
+   "example": "n = 15, D = {−9, …, 0, 2, 8, 10, 12, 13}, cut after 7 stones: the two sets together have 0.973 times the number of states (they still meet).",
+   "evidence": "True for every D with n ≤ 14 (exhaustive; the smallest ratio falls steadily: 2, 1.75, 1.6, 1.56, 1.47, 1.41, 1.33, 1.23, 1.14, 1.10, 1.03 for n = 4…14). Fails at n = 15 (example).",
+   "refs": "agents/interface/meet.cpp, meet.py"
   },
   {
    "id": "twice",
@@ -4146,6 +4157,13 @@
    "kind": "implies",
    "status": "proved",
    "why": "Induction along the word with invariant 'every state of I is reachable'; nonempty at the end means a witness."
+  },
+  {
+   "from": "meet",
+   "to": "notight",
+   "kind": "implies",
+   "status": "proved",
+   "why": "Two sets with more elements than their universe intersect; a common state joins a left half-walk to a right half-walk."
   },
   {
    "from": "twice",

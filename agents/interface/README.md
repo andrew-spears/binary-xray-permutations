@@ -29,7 +29,9 @@ Determinizing it over all valid words decides the conjecture for ALL n on {D : m
 **Result: every valid D of any size with all Landau slacks <= 16 has a witness.**
 (B = 16: 22358 DFA states, largest reachable set 5822 = all pairs of partitions of 16; 11 s, 0.94 GB.
 B = 17 runs out of the 7 GB of this VM.)  Recheck: `g++ -O2 -o slack_dfa slack_dfa.cpp && ./slack_dfa 16`.
-Three implementations agree on ALL ACCEPTED (python B <= 8, two C++ versions B <= 12).
+Three implementations give ALL ACCEPTED (python B <= 8, two C++ versions B <= 12; their state counts differ
+because they key states differently).  Audit of the step rule with negative controls: `audit_step.py 8` compares the
+window/bitmask step with brute force on every majorized multiset b with repeats, n <= 8 (6742 multisets, 39 unsolvable, 0 mismatches).
 Covers every D with n <= 11 (n^2/8 <= 16) and, for larger n, everything within slack 16 of the start.
 
 ## 3. NOTHING: no online rule (`online_game.py`, `online_fixed_n.py`, `online_cex.py`)
@@ -42,10 +44,19 @@ a tree.  So any proof in diagonal order needs lookahead.
 ## 4. NOTHING: short summaries of the prefix do not carry an invariant (`invariant.py`, `invariant_other.py`)
 Greatest family I(summary) with I(s.e) inside step_e(I(s)).  Summary (sigma, last L letters) suffices
 inside slack <= B only for B <= 2 (L = 0, 1), B <= 4 (L = 2), B <= 8 (L = 3), B <= 13 (L = 4)
-(`invariant.cpp`): thresholds fit L(L+1)/2 + L - 1, the window must hold a whole rise of the slack.
+(`invariant.cpp B L`).  L >= 5 not run to failure.
 (sigma, e_last, capped length / max slack / sum of slacks / max letter / steps since last rise): all fail from B = 4.
 What the DFA shows (`structure.py`, `inspect_dfa.py`): the reachable set becomes ALL pairs of partitions
 of sigma after a few flat letters, and the DFA state is the suffix since the last "everything reachable" point.
+
+Flat runs (`flat.py 8`): from every DFA state with last letter <= 1, at most 7 letters 0 give the full set (B <= 8).
+From a single interface state zeros never give the full set for sigma != 2 (period 2 at sigma = 1).
+
+## 4b. NOTHING: meet in the middle by counting (`meet.cpp`, `meet.py`)
+F_k = states reachable by the k smallest diagonals, G_k = by the n-k largest, N_k = all pairs at cut k.
+|F_k| + |G_k| > N_k forces a witness.  Middle cut k = n/2, all no-tight-cut D: worst ratio
+2, 1.75, 1.6, 1.558, 1.472, 1.412, 1.333, 1.234, 1.142, 1.101, 1.033 for n = 4..14 (n = 14: 66054 D, 21 min).
+Fails at n = 15: `./meet 15 5 4 3 2 1 0 -1 -2 -3 -4 -4 0 0 0 -1` gives 0.973 (mirror word: 0.995).
 
 ## 5. LEAD: repeated diagonals, at most twice (`nonstrict.py`, `twice.cpp`, `slack_dfa2.cpp`)
 b nondecreasing, majorized by (2,4,...,2n) (same Landau sums), every value used at most M times.
