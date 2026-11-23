@@ -19,7 +19,7 @@ def urun(a, b):
         out.append(t)
         if t == a - b: out.append(t)
     return tuple(out)
-RULES = [("DEL0", (), (0,))] + [(f"RUN({a},{b})", urun(a, b), tuple(range(a, -b - 1, -1))) for a in range(1, 5) for b in range(1, 5) if a + b <= 6]
+RULES = [("DEL0", (), (0,))] + [(f"RUN({a},{b})", urun(a, b), tuple(range(a, -b - 1, -1))) for a in range(1, n) for b in range(1, n) if a + b + 1 <= n]
 def delete(st, k):
     r0, c0 = st[k]
     return tuple(sorted((r - (r > r0), c - (c > c0)) for i, (r, c) in enumerate(st) if i != k))

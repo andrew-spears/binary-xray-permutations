@@ -90,7 +90,7 @@ not a block insertion; it stays a separate statement.
 - **One new stone.** Every rule changes the diagonals as "insert a row and a column with a stone at the crossing"
   does (stones north-west +0, south-east +2, others +1). But the graph "P is Q with one stone deleted" has no
   matching saturating the solutions of the short word in 514 of 1,958 DEL0 placements, 66 of 295 for (0,0) → (1,0,−1),
-  88 of 274 for RUN; (1,1,0,−1,−1) → (1,1,0,0,−1,−1): 4 and 8 solutions, largest matching 2 (`python3 delgraph.py 9`).
+  88 of 275 for RUN; (1,1,0,−1,−1) → (1,1,0,0,−1,−1): 4 and 8 solutions, largest matching 2 (`python3 delgraph.py 9`).
 - **Fixed-n moves.** PEAK is not "two DEL0, then squeeze": (0,0,0) → (1,0,−1) lowers N in 20 of 295 placements
   ((1,1,0,0,0,−1,−1): 12 → 8). Of 176 blocks changed by a move, 136 never lower N (`python3 moves.py 9`).
 - **Positive form.** With J the half-turn, N(x v y) − N(x u y) = L_x^T G_s L_{y*}, G_s = (T_v − T_u)J on the states of
