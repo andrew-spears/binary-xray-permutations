@@ -4177,6 +4177,47 @@
    "refs": "agents/universal/REPORT2.md"
   },
   {
+   "id": "oldprefix",
+   "area": "ideas",
+   "title": "Once the big stones are far enough back, the reachable hole patterns are 'a few classes minus a thin explicit set'",
+   "status": "empirical",
+   "intuition": "The proved family for letters up to 1 used one set of hole patterns per slack: one class of the odd-even count, minus a thin exceptional family. With bigger letters no such set exists right after a big stone. The finding here is that the damage is temporary. Keep a counter y: every letter e adds e − 1 to it, and it never goes below 0. It is 0 when no recent stone is still 'too far up', and then the word is called old. At old prefixes the simple description is back, the same for every largest letter, and it is even a little bigger than before (two or three neighbouring classes instead of one). A complete word followed by a 0 is old, so if these sets are carried from one old prefix to the next, every arrangement is solvable. Claim: at every old prefix ending in 0 or 1 the reachable set contains this explicit set.",
+   "statement": "Call a prefix x old if every final stretch of j letters has sum ≤ j (equivalently y = 0, where y starts at 0 and each letter e replaces y by max(0, y + e − 1)). For every old prefix x with slack s ≥ 11 whose last letter is 0 or 1, F(x) ⊇ J*(s, τ), where τ is the last two letters of x and J* is: all states whose two imbalances have sum c in a fixed window (c ∈ {0, 1} for τ = 1 1; −1 ≤ c ≤ 2 for τ = · 1 and 1 0; −2 ≤ c ≤ 3 for τ = 0 0 and · 0) and difference at most 2 to 4, minus an explicit thin set (for τ ending in 0: the two one-row patterns, and for 1 0 also two-equal-rows patterns and E⁰; for τ ending in 1: the patterns (λ | λ′), the four states A(s), and k|k).",
+   "example": "After 2 2 2 1 from slack 1, the next three zeros have y = 2, 1, 0. The patterns of the family still missing are then: 22 (all with a row of length ≥ s − 2, or close), 6 (a row or column ≥ s − 1), 2 (the two one-row patterns), exactly the thin set of the table at y = 0.\nAfter 2 2 2 2 1, 2 2 2 1 1 1 and 2 1 2 1 2 1 the counts at y = 2, 1, 0 are 18, 6, 2: the same sets, whatever the block was.",
+   "evidence": "Exhaustive for all words with slack ≤ 20 (the set equals the largest block-closed family there, and that family is identical at bounds 16, 18, 20). Sampled on exact reachable sets for about 17,600 old prefixes: steep words to slack 28, random words to slack 26, falling runs to slack 30, one or two staircases. The table was fitted, and corrected three times by tests beyond bound 20 (most recently k|k after a long staircase), so a longer staircase than slack 30 allows could add another exception. Below slack 11 the sets are a finite table. Missing for a proof: the step across an excursion (a block that starts with a letter ≥ 2 and ends when y is back at 0), tested only for 1,209 short blocks, and by the red children the sets inside an excursion have no local description. Recheck (1 minute): cd agents/universal && g++ -O2 -std=c++17 -o types types.cpp && g++ -O2 -std=c++17 -o fw fw.cpp && python3 jstar.py 16 && python3 closed.py 11 14 5 3 20 && python3 stair.py 5 6. Healing counts: python3 agents/lens/restore.py 1 \"2 2 2 1 0 0 0 0\".",
+   "refs": "agents/universal/REPORT3.md, agents/lens/NOTES.md"
+  },
+  {
+   "id": "youngtail",
+   "area": "ideas",
+   "title": "Right after a big stone the common hole patterns are 'one class minus what the last stones forbid'",
+   "status": "disproved",
+   "intuition": "For letters up to 1 the exceptional set is explained by the last stone alone: a pattern is missing because the last stone cannot have been placed to produce it. The hope was that after a 2 or a 3 the same holds with a slightly larger explicit set. Claim: the common part after such a tail is the central class minus the patterns the tail itself forbids.",
+   "statement": "For a tail τ containing a letter ≥ 2 (τ = 2, 2 1, 2 2, 3 2 1), the intersection of F(x) over all prefixes x with slack s and tail τ equals Central(s) minus the states that have no chain of predecessors along the letters of τ, minus T(s).",
+   "evidence": "False. The locally forbidden part is explicit but small (a last letter 2 excludes exactly the states with M − 1 ⊆ B: 40 states of the family at slack 12), while 358 of the 770 states of the family at slack 12 have predecessors along the tail and are still not common: they are missing because of what stands before the tail, differently for different prefixes. Also a quarter to a third of the common part lies outside the central class. Recheck: cd agents/universal && python3 tail.py 2 12.",
+   "refs": "agents/universal/REPORT3.md §1"
+  },
+  {
+   "id": "norun3",
+   "area": "ideas",
+   "title": "Sets that depend on the slack and the final falling run, on every prefix",
+   "status": "disproved",
+   "intuition": "The card 'Sets that remember only a falling run of five letters' needed whole blocks as steps. Could the same memory work letter by letter, so that the induction step is a single stone? Claim: sets indexed by the slack and the final falling run exist on every prefix.",
+   "statement": "For words with letters ≤ 3 there are nonempty sets J(slack, final non-increasing run of the prefix), one for every prefix, with J(type of x e) ⊆ step_e(J(type of x)) for every letter e.",
+   "evidence": "Impossible, by exhaustion, whatever the rule: the 13 different sets F(x) of prefixes x of slack 7 whose last letter is a rise to 3 have empty intersection (minimal ones: F(1 1 2 3), F(1 2 1 3), F(1 1 1 1 3), F(2 1 1 3), F(2 2 3), F(1 1 1 1 0 3)). For letters ≤ 2 such sets are nonempty but not carried by single letters (fails at bound 5 to 12 depending on the run length). Adding the counter y of the card above to the type repairs letters ≤ 2 through bound 24, at the price of a number of types that grows with the slack. Recheck: cd agents/universal && CORE=2 DUMPMAX=7 LET=-99,3 ./types 7 A3.",
+   "refs": "agents/universal/REPORT3.md §2"
+  },
+  {
+   "id": "twotourn",
+   "area": "ideas",
+   "title": "Climbing to a solution through pairs of tournaments",
+   "status": "disproved",
+   "intuition": "The rows of a solution are a rearrangement of 0, …, n − 1, and so are the columns. Relax both: let the rows be the score vector of any tournament, and the columns too. Such pairs are easy to find (the evenly spread ones always exist), and a pair is a solution exactly when the sum of squares is as large as it can be. So a solution could be found by climbing. Claim: from every pair that is not a solution, one exchange between two stones goes up.",
+   "statement": "For every valid D with word d, every pair of tournament score vectors (a, a + d) that is not a solution can be changed by one exchange a_i + 1, a_j − 1 to another such pair with a larger value of Σ a_i² + Σ (a_i + d_i)².",
+   "evidence": "False from n = 5: 3 of the 9 valid sets have a stuck pair (13 of 22 at n = 6). Allowing two exchanges at once fails at n = 6, three at n = 7; e.g. d = −6 −3 −2 1 2 3 5 with rows 6 4 5 2 3 0 1. The radius needed grows with n. Recheck: python3 agents/lens/lens.py 6; python3 agents/lens/lens2.py 7 3.",
+   "refs": "agents/lens/NOTES.md"
+  },
+  {
    "id": "simorder",
    "area": "ideas",
    "title": "One hole pattern is at least as good as another",
@@ -5276,6 +5317,55 @@
    "kind": "related",
    "status": "unchecked",
    "why": "The memory-1 version; fails."
+  },
+  {
+   "from": "oldprefix",
+   "to": "blocktypes",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The same block induction with blocks closed at old prefixes: 2 to 5 types per slack instead of 62, and the sets get a formula."
+  },
+  {
+   "from": "oldprefix",
+   "to": "conj",
+   "kind": "implies",
+   "status": "unchecked",
+   "why": "If the sets are carried across every block between two old prefixes, the complete word followed by 0 is old with slack 0, where the set is the empty state."
+  },
+  {
+   "from": "l1",
+   "to": "oldprefix",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "With letters ≤ 1 every prefix is old; the set of the proved family is the central class of this table."
+  },
+  {
+   "from": "youngtail",
+   "to": "oldprefix",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Why the sets are asked for only at old prefixes: inside an excursion they are not local."
+  },
+  {
+   "from": "norun3",
+   "to": "oldprefix",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Letter-by-letter steps with a falling-run memory are impossible for letters ≤ 3."
+  },
+  {
+   "from": "onehigh",
+   "to": "oldprefix",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The shortest excursion: a single 2, closed by the next 0."
+  },
+  {
+   "from": "twotourn",
+   "to": "delta",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Another way to reach a solution from tournaments with the right scores: here one tournament for the rows and one for the columns."
   },
   {
    "from": "blocktypes",
