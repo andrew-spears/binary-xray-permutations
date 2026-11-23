@@ -108,3 +108,9 @@ One fixed rule for all blocks fails: always R (first failure n = 10), alternate 
 block's start position (11), end position (12), length (10).  So the induction needs a choice that looks at the
 neighbouring blocks; the class K of all choices is non-empty for every word with n <= 13.
 NEXT: find the rule (which pairs of blocks interact, and with what parity) and prove 'half of the choices work'.
+
+## Parity does not help (one-off count, n <= 9)
+W(D) is even for every D except the evenly spaced one (reflection r' <-> c has no fixed witness), and is usually
+divisible by a high power of 2: at n = 9 the 2-adic valuation of W over no-tight-cut D ranges from 1 to 7.
+So 'the number of paths is odd' is false in general, and no parity count of ends can prove a path exists.
+The high powers of 2 fit the chirality picture: independent binary choices per block.

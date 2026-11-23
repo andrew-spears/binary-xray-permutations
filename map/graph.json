@@ -4266,7 +4266,7 @@
    "to": "l1",
    "kind": "implies",
    "status": "proved",
-   "why": "Lower the last + of the word without its final −: that word is shorter and solvable by induction, so X is non-empty; without cycles X has a path, whose ends are witnesses."
+   "why": "Lower the last + of the word without its final −: that word is shorter and solvable by induction, so X is non-empty; without cycles X has a path, whose ends are witnesses. (With a repeated diagonal the count changes but 'solvable iff some component is not a cycle' still holds.)"
   }
  ]
 }
