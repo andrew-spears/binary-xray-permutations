@@ -60,6 +60,8 @@ one-stone RR-split.
 - All valid words with a nonempty middle, tight cuts included (1, 3, 12, 51, 197 words for n = 5..9, the counts of `../l2sets`): each has a
   relative split with at most 2 stones of m in S; one stone is enough for 11 of 12 (n = 7), 43 of 51 (n = 8), 154 of 197 (n = 9); S = ∅ never
   works. Two are needed e.g. for 3 2 1 0 −1 −2 −3 and 2 2 1 1 0 −1 −2 −3 (no gentle end).
+- 'No relative split' in this section always means: with x and y the longest gentle ends (the default of `rel.py`); shorter ends were not
+  searched (`rel.py word k all` does).
 - I have no rule for S and the state beyond Theorem D, and no proof that jumps separated by gentle stretches can always be repaired.
 
 ## 4. Theorem D (proved, explicit rule)

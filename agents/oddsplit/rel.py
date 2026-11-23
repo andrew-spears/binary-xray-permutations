@@ -3,8 +3,11 @@ A relative split = row/column sets for four parts X (stones of x), S, T (S u T =
   (R_X, C_X) a state of G(slack x)                      [Theorem 0 of ../l2sets: x reaches it]
   half-turn of (R_Y, C_Y) a state of G(slack y)         [the same for -reverse(y)]
   S and T chains: multiset {r_i + c_i - 2i} = multiset {d_i - 2i}, i = index inside the part   [Lemma R': odd count]
-Usage: python3 rel.py "1 1 1 2 1 0 -1 -2 -3" [kmax]      prints the relative splits with |S| <= kmax (default 1; S may be empty)
-"""
+Usage: python3 rel.py "1 1 1 2 1 0 -1 -2 -3" [kmax] [all]   prints the relative splits with |S| <= kmax (default 1; S may be empty)
+By default x and y are the LONGEST gentle ends, so an empty output only says there is no split with those ends; with `all` every
+shorter pair of ends (p' <= p, r' <= r; the stones given up go to m) is searched too.
+For |S| >= 2 the rows and columns of S are printed as sets: the chain condition gives an odd number of placements of S on them,
+not the pairing in sorted order."""
 import sys, itertools, os
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "l1sets"))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "l2sets"))
@@ -65,6 +68,9 @@ def relsplits(e, kmax=1, p=None, r=None, first=False):
     return out
 if __name__ == "__main__":
     e = tuple(int(a) for a in sys.argv[1].split()); kmax = int(sys.argv[2]) if len(sys.argv) > 2 else 1
-    p, r = cuts(e); print("x =", e[:p], " m =", e[p:len(e) - r], " y =", e[len(e) - r:])
-    for S, RS, CS, tx, ty in relsplits(e, kmax):
-        print("S =", S, "cells", list(zip(RS, CS)), " state of x (lam|gam):", tx, " state of -rev(y):", ty)
+    p, r = cuts(e); every = len(sys.argv) > 3 and sys.argv[3] == "all"
+    for p1, r1 in ([(a, b) for a in range(p, -1, -1) for b in range(r, -1, -1)] if every else [(p, r)]):
+        print("x =", e[:p1], " m =", e[p1:len(e) - r1], " y =", e[len(e) - r1:])
+        for S, RS, CS, tx, ty in relsplits(e, kmax, p1, r1):
+            where = ("cell " + str((RS[0], CS[0]))) if len(S) == 1 else ("rows " + str(RS) + " columns " + str(CS))
+            print("S =", S, where, " state of x (lam|gam):", tx, " state of -rev(y):", ty)
