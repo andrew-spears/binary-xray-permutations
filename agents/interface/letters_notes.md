@@ -38,3 +38,12 @@ Findings so far (all small computations, scripts letters*.py):
   whose witnesses alternate the side that moves (dominoes). The side must be chosen per letter.
 - For c >= 2 the letter cap alone does not help: (sigma, last 1 or 2 letters) fails from slack 5 (letters.py 2 9 1 2).
   L_1 is special because every order of letters is legal there (it sits inside 'each diagonal at most twice').
+- letters_ansatz.py 11 (all L_1 words, any letter order, n <= 11; every one is solvable):
+  * ansatz A (+ stones at (k+1,k)/(k,k+1), - stones at (k,k-1)/(k-1,k), zeros free) fails first at + + - - and
+    for most words from n = 9 on: stones must leave their home cell by more than 1.
+  * smallest m such that some witness keeps every stone within m of its home cell (k,k) in both coordinates:
+    m <= 1 for exactly 2^(n-1) words (n <= 11), m = 3 first needed at n = 8 (1 word), 248 words at n = 11.
+    Fixed m gives a regular language (finite window), so m must grow with the height of the word.
+NEXT (not done): put an 'L_1' card on the map (open; lead: slack-only family F, order-free), characterise the
+2^(n-1) words solvable with displacement <= 1, look for the rule that says how far a stone must move (height of the
+word at k?), and test the zigzag-chain induction + M - from 0 M 0.
