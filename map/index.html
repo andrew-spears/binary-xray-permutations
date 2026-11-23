@@ -101,10 +101,8 @@ pre{background:var(--chip);border-radius:8px;padding:9px 10px;font:12.5px/1.35 u
 @media (max-width:899px){
   #key{display:inline-block}
   #legend{display:none}#legend.open{display:block}
-  #panel,#panel.wide{position:fixed;left:0;right:0;bottom:0;width:auto;height:58vh;border-left:0;border-top:1px solid var(--line);border-radius:14px 14px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.18);z-index:20}
-  #panel.wide{height:88vh}
-  .vgrip{display:none}.grip{display:block}
-  .phead{touch-action:none;cursor:row-resize}
+  #panel,#panel.wide{position:fixed;inset:0;width:auto;height:auto!important;border:0;border-radius:0;z-index:30}
+  .vgrip{display:none}.grip{display:none}
   .pbtn[data-full]{display:none}
   h1{font-size:16px}
 }
@@ -221,7 +219,8 @@ function layout() {
   // buses: one per target, rails staggered within a row
   const byT = {}; segs.forEach(([a, b, i, last]) => { if (pos[a] && pos[b]) (byT[b] ||= []).push({ a, i, last }); });
   const rowT = {}; Object.keys(byT).forEach(b => (rowT[pos[b].row] ||= []).push(b));
-  const rail = {}; Object.values(rowT).forEach(list => list.sort((p, q) => pos[p].cx - pos[q].cx).forEach((b, k) => rail[b] = pos[b].y + pos[b].h + 18 + 10 * (k % 4)));
+  const rowBot = {}; Object.values(pos).forEach(p => { if (p.row !== undefined && p.h) rowBot[p.row] = Math.max(rowBot[p.row] || 0, p.y + p.h); });
+  const rail = {}; Object.values(rowT).forEach(list => list.sort((p, q) => pos[p].cx - pos[q].cx).forEach((b, k) => rail[b] = (rowBot[pos[b].row] || pos[b].y + pos[b].h) + 16 + 9 * (k % 4)));
   buses = Object.entries(byT).map(([b, ins]) => ({ b, ins, y: rail[b] }));
   let html = nodes.filter(n => pos[n.id]).map(n => { const p = pos[n.id];
     return `<div class="node s-${n.status}${n.id === "conj" || n.id === "notight" ? " goal" : ""}${n.vis ? " has-vis" : ""}" role="button" tabindex="0" data-id="${n.id}" style="left:${p.x}px;top:${p.y}px">` +
@@ -232,10 +231,9 @@ function layout() {
   if (sel && !pos[sel]) closePanel(); else if (sel) highlight(sel);
 }
 function edgeClass(e) {
-  const dead = froms(e).some(x => byId[x].status === "disproved");
   if (e.kind === "idea") return "e idea";
   if (e.kind === "related") return "e related";
-  return `e${dead ? " dead" : ""}${e.status !== "proved" ? " unchecked" : ""}`;
+  return `e${e.status !== "proved" ? " unchecked" : ""}`;
 }
 function edgesSVG() {
   const mk = (id, col) => `<marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L10,5 L0,9z" style="fill:${col}"/></marker>`;
@@ -245,7 +243,16 @@ function edgesSVG() {
     let strongest = null;
     ins.forEach(({ a, i }) => {
       const A = pos[a], e = G.edges[i], x0 = A.cx, y0 = A.y, cls = edgeClass(e), r = Math.min(8, Math.abs(x1 - x0) / 2), dir = x1 > x0 ? 1 : -1;
-      const d = Math.abs(x1 - x0) < 1 ? `M${x0},${y0} V${y}` : `M${x0},${y0} V${y + r} Q${x0},${y} ${x0 + dir * r},${y} H${x1}`;
+      // if the straight climb would pass behind another node, jog sideways just above the source first
+      const blocks = Object.entries(pos).filter(([v, q]) => v !== a && v !== b && q.y < y0 - 2 && q.y + q.h > y).map(([, q]) => [q.x - 8, q.x + q.w + 8]);
+      const free = x => blocks.every(([l, rr]) => x < l || x > rr);
+      let xs = x0;
+      if (!free(x0)) { const m = []; blocks.slice().sort((p, q) => p[0] - q[0]).forEach(([l, rr]) => { if (m.length && l <= m[m.length - 1][1]) m[m.length - 1][1] = Math.max(m[m.length - 1][1], rr); else m.push([l, rr]); });
+        const cand = m.flat().map((v, k) => k % 2 ? v + 1 : v - 1).sort((p, q) => Math.abs(p - x0) - Math.abs(q - x0)); if (cand.length) xs = cand[0]; }
+      const yj = y0 - 14;
+      const climb = xs === x0 ? `M${x0},${y0}` : `M${x0},${y0} V${yj} H${xs}`;
+      const r2 = Math.min(8, Math.abs(x1 - xs) / 2), dir2 = x1 > xs ? 1 : -1;
+      const d = Math.abs(x1 - xs) < 1 ? `${climb} V${y}` : `${climb} V${y + r2} Q${xs},${y} ${xs + dir2 * r2},${y} H${x1}`;
       const start = e.kind === "equiv" ? ` marker-start="url(#a)"` : "";
       const p = `<path class="${cls}" d="${d}"${start} data-e="${i}"/>`;
       if (cls === "e") front += p; else back += p;
@@ -343,7 +350,7 @@ function tap(t) {
 const P = $("panel");
 function sizePanel() {
   P.style.width = !narrow() && size.w ? size.w + "px" : "";
-  P.style.height = narrow() && size.h ? size.h + "px" : "";
+  P.style.height = "";
 }
 function openPanel(wide, inner) {
   P.classList.toggle("wide", wide); P.hidden = false; sizePanel();
@@ -357,7 +364,7 @@ function openPanel(wide, inner) {
   drag(P.querySelector(".vgrip"), ev => { const r = mainR(); size.w = Math.max(300, Math.min(r.width, r.right - ev.clientX)); sizePanel(); });
   // phones: drag the card's top to resize; tap it to toggle half / full screen (full covers the header)
   const ph = P.querySelector(".phead");
-  if (ph) ph.addEventListener("pointerdown", e => {
+  if (ph && false) ph.addEventListener("pointerdown", e => {
     if (!narrow() || e.target.closest("button")) return;
     e.preventDefault(); ph.setPointerCapture(e.pointerId); P.classList.add("dragging"); let mv = false; const sy = e.clientY, h0 = P.offsetHeight;
     const move = ev => { if (Math.abs(ev.clientY - sy) > 5) mv = true; if (mv) { size.h = Math.max(110, Math.min(innerHeight, h0 + (sy - ev.clientY))); sizePanel(); } };
@@ -413,7 +420,7 @@ function routeHTML(id) {
 }
 function explain(n) {
   const outs = G.edges.filter(e => froms(e).includes(n.id)), ins = G.edges.filter(e => e.to === n.id);
-  return routeHTML(n.id) + (n.intuition ? `<p class="lead">${esc(n.intuition)}</p>` : `<p class="lead">${esc(n.statement)}</p>`) +
+  return (n.intuition ? `<p class="lead">${esc(n.intuition)}</p>` : `<p class="lead">${esc(n.statement)}</p>`) +
     (n.pics || []).map(picHTML).join("") +
     (n.proof ? `<h3>Proof sketch</h3><p>${esc(n.proof)}</p>` : "") +
     (n.evidence ? `<h3>Evidence</h3><p>${esc(n.evidence)}</p>` : "") +
