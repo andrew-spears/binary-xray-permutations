@@ -10,7 +10,12 @@ all placements of Σ(x) with distinct rows and distinct columns. F depends only 
 The interface state is (A, B) written relative to {1..k} (a pair of Young diagrams with |λ| + |μ| = slack).
 Shift: Sh(A) = (A + 1) ∪ {1}. Exactly: F(0 x) = Sh F(x) (a first stone with sum 2 must sit at (1, 1)).
 
-## The rules (all only machine-checked: every legal prefix with slack ≤ 12, 6,061 cases, 0 failures)
+## CORRECTION (after slack 14 run)
+As set inclusions ZERO and RUN(2,1) are FALSE: RUN(2,1) fails after x = (4, 3, 2, 1) (slack reaches 13), ZERO after
+x = (2, 3, 3, 2, 2, 1, 1, 0) (slack 14); `zero_fail.py 14` prints the missing states. PEAK holds through 14.
+What the induction needs is only the word-level statement: x u y solvable ⇒ x v y solvable.
+
+## The rules (machine-checked for every legal prefix with slack ≤ 12, 6,061 cases, 0 failures; see correction)
 - ZERO: F(x −1) ⊆ F(x 0 −1).            Same as: F(0 x −1) ⊆ F(x 0 −1) as sets of (A, B).
 - PEAK: F(x 0) ⊆ F(x 1 0 −1).           Same as: F(0 0 x 0) ⊆ F(x 1 0 −1).
 - RUN(a, b), a, b ≥ 1, (a, b) ≠ (1, 1): F(x u) ⊆ F(x v), v = (a, a−1, …, −b), u = (a−1, …, −(b−1)) with a−b doubled.

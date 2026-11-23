@@ -3781,13 +3781,28 @@
   {
    "id": "shorten3",
    "area": "ideas",
-   "title": "Three shortening rules: an induction on n for every arrangement",
-   "status": "empirical",
-   "intuition": "The interface machine reads the word of an arrangement letter by letter and keeps the set of hole patterns it can reach. If a piece v of a word can be replaced by a shorter piece u without gaining any reachable pattern, then the long word is solvable whenever the short one is. Three kinds of replacement turn out to be enough for every arrangement. A run of letters falling by one each step, such as 2, 1, 0, −1, is a block of neighbouring diagonals. PEAK: three neighbouring diagonals with letters 1, 0, −1 are replaced by one stone. RUN: a longer block whose letters cross zero loses one stone. ZERO: a 0 just before a −1 is dropped. In any arrangement other than the evenly spaced one, look at the first negative letter: it is a −1 after a 0, and before that 0 stands a 0 (use ZERO) or a 1 (use PEAK or RUN on the whole block). The shorter word is again a valid arrangement, and the evenly spaced one is solved by the anti-diagonal. So the three rules give the conjecture by induction on n. The rules are statements about whole sets of hole patterns; they are not true pattern by pattern. Claim: the three rules hold after every legal prefix.",
-   "statement": "Write F(x) for the set of interface states reachable after a prefix x of letters e_k. For every legal prefix x: PEAK: F(x 0) ⊆ F(x 1 0 −1). ZERO: F(x −1) ⊆ F(x 0 −1). RUN(a, b) for a, b ≥ 1, (a, b) ≠ (1, 1): F(x u) ⊆ F(x v), where v = (a, a−1, …, −b) and u = (a−1, …, −(b−1)) with the letter a−b written twice.",
-   "example": "P_4 = (1, 0, 0, −1): ZERO gives (1, 0, −1), PEAK gives (0).",
-   "evidence": "Machine check, no proof: with all slacks ≤ 12 the rules hold in all 6,061 cases (rule, reachable set, slack, last letter) where they apply; 17 rules apply. All 6,561 arrangements of length ≤ 11 with slack ≤ 8 reduce to the evenly spaced one by these steps. This gives nothing new by itself for slack ≤ 16 (already settled), but it is a uniform induction step that does not depend on the slack bound. Nearby rules fail: (0) → (0, 0) at slack 8, (0, 0) → (1, 0, −1) at slack 6. Recheck: python3 run_rule.py 12 (50 seconds), run_rule.py 8 11.",
-   "refs": "agents/interface/run_rule.py, shorten.py (search that found the rules), letters_notes.md"
+   "title": "Shortening induction: three ways to lengthen a solvable arrangement",
+   "status": "open",
+   "intuition": "Write an arrangement as its word: for each stone, from the lowest diagonal up, how far it is from its evenly spaced position. A run of letters falling by one each step, such as 2, 1, 0, −1, is a block of neighbouring diagonals. Three operations make a word one or two stones longer. PEAK replaces one stone at its evenly spaced place by three neighbouring diagonals 1, 0, −1. ZERO inserts a 0 between a 0 and a −1. RUN adds one stone to a block of neighbouring diagonals whose letters cross zero. Every arrangement except the evenly spaced one is produced from a shorter valid arrangement by one of the three (proved: look at the first negative letter; it is a −1 after a 0, and before that 0 stands a 0, which gives ZERO, or a 1, which gives PEAK or RUN on the whole block). The evenly spaced arrangement is solved by the anti-diagonal. So the conjecture is equivalent to: each operation keeps an arrangement solvable. The lab shows the chain for any arrangement up to n = 9. Claim: PEAK, ZERO and RUN each turn a solvable arrangement into a solvable one.",
+   "statement": "For all letter strings x, y: if the word x u y is a valid arrangement with a solution, then x v y has a solution, for each of: PEAK u = (0), v = (1, 0, −1). ZERO u = (0, −1), v = (0, 0, −1). RUN(a, b), a, b ≥ 1, (a, b) ≠ (1, 1): v = (a, a−1, …, −b), u = (a−1, …, −(b−1)) with the letter a−b written twice.",
+   "example": "P_4 = (1, 0, 0, −1) comes from (1, 0, −1) by ZERO, which comes from (0) by PEAK.",
+   "evidence": "The reduction (every nonzero valid word is shortened to a valid word) is proved and checked on all 6,561 words of length ≤ 11 with slack ≤ 8. The claim itself follows from the conjecture, so tests of it say nothing new; what is needed is a proof of each operation. The natural stronger form, on whole sets of reachable hole patterns, is false (red child).",
+   "refs": "agents/interface/run_rule.py (docstring: the reduction), SHORTEN_BRIEF.md",
+   "vis": {
+    "file": "labs/shorten.html",
+    "title": "Shorten an arrangement"
+   }
+  },
+  {
+   "id": "shorten3set",
+   "area": "ideas",
+   "title": "The three operations never lose a reachable hole pattern",
+   "status": "disproved",
+   "intuition": "The interface machine reads a word letter by letter and keeps the set of hole patterns it can reach. If the longer piece v reaches every hole pattern that the shorter piece u reaches, after every beginning x, then the operation keeps arrangements solvable, and this can be tested on the finite machine for each slack bound. It holds for every beginning with slack up to 12, and then breaks. Claim: after every legal beginning, the longer piece reaches every hole pattern the shorter piece reaches.",
+   "statement": "F(x) = set of interface states reachable after the prefix x. For every legal prefix x: F(x 0) ⊆ F(x 1 0 −1), F(x −1) ⊆ F(x 0 −1), and F(x u) ⊆ F(x v) for every RUN(a, b).",
+   "example": "RUN(2, 1) fails after x = (4, 3, 2, 1): two hole patterns are reached by x 1 1 0 and not by x 2 1 0 −1 (slack 13 on the way). ZERO fails after x = (2, 3, 3, 2, 2, 1, 1, 0), slack 14.",
+   "evidence": "Slack ≤ 12: 6,061 cases (rule, reachable set, slack, last letter), 0 failures. Slack ≤ 14: ZERO fails in 1 of 904 situations, RUN(2, 1) in 2 of 1,344; PEAK holds in all 1,941. The missing patterns can still be completed, so they are not dead states. With multiplicity (number of placements per pattern) PEAK holds in all 2,812 tests at slack ≤ 6, ZERO and RUN(2, 1) fail. Recheck: python3 zero_fail.py 14 (12 minutes; prints the shortest failing words), run_rule.py 12 (50 seconds), count_rule.py 6 8.",
+   "refs": "agents/interface/run_rule.py, zero_fail.py, count_rule.py, shorten.py (search that found the rules), letters_notes.md"
   },
   {
    "id": "l1red",
@@ -4434,11 +4449,18 @@
    "why": "Induction on n: every valid word other than the all-zero word is shortened by PEAK, ZERO or RUN to a valid word; the all-zero word is the anti-diagonal."
   },
   {
-   "from": "shorten3",
-   "to": "slackB",
+   "from": "shorten3set",
+   "to": "shorten3",
    "kind": "implies",
    "status": "proved",
-   "why": "The same induction inside any slack bound."
+   "why": "If the longer piece reaches every hole pattern the shorter one reaches, any completion of the shorter word completes the longer one."
+  },
+  {
+   "from": "shorten3set",
+   "to": "slackB",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "A uniform induction step that would not depend on the slack bound; false from slack 13."
   },
   {
    "from": "shorten3",
@@ -4449,17 +4471,17 @@
   },
   {
    "from": "l1red",
-   "to": "shorten3",
+   "to": "shorten3set",
    "kind": "related",
    "status": "unchecked",
-   "why": "Rule (B) is PEAK; rules (A), (C) are replaced by ZERO, which also holds for general words."
+   "why": "The same kind of rule for letters −1, 0, +1 only: (B) is PEAK; these three hold through slack 23."
   },
   {
    "from": "zeros",
-   "to": "shorten3",
+   "to": "shorten3set",
    "kind": "related",
    "status": "unchecked",
-   "why": "The zero rule that fails; ZERO (a 0 before a −1) is the version that survives."
+   "why": "Another zero rule of the same kind; it fails earlier, at slack 8."
   },
   {
    "from": "l1red",

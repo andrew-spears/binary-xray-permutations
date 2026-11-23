@@ -1,4 +1,6 @@
 """An induction on n for ALL words, by three shortening rules on the interface machine (found with shorten.py).
+RESULT: the set inclusions below hold for slack <= 12 and FAIL beyond (RUN(2,1) at slack 13, ZERO at slack 14; see
+zero_fail.py).  The reduction 'WHY THEY SUFFICE' is proved and is used at word level (card shorten3).
 F(x) = set of interface states reachable after the prefix x.  Rules u -> v, claim F(xu) inside F(xv) for every prefix x:
   RUN(a, b), a, b >= 1, (a, b) != (1, 1):
         v = (a, a-1, ..., -b)                      a + b + 1 consecutive diagonals whose letters cross zero

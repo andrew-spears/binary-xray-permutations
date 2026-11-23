@@ -240,3 +240,7 @@ in the set, so then 'x u y solvable' implies 'x v y solvable'.
 - count_rule.py 6 8: with multiplicity PEAK holds (2,812 tests), ZERO fails (43), RUN(2,1) fails (288), other RUN hold.
 - agents/transfer/transfer.py: NOTHING. Fset(S) inside Fset(S') for S' = S with two sums moved by one step: fails
   more often than it holds in every class (together / apart, any gap), K = 4, 5.
+- CORRECTION: the set inclusions fail beyond slack 12 (run_rule.py 14, zero_fail.py 14): RUN(2,1) after x = (4,3,2,1)
+  (x 1 1 0 reaches two states that x 2 1 0 -1 does not; slack 13 on the way), ZERO after x = (2,3,3,2,2,1,1,0)
+  (slack 14).  PEAK: 1,941 situations at B = 14, 0 failures.  The missing states are alive.  What remains proved is
+  the reduction: conjecture <=> PEAK, ZERO, RUN keep solvability (word level).
