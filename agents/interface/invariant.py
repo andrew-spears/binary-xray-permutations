@@ -7,7 +7,9 @@ Usage: python3 invariant.py B L [-v]"""
 import sys
 def analyse(B, L, verbose=False, upd=None):
     if upd is None:
-        upd = lambda hist, e, sig2: (hist + (e,))[-L:] if L else ()
+        # the last letter is always needed: it decides which letters are legal next
+        assert L >= 1, "L must be >= 1"
+        upd = lambda hist, e, sig2: (hist + (e,))[-L:]
     last = lambda hist: hist[-1]
     def succ(mask):
         out = []

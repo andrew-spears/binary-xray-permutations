@@ -6,7 +6,7 @@ typedef uint64_t u64; typedef vector<u64> Set;
 int B, L;
 Set step(const Set&S,int e){ Set T; for(u64 s:S){u64 rm=s>>32,cm=s&0xffffffffULL; for(int u=-B;u<=B;u++){int v=e-u; if(v<-B||v>B)continue; if(rm>>(B+u)&1)continue; if(cm>>(B+v)&1)continue; u64 r2=rm|(1ULL<<(B+u)),c2=cm|(1ULL<<(B+v)); if(!(r2&1)||!(c2&1))continue; T.push_back(((r2>>1)<<32)|(c2>>1));}} sort(T.begin(),T.end()); T.erase(unique(T.begin(),T.end()),T.end()); return T; }
 int excess(u64 m){ vector<int> xs; for(int j=2*B-1;j>=0;j--) if(m>>j&1) xs.push_back(j-B+1); int s=0; for(size_t i=0;i<xs.size();i++) s+=xs[i]+(int)i; return s; }
-int main(int argc,char**argv){ B=atoi(argv[1]); L=atoi(argv[2]);
+int main(int argc,char**argv){ B=atoi(argv[1]); L=atoi(argv[2]); if (B < 1 || B > 16) { fprintf(stderr, "B must be 1..16: a state packs two 2B-bit masks into 64 bits\n"); return 1; } if (L < 1) { fprintf(stderr, "L must be >= 1: the last letter decides which letters are legal next\n"); return 1; }
     typedef pair<int,vector<int>> Sum; map<Sum,int> id; vector<Sum> nodes; vector<vector<pair<int,int>>> out, pre;
     auto get=[&](const Sum&s){ auto it=id.find(s); if(it!=id.end()) return it->second; id[s]=nodes.size(); nodes.push_back(s); out.emplace_back(); pre.emplace_back(); return (int)nodes.size()-1; };
     get({0,{}});
@@ -14,7 +14,7 @@ int main(int argc,char**argv){ B=atoi(argv[1]); L=atoi(argv[2]);
         int lo=first?0:last-1;
         for(int e=max(lo,-sig);e<=B-sig;e++){ int s2=sig+e; if(s2==0){ if(sig==0)continue; out[i].push_back({e,-1}); continue; }
             if(s2+(long)max(e,0)*max(e-1,0)/2>B) continue;
-            vector<int> h=s.second; h.push_back(e); int keep=max(L,1); if((int)h.size()>keep) h.erase(h.begin(),h.end()-keep);
+            vector<int> h=s.second; h.push_back(e); int keep=L; if((int)h.size()>keep) h.erase(h.begin(),h.end()-keep);
             int t=get({s2,h}); out[i].push_back({e,t}); pre[t].push_back({(int)i,e}); } }
     // all states by excess
     vector<vector<u64>> masks(B+1); for(u64 m=0;m<(1ULL<<(2*B));m++){ if(__builtin_popcountll(m)!=B)continue; int ex=excess(m); if(ex<=B) masks[ex].push_back(m); }
