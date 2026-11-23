@@ -33,5 +33,6 @@ for e, ok in rows:
     A = [S for S in range(1, (1 << n) - 1) if admissible(e, S)]
     assert ok <= set(A), (e, sorted(ok - set(A))[:3])
     frac.append(len(ok) / len(A))
+if not frac: sys.exit("no word other than 0 ... 0 at this n")
 print(f"odd splits are always admissible (both part-words nonnegative); share of admissible S that are odd: min {min(frac):.3f}, mean {sum(frac)/len(frac):.3f}")
 worst = min((len(ok), e) for e, ok in rows if any(e)); print("fewest odd S:", worst)
