@@ -7,7 +7,7 @@ typedef uint64_t u64;
 int B;
 struct Key { int e, sig; vector<u64> S; bool operator<(const Key&o) const { if (e!=o.e) return e<o.e; if (sig!=o.sig) return sig<o.sig; return S<o.S; } };
 int main(int argc, char**argv){
-    B = atoi(argv[1]);
+    B = atoi(argv[1]); if (B < 1 || B > 16) { fprintf(stderr, "B must be 1..16: a state packs two 2B-bit masks into 64 bits\n"); return 1; }
     u64 base = (1ULL<<B)-1;
     map<Key,int> seen; vector<Key> q; vector<pair<int,int>> par;
     Key st{INT_MIN,0,{(base<<32)|base}}; seen[st]=0; q.push_back(st); par.push_back({-1,0});

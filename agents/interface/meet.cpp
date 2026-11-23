@@ -25,7 +25,7 @@ void rec(int k,int last,int sig){ if(k==n){ if(sig==0) done(); return; }
         long rem=n-k-1; if(s2>0&&rem==0) break; // minimal future sum: letters x-1, x-2, ... 
         long minfut=0; for(long j=1;j<=rem;j++) minfut+=x-j; if(s2+minfut>0) break;
         e[k]=x; rec(k+1,x,s2); } }
-int main(int argc,char**argv){ n=atoi(argv[1]); e.assign(n,0);
+int main(int argc,char**argv){ n=atoi(argv[1]); if (n < 2 || n > 15) { fprintf(stderr, "n must be 2..15: a state packs two n-bit masks into 32 bits\n"); return 1; } e.assign(n,0);
     pbox.assign(n+1,{}); int S=n*n; for(int k=0;k<=n;k++){ // partitions with <=k parts, each <= n-k
         vector<vector<long>> dp(k+1, vector<long>(S+1,0)); // gaussian binomial coefficients via dp over parts
         // count subsets: k-subsets of [n] by excess

@@ -16,7 +16,7 @@ vector<array<int,2>> letters(int e,int run,int sig,bool first){ // (e2, run2)
     return out;
 }
 int main(int argc,char**argv){
-    B=atoi(argv[1]); M=atoi(argv[2]);
+    B=atoi(argv[1]); M=atoi(argv[2]); if (B < 1 || B > 16) { fprintf(stderr, "B must be 1..16: a state packs two 2B-bit masks into 64 bits\n"); return 1; }
     // completability: backward fixpoint
     vector<array<int,3>> dom; for(int e=-B;e<=B;e++)for(int r=1;r<=M;r++)for(int s=1;s<=B;s++){dom.push_back({e,r,s});can[{e,r,s}]=false;}
     bool ch=true; while(ch){ch=false; for(auto&d:dom){ if(can[d])continue; for(auto&l:letters(d[0],d[1],d[2],false)){int s2=d[2]+l[0]; if(s2==0||can[{l[0],l[1],s2}]){can[d]=true;ch=true;break;}}}}
