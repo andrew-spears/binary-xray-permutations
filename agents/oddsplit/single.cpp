@@ -31,8 +31,10 @@ int main(int argc, char** argv) {
     int K = atoi(argv[1]); n = argc - 2; full = (1 << n) - 1; W = ((1UL << (2 * n)) + 63) / 64;
     vector<int> e(n); for (int k = 0; k < n; k++) { e[k] = atoi(argv[k + 2]); d.push_back(2 * (k + 1) + e[k]); }
     int Sp = 0, Sn = 0; for (int k = 0; k < n; k++) { if (e[k] > 0) Sp |= 1 << k; if (e[k] >= 0) Sn |= 1 << k; }
-    printf("S = {e > 0}: %ld odd states;  S = {e >= 0}: %ld odd states\n", odd(Sp), odd(Sn));
-    { int So = 0; for (int k = 0; k < n; k++) if (e[k] & 1) So |= 1 << k; printf("S = {e odd}: %ld odd states\n", odd(So)); }
+    int So = 0; for (int k = 0; k < n; k++) if (e[k] & 1) So |= 1 << k;
+    auto rep = [&](const char* name, int S) {            // a split needs both parts nonempty
+        if (!S || S == full) printf("S = %s: not a split (one part is empty)\n", name); else printf("S = %s: %ld odd states\n", name, odd(S)); };
+    rep("{e > 0}", Sp); rep("{e >= 0}", Sn); rep("{e odd}", So);
     printf("prefix cuts (m: odd states):"); for (int m = 1; m < n; m++) if (adm((1 << m) - 1)) printf(" %d:%ld", m, odd((1 << m) - 1)); printf("\n");
     mt19937 rng(1); int tested = 0, good = 0, tries = 0;
     while (tested < K && tries < 100000 * (K + 1)) { int S = rng() & full; tries++; if (!S || S == full || !adm(S)) continue; tested++;
