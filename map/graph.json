@@ -3698,8 +3698,19 @@
    "intuition": "Cut an arrangement between two consecutive stones. The first part can leave many hole patterns at the cut, and the second part can be completed from many; a solution exists when the two sets share a pattern. In general the shared pattern depends on both parts. At a cut just after a stone that is at its evenly spaced place or one above it (letter 0 or 1), tests show much more: one single pattern lies in every one of these sets at once, for all first parts and all second parts with that slack. So at such a cut the two halves of the board can be solved without knowing each other, on a fixed board with holes. Claim: at every cut after a letter 0 or 1 there is a hole pattern that works for every first part and every second part.",
    "statement": "For every slack s ≥ 1 and l ∈ {0, 1} there is an interface state c that is reachable after every legal prefix with slack s and last letter l, and from which every suffix that starts at slack s with first letter ≥ l − 1 can be completed.",
    "example": "Slack 9: all rows below the cut used, and the columns shifted as the diagram 3 3 3 (three columns skipped, the next three used). Slack 6 after a 0: rows 1 1 1, columns 2 1.",
-   "evidence": "Holds for all first and second parts with slacks ≤ 24, at every slack 1…24 (sub-session, C++); the number of such patterns grows from 2 to about 2,460. Unlike the set-level shortening rules and the red child 'beginnings without negative letters', it shows no strain for steep beginnings. Since every arrangement except the evenly spaced one has a letter 0 just before its first negative letter, the claim for all slacks would give the conjecture. No family of such patterns is known in closed form. After other letters it fails (last letter 2 at slack 5: no pattern is reachable after every first part), but a weighted form holds at every cut: weights on the patterns such that every reachable set and every completable set together weigh more than 1 (best values 1.55 to 2). Recheck: python3 agents/majority/core.py 14 (1 minute), maj.py 14 1 (30 seconds); slack 22: agents/peak/cut_check 22 (45 seconds, see agents/peak/REPORT.md). Not yet tied to a proof: see the two red children.",
+   "evidence": "Holds for all first and second parts with slacks ≤ 24, at every slack 1…24 (sub-session, C++); the number of such patterns grows from 2 to about 2,460. Unlike the set-level shortening rules and the red child 'beginnings without negative letters', it shows no strain for steep beginnings. Every arrangement except the evenly spaced one has two neighbouring letters 1, 0 (proved: take the last positive letter before the first negative one; agents/weights/REPORT.md §0), so the claim for l = 1 and all slacks would give the conjecture, and the tested range gives: every arrangement of any size with all slacks ≤ 24 is solvable (one program with pruning; the slack ≤ 16 card was cross-checked three ways, this was not). No family of such patterns is known in closed form. After other letters it fails (last letter 2 at slack 5: no pattern is reachable after every first part), but a weighted form holds at every cut: weights on the patterns such that every reachable set and every completable set together weigh more than 1 (best values 1.55 to 2). Recheck: python3 agents/majority/core.py 14 (1 minute), maj.py 14 1 (30 seconds); slack 22: agents/peak/cut_check 22 (45 seconds, see agents/peak/REPORT.md). Not yet tied to a proof: see the two red children.",
    "refs": "agents/majority/REPORT.md, core.py, maj.py"
+  },
+  {
+   "id": "majdim",
+   "area": "ideas",
+   "title": "Explicit weights: the two halves always overlap at a cut 1 | 0",
+   "status": "empirical",
+   "intuition": "A universal hole pattern is the extreme way to make two families of sets meet. A softer way is by weight: give every hole pattern of slack s a weight, with total 1, so that every set reachable by a first part and every set completable by a second part together weigh more than 1; then the two sets must share a pattern. Every arrangement other than the evenly spaced one has a place where a letter 1 is followed by a letter 0, and conjugating both diagrams turns the sets of second parts into sets of first parts, so only first parts ending in 1 and in 0 matter. The weight that works in tests is a classical one: the number of ways to build the pair of diagrams box by box (the dimension of a representation of the hyperoctahedral group). Claim: with that weight, the lightest set after a 1 and the lightest set after a 0 together weigh more than 1, at every slack.",
+   "statement": "Let dim(λ | μ) = C(s, |λ|) f^λ f^μ (the number of standard fillings of the pair of diagrams), normalised to total 1 on the states of slack s. For every s ≥ 1: min over prefixes x ending in 1 of dim(F(x)) + min over prefixes x ending in 0 of dim(F(x)) > 1.",
+   "example": "Slack 20 to 24: the two minima add up to 1.355, 1.293, 1.407, 1.395, 1.385.\nThe lightest set after a letter 1 is the one reached by 1, 1, …, 1; after a letter 0 it is a steep staircase such as 5 5 4 3 2 1 0.",
+   "evidence": "Holds for every s ≤ 24 (minimum 1.293 at s = 21). A sharper weight, dim² restricted to patterns whose 2-cores are as small as possible, gives at least 1.219 (s = 4) and 1.64 to 1.82 for s ≥ 20. Uniform weights and f^λ f^μ fail at slack 10. The weight dim alone cannot give each half more than ½ for ever: the set reached by 1, 1, …, 1 drops below ½ at slack 32, so any proof must use the sum of the two minima. One proof step is found in tests: a letter 0 never lowers the dim-weight of any set of patterns (a flow statement checked by max-flow for s ≤ 13), and the step of the machine is the row-insertion (Bernstein) operator of Schur functions without its sign, which suggests a bijection on fillings. The letters that change the slack are not understood. Recheck: sh agents/weights/runs.sh (5 minutes).",
+   "refs": "agents/weights/REPORT.md"
   },
   {
    "id": "nonneg",
@@ -4491,6 +4502,13 @@
    "kind": "related",
    "status": "unchecked",
    "why": "A structure of reachable sets that does not depend on the slack bound in the tested range."
+  },
+  {
+   "from": "majdim",
+   "to": "cutcore",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The weighted form of the same statement, with explicit weights."
   },
   {
    "from": "nonneg",
