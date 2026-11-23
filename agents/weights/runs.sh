@@ -1,5 +1,6 @@
 #!/bin/sh
 # Recheck of REPORT.md (about 5 minutes, 0.7 GB).  Data files go to $W (default /tmp/weights), outputs to out/.
+cd "$(dirname "$0")" || exit 1
 W=${W:-/tmp/weights}; mkdir -p $W out
 g++ -O2 -o dump dump.cpp || exit 1
 ./dump 16 $W/w16 1; ./dump 20 $W/w20 0; ./dump 24 $W/w24 0 0 1
