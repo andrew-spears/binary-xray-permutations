@@ -480,7 +480,7 @@
    "area": "families",
    "title": "Every arrangement but P_n splits into blocks",
    "status": "empirical",
-   "intuition": "To split an arrangement, partition its stones into groups that each balance around a whole-number centre, such that each group moved back to the middle is a valid smaller arrangement, and the group sizes and centres can be laid out as blocks. In the example, {−3, −2, −1, 0, +2, +4} splits as {−3, −1} around −2, {−2, 0} around −1, and {+2}, {+4} alone; the layout 2413 with block sizes 1, 1, 2, 2 puts every block at its centre. Both choices — the grouping and the layout — are searches, and the layout is itself a placement puzzle with wide blocks. Claim: every valid arrangement with no tight cut except P_n splits this way.",
+   "intuition": "To split an arrangement, partition its stones into groups that each balance around a whole-number centre, such that each group moved back to the middle is a valid smaller arrangement, and the group sizes and centres can be laid out as blocks. In the example, {−3, −2, −1, 0, +2, +4} splits as {−3, −1} around −2, {−2, 0} around −1, and {+2}, {+4} alone; the layout 2413 with block sizes 1, 1, 2, 2 puts every block at its centre. Both choices — the grouping and the layout — are searches, and the layout is itself a placement puzzle with wide blocks of the same total size. So this claim is not a reduction to smaller cases: the blocks are smaller, but the layout is not, and the claim is at least as strong as the conjecture. Claim: every valid arrangement with no tight cut except P_n splits this way.",
    "pics": [
     {
      "t": "stones",
@@ -666,7 +666,7 @@
    "area": "families",
    "title": "Every arrangement but P_n has a 2×2 block",
    "status": "empirical",
-   "intuition": "A 2×2 block is two points in neighbouring rows and neighbouring columns, the upper one a step to the right. On the plank it is two stones two marks apart; in a block layout it becomes one fat stone at their midpoint, with every other stone alone. Example: in 2 6 5 4 1 3 (stones −4, −3, 0, +1, +2, +4), rows 3–4 and columns 4–5 hold a block on diagonals 0 and +2. Shrinking the block to one point usually leaves a permutation that repeats a diagonal, so this does not reduce to a smaller instance of the same problem. Claim: every valid arrangement with no tight cut except P_n has a solution with a 2×2 block.",
+   "intuition": "A 2×2 block is two points in neighbouring rows and neighbouring columns, the upper one a step to the right. On the plank it is two stones two marks apart; in a block layout it becomes one fat stone at their midpoint, with every other stone alone. Example: in 2 6 5 4 1 3 (stones −4, −3, 0, +1, +2, +4), rows 3–4 and columns 4–5 hold a block on diagonals 0 and +2. Shrinking the block to one point usually leaves a permutation that repeats a diagonal, so this does not reduce to a smaller instance of the same problem. Laying out one fat stone and n − 2 thin ones is still a full-size placement puzzle, so this claim is stronger than the conjecture: it says every arrangement has a solution of a special shape. Its value is that it narrows what kind of solution to look for. Claim: every valid arrangement with no tight cut except P_n has a solution with a 2×2 block.",
    "pics": [
     {
      "t": "board",
