@@ -159,6 +159,7 @@ This explains every loop seen: e.g. (+0-)(++0--) loops iff both blocks have the 
 - Tried: 'F(sigma) = interface states that recur under the letter 0' (plateau patterns).  Useless: every pair of
   partitions of total size sigma is reachable and recurs under 0-steps (sigma <= 7, one-off script, not kept),
   while some states have no + predecessor at all; so recurrence does not single out F.
-NEXT: describe what a block does to an entering mark when h marks have already passed (the plateau of height h is
-h + 1 interleaved staircases and the mark visits every (h+2)-th stone - seen for h = 1 only); the reflections happen
-at the ends of plateaus.  A proof of the passing claim has to control those ends.
+NEXT: describe what a block does to an entering mark when h marks have already passed.  Known only for h = 1: the
+trail of one mark through zeros is two interleaved staircases and the next mark visits every third stone.  Guess,
+not checked: after h marks, h + 1 staircases and every (h+2)-th stone.  The reflections happen at the ends of such
+plateaus; a proof of the passing claim has to control those ends.
