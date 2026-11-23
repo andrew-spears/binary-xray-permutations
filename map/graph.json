@@ -1839,6 +1839,205 @@
    "proof": "Rows i ≤ a go to column 2i, so diagonal 2i − i = i takes the values 1…a on the even columns 2, 4, …, 2a. Rows i > a go to column 2i − 2a − 1, so diagonal i − 2a − 1 takes the values −a…−1 on the odd columns 1, 3, …, 2a − 1. All columns are distinct, so this is a permutation using each diagonal ±1…±a once."
   },
   {
+   "id": "oddcentre",
+   "area": "families",
+   "title": "The odd centre folds into a Skolem pairing",
+   "status": "proved",
+   "intuition": "With an odd number of stones, the most central arrangement fills every mark from −m to m. A solution that folds across the main diagonal pairs up the positions with pair distances 1, 2, …, m and leaves one position as a fixed point. Pairing positions with distances 1…m is exactly a Skolem sequence, and when m ≡ 2, 3 mod 4 a 'hooked' one with a gap next to the end. Claim: these always give a solution.",
+   "pics": [
+    {
+     "t": "board",
+     "rows": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "cols": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "D": [
+      -3,
+      -2,
+      -1,
+      0,
+      1,
+      2,
+      3
+     ],
+     "pts": [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       5
+      ],
+      [
+       4,
+       7
+      ],
+      [
+       5,
+       3
+      ],
+      [
+       6,
+       6
+      ],
+      [
+       7,
+       4
+      ]
+     ],
+     "cap": "m = 3 (hooked): pairs (1,2) (3,5) (4,7), position 6 fixed"
+    }
+   ],
+   "statement": "For n = 2m + 1, D = {−m, …, m} has an involution witness: from a Skolem sequence of order m (m ≡ 0, 1 mod 4; fixed point at position n) or a hooked Skolem sequence of order m (m ≡ 2, 3 mod 4; fixed point at position n − 1).",
+   "evidence": "Skolem sequences exist iff m ≡ 0, 1 mod 4; hooked Skolem sequences iff m ≡ 2, 3 mod 4. Checked by search for n ≤ 11.",
+   "refs": "Skolem 1957; O'Keefe 1961 (hooked)"
+  },
+  {
+   "id": "centre",
+   "area": "families",
+   "title": "The most central arrangement is solvable",
+   "status": "proved",
+   "intuition": "Moves only ever squeeze stones together, so they end at one most-crowded arrangement: every mark near the middle filled (the middle mark empty when n is even). In score terms the scores are as equal as possible, which is why it is unique. This is the opposite end from P_n, which has the fewest 3-cycles among arrangements without a tight cut. Both ends have explicit solutions. Claim: the centre is solvable for every n.",
+   "pics": [
+    {
+     "t": "board",
+     "rows": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "cols": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "D": [
+      -3,
+      -2,
+      -1,
+      1,
+      2,
+      3
+     ],
+     "pts": [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       4
+      ],
+      [
+       3,
+       6
+      ],
+      [
+       4,
+       1
+      ],
+      [
+       5,
+       3
+      ],
+      [
+       6,
+       5
+      ]
+     ],
+     "cap": "C₆ = ±{1, 2, 3}: two interleaved staircases (F1)"
+    },
+    {
+     "t": "board",
+     "rows": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "cols": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "D": [
+      -3,
+      -2,
+      -1,
+      0,
+      1,
+      2,
+      3
+     ],
+     "pts": [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       5
+      ],
+      [
+       4,
+       7
+      ],
+      [
+       5,
+       3
+      ],
+      [
+       6,
+       6
+      ],
+      [
+       7,
+       4
+      ]
+     ],
+     "cap": "C₇ = {−3…3}: a folding solution (Skolem)"
+    }
+   ],
+   "statement": "For every n, the valid D with the most 3-cycles is unique, namely C_n = {−⌊n/2⌋, …, ⌊n/2⌋} with 0 removed when n is even, and C_n has a witness.",
+   "evidence": "Uniqueness: the number of 3-cycles is C(n,3) − Σ C(s_i,2), maximised exactly when the scores differ by at most 1; checked n ≤ 12."
+  },
+  {
    "id": "f3",
    "area": "families",
    "title": "F3: folding solutions are Skolem pairings",
@@ -3524,6 +3723,30 @@
    "kind": "related",
    "status": "unchecked",
    "why": "F3 turns a folding solution into this pairing puzzle; its known pairings are special cases."
+  },
+  {
+   "from": [
+    "f1",
+    "oddcentre"
+   ],
+   "to": "centre",
+   "kind": "implies",
+   "status": "proved",
+   "why": "Even n: C_n = ±{1…n/2} is F1. Odd n: the Skolem / hooked Skolem folding."
+  },
+  {
+   "from": "centre",
+   "to": "pn",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The two ends of the move order: most and fewest 3-cycles. Both are solved by explicit formulas."
+  },
+  {
+   "from": "grammar",
+   "to": "centre",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The short-slide grammar first fails exactly at C_6."
   },
   {
    "from": "f1",

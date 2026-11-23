@@ -70,3 +70,18 @@ The radius is 1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5 for n = 4–14. From the best witn
 
 ### T6. Repair-radius definition — RESOLVED
 Your numbers are right. Ours used only moves with no stones between the movers.
+
+## Round 2 (2026-11-23): open exploration for Devin
+
+Read `AGENTS.md`, `docs/claims-map-guide.md`, `docs/state.md` (§5 lists what's ruled out) and `map/graph.json` first. Reporting is the same: HIT or NOTHING per task. For exploration we will also accept a short **LEAD**: a precise statement, true on an exhaustive range you name, that is not on the map and that you think could carry a proof. One paragraph, plus a recheck command.
+
+New since round 1:
+- A minimal move adds exactly one 3-cycle, so the "layer" of D is t(D) − t(P_n), whatever the route (map: movecount).
+- Both ends of the move order have explicit witnesses: P_n (fewest 3-cycles without a tight cut) and the centre C_n (most 3-cycles; F1 for n even, Skolem / hooked Skolem for n odd). Map: pn, centre.
+- Near P_n, witnesses are P pieces stacked with short slides. A grammar of "stack with slide ≤ 2, plus widen points into blocks" covers everything up to 12 moves past P_n (n ≤ 9) but fails near the centre, first at C_6 (map: qn, ptwo, grammar). We don't want more operations bolted onto it.
+
+### T7. One construction for both ends — OPEN
+Find a single, motivated family of permutations (or a construction with one parameter) that gives P_n's witness at one end and C_n's at the other, and see how far it reaches in between. Lead: both witnesses are two interleaved step-2 staircases (F1 = 2 4 6 … 1 3 5, ascending; P_n descending plus two corner points). Report which no-tight-cut D (n ≤ 12) the family covers, as a function of the layer.
+
+### T8. Free exploration — OPEN
+Try anything not in state.md §5. Some directions we have not looked at: interleavings of two witnesses (columns of one piece alternate with another's); witnesses with a large symmetry group beyond involutions and half-turns; LLL / entropy compression; algebraic constructions mod n or mod 2n folded back (state §4.10); the matroid or polytope structure of the set of valid D; the literature on graceful labellings, Langford pairings and "perfect Skolem sets" beyond Nordh. Small exhaustive data first, then a precise claim.

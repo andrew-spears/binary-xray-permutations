@@ -196,6 +196,18 @@ nodes = [
       "Stones on every mark within distance a of the middle, with the middle mark empty. From above the solution is two parallel lines of slope 2, the top half on even columns and the bottom half on odd ones. Claim: this gives a solution for every a.",
       [board(6, D=[-3, -2, -1, 1, 2, 3], pts=perm([2, 4, 6, 1, 3, 5]), cap="a = 3: π = 2 4 6 1 3 5")],
       refs="Nordh 2008, Thm 28 (arXiv v1 numbering); explicit witness ours"),
+    N("oddcentre", "families", "The odd centre folds into a Skolem pairing", "proved",
+      "For n = 2m + 1, D = {−m, …, m} has an involution witness: from a Skolem sequence of order m (m ≡ 0, 1 mod 4; fixed point at position n) or a hooked Skolem sequence of order m (m ≡ 2, 3 mod 4; fixed point at position n − 1).",
+      "With an odd number of stones, the most central arrangement fills every mark from −m to m. A solution that folds across the main diagonal pairs up the positions with pair distances 1, 2, …, m and leaves one position as a fixed point. Pairing positions with distances 1…m is exactly a Skolem sequence, and when m ≡ 2, 3 mod 4 a 'hooked' one with a gap next to the end. Claim: these always give a solution.",
+      [board(7, D=[-3, -2, -1, 0, 1, 2, 3], pts=perm([2, 1, 5, 7, 3, 6, 4]), cap="m = 3 (hooked): pairs (1,2) (3,5) (4,7), position 6 fixed")],
+      evidence="Skolem sequences exist iff m ≡ 0, 1 mod 4; hooked Skolem sequences iff m ≡ 2, 3 mod 4. Checked by search for n ≤ 11.",
+      refs="Skolem 1957; O'Keefe 1961 (hooked)"),
+    N("centre", "families", "The most central arrangement is solvable", "proved",
+      "For every n, the valid D with the most 3-cycles is unique, namely C_n = {−⌊n/2⌋, …, ⌊n/2⌋} with 0 removed when n is even, and C_n has a witness.",
+      "Moves only ever squeeze stones together, so they end at one most-crowded arrangement: every mark near the middle filled (the middle mark empty when n is even). In score terms the scores are as equal as possible, which is why it is unique. This is the opposite end from P_n, which has the fewest 3-cycles among arrangements without a tight cut. Both ends have explicit solutions. Claim: the centre is solvable for every n.",
+      [board(6, D=[-3, -2, -1, 1, 2, 3], pts=perm([2, 4, 6, 1, 3, 5]), cap="C₆ = ±{1, 2, 3}: two interleaved staircases (F1)"),
+       board(7, D=[-3, -2, -1, 0, 1, 2, 3], pts=perm([2, 1, 5, 7, 3, 6, 4]), cap="C₇ = {−3…3}: a folding solution (Skolem)")],
+      evidence="Uniqueness: the number of 3-cycles is C(n,3) − Σ C(s_i,2), maximised exactly when the scores differ by at most 1; checked n ≤ 12."),
     N("f3", "families", "F3: folding solutions are Skolem pairings", "proved",
       "D = ±L (n = 2m) has an involution witness ⇔ positions 1…2m split into pairs with distances exactly L; with one unpaired position, the same holds for D = {0} ∪ ±L. Known solvable L: {1…m} iff m ≡ 0, 1 mod 4 (Skolem 1957); intervals {d…d+m−1} under Simpson's 1983 conditions; {1…k} ∖ {j} on positions 1…2k−2 when k ≡ 0, 1 mod 4 and j odd, or k ≡ 2, 3 mod 4 and j even (Shalaby; Nordh Cor 26).",
       "A solution that folds onto itself across the main diagonal pairs each point (i, j) with its twin (j, i), on diagonals +(j − i) and −(j − i). So folding solutions of ±L are exactly ways to pair up positions with pair distances L, a classical Skolem/Langford puzzle; known solutions of that puzzle give infinite families of solved arrangements. Claim: folding solutions and such pairings correspond one to one.",
@@ -416,6 +428,9 @@ e(["symodd", "symeven"], "sym", "implies", "𝒮 splits by the parity of n.")
 e(["nordh8", "centro"], "symeven", "implies", "Even n splits by whether L has an even or odd number of even elements.")
 e("f3", "symodd", "related", "F3 turns a folding solution into this pairing puzzle.", "unchecked")
 e("f3", "nordh8", "related", "F3 turns a folding solution into this pairing puzzle; its known pairings are special cases.", "unchecked")
+e(["f1", "oddcentre"], "centre", "implies", "Even n: C_n = ±{1…n/2} is F1. Odd n: the Skolem / hooked Skolem folding.")
+e("centre", "pn", "related", "The two ends of the move order: most and fewest 3-cycles. Both are solved by explicit formulas.", "unchecked")
+e("grammar", "centre", "related", "The short-slide grammar first fails exactly at C_6.", "unchecked")
 e("f1", "symeven", "related", "Settles the arrangements ±{1…a} directly.", "unchecked")
 # moves route
 e(["mm", "move"], T, "implies", "Induction along minimal moves with invariant 'has a witness': the start has one, every D is reachable, every move keeps it.")
