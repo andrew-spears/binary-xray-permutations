@@ -13,7 +13,7 @@ from segment import levels
 def solve(B, SMALL=1, verbose=True):
     step, start = machine(B); lev = levels(B, step, start)
     # realizable situations (slack, last letter <= SMALL)
-    real = {(0, SMALL)}; seen = set(); todo = [(0, SMALL)]
+    seen = set(); todo = [(0, min(SMALL, 1))]      # the first letter may be any e >= 0
     while todo:
         s, l = todo.pop()
         if (s, l) in seen: continue
