@@ -4,12 +4,12 @@ Builds on the parity theorem of `../unimodal/REPORT.md` (counts of partial place
 
 **Definition.** D = {d_1 < … < d_n} (sums row + column). For a set S of stones, L_S(R, C) = number of bijections
 R → C with sums {d_k : k ∈ S}. For every S: N(D) = Σ_{R,C} L_S(R, C) · L_{S^c}(R^c, C^c).
-D has an **odd split** if for some S and some (R, C) both factors are odd. Then D is solvable.
+D has an **odd split** if for some S with ∅ ≠ S ≠ all stones (so n ≥ 2) and some (R, C) both factors are odd. Then D is solvable.
 The unimodal report tested only S = a prefix (its criterion PAR), which needs all letters of the prefix ≥ 0.
 A general S needs only: the j-th smallest sum of S is ≥ 2j, and the j-th largest sum of S^c is ≤ 2n + 2 − 2j
 ("admissible"), which leaves many S for every word.
 
-**Tested (`oddsplit.cpp`).** Every valid D has an odd split for n ≤ 10 (1, 2, 4, 9, 22, 59, 167, 490, 1486 sets).
+**Tested (`oddsplit.cpp`).** Every valid D has an odd split for 2 ≤ n ≤ 10 (1, 2, 4, 9, 22, 59, 167, 490, 1486 sets).
 With S a prefix only: 21/22, 54/59, 146/167, 410/490, 1186/1486.
 For n ≤ 9 the fixed rules S = {e_k > 0} and S = {e_k ≥ 0} always work (`rules.py`), and 55–100% of the admissible S
 are odd (mean 91%). These fixed rules do not work for ever: for 1^9 0 −1 −2 −3 −3 (n = 14, the PAR failure of the
