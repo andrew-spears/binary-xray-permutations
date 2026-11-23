@@ -1,7 +1,7 @@
 """Is F(x), x with letters -1, 0, +1, exactly the set of states that pass the odd/even count (card paritycount)?
 A state after k stones: rows R, columns C (absolute, reflected rows).  With z zeros and p = k - z odd letters:
 OO = (odd(R) + odd(C) - p) / 2 must be an integer with 0 <= OO <= z, OO <= odd(R), OO <= odd(C).
-Usage: python3 par.py B K   (slacks <= B, prefixes of length <= K)"""
+Usage: python3 par.py B K   (slacks <= B - 1: the top slack of the machine is left out as a margin; prefixes of length <= K)"""
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "interface"))
 from sets import allstates
