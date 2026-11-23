@@ -1,0 +1,9 @@
+s1 1  m 3 2 1 0 -1 -2  s2 4  (1 words)  P 240  Q 0
+s1 3  m 2 1 0 -1 -2 -3  s2 0  (21 words)  P 68  Q 0
+s1 4  m 2 1 0 -1 -2 -3  s2 1  (1 words)  P 240  Q 0
+s1 1  m 3 2 1 0 -1 -1 -2  s2 3  (1 words)  P 192  Q 0
+s1 2  m 3 2 1 0 -1 -2 -3  s2 2  (1 words)  P 160  Q 0
+s1 3  m 2 1 1 0 -1 -2 -3  s2 1  (1 words)  P 192  Q 0
+s1 4  m 2 1 0 -1 -1 -2 -3  s2 0  (1 words)  P 126  Q 0
+s1 3  m 3 2 1 0 -1 -2 -3 -3  s2 0  (1 words)  P 0  Q 0
+8 pairs (s1, m) of 28 words without an extreme split inside m; P = 0 for 1, Q = 0 for 8
