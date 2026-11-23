@@ -114,3 +114,17 @@ W(D) is even for every D except the evenly spaced one (reflection r' <-> c has n
 divisible by a high power of 2: at n = 9 the 2-adic valuation of W over no-tight-cut D ranges from 1 to 7.
 So 'the number of paths is odd' is false in general, and no parity count of ends can prove a path exists.
 The high powers of 2 fit the chirality picture: independent binary choices per block.
+
+## Transfer graph, general D (transfer.py, lastrow.py)
+The leapfrog graph X(c) is defined for any multiset c of n targets with total n(n+1)+1, and it is the disjoint union
+over k of the witnesses of c - delta_k (mark on stone k).  So for a minimal move D -> D' = D + delta_i - delta_j the
+witnesses of D (mark i) and of D' (mark j) are vertices of the same graph X(D + delta_i).
+- 'Every component of X(c) meets every solvable c - delta_k' is FALSE from n = 5 (transfer.py 5 -v:
+  c = (4,5,7,7,8) has four paths, none of which sees all four labels).  So a walk from a given witness of D need not
+  reach a witness of D'; only the corner case of the zigzag chain (mark must end on the top stone) is automatic.
+- Ends of X(c) are the states with the marked stone in the last row or column.  So with T(D) = set of stones that sit in
+  the last row in some witness:  for w = u - (last letter -1),  T(w) minus the top stone = { k : k in T(u - delta_k) }.
+  T(D) is always a top segment of the stones and contains the top stone (lastrow.py, n <= 8).  This is the existing
+  card G1 (one missing column) seen from the walk: 'k in T(D)' is 'the other stones fit the board without row n and
+  column b_k - n', and G1 says the sum test decides that.  The recursion above is G1's corner peel, nothing more.
+  (I re-ran one-gap boards before finding G1 / edgepeel / sum2 in state.md: same answers, nothing new.)
