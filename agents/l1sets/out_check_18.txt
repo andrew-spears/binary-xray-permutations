@@ -1,0 +1,9 @@
+1. s 4: central 16, |T| 4, |G| 12, Central minus T = G: True   T minus SC: -|22 22|-
+1. s 5: central 28, |T| 4, |G| 24, Central minus T = G: True   T minus SC: 2|111 11|3 3|11 111|2
+1. s 8: central 133, |T| 7, |G| 126, Central minus T = G: True   T minus SC: -|44 44|-
+1. s 12: central 784, |T| 14, |G| 770, Central minus T = G: True   T minus SC: -|66 22|2222 2222|22 66|-
+1. s 16: central 3730, |T| 25, |G| 3705, Central minus T = G: True   T minus SC: -|88 22|4422 2222|2222 4422|22 88|-
+1. s 17: central 5370, |T| 4, |G| 5366, Central minus T = G: True   T minus SC: 422|33111 3311|522 522|3311 33111|422
+1. T(s) = Central(s) minus G(s) for all s < 18: True;  |G(s)| = [1, 2, 4, 8, 12, 24, 48, 80, 126, 212, 332, 512, 770, 1176, 1744, 2560, 3705, 5366]
+2. l1.py machine = maya.py machine for all states of slack <= 9
+3. Lemma 1 (counts, classes) and Lemma 2 (a), (b), (c) on all 3131 states of slack 1..12; Lemma 3 (a), (b) on 933 central states with 4 | s: ok

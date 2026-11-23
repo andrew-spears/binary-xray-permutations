@@ -1,81 +1,183 @@
-# REPORT (draft notes; rewrite at the end)
-Task (parent, 01:30): family L1 = words with letters in {-1,0,1}, any slack. Branch devin/1795455019-l1sets off devin/1795444188-two-marks.
-Deliverable: agents/l1sets/REPORT.md (HIT/NOTHING, exact statements, ranges, recheck < 10 min), push branch, tell branch name, NO PR,
-do not touch map/build.py or docs/state.md. Final message: 2-3 sentences: proved / only tested / not checked.
-Items: 1 F(x) exactly for x in {0,1}* ("D-class, K-class, containment minus explicit family"?), then legal x in {-1,0,1}*; else a subset
-G(x) <= F(x) with G(x e) <= step_e(G(x)) nonempty and containing the empty state at the end of valid words (would prove L1).
-2 cut form: F(x) n conj F(-reverse(y)) nonempty at a well-chosen cut (last return to slack 0, or the maximum of the slack).
-3 if L1 falls: what breaks for letters in {-2..2}.
-Read first: agents/unimodal/REPORT.md (Theorem 2: {0,1}*{0,-1}* proved; parity theorem L_x(lam|gam) = C(s,|lam|) f^lam f^gam mod 2 for x in {0,1}*),
-cards l1, zigzag, rounds in map/build.py (text only).
-Tools from agents/weights: maya.py (Maya(smax): states(s), succ(t, e), name, part; dval(Mo, t, n) -> (D, K)), REPORT2 (Theorems 1-3: F(1^a 0^b)),
-REPORT3 (Lemma 2 matching criterion: constant letter e run <-> bijection I -> J with sums e, e+2, ..; K conserved by even letters, D by odd letters;
-zo.py: F(x) for x in {0,1}* is NOT parity-count set in general, e.g. 1 0 1^8 misses 80 of 292).
-## Notes
-- unimodal/REPORT.md read: Theorem 2 proof = parity: for x in {0,1}^m with s ones the counts at (-|1^s) and (-|s) are odd (L_x(lam|gam) = C(s,|lam|) f^lam f^gam mod 2),
-  glue two halves. Counts are EVEN as soon as x has a negative letter, so parity gives nothing for {-1,0,1} prefixes with a -1. O(x) = odd states <= F(x).
-  For 0/1 words (tested s <= 20) one inclusion-minimal F set per (slack, last letter). Tools there: uplus.cpp, par.py.
-- TODO next: read cards l1, zigzag, rounds (grep in map/build.py), then compute F(x) for x in {0,1}* vs {D-class, K-class, containment} with weights/maya.py.
-- cards read. l1 (empirical): all words n <= 11 solvable; inside slack <= 10 there IS a family Fam(sigma) depending on slack only with Fam(sigma+e) <= step_e(Fam(sigma)),
-  sizes 2,4,8,12,24,48,80 (sigma = 1..7) (same sizes as U+ for {0,1}|{0,-1} in unimodal §4), needs 3 advanced lines from slack 7; no description found.
-  For {-2..2}: slack + last two letters fails at slack 5. zigzag (disproved at n = 10), rounds (proved, structure of the chain). Do not redo leapfrog chains.
-- PLAN: (a) l1sets/fl1.py using ../weights/maya.py: for all x in {0,1}^n (n <= 12) compare F(x) with C(x) = {D in allowed set, K in allowed set, containment};
-  look at the missing family (expect (lam|lam')-type after last letter 1, Theorem 1/2 families). (b) the common core of F(x) over all L1 prefixes of slack s
-  (the slack-only family of card l1): describe via D, K, Maya diagrams; sizes 2,4,8,12,24,48,80. (c) cut at max slack: F(x) n conj F(x') nonempty.
-- fam.py (bound 6, 8, 10): the largest slack-only family G(s) = I(s) (intersection of F over all L1 prefixes) = P(s) (intersection over 0/1 words), sizes 1,2,4,8,12,24,48,80,126,212,332.
-  ONLY 37 distinct (F(x), slack) for all L1 prefixes inside slack <= 10 (34 for 0/1 words)!! sets.py: F(x) = parity set {|D| <= E} (E = #zeros) minus 0..7 states,
-  BUT |D| <= E is too weak a bound (1 0 1^8 has F = F(1^9), zero forced).  Right coordinates: a = c_0(lam), b = c_0(mu) 2-core charges
-  (c_0(M) = #{even beads >= 0} - #{even holes < 0}); the pair of 2-cores IS the parity class: D = [n odd] + (-1)^n (a + b), K = (-1)^n (a - b).
-  Step: filling an even hole a -> -a, odd hole a -> 1 - a. So c = a + b: odd letter c -> 1 - c; zero c -> -c or 2 - c.
-  CONJECTURE to test: F(x) = {t : (a, b)(t) in Pi(x)} minus a small explicit family, Pi(x) = reachable pairs of 2-cores (slack-bounded walk).
-- cores.py / auto.py (bound 10): HIT-shaped data. Every F(x) for L1 prefixes = Sat(s, Gamma) minus Ex, Sat = all states of slack s with c = a + b in Gamma
-  (ALL core pairs with these sums), Ex tiny: after '+' Ex = {(lam|lam')} in Sat (no 1-predecessor); 1^4 0, 1^8 0: -|22 22|-, -|44 44|- (E^0 of REPORT2);
-  ++++0+ : 2|111 11|3 3|11 111|2; ++++0+0: 2|111 111|2; after that nothing. Node ++++0 <-> ++++0+ under + and - (Ex persists on that 2-cycle).
-  Exact by definition: Ex(xe) = {u in Sat' : all e-predecessors of u inside Sat(Gamma) lie in Ex(x)} (+ SC for e = 1).
-- predecessors of u = (lam|mu) under e  <->  pairs of beads k in M(lam), k' in M(mu), k + k' = e - 2 (remove beads k+1, k'+1 from the diagrams shifted up).
-  Counts by parity (A_0, A_1, B_0, B_1 = 2-quotient Maya diagrams, charges a, -a, b, -b):
-   e = 0: k even: N_even = c' + |B_0' \ A_0| >= c', predecessor class c = 2 - c';  k odd: N_odd = 1 - c' + |..| >= 1 - c', class c = -c'.
-   e = 1: k even N = (a - b) + |..|, k odd N = (b - a) + |..|; none iff mu = lam'.   e = -1: k even >= a - b + 1, k odd >= b - a + 1 (so >= 2 if a = b).
-  Odd letters: c -> 1 - c always (all predecessors in one class). Min slack for class c: m(m-1) or m(m-1)+1, m = |c - 1/2| + 1/2.
-- NEXT: bigger bound (12-14) to see all Ex types; then prove "Forced_e(B) subset of B'" for an explicit thin family B containing SC, with empty|empty never in it.
-- auto.py 16 (1 s; 70 nodes): same picture to slack 16. Gamma always contains the CENTRAL class (c = 0 for s even, c = 1 for s odd; |gamma| = 1/2, gamma = c - 1/2:
-  odd letter gamma -> -gamma, zero gamma -> -gamma +- 1, feasible iff m(m-1) <= s, m = |gamma| + 1/2).
-  KEY: slack-only invariant family G(s) = Central(s) minus T(s) with T(s) = SC(s) u E0(s) for 4 | s (SC = {(lam|lam')}, E0 = REPORT2 family: -|44 44|-; s = 12: -|66 22|2222 2222|22 66|-),
-  T(4) = {2|11 11|2 -|22 22|-}, T(5) = {2|111 11|3 3|11 111|2}, else empty  (matches sizes 1,2,4,8,12,24,48,80,126,212,332 and card l1's family).
-  If G(s+e) <= step_e(G(s)) is PROVED for all s, L1 follows.  Obligations (central predecessors always exist: N_odd >= 1 - c', N_even >= c'):
-   (+) into 4|s: u not SC has a predecessor, T(s-1) empty: trivial.   (+) out of 4|s: u in Central(s+1) needs a 1-pred not in SC u E0.
-   (-) out of 4|s: u in Central(s-1) needs a (-1)-pred not in E0 (SC has no -1 successor).  (-) into 4|s: trivial.
-   (0) at 4|s: u in Central minus T needs an odd-type 0-pred outside SC u E0 (at most ONE 0-pred is SC: M(mu_u) = (M(lam_u') - 2) + {q, q-1}).
-  Coordinates (M, B = M(mu')): forward step = shift M down 1, B up 1, then a bead jumps from position k + 1 - e of B to the hole k of M. SC: M = B.
-- HAND PROOFS so far (Maya coordinates (M, B), B = M(mu'); e-preds: k in M, k+1-e not in B; pred = ((M\k)+1, (B u {k+1-e}) - 1); SC: M = B;
-  E0: M, B unions of pairs {2i, 2i+1} and M = (B-2) + one pair):
-  (O2) PROVED: every state has >= 2 (-1)-preds (|M \ (B-2)| >= 2), none is SC, at most one is in E0 (M\k and M\j cannot both be unions of oe-pairs {2i-1,2i}).
-  (O1): at most ONE 1-pred is in SC u E0 (case analysis on pairs). So only u with a unique 1-pred matter (|M \ B| = 1):
-     unique pred in SC  => lam, nu 2-cores with adjacent charges, central only at slack 1.
-     unique pred in E0  => pred t = (2 delta_i 2 | 2 delta_{i+-1} 2), slack 4(i+1)^2 = 4, 16, 36..  => ANOMALY T(s) nonempty expected at s = 5, 17, 37, ...
-     (s = 5 seen: 2|111 11|3 3|11 111|2). Bound 16 cannot see 17: run bound >= 18 and print T(s) = Central minus G.
-- tset.py 18 (3 s): T(s) = Central minus G: s=4: SC + {-|22 22|-}; s=5: 2|111 11|3 3|11 111|2; s=8,12,16: SC + E0 (2,4,5 states); s=17: 422|33111 3311|522 522|3311 33111|422
-  (predicted by hand before running!); T = empty at all other s <= 18.
-## PROOF PLAN (believed complete modulo write-up + checks) : THEOREM  F(x) >= G(s) := Central(s) \ T(s) for every legal L1 prefix x  ==>  L1 CONJECTURE for all slacks.
- Definitions (Maya coordinates u = (M, B), M = M(lam), B = M(mu'), both charge 0):
-   forward letter e: M' = (M - 1) u {k}, B' = (B + 1) \ {k + 1 - e}   (k not in M - 1, k + 1 - e in B + 1);
-   e-preds of u: k in M with k + 1 - e not in B, t_k = ((M \ k) + 1, (B u {k + 1 - e}) - 1).  #preds: e=1: |M\B|; e=0: |M\(B-1)| >= 1; e=-1: |M\(B-2)| >= 2.
-   class c = a + b (2-core charges of lam, mu); odd letters: c -> 1 - c; zero: pred via k even has c = 2 - c' (N_even >= c'), via k odd c = -c' (N_odd >= 1 - c').
-   Central(s): c = s mod 2.   SC = {M = B} (central only if 4 | s).   E0(s) (4 | s) = {M, B unions of pairs {2i, 2i+1}, M = (B - 2) + one pair} = states whose only central 0-pred is SC.
-   A(4m^2+1), m >= 1: 4 states (P u {kappa}, P u {y}): P = pairs(Q) for a 2-core Maya diagram Q (delta_{m-1} or delta_m), {y, kappa} = the pair at (a top of Q) + 2
-     = states whose only 1-pred is in E0 (that pred = (2 delta_i 2 | 2 delta_{i+-1} 2), slack 4(i+1)^2).  In (lam, mu') form: the two diagrams differ by ONE box.
-   T(0) = empty; T(s) = SC u E0 (4 | s, s >= 4); T(4m^2+1) = A; else empty.
- Steps needed: every u in G(s') has an e-pred in G(s' - e). Central preds always exist (counts above; central SC only when 4 | s').
-   (O1) + out of 4|s: at most one 1-pred of u is in SC u E0 [E0,E0: M\k, M\j both oe-pair unions impossible; SC,SC: M = (B-2)+{k-2,k} fixes k; SC,E0: loners argument].
-        unique pred in SC => (core|core) adjacent charges, central only slack 1 (u = 1|-, -|1, pred = empty: fine).  unique pred in E0 => u in A (by definition of A). DONE
-   (O2) - out of 4|s: >= 2 preds, none SC (SC has no -1 successor), at most one in E0. DONE
-   (O3) 0 at 4|s: at most one central 0-pred is bad (SC: M = (B-2)+{k-1,k}; E0: needs k+1 not in M, so two E0-bad impossible; SC+E0: loner j-2). Unique central pred: SC => u in E0;
-        E0 => Q subset Q', Q 2-core, and then M = B, u in SC. DONE
-   (O5) - out of 4m^2+1: each a in A has exactly ONE (-1)-successor u_a (k = y - 1), u_a = ((P u pair) - 1, P + 1) in E0 (or SC for m = 1); so nothing new. DONE
-   (O4) + out of 4m^2+1 and (O6) 0 at 4m^2+1: a successor u of a in A has >= 1 + (2i - 1) 1-preds (i = m-1 or m), resp. >= i central 0-preds ((P-1)\P has i elements p - 1, p odd => even => central type),
-        more than |A| = 4 for m large; small m by a LOCAL computation (successors of the 4 states of A and their preds; no enumeration of all states). TODO write local.py, m <= 8.
-   (+ into 4|s, - into 4|s, + into 4m^2+1, - into 4m^2+1, all other steps): trivial (T of the source empty, or by definition of T).
-   s = 0: by hand.  Finite n: preds have slack <= n - 1 parts, real rows: fine.
- TODO: (1) check.py: explicit T(s) (structural definitions) == Central minus gfp G for s <= 18 or 20; verify each "at most one bad pred" lemma by brute force for s <= 14.
-       (2) local.py for A(4m^2+1), m <= 8.  (3) write REPORT.md cleanly (theorem, proofs, exact description data for F(x): Sat(Gamma) minus Ex, automaton), runs.sh, push, tell parent.
-       (4) item 3: what breaks for letters {-2..2}: letter 2 changes c non-deterministically? (even letter: c -> -c or 2 - c like 0) and states with no 2-pred are M(mu) = M(lam')+1 + one bead: bigger defect family; card l1 says slack + last two letters fails at slack 5. Quick test: is there a slack-only family for {-2..2}? (expected no).
+# HIT: every valid word with letters in {−1, 0, 1} is solvable, for every slack (proved: hand proof + two small finite checks)
+
+**Proved.** There is an explicit family G(s) of interface states, depending on the slack s only, with
+G(0) = {∅|∅} and G(s + e) ⊆ step_e(G(s)) for e = −1, 0, 1 and every s ≥ 0. Hence G(slack(x)) ⊆ F(x) for every prefix x
+with letters in {−1, 0, 1}, and every valid word of the family L1 (card `l1`) has a permutation, for any slack; the
+factor + − (two stones on one diagonal) is allowed too. The proof is an invariant / start / step induction; the step is a
+case analysis on Maya diagrams (§2). Two finite sub-cases are done by a script on 4 explicit states each (`local.py`).
+The proof is an algorithm: `solve.py` builds the permutation backwards.
+
+**G(s) = Central(s) ∖ T(s).** Central(s) = one parity class (the 2-cores of the two diagrams have charges a, b with
+a + b = s mod 2). T(s) is tiny: for 4 | s it is {(λ|λ′)} plus the family E⁰ of `../weights/REPORT2.md`; for s = 4m² + 1 it
+is 4 states; otherwise empty. |G(s)| = 1, 2, 4, 8, 12, 24, 48, 80, 126, 212, 332, 512, 770, … (the sizes on card `l1`),
+and G is the largest slack-only family (computed for slack ≤ 17).
+
+**Tested only (item 1, exact description, slack ≤ 16):** F(x) = {all states whose class a + b lies in Γ(x)} minus the
+(λ|λ′) if x ends in +, with 6 exceptional sets; Γ(x) follows a three-line rule; there are only 70 distinct sets F(x).
+
+**Not checked:** the hand proof has not been read by anyone else. Nothing here is about letters ±2 beyond §5 (no such family exists there).
+
+## 1. Coordinates and the family
+
+Notation as in `../weights/REPORT3.md` (Lemma 1). A state after n stones is (λ|μ); put ν = μ′ and
+**M = M(λ), B = M(ν)** (M(λ) = {λ_i − i}, "beads"; charge 0). The state is the pair u = (M, B); slack = |λ| + |ν|.
+
+- **Step.** Letter e: M′ = (M − 1) ∪ {k}, B′ = (B + 1) ∖ {k + 1 − e}, for any k ∉ M − 1 with k + 1 − e ∈ B + 1.
+  (Stone N = n + 1 in row N + k + 1, column 2N + e − row.)
+- **Predecessors.** The e-predecessors of u are t_k = ((M ∖ k) + 1, (B ∪ {k + 1 − e}) − 1), one for each
+  **k ∈ M with k + 1 − e ∉ B**. (`check.py`, part 2: this is the machine of `../weights/maya.py`.)
+- **Class.** a = c₀(λ), b = c₀(ν) = c₀(μ), where c₀ = #{even beads ≥ 0} − #{even holes < 0} (2-core charge), c = a + b.
+  The pair (a, b) is the parity class (D, K) of cards `paritycount` / REPORT3; it does not depend on n.
+  **Central(s) = {slack s, c = s mod 2}.**
+- **SC** = {M = B} = {(λ|λ′)}: the states with no 1-predecessor (REPORT2 §3). Central SC states exist only for 4 | s.
+- **E⁰** = {M and B are unions of pairs {2i, 2i+1}, and M = (B − 2) ⊔ one more pair} (the diagrams 2ν2 of REPORT2,
+  Theorem 2; slack ≡ 0 mod 4, class 0): −|22, 22|− ; −|44, 44|− ; −|66, 22|2222, 2222|22, 66|− ; …
+- **A(4m² + 1)**, m ≥ 1 = {central u all of whose 1-predecessors are in SC ∪ E⁰}. Lemma 4: these are 4 states
+  (Q ⊔ {κ}, Q ⊔ {y}): Q a union of pairs {2i−1, 2i} coming from a 2-core, {κ, y} one more such pair; λ and μ′ differ by one box.
+  m = 1: 2|111, 11|3, 3|11, 111|2; m = 2: 422|33111, 3311|522, 522|3311, 33111|422.
+- **T(0) = ∅; T(s) = SC ∪ E⁰ if 4 | s, s > 0; T(4m² + 1) = A(4m² + 1); T(s) = ∅ otherwise. G(s) = Central(s) ∖ T(s).**
+
+**Theorem.** For e ∈ {−1, 0, 1} and s, s − e ≥ 0: every u ∈ G(s) has an e-predecessor in G(s − e).
+
+**Corollary 1.** If x ∈ {−1, 0, 1}^n has all partial sums ≥ 0 and sum s, then every state of G(s) is in F(x).
+*Proof.* Induction on n. x = x′e, u ∈ G(s): take t ∈ G(s − e) from the Theorem. The slack of t is at most the number
+of + in x′, so both diagrams of t have at most n − 1 rows and t is a state with n − 1 stones; t ∈ F(x′), and the step
+places stone n in a new row ≥ 1 and a new column ≥ 1 with sum 2n + e. ∎
+
+**Corollary 2 (L1).** Every word in {−1, 0, 1}^n with partial sums ≥ 0 and sum 0 has a permutation σ with
+{k + σ(k)} = {2k + x_k} (as multisets): G(0) = {∅|∅} ⊆ F(x), i.e. rows and columns 1..n are used. ∎
+
+**Corollary 3 (universal states, item 2).** For every cut x | y of a valid L1 word at slack s, every state of
+G(s) ∩ conj G(s) = Central(s) ∖ (T(s) ∪ conj T(s)) lies in F(x) ∩ A(y) (Central is closed under conj: c₀(λ′) = c₀(λ)).
+
+## 2. Proof of the Theorem
+
+Window counts: in [−2L, 2L), L large, a charge-0 diagram M has L + a even and L − a odd beads.
+
+**Lemma 1 (counts and classes).** Let u have class c.
+- e = 0: the predecessors with k even have class 2 − c and there are at least c of them; those with k odd have class −c
+  and there are at least 1 − c of them.
+- e = ±1: every predecessor has class 1 − c. For e = −1 there are at least 2; for e = 1 there are |M ∖ B|, none iff u ∈ SC.
+
+*Proof.* Even k ∈ M with k + 1 ∈ B: at most L − b (odd beads of B), so at least (L + a) − (L − b) = c have k + 1 ∉ B.
+Odd k: k + 1 runs over the even numbers of [−2L + 2, 2L], of which L + b − 1 are in B: at least (L − a) − (L + b − 1).
+e = −1: M has 2L beads in the window, B has 2L − 2 in the window shifted by 2. Classes: for a diagram S let
+ε(S) = #even − #odd beads in the window (= 2a for charge 0). Then ε(S ± 1) = 1 − ε(S), removing k changes ε by −1
+(k even) or +1 (k odd), adding does the opposite. So a_t = 1 − a (k even), −a (k odd); b_t = −b (y = k + 1 − e even),
+1 − b (y odd). ∎
+
+So a central state has a central predecessor under every letter (e = 0: c = 0 uses odd k, c = 1 uses even k), unless
+e = 1 and u ∈ SC. All that is left is to avoid T. Call a predecessor *bad* if it is in T. "oe-pair" = {2i − 1, 2i},
+"eo-pair" = {2i, 2i + 1}. If t_k ∈ E⁰ then (M ∖ k) + 1 and (B ∪ {y}) − 1 are unions of eo-pairs, so
+**(∗) Q = M ∖ k and Q′ = B ∪ {k + 1 − e} are unions of oe-pairs**, and Q = (Q′ − 4) ⊔ one oe-pair.
+
+**Lemma 2 (at most one bad predecessor into SC ∪ E⁰).** For any state u:
+(a) e = −1: no predecessor is in SC, at most one is in E⁰.
+(b) e = 1: at most one predecessor is in SC ∪ E⁰.
+(c) e = 0: at most one predecessor with k odd is in SC ∪ E⁰.
+
+*Proof.* *Two in E⁰ (all e).* If t_k, t_j ∈ E⁰, k ≠ j, then by (∗) j lies in a pair of M ∖ k, whose other element is in
+M ∖ j while j is not: M ∖ j is not a union of pairs. For e = 0 one can also say: (∗) gives k + 1 ∉ M for odd k.
+*SC.* t_k ∈ SC iff M ∖ k = (B ∪ {y}) − 2, y = k + 1 − e. e = −1: the right side contains k: impossible.
+e = 1: iff M = (B − 2) ⊔ {k − 2, k}; e = 0: iff M = (B − 2) ⊔ {k − 1, k}. In both cases M ∖ (B − 2) determines k.
+*One SC (k), one E⁰ (j), e = 1.* M = Q ⊔ {j} with Q a union of oe-pairs, so j is the only element of M whose partner is
+missing ("loner"). Also M = ((Q′ − 2) ∖ {j − 2}) ⊔ {k − 2, k} with Q′ = B ∪ {j}. If j ≠ k + 2: the partner of j − 2
+and k are two loners (the partner of k cannot be in Q′ − 2, else k would be). If j = k + 2:
+M = (Q′ − 2) ⊔ {k − 2} and the only loner is k − 2 ≠ j. Contradiction.
+*One SC (k), one E⁰ (j), e = 0, k, j odd.* M = Q ⊔ {j}; M = ((Q′ − 2) ∖ {j − 1}) ⊔ {k − 1, k}, Q′ = B ∪ {j + 1}. The
+partner j − 2 of j − 1 is a loner different from j unless j − 1 is put back, i.e. k = j. ∎
+
+**Lemma 3 (unique bad central predecessor, e = 0, class 0).** Let u be central of class 0 with exactly one predecessor t_k, k odd.
+(a) If t_k ∈ SC then u ∈ E⁰. (b) If t_k ∈ E⁰ then u ∈ SC. Conversely every u ∈ E⁰ has exactly one such predecessor, and it is in SC.
+
+*Proof.* (a) M = (B − 2) ⊔ {k − 1, k}, k + 1, k + 2 ∉ B, and every odd j ∈ M, j ≠ k has j + 1 ∈ B. Such j is in B − 2,
+so j − 1 ∈ M. An odd b ∈ B has b − 2 ∈ M odd, ≠ k, so b − 1 ∈ B. So in M and in B every odd bead has the even bead
+below it. The number of even beads without the odd one above is 2a in M and 2b in B, both ≥ 0, and a + b = 0: none.
+So M, B are unions of eo-pairs. (b) By (∗) k + 1 ∉ M, k ∈ B. Uniqueness: odd j ∈ Q has j + 1 ∈ B ⊆ Q′, so Q ⊆ Q′;
+the charges are −1 and +1, so Q′ = Q ⊔ {k, k + 1} and B = Q′ ∖ {k + 1} = Q ⊔ {k} = M. Converse: for u ∈ E⁰ with new
+pair {p, p + 1}: an odd k ∈ M other than p + 1 is in B − 2, so k + 1 ∈ B; and t_{p+1} ∈ SC. ∎
+
+**Lemma 4 (the family A).** Let u be central of odd slack s + 1 ≥ 5 with all 1-predecessors in SC ∪ E⁰. Then u has exactly
+one predecessor t_k, t_k ∈ E⁰, and M = Q ⊔ {k}, B = Q ⊔ {y}, where {k, y} is an oe-pair and Q = oe-pairs(Q°) for a
+2-core diagram Q° (closed under −2), the pair {k, y} sitting two places above a top of Q°. The slack is 4m² + 1, where
+Q° and Q° ⊔ {pair} are the staircases δ_{m−1}, δ_m in some order. So |A(4m² + 1)| ≤ 4 and no such u exists at other slacks.
+
+*Proof.* u ∉ SC (class 1 is odd), so by Lemma 2(b) M ∖ B = {k}. If t_k ∈ SC: (B − 2) ⊔ {k − 2} ⊆ B, so B and
+M = (B ∖ y) ∪ k are closed under −2: λ, ν are 2-cores with neighbouring charges and a + b = 1, i.e. ∅ and (1): slack 1.
+So t_k ∈ E⁰. By (∗) Q = M ∖ k and Q′ = B ∪ k are unions of oe-pairs; M ∖ B = {k} gives Q ⊆ Q′, and Q′ ∖ Q = {k, y} is one
+pair. In pair indices Q° = ((Q° ⊔ {i₀}) − 2) ⊔ {p}: Q° − 2 ⊂ Q° and i₀ − 2 is a top. The predecessor is
+(2κ2 | …) for the two neighbouring 2-cores κ = δ_j, δ_{j±1}, of slack 4(T_j + T_{j±1}) = 4 max² . ∎
+
+**Lemma 5 (out of A).** Let a = (Q ⊔ {κ}, Q ⊔ {y}) ∈ A(4m² + 1), Q° ≅ δ_i (i = m − 1 or m).
+(a) a has exactly one (−1)-successor, ((Q ⊔ {κ, y}) − 1, Q + 1), and it is in E⁰.
+(b) Every 1-successor of a has at least 2i ≥ 2m − 2 predecessors under 1.
+(c) Every central 0-successor of a has at least i ≥ m − 1 central predecessors under 0.
+
+*Proof.* (a) k ∉ M_a − 1 and k + 2 ∈ B_a + 1 iff k + 1 ∈ B_a ∖ M_a = {y}. (b) The successor through k has
+M_u ∖ B_u = {k} ∪ ((M_a − 1) ∖ (B_a + 1)) ⊇ {k} ∪ ((Q − 1) ∖ ((Q + 1) ∪ {y + 1})), and |Q ∖ (Q + 2)| = 2i (the i top
+beads of the staircase have a hole below). (c) Central predecessors of u are the even j ∈ M_u with j + 1 ∉ B_u (Lemma 1,
+c = 1); k is one, and so is every even j ∈ (Q − 1) ∖ (Q ∪ {y}): these are the lower elements 2q − 2 of the pairs of
+Q − 1 with q − 1 ∉ Q°, i of them, minus at most one. ∎
+
+**Proof of the Theorem.** Let u ∈ G(s′), letter e, source slack s = s′ − e. By Lemma 1 the central predecessors
+exist (for e = 1: u ∉ SC because central SC states have 4 | s′ and are in T). If T(s) = ∅ we are done. Otherwise:
+- **s = 0.** T(0) = ∅ by definition; ∅|∅ → ∅|∅ (letter 0), ∅|∅ → 1|−, −|1 (letter 1), and back (letter −1).
+- **4 | s, e = −1.** Lemma 2(a): ≥ 2 predecessors, at most one bad.
+- **4 | s, e = 1.** Lemma 2(b): at most one bad. If u has only one predecessor and it is bad then u ∈ A(s + 1) = T(s + 1) (Lemma 4).
+- **4 | s, e = 0.** Class 0, predecessors with k odd, at most one bad (Lemma 2(c)). If there is only one and it is
+  bad, then u ∈ E⁰ or u ∈ SC (Lemma 3): u ∈ T(s).
+- **s = 4m² + 1, e = −1.** If all predecessors of u are in A then u is the successor of Lemma 5(a): u ∈ E⁰ ⊆ T(s − 1).
+- **s = 4m² + 1, e = 1.** If all 1-predecessors of u are in A, then 2m − 2 ≤ |A| ≤ 4 (Lemma 5(b), Lemma 4): m ≤ 3.
+  For m ≤ 3 `local.py` checks all 12, 20, 28 successors.
+- **s = 4m² + 1, e = 0.** If all central predecessors of u ∉ A are in A, then m − 1 ≤ 4: m ≤ 5; `local.py` checks m ≤ 8. ∎
+
+The exceptional chain is SC →(0) E⁰ →(+) A →(−) E⁰, and it closes up; this is why T stays small.
+
+## 3. Checks (all in `runs.sh`, about 1 minute)
+
+| script | what | result |
+|---|---|---|
+| `check.py 18 12` | Central(s) ∖ T(s) = largest slack-only family inside slack ≤ 18 (greatest fixed point), s ≤ 17 | equal for every s; sizes as above |
+| | Lemma 1, Lemma 2 on all 3,131 states of slack 1..12; Lemma 3(a), (b) on the 933 central ones with 4 \| s | no exception |
+| | step and predecessor formulas of §1 against `../weights/maya.py`, slack ≤ 9 | equal |
+| `local.py 8` | A(4m² + 1) for m ≤ 8 (slack ≤ 257): 4 states, one predecessor, in E⁰; Lemma 5; the two finite cases of the proof | ok; least counts 2m and m |
+| `solve.py all 13` | the algorithm on every valid word of length ≤ 13 (41,835 at n = 13; 5,373 without + −) | all solved, permutation verified |
+| `solve.py random 300 400 7` | 300 random words, length ≥ 400, largest slack 193, random choice among good predecessors | all solved |
+
+`fam.py S`: the largest family also equals the intersection of F(x) over all L1 prefixes, and over all words in {0, 1}*
+(slack ≤ 10). So for L1 "the states every prefix reaches" is exactly G(s).
+
+## 4. Item 1: the exact shape of F(x) (tested, slack ≤ 16; `desc.py 16`, `auto.py 16`)
+
+Proved part: F(x) ⊆ Sat(s, Γ(x)) := {slack s, class c ∈ Γ(x)} by Lemma 1, where
+Γ(∅) = {0}; Γ(x+) = 1 − Γ; Γ(x−) = (1 − Γ) ∩ feas(s − 1); Γ(x0) = (−Γ ∪ (2 − Γ)) ∩ feas(s);
+feas(s) = {c ≡ s mod 2 : m(m − 1) ≤ s, m = max(c, 1 − c)} (the least slack of a pair of 2-cores with a + b = c is
+m(m − 1) or m(m − 1) + 1). In γ = (−1)^n (c − ½): odd letters fix γ, a zero moves it by ±1, the slack bounds |γ|.
+Γ(x) always contains the central class. And F(x+) contains no (λ|λ′).
+
+Tested: inside slack ≤ 16 there are only **70 distinct sets F(x)** over all L1 prefixes (`out_auto_16.txt` lists them
+with their transitions), and
+**F(x) = Sat(s, Γ(x)) ∖ SC if x ends in +, and F(x) = Sat(s, Γ(x)) otherwise**, except for 6 sets:
+F(1^s 0) for s = 4, 8, 12, 16 (minus E⁰, REPORT2 Theorem 2) and two sets at slack 5 (after ++++0+ and ++++0+0).
+The Γ rule is exact on all 202 transitions. So the answer to "is F(x) the D-class and K-class condition minus an explicit
+family" is yes in this range, with the class a + b (K is not restricted at all inside a class), and "containment" plays no role.
+I did not prove the lower bound for the non-central classes.
+
+## 5. Item 3: letters in {−2, …, 2} (`l2.py 9`)
+
+- No slack-only family and no family depending on (slack, last letter) exists inside slack ≤ 9 (both greatest fixed points
+  are empty; card `l1` says the same for slack + last two letters). There are 376 distinct (F, slack, last letter) inside slack ≤ 9; L1 has 37 distinct (F, slack) inside slack ≤ 10.
+- What breaks in the proof is Lemma 1. A letter ±2 acts on classes like a zero (c → −c or 2 − c), but the counts are only
+  ≥ c − 1 and ≥ −c for the letter 2: a central state need not have any predecessor. F(2) = {2|−, 1|1, −|2} already
+  misses the central states 11|−, −|11. The states with no 2-predecessor are M ⊂ B + 1 (μ′ = λ plus a rim hook):
+  2, 4, 5, 6, 10, 12, 15, 20 states for slack 2..9, in several classes; for the letter 1 it is SC: 1, 2, 3, 5 states at even slack.
+- The intersections of F(x) by (slack, last letter) stay non-empty (≥ 3 states, slack ≤ 9), as known from `agents/majority`.
+
+## Recheck
+    cd agents/l1sets && sh runs.sh        # about 1 minute; outputs out_*.txt
+    python3 solve.py + + 0 - 0 + - -      # one word -> permutation [5, 1, 2, 3, 8, 4, 6, 7]
+
+Files: `l1.py` (machine on (λ, μ′), SC, E⁰, A, T), `check.py`, `local.py`, `solve.py`, `fam.py`, `sets.py`, `cores.py`,
+`auto.py`, `desc.py`, `l2.py`; `NOTES.md` = working notes in order of discovery.
+Suggested card change (not made; `map/build.py` untouched): `l1` proved, with the family G(s) as invariant, ∅|∅ as start,
+the Theorem as step.

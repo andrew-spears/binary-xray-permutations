@@ -1,0 +1,8 @@
+bound 16: 70 distinct (F, slack); Gamma rule holds on 202 of 202 edges; Gamma always contains the central class: True
+largest |Ex| = 22; nodes where Ex is not (SC n Sat after +, empty otherwise): 6
+   s 4, last letters [-1, 0], x = ++++0: Ex = -|22 22|-
+   s 5, last letters [1], x = ++++0+: Ex = 2|111 11|3 3|11 111|2  [SC n Sat expected]
+   s 5, last letters [0], x = ++++0+0: Ex = 2|111 111|2
+   s 8, last letters [0], x = ++++++++0: Ex = -|44 44|-
+   s 12, last letters [0], x = ++++++++++++0: Ex = -|66 22|2222 2222|22 66|-
+   s 16, last letters [0], x = ++++++++++++++++0: Ex = -|88 22|4422 2222|2222 4422|22 88|-
