@@ -64,7 +64,8 @@ def main(B, Lmax, N):
                     if legal(w[:i] + u + w[i + L:]): uses[(u, v)].add(wi); ok = True
         if not ok: stuck.append(w)
     print(f"valid nonzero words of length <= {N}: {len(words)}; cannot be shortened: {len(stuck)}", stuck[:8])
-    left = set(range(len(words))) - {wi for wi, w in enumerate(words) if w in set(stuck)}
+    stuckset = set(stuck)
+    left = {wi for wi, w in enumerate(words) if w not in stuckset}
     chosen = []
     while left:
         r = max(uses, key=lambda r: len(uses[r] & left)); chosen.append((r, len(uses[r] & left))); left -= uses[r]
