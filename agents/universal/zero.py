@@ -7,6 +7,7 @@ Usage: python3 zero.py "1 1 1 1 1 4 3 2 1 0 0 0 0 0 0" ...     [SHOW=k: list k m
 import sys, os, re, subprocess, collections
 sys.path.insert(0, "../l1sets")
 import exc, l1, jstar, young
+jstar.MODE = 3          # the family ./fw is run with (JSTAR=3), whatever MODE says
 def parse(t):
     def part(p): return () if p == "-" else tuple(int(x.strip("()")) for x in re.findall(r"\(\d+\)|\d", p))
     lam, mu = t.split("|"); return (part(lam), l1.conj(part(mu)))
@@ -18,14 +19,15 @@ def run(words, S0=11):
     res = []; w = None
     for line in out.split("\n"):
         m = re.match(r"\s+(\d+) slack (\d+) tail (\S+) y (\d+) (\d+) (\d+) missing (\d+) :(.*)", line)
-        if m: res.append((w, int(m.group(1)), int(m.group(2)), m.group(3), int(m.group(4)), [parse(t) for t in m.group(8).split()]))
+        if m: res.append((w, int(m.group(1)), int(m.group(2)), m.group(3), int(m.group(4)), int(m.group(5)), [parse(t) for t in m.group(8).split()]))
         elif line.strip(): w = line.strip()
     return res
 if __name__ == "__main__":
     words = sys.argv[1:] or [l.strip() for l in sys.stdin if l.strip()]; show = int(os.environ.get("SHOW", 0)); last = None
-    for (w, n, s, tail, y, miss) in run(words, int(os.environ.get("S0", 11))):
+    for (w, n, s, tail, y, nj, miss) in run(words, int(os.environ.get("S0", 11))):
         if w != last: print(w); last = w
         Js = [u for u in exc.states(s) if jstar.jstar(u, TAIL[tail])]; N = set(u for u in Js if young.ball(u, y)); out = [u for u in miss if u not in N]
+        assert len(Js) == nj, (w, n, len(Js), nj)
         lv = collections.Counter(level(u) for u in out); la = collections.Counter(level(u) for u in miss); lt = collections.Counter(level(u) for u in Js)
         print(f"  n {n:2d} slack {s:2d} y {y:2d} tail {tail}: missing {len(miss):5d} of {len(Js):5d}, |N_y| {len(N):4d}, outside N_y {len(out):4d}"
               + (f" (d <= {max(young.d(u) for u in out)}; levels " + " ".join(f"{k}:{lv[k]}" for k in sorted(lv)) + ")" if out else "")
