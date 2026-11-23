@@ -423,6 +423,11 @@ nodes = [
       "An induction over the slack bound needs a description of which hole states are still alive after a prefix. The simplest hope is an order-theoretic shape, like Landau's own condition: if a state is alive, so is every 'more spread out' one. Claim: alive sets have that shape.",
       evidence="False in every version. With slack ≤ 6, 100 distinct alive sets occur: all are symmetric under swapping rows and columns, but only 14 are closed downward and 14 upward under dominance, and only 20 are intervals in the interleaved form. Example at slack 5: with no row holes, the column diagrams 41, 32, 311, 221 are alive and 5, 2111, 11111 are dead — the middle of the order survives, both extremes die.",
       refs="2026-11-23, agents/basket/alive.py, shape.py, shape2.py"),
+    N("alivebox", "ideas", "Alive sets are boxes", "disproved",
+      "For every valid prefix, an interface state (λ, μ) of the current slack is alive exactly when its four dimensions (longest row and number of rows of λ and of μ) are at most the largest values of those dimensions among alive states.",
+      "Alive sets are not closed in either direction under moving boxes, because both very deep and very spread-out hole patterns die. The next simplest hope is a two-sided rule: alive means fitting inside a box, not too wide and not too tall. Claim: the alive set is always exactly the states that fit in its bounding box.",
+      evidence="Exact for only 20 of the 100 alive sets with slack ≤ 6 and 33 of 363 with slack ≤ 8. Worse, no rule using only these four dimensions (plus the split of the slack between rows and columns) works: at slack 8, with no row holes, column pattern 4 2 2 is alive while 4 3 1 is dead, and the two have the same width, height and size. Adding the number of odd parts separates every case to slack 8, but only because those features then identify every state uniquely, so that says nothing.",
+      refs="2026-11-23, agents/basket/twosided.py, parityfeat.py"),
     N("online", "ideas", "Online rule: place each stone before seeing the next diagonal", "disproved",
       "There is a rule that places the stone of the k-th smallest diagonal knowing only n and the k smallest diagonals, and that completes a witness for every valid D.",
       "The simplest proof in diagonal order would be a rule with no lookahead. Claim: such a rule exists.",
@@ -529,6 +534,7 @@ e("greedy", T, "implies", "A rule that never gets stuck produces a witness.")
 e(["interface", "slackB"], T, "implies", "A valid D of size n has all slacks ≤ n²/8, so it is covered by the bound B = n²/8; an accepted word is a walk, and a walk is a witness.")
 e("slack16", "slackB", "related", "The bounds B ≤ 16.", "unchecked")
 e("alivedom", "slackB", "related", "A shape like this would be the natural induction hypothesis for every slack bound.", "unchecked")
+e("alivebox", "slackB", "related", "A two-sided version of the same hope.", "unchecked")
 e("online", "slackB", "implies", "An online rule traces an accepted walk for every word.")
 e("summary", "slackB", "implies", "Induction along the word with invariant 'every state of I is reachable'; nonempty at the end means a witness.")
 e("meet", T, "implies", "Two sets with more elements than their universe intersect; a common state joins a left half-walk to a right half-walk.")

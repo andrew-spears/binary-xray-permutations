@@ -85,3 +85,8 @@ Find a single, motivated family of permutations (or a construction with one para
 
 ### T8. Free exploration — OPEN
 Try anything not in state.md §5. Some directions we have not looked at: interleavings of two witnesses (columns of one piece alternate with another's); witnesses with a large symmetry group beyond involutions and half-turns; LLL / entropy compression; algebraic constructions mod n or mod 2n folded back (state §4.10); the matroid or polytope structure of the set of valid D; the literature on graceful labellings, Langford pairings and "perfect Skolem sets" beyond Nordh. Small exhaustive data first, then a precise claim.
+
+### T9. Describe the alive sets of the interface machine — OPEN
+Background: map cards interface, slackB, alivedom, alivebox; code agents/basket/alive.py (builds every distinct alive set for slack ≤ B; pickles alive4/6/8.pkl are in the repo), shape.py, twosided.py.
+Known: alive sets are always symmetric under swapping rows and columns. They are not closed up or down under dominance, not intervals in the interleaved diagram, not boxes, and not determined by widths, heights and sizes (slack 8: μ = 422 alive, 431 dead with λ = ∅). Devin's invariant search showed the needed history grows with B.
+Wanted: any exact description of the alive set as a function of the prefix that could support an induction over B, e.g. in terms of the last few shifts plus a statistic of (λ, μ) (contents, hook lengths, 2-quotients, Littlewood–Richardson / Schur-function coefficients, since the problem is a coefficient of m_δ²). Report a LEAD with the exact range checked, or NOTHING.
