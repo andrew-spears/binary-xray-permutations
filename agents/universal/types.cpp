@@ -28,12 +28,18 @@
 //         inside which the exact reachable sets are followed (as in ../majority/blockinv.py)
 //         With KLO=lo only types with last letter in [lo, 1] carry a set (KLO=0: a run of negative letters and the
 //         letter after it is a block too).
+//   Y     young excess y = max(0, max over j of (sum of the last j letters) - j), updated by y' = max(0, y + e - 1).  Only
+//         types with y = 0 ("old" prefixes: every suffix of j letters has sum <= j) carry a set; a block is an excursion
+//         of y above 0, followed exactly.  Every complete word is old, so J(0) nonempty is the conjecture (REPORT3.md).
+//         y instead of Y: y is part of the type and every type carries a set (no blocks).
 // The type always contains the slack and the last letter.   dump: print J(t) for every type with slack <= 8
 // (or <= DUMPMAX).   sizes (instead of dump): the table of |J(t)| for types ending in 0 or 1 (slack printed as 0).
 // LET=lo,hi: only words with all letters in [lo, hi] (the family and the pair test are then for that class of words).
 // Other environment variables: DIAG=1 (the first type whose set becomes empty, and the constraints on it),
 // MINIMIZE=1 (number of types after merging types with equal sets and equivalent futures), CORE=1 (compare J(t) with
-// the exact intersection C(t) of F(x) over all prefixes x of type t, small B only; also checks J(t) inside C(t)).
+// the exact intersection C(t) of F(x) over all prefixes x of type t, small B only; also checks J(t) inside C(t);
+// CORE=2: also, per type, the number of different sets F(x) and the inclusion-minimal ones with a word each; CORE=3: also
+// the states of C(t); CORE=4: the transitions where the cores are not step-closed).
 #include <bits/stdc++.h>
 using namespace std;
 typedef uint64_t u64; typedef vector<u64> Bits; typedef vector<int> Key;
@@ -97,7 +103,7 @@ static string str(const vector<int8_t>& w){ string s; for (int x: w) s+=(s.empty
 // ---- types.  Key = [s, l, features...]
 struct Feat { char c; int cap; int pos; };
 set<Key> need; bool needon=false; const int WILD=-101; int clo=-1000, chi=1000; int llo=-1000, lhi=1000;
-vector<Feat> feats; bool hasQ=false, blocks=false; int qpos=-1;
+vector<Feat> feats; bool hasQ=false, blocks=false; int qpos=-1, ypos=-1;
 static Key root(){ Key k={0,NONE}; for (auto& f: feats){ if (f.c=='M'){ k.push_back(NONE); k.push_back(0);} else if (f.c=='L'||f.c=='A'||f.c=='C'){ for (int i=0;i<f.cap;i++) k.push_back(NONE);} else if (f.c=='R'||f.c=='Q') k.push_back(0); else if (f.c=='P') k.push_back(NONE); else k.push_back(0); } return k; }
 static Key upd(const Key& k, int e){
     int s=k[0], l=k[1]; Key n=k; n[0]=s+e; n[1]=max(llo,min(lhi,e));
@@ -117,6 +123,7 @@ static Key upd(const Key& k, int e){
         case 'N': n[p]=min(k[p]+1,f.cap); break;
         case 'G': n[p]=min(k[p]+(e<0),f.cap); break;
         case 'H': n[p]=max(k[p],s+e); break;
+        case 'Y': n[p]=max(0,k[p]+e-1); break;
         }
     }
     if (needon){ auto& f=feats[0];                // variable window: letter k + 1 is kept only if (slack, last k letters) is in the list
@@ -131,9 +138,11 @@ int main(int argc, char** argv){
     B=atoi(argv[1]); M=B+2; string fs=argc>2?argv[2]:""; bool dump=argc>3;
     for (size_t i=0;i<fs.size();){ char c=fs[i++]; int cap=0; bool has=false; while (i<fs.size()&&isdigit(fs[i])){ cap=cap*10+fs[i++]-'0'; has=true; }
         if (c=='K'){ blocks=true; continue; }
+        if (c=='Y') blocks=true;
+        if (c=='y') c='Y';                         // y: the same feature, but every type carries a set (no blocks)
         if (!has) cap = c=='Q'?2 : (c=='L'||c=='A'||c=='C')?1 : c=='M'?3 : 1000;
         feats.push_back({c,cap,0}); }
-    { int p=2; for (auto& f: feats){ f.pos=p; if (f.c=='Q'){ hasQ=true; qpos=p; } p+= f.c=='M'?2 : (f.c=='L'||f.c=='A'||f.c=='C')?f.cap : 1; } }
+    { int p=2; for (auto& f: feats){ f.pos=p; if (f.c=='Y') ypos=p; if (f.c=='Q'){ hasQ=true; qpos=p; } p+= f.c=='M'?2 : (f.c=='L'||f.c=='A'||f.c=='C')?f.cap : 1; } }
     if (getenv("NEED")){ needon=true; ifstream in(getenv("NEED")); string line;
         while (getline(in,line)){ Key k; stringstream t2(line); int a; while (t2>>a) k.push_back(a); if (!k.empty()) need.insert(k); } }
     if (getenv("CLAMP")) sscanf(getenv("CLAMP"),"%d,%d",&clo,&chi);
@@ -153,7 +162,7 @@ int main(int argc, char** argv){
     }
     int T=keys.size(); vector<Bits> J(T);
     int klo=getenv("KLO")?atoi(getenv("KLO")):-1000;
-    auto carries=[&](int t){ return !blocks || (keys[t][1]<=1 && (keys[t][1]>=klo || keys[t][1]==NONE)); };
+    auto carries=[&](int t){ return !blocks || (ypos>=0 ? keys[t][ypos]==0 : keys[t][1]<=1) && (keys[t][1]>=klo || keys[t][1]==NONE); };
     for (int t=0;t<T;t++){ int s=keys[t][0]; J[t].assign(words(s),~0ULL); size_t n=lev[s].size(); if (n%64) J[t].back()=(1ULL<<(n%64))-1; }
     J[0].assign(words(0),0); J[0][0]=1;
     deque<int> work; vector<char> inq(T,1); for (int t=0;t<T;t++) if (carries(t)) work.push_back(t);
@@ -168,11 +177,13 @@ int main(int argc, char** argv){
         if (!blocks){
             for (auto [e,t2]: out[t]){ Bits S=step(J[t],s,e); steps++; if (andin(J[t2],S)){ report(t2); if (!inq[t2]){ inq[t2]=1; work.push_back(t2); } } }
         } else {                                   // follow exact sets through types with last letter >= 2
-            vector<pair<int,Bits>> st; st.push_back({t,J[t]}); set<pair<int,Bits>> memo;
-            while (!st.empty()){ auto [a,S]=st.back(); st.pop_back();
-                for (auto [e,t2]: out[a]){ Bits S2=step(S,keys[a][0],e); steps++;
-                    if (carries(t2)){ if (andin(J[t2],S2)&&!inq[t2]){ inq[t2]=1; work.push_back(t2); } }
-                    else if (memo.insert({t2,S2}).second) st.push_back({t2,S2}); } }
+            vector<pair<int,Bits>> st; st.push_back({t,J[t]}); set<pair<int,Bits>> memo; vector<vector<int8_t>> pw; pw.push_back({});
+            while (!st.empty()){ auto [a,S]=st.back(); st.pop_back(); vector<int8_t> w=pw.back(); pw.pop_back();
+                for (auto [e,t2]: out[a]){ Bits S2=step(S,keys[a][0],e); steps++; w.push_back(e);
+                    if (carries(t2)){ if (andin(J[t2],S2)){ if (!inq[t2]){ inq[t2]=1; work.push_back(t2); }
+                        if (diag&&!done&&isempty(J[t2])){ done=true; printf("first empty: %s, by the block [%s] from %s [%s], |J| = %ld, |step| = %ld\n", kstr(keys[t2]).c_str(), str(w).c_str(), kstr(keys[t]).c_str(), str(rep[t]).c_str(), cnt(J[t]), cnt(S2)); } } }
+                    else if (memo.insert({t2,S2}).second){ st.push_back({t2,S2}); pw.push_back(w); }
+                    w.pop_back(); } }
         }
     }
     printf("bound %d, features '%s': %d types (%d carrying a set), %ld steps\n", B, fs.c_str(), T, (int)[&]{ int c=0; for (int t=0;t<T;t++) c+=carries(t); return c; }(), steps);
@@ -218,6 +229,31 @@ int main(int argc, char** argv){
             for (auto [e,t2]: out[t]){ Bits S=step(C[t],keys[t][0],e), X=C[t2]; if (andin(X,S)) notclosed++; else closed++; } }
         printf("cores: %zu (type, F-set) pairs; J(t) not inside C(t) for %ld types (must be 0); J(t) = C(t) for %ld types, smaller for %ld (J empty in %ld of them); C(t2) inside step_e C(t): %ld transitions yes, %ld no\n", memo.size(), unsound, eq, ne, emptyJ, closed, notclosed);
         if (ex>=0) printf("   first difference: %s [%s] |J| = %ld, |C| = %ld\n", kstr(keys[ex]).c_str(), str(rep[ex]).c_str(), cnt(J[ex]), cnt(C[ex]));
+        if (atoi(getenv("CORE"))==4){                // CORE=4: the transitions where the exact cores are not step-closed, with the states of C(t2) that have no e-predecessor in C(t)
+            int dm=getenv("DUMPMAX")?atoi(getenv("DUMPMAX")):8;
+            for (int t=0;t<T;t++){ if (!carries(t)) continue;
+                for (auto [e,t2]: out[t]){ if (keys[t2][0]>dm) continue; Bits S=step(C[t],keys[t][0],e); int s=keys[t2][0]; vector<string> v;
+                    for (size_t i=0;i<lev[s].size();i++) if ((C[t2][i>>6]>>(i&63)&1)&&!(S[i>>6]>>(i&63)&1)) v.push_back(name(s,i));
+                    if (v.empty()) continue; printf("not closed: %s --%d--> %s  |C| %ld -> %ld, %zu states of C%s without predecessor in C%s:", kstr(keys[t]).c_str(), e, kstr(keys[t2]).c_str(), cnt(C[t]), cnt(C[t2]), v.size(), kstr(keys[t2]).c_str(), kstr(keys[t]).c_str());
+                    for (size_t i=0;i<v.size()&&i<12;i++) printf(" %s", v[i].c_str()); printf("\n"); } }
+        }
+        if (atoi(getenv("CORE"))>=2&&atoi(getenv("CORE"))<4){                // CORE=2: per type the inclusion-minimal sets F(x) and a word for each; CORE=3: also the states of C(t)
+            map<pair<int,Bits>,vector<int>> wd; vector<pair<int,Bits>> q; wd[{0,s0}]={}; q.push_back({0,s0});
+            for (size_t i=0;i<q.size();i++){ auto [t,S]=q[i]; vector<int> w=wd[q[i]];
+                for (auto [e,t2]: out[t]){ Bits S2=step(S,keys[t][0],e); if (!wd.count({t2,S2})){ w.push_back(e); wd[{t2,S2}]=w; w.pop_back(); q.push_back({t2,S2}); } } }
+            vector<vector<const Bits*>> by(T); vector<vector<const vector<int>*>> bw(T);
+            for (auto& [k,w]: wd){ by[k.first].push_back(&k.second); bw[k.first].push_back(&w); }
+            int dm=getenv("DUMPMAX")?atoi(getenv("DUMPMAX")):8;
+            for (int t=0;t<T;t++){ if (!carries(t)||keys[t][0]<1||keys[t][0]>dm) continue;
+                vector<int> mn; for (size_t i=0;i<by[t].size();i++){ bool ismin=true;
+                    for (size_t j=0;j<by[t].size()&&ismin;j++) if (j!=i){ Bits X=*by[t][j]; bool sub=!andin(X,*by[t][i])&&X==*by[t][j]; if (sub&&!(*by[t][j]==*by[t][i])) ismin=false; }
+                    if (ismin) mn.push_back(i); }
+                printf("C%s: |C| %ld, |J| %ld, states %zu; %zu sets F(x), %zu minimal:", kstr(keys[t]).c_str(), cnt(C[t]), cnt(J[t]), lev[keys[t][0]].size(), by[t].size(), mn.size());
+                for (size_t a=0;a<mn.size()&&a<6;a++){ printf("  %ld [", cnt(*by[t][mn[a]])); for (int e: *bw[t][mn[a]]) printf("%d ", e); printf("]"); }
+                printf("\n");
+                if (atoi(getenv("CORE"))>=3){ int s=keys[t][0]; printf("  C%s =", kstr(keys[t]).c_str()); vector<string> v; for (size_t i=0;i<lev[s].size();i++) if (C[t][i>>6]>>(i&63)&1) v.push_back(name(s,i)); sort(v.begin(),v.end()); for (auto& x: v) printf(" %s", x.c_str()); printf("\n"); }
+            }
+        }
     }
     if (dump&&!strcmp(argv[3],"sizes")){            // |J(t)| for every type ending in 0 or 1, one line per window, one column per slack
         map<Key,map<int,long>> tab; for (int t=0;t<T;t++) if (keys[t][1]==0||keys[t][1]==1){ Key k(keys[t].begin()+1,keys[t].end()); tab[k][keys[t][0]]=cnt(J[t]); }
