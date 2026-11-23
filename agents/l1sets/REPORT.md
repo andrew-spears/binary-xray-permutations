@@ -177,7 +177,9 @@ I did not prove the lower bound for the non-central classes.
     cd agents/l1sets && sh runs.sh        # about 1 minute; outputs out_*.txt
     python3 solve.py + + 0 - 0 + - -      # one word -> permutation [5, 1, 2, 3, 8, 4, 6, 7]
 
-Files: `l1.py` (machine on (λ, μ′), SC, E⁰, A, T), `check.py`, `local.py`, `solve.py`, `fam.py`, `sets.py`, `cores.py`,
-`auto.py`, `desc.py`, `l2.py`; `NOTES.md` = working notes in order of discovery.
+Files of this report: `l1.py` (machine on (λ, μ′), SC, E⁰, A, T), `check.py`, `local.py`, `solve.py`, `fam.py`, `fsets.py`,
+`cores.py`, `auto.py`, `desc.py`, `l2.py`; `PROOFNOTES.md` = working notes in order of discovery. The files already in this
+folder (`NOTES.md`, `sets.py`, `classes.py`, `full.py`, `par.py`) are untouched; `NOTES.md` items 1, 2, 4 (few sets, the mod 4
+effect, predecessors by pigeonhole, p(m) states without a + predecessor) are the observations that §1–§4 explain.
 Suggested card change (not made; `map/build.py` untouched): `l1` proved, with the family G(s) as invariant, ∅|∅ as start,
 the Theorem as step.

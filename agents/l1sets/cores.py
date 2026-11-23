@@ -2,7 +2,7 @@
 occurring in F, sat = all states of that slack with (a, b) in Pi; prints |F|, |sat|, Pi, the words (up to 3 shortest), and the missing states.
   python3 cores.py S"""
 import sys
-from sets import *
+from fsets import *
 def c0(m):
     W = Mo.W
     return sum(1 for k in range(0, W) if k % 2 == 0 and m >> (k + W) & 1) - sum(1 for k in range(-W, 0) if k % 2 == 0 and not m >> (k + W) & 1)
