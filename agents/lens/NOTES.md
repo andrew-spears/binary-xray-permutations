@@ -31,3 +31,27 @@
 4. **Combs.** After a staircase h, h−1, …, 1 the classes reached completely are the extreme ones (2-core a staircase):
    `prof.py 2 "4 3 2 1 0 0"`: at slack 12 the classes (c, K) = (−2, ±2) are reached 4/4, the others about half.
    Board meaning: stones on consecutive diagonals fill consecutive rows and every other column.
+
+5. **Levels: a big letter pushes the fully reached classes outward, a zero pulls them back** (`levels.py`, `grid.py`).
+   level(u) = max(c, 1 − c) (central = level 1). In board terms (a, b) count the stones on even rows minus odd rows, and the
+   same for columns; an odd letter puts a stone on a cell with row ≡ column mod 2, an even letter on the other colour.
+   - Counts (Lemma G of `../l2sets` with its shifts, table in `../onehigh/REPORT.md`): under a letter 2 a state of level ℓ ≥ 2
+     has ≥ ℓ − 1 predecessors of level ℓ − 1; under a letter 0 it has ≥ ℓ of level ℓ − 1, and a level-1 state has ≥ 1 of
+     level 1. Predecessors one level UP are not guaranteed: they are missing exactly for the tight states of Lemma A.
+     Letters ±1 keep the level. (For a letter 2f the bound should be ℓ − f; not checked for f ≥ 2.)
+   - Data, from a true old prefix (levels 1, 2 complete): `levels.py -1 "1 1 1 1 1 0 1 2 2 2 1 0 0 0"`:
+     after 2: L1 118/133, L2 48/48, L3 4/4; after 2 2: L1 292/332, L2 126/133, L3 16/16; after 2 2 2: L1 700/784,
+     L2 320/332, L3 48/48, L4 1/1; then 1 0 0 0: L1 1138, 1158, 1170, 1174 of 1176, L2 506, 508, 510, 512 of 512.
+     After a 4 (from levels 1, 2 complete at slack 5): L3 8/8, L2 56/80, L1 116/212.
+   - The states missing at level 1 after `x 2` are the same 15 (slack 8) for x = 1 1 1 1 1 0 1 and x = 1 1 1 1 0 0 1 1, and
+     the same 40 after `x 2 2`: with the start family "levels 1 and 2" the sets after a 2 look local again
+     (`levels.py -1 "..." show`). REPORT3 §1 found them non-local when only Central is used as the start.
+   - `grid.py "1 1 1 0 1 0 1 4 3 2 1 0 0 0" 7`: per cell (a, b), after 4 3 2 the outer cells are complete and the inner
+     ones 60–85 % reached; the zeros fill the cells from the outside in.
+   - Reading: y of REPORT3 is an upper bound for how many levels the bottom of the complete window has been pushed up.
+     Candidate invariant for young prefixes: "levels ≥ b(x) complete, lower levels complete minus an explicit set",
+     b going up by one at a 2 and down by one at a 0.
+
+6. **No residue tower: NOTHING** (`tower.py`). The damaged part of a cell is not a union of finer cells (stones per residue
+   class of rows and of columns mod 4 or 8): after `1 1 1 0 1 0 1 4 3 2` (slack 14, 1864 of 2665 reached) 2292 states lie in
+   mod-4 cells that are partly reached; mod 8 the cells are too small to say anything (1690 cells).
