@@ -1,0 +1,37 @@
+s 1: K = 1: 1 states, m = 0, b* = 0
+s 2: K = 0: 5 states, m = 2, b* = 6
+s 3: K = 1: 5 states, m = 2, b* = 6
+s 4: K = 0: 18 states, m = 4, b* = 10  K = 2: 1 states, m = 0, b* = 0
+s 5: K = 1: 18 states, m = 4, b* = 10
+s 6: K = 0: 55 states, m = 6, b* = 14  K = 2: 5 states, m = 2, b* = 6
+s 7: K = 1: 55 states, m = 6, b* = 14
+s 8: K = 0: 149 states, m = 8, b* = 18  K = 2: 18 states, m = 4, b* = 10
+s 9: K = 1: 149 states, m = 8, b* = 18  K = 3: 1 states, m = 0, b* = 0
+s 10: K = 0: 371 states, m = 10, b* = 22  K = 2: 55 states, m = 6, b* = 14
+s 1, d = 1: tau commutes with the letter 0 on all 2 states; K -> (change of slack, new K): {-1: [(8, -3)], 1: [(0, -1)]}
+s 2, d = 1: tau commutes with the letter 0 on all 5 states; K -> (change of slack, new K): {0: [(4, -2)]}
+s 3, d = 1: tau commutes with the letter 0 on all 10 states; K -> (change of slack, new K): {-1: [(8, -3)], 1: [(0, -1)]}
+s 4, d = 1: tau commutes with the letter 0 on all 20 states; K -> (change of slack, new K): {-2: [(12, -4)], 0: [(4, -2)], 2: [(-4, 0)]}
+s 5, d = 1: tau commutes with the letter 0 on all 36 states; K -> (change of slack, new K): {-1: [(8, -3)], 1: [(0, -1)]}
+s 6, d = 1: tau commutes with the letter 0 on all 65 states; K -> (change of slack, new K): {-2: [(12, -4)], 0: [(4, -2)], 2: [(-4, 0)]}
+s 2: 4 distinct F(x); F(x) meets every |K| for 4; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 3
+s 3: 12 distinct F(x); F(x) meets every |K| for 12; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 3
+s 4: 72 distinct F(x); F(x) meets every |K| for 50; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 5
+s 5: 209 distinct F(x); F(x) meets every |K| for 209; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 5
+s 6: 815 distinct F(x); F(x) meets every |K| for 763; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 5
+s 7: 1669 distinct F(x); F(x) meets every |K| for 1669; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 5
+s 8: 2532 distinct F(x); F(x) meets every |K| for 2425; least b with F(x 0^b') = all states with |K| in K(F(x)) for b' >= b: max over x = 6
+s 0: sum over t of |N_1^b(t)| / |T_b(t)|, b = 1..7: 2/2 4/4 8/8 14/14 28/28 48/48 80/80
+s 1: sum over t of |N_1^b(t)| / |T_b(t)|, b = 1..7: 4/4 8/12 18/24 40/52 76/92 152/156 248/252
+s 2: sum over t of |N_1^b(t)| / |T_b(t)|, b = 1..7: 10/10 24/32 56/88 122/174 256/316 484/528 872/896
+s 3: sum over t of |N_1^b(t)| / |T_b(t)|, b = 1..7: 24/24 56/92 134/244 312/520 676/940 1392/1672 2520/2728
+s 4: sum over t of |N_1^b(t)| / |T_b(t)|, b = 1..7: 48/48 120/216 308/652 770/1436 1812/2844 3844/4940 7268/8152
+s 1: 2 states; pairs (t, u) not joined by b blocks 1 0 -1, b = 1..6: [0, 0, 0, 0, 0, 0]
+s 2: 5 states; pairs (t, u) not joined by b blocks 1 0 -1, b = 1..6: [9, 0, 0, 0, 0, 0]
+s 3: 10 states; pairs (t, u) not joined by b blocks 1 0 -1, b = 1..6: [58, 10, 0, 0, 0, 0]
+s 4: 20 states; pairs (t, u) not joined by b blocks 1 0 -1, b = 1..6: [290, 85, 2, 0, 0, 0]
+s 5: 36 states; pairs (t, u) not joined by b blocks 1 0 -1, b = 1..6: [1054, 414, 8, 0, 0, 0]
+s 6: 65 states; pairs (t, u) not joined by b blocks 1 0 -1, b = 1..6: [3705, 1750, 159, 0, 0, 0]
+s 7: 110 states; pairs (t, u) not joined by b blocks 1 0 -1, b = 1..6: [11078, 6206, 738, 22, 0, 0]
+s 8: 185 states; pairs (t, u) not joined by b blocks 1 0 -1, b = 1..6: [32260, 20628, 3518, 141, 2, 0]
+s 9: 300 states; pairs (t, u) not joined by b blocks 1 0 -1, b = 1..6: [86400, 60800, 12920, 818, 28, 0]
