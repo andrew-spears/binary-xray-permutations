@@ -76,6 +76,9 @@ main{flex:1;display:flex;position:relative;min-height:0}
 .pbody{flex:1;overflow-y:auto;padding:8px 16px 28px;min-height:0}
 .pbody.frame{padding:0;overflow:hidden}
 .pbody iframe{width:100%;height:100%;border:0;display:block;background:var(--bg)}
+.pbody.lab{display:flex;flex-direction:column}.pbody.lab iframe{flex:1;height:auto}
+.labbar{padding:8px 12px;border-bottom:1px solid var(--line)}.labbar button{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:6px 10px;font:inherit;cursor:pointer}
+.labable{position:relative;cursor:pointer;display:inline-block}.labable .labhint{position:absolute;right:2px;top:2px;font-size:11px;padding:1px 6px;border-radius:6px;background:var(--bg);border:1px solid var(--line);color:var(--ink2)}
 #panel h2{font-size:18px;line-height:1.25;margin:6px 0 4px}
 #panel h3{font-size:13px;color:var(--ink2);margin:18px 0 4px;font-weight:600}
 #panel p{margin:0 0 6px}
@@ -302,7 +305,17 @@ function stonesSVG(st) {
     if (st.D.includes(m)) s += `<circle cx="${x}" cy="21" r="8" style="fill:var(--ink2)"/>` + (hl.has(m) ? `<circle cx="${x}" cy="21" r="11" style="fill:none;stroke:#e0743a" stroke-width="2"/>` : ""); }
   return s + "</svg>";
 }
-const one = p => p.t === "board" ? boardSVG(p) : p.t === "stones" ? stonesSVG(p) : "";
+function labPerm(b) {
+  const n = b.rows.length, pts = b.pts || [];
+  if (n > 10 || pts.length !== n || b.cols.length !== n) return null;
+  for (let k = 0; k < n; k++) if (b.rows[k] !== k + 1 || b.cols[k] !== k + 1) return null;
+  const p = Array(n).fill(0); pts.forEach(([r, c]) => p[r - 1] = c);
+  const d = p.map((c, i) => c - i - 1);
+  if (p.includes(0) || new Set(p).size !== n || new Set(d).size !== n || d.some(x => !b.D.includes(x))) return null;
+  return p.join(",");
+}
+const one = p => { if (p.t === "board") { const L = labPerm(p); return L ? `<div class="labable" data-lab="${L}" title="Open in the lab">${boardSVG(p)}<span class="labhint">lab ↗</span></div>` : boardSVG(p); }
+  return p.t === "stones" ? stonesSVG(p) : ""; };
 function picHTML(p) {
   if (p.t === "pair") return `<figure><div class="pics"><div>${one(p.a)}${p.a.cap ? `<figcaption>${esc(p.a.cap)}</figcaption>` : ""}</div><span class="mid">${esc(p.mid || "→")}</span><div>${one(p.b)}${p.b.cap ? `<figcaption>${esc(p.b.cap)}</figcaption>` : ""}</div></div>${p.cap ? `<figcaption>${esc(p.cap)}</figcaption>` : ""}</figure>`;
   return `<figure><div class="pics">${one(p)}</div>${p.cap ? `<figcaption>${esc(p.cap)}</figcaption>` : ""}</figure>`;
@@ -383,6 +396,11 @@ function head(chip, title, extra = "") {
 }
 P.addEventListener("click", e => {
   const g = e.target.closest("[data-go]"); if (g) return select(g.dataset.go, true);
+  const lb = e.target.closest("[data-lab]"); if (lb) { const body = $("pbody"); if (!body) return; const back = body.innerHTML, cls = body.className, wasWide = P.classList.contains("wide");
+    P.classList.add("wide"); body.className = "pbody frame lab";
+    body.innerHTML = `<div class="labbar"><button data-back>← Back to card</button></div><iframe src="labs/views.html#p=${lb.dataset.lab}" title="Four equivalent views"></iframe>`;
+    body.querySelector("[data-back]").onclick = ev => { ev.stopPropagation(); body.className = cls; body.innerHTML = back; P.classList.toggle("wide", wasWide); };
+    return; }
   if (e.target.closest("[data-close]")) return closePanel();
   if (e.target.closest("[data-full]")) return toggleFull();
 });

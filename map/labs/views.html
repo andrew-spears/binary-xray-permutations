@@ -65,7 +65,7 @@
   </div>
 </main>
 <main id="explore" hidden>
-  <div class="top"><button class="link" id="back">‹ intro</button><span></span></div>
+  <div class="top"><button class="link" id="back">‹ intro</button><button class="link" id="toedit">✎ edit board</button></div>
   <div class="row"><span class="lbl">n</span><button class="arrow" id="np">‹</button><span class="val" id="nv"></span><button class="arrow" id="nn">›</button><span class="spacer"></span></div>
   <div class="row"><span class="lbl">scores</span><button class="arrow" id="sp">‹</button><span class="val" id="sv"></span><button class="arrow" id="sn">›</button><button class="dice" id="sr" title="random irreducible sequence">⚄</button></div>
   <div class="row"><span class="lbl">witness</span><button class="arrow" id="wp">‹</button><span class="val" id="wv"></span><button class="arrow" id="wn">›</button><button class="dice" id="wr" title="random witness">⚄</button></div>
@@ -83,6 +83,14 @@
     <g id="g"></g>
   </svg>
   <div id="cap"></div>
+</main>
+<main id="editor" hidden>
+  <div class="top"><button class="link" id="edback">‹ explorer</button><span></span></div>
+  <div class="row"><span class="lbl">n</span><button class="arrow" id="enp">‹</button><span class="val" id="env"></span><button class="arrow" id="enn">›</button><span class="spacer"></span></div>
+  <div class="seg" id="eseg"><button data-m="s">Arrangement (stones)</button><button data-m="b">Witness (board)</button></div>
+  <svg id="ev" viewBox="0 0 360 360"><g id="eg"></g></svg>
+  <div id="estat" style="text-align:center;font-size:13px;color:var(--ink2);min-height:40px;margin:4px 8px"></div>
+  <div class="nav"><button class="arrow" id="eclear" title="clear" style="width:auto;padding:0 12px;border-radius:16px;font-size:13px">clear</button><button class="arrow" id="ecopy" title="copy the explorer's current witness" style="width:auto;padding:0 12px;border-radius:16px;font-size:13px">copy current</button><button class="go" id="estart">Explore →</button></div>
 </main>
 <script>
 // Ten well-separated hues, ordered so neighbouring ranks never share a hue family.
@@ -289,10 +297,68 @@ $("v").addEventListener("click", e => {
 });
 addEventListener("resize", header);
 window.startExplorer = () => {
-  setN(7); const k = SEQS.findIndex(s=>s.join()===window.INTRO_SCORES); if (k>=0) setSeq(k);
+  if (!(window.HASH_PERM && window.loadPerm(window.HASH_PERM))) { setN(7); const k = SEQS.findIndex(s=>s.join()===window.INTRO_SCORES); if (k>=0) setSeq(k); }
   tCur = 1; header(); go(1);
 };
 setN(4);
+window.loadPerm = p => { const n = p.length; if (n < 3 || n > 10) return false;
+  setN(n); const D0 = p.map((j,k)=>j-(k+1)).sort((a,b)=>a-b), s = D0.map((d,k)=>d+n-(k+1)).join();
+  const k = SEQS.findIndex(x=>x.join()===s); if (k < 0) return false;
+  setSeq(k); const w = WIT.findIndex(x=>x.join()===p.join()); loadWitness(Math.max(0,w)); return true; };
+// ---- board editor: build an arrangement (stones) or a witness (board) from scratch ----
+const ED = { n: 6, mode: "s", stones: new Set(), pts: new Map() };   // pts: row -> col
+function landau(Ds){ const n=Ds.length, s=[...Ds].sort((a,b)=>a-b).map((d,k)=>d+n-(k+1)); let sum=0, tight=[];
+  for (let k=1;k<=n;k++){ sum+=s[k-1]; const need=k*(k-1)/2;
+    if (sum<need) return { ok:false, msg:`fails at k = ${k}: the ${k} leftmost stones have ${sum} empty marks to their left, need ${need}` };
+    if (k<n && sum===need) tight.push(k); }
+  if (sum!==n*(n-1)/2) return { ok:false, msg:`unbalanced: total ${sum}, need ${n*(n-1)/2}` };
+  return { ok:true, s, msg: "Landau holds" + (tight.length ? ` (tight cut after ${tight.join(", ")})` : ", no tight cut") }; }
+function edState(){ const n=ED.n;
+  if (ED.mode==="s") { const Ds=[...ED.stones].sort((a,b)=>a-b);
+    if (Ds.length!==n) return { ok:false, msg:`${Ds.length} of ${n} stones placed` };
+    const L=landau(Ds); return { ok:L.ok, msg:L.msg, D:Ds }; }
+  const P=[...ED.pts.entries()], rows=new Map(), cols=new Map(), dg=new Map();
+  P.forEach(([r,c])=>{ cols.set(c,(cols.get(c)||0)+1); dg.set(c-r,(dg.get(c-r)||0)+1); });
+  const bad=new Set(P.filter(([r,c])=>cols.get(c)>1||dg.get(c-r)>1).map(([r])=>r));
+  if (P.length!==n) return { ok:false, bad, msg:`${P.length} of ${n} points placed` + (bad.size?"; red points share a column or diagonal":"") };
+  if (bad.size) return { ok:false, bad, msg:"red points share a column or diagonal" };
+  const perm=Array.from({length:n},(_,i)=>ED.pts.get(i+1)); return { ok:true, bad, perm, msg:"a witness: every row, column and diagonal used at most once" }; }
+function edRender(){ const n=ED.n; $("env").textContent=n;
+  document.querySelectorAll("#eseg button").forEach(b=>b.classList.toggle("on", b.dataset.m===ED.mode));
+  const st=edState(); let o="";
+  if (ED.mode==="s") { const m=2*n-1, w=340/m, y=180;
+    o+=`<line x1="10" y1="${y+14}" x2="350" y2="${y+14}" stroke="var(--ink2)" stroke-width="3" stroke-linecap="round"/>`;
+    for (let k=0;k<m;k++){ const d=k-(n-1), x=10+w*(k+.5), on=ED.stones.has(d);
+      o+=`<g data-d="${d}" style="cursor:pointer"><rect x="${x-w/2}" y="${y-40}" width="${w}" height="80" fill="transparent"/>`+
+         `<line x1="${x}" y1="${y+14}" x2="${x}" y2="${y+22}" stroke="var(--ink2)"/>`+
+         `<text x="${x}" y="${y+36}" text-anchor="middle" font-size="${Math.min(12,w*.6)}" fill="var(--ink2)">${d>0?"+":""}${d}</text>`+
+         (on?`<circle cx="${x}" cy="${y+14-w*.42}" r="${w*.42}" fill="#6f747c"/>`:`<circle cx="${x}" cy="${y+14-w*.42}" r="${w*.3}" fill="none" stroke="var(--grid)" stroke-dasharray="2 2"/>`)+`</g>`; }
+    if (st.D) o+=`<text x="180" y="${y-70}" text-anchor="middle" font-size="13" fill="var(--ink2)">scores ${landau(st.D).s?landau(st.D).s.join(" "):""}</text>`;
+  } else { const c=330/n, x0=15, y0=15;
+    for (let r=1;r<=n;r++) for (let j=1;j<=n;j++){ const x=x0+(j-1)*c, y=y0+(r-1)*c;
+      o+=`<rect data-r="${r}" data-c="${j}" x="${x}" y="${y}" width="${c}" height="${c}" fill="var(--bg)" stroke="var(--grid)" style="cursor:pointer"/>`;
+      if (c>22) o+=`<text x="${x+c/2}" y="${y+c/2+4}" text-anchor="middle" font-size="10" fill="var(--grid)" pointer-events="none">${j-r>0?"+":""}${j-r}</text>`; }
+    ED.pts.forEach((j,r)=>{ o+=`<circle cx="${x0+(j-.5)*c}" cy="${y0+(r-.5)*c}" r="${c*.3}" fill="${st.bad&&st.bad.has(r)?"var(--bad)":"var(--ink)"}" pointer-events="none"/>`; }); }
+  $("eg").innerHTML=o; $("estat").innerHTML=st.msg; $("estat").style.color = st.ok ? "var(--ink)" : "var(--ink2)";
+  $("estart").disabled=!st.ok; $("estart").style.opacity=st.ok?1:.35; }
+$("ev").onclick = e => { const g=e.target.closest("[data-d]"), c=e.target.closest("[data-c]");
+  if (ED.mode==="s" && g) { const d=+g.dataset.d; ED.stones.has(d)?ED.stones.delete(d):ED.stones.add(d); }
+  else if (ED.mode==="b" && c) { const r=+c.dataset.r, j=+c.dataset.c; if (ED.pts.get(r)===j) ED.pts.delete(r); else ED.pts.set(r,j); }
+  edRender(); };
+$("eseg").onclick = e => { const m=e.target.dataset.m; if (!m) return;
+  if (m==="s" && ED.mode==="b" && !ED.stones.size) ED.pts.forEach((j,r)=>ED.stones.add(j-r));
+  ED.mode=m; edRender(); };
+$("enp").onclick = () => { if (ED.n>3) { ED.n--; ED.stones.clear(); ED.pts.clear(); edRender(); } };
+$("enn").onclick = () => { if (ED.n<10) { ED.n++; ED.stones.clear(); ED.pts.clear(); edRender(); } };
+$("eclear").onclick = () => { ED.stones.clear(); ED.pts.clear(); edRender(); };
+$("ecopy").onclick = () => { ED.n=N; ED.stones=new Set(D); ED.pts=new Map(pts.map(p=>[p.i,p.j])); edRender(); };
+$("toedit").onclick = () => { $("explore").hidden=true; $("editor").hidden=false; if (!ED.stones.size && !ED.pts.size) $("ecopy").onclick(); else edRender(); };
+$("edback").onclick = () => { $("editor").hidden=true; $("explore").hidden=false; };
+$("estart").onclick = () => { const st=edState(); if (!st.ok) return;
+  if (ED.mode==="s") { setN(ED.n); const k=SEQS.findIndex(x=>x.join()===landau(st.D).s.join()); if (k<0) return; setSeq(k); }
+  else window.loadPerm(st.perm);
+  $("editor").hidden=true; $("explore").hidden=false; refresh(); };
+{ const m = location.hash.match(/p=([\d,]+)/); window.HASH_PERM = m ? m[1].split(",").map(Number) : null; }
 
 // ================= INTRO: stones on a balanced plank =================
 (() => {
@@ -410,6 +476,7 @@ setN(4);
   $("igo").onclick = enter; $("skip").onclick = enter;
   $("back").onclick = () => { $("explore").hidden = true; $("intro").hidden = false; show(0); };
   show(0);
+  if (window.HASH_PERM) enter();
 })();
 </script>
 </body>
