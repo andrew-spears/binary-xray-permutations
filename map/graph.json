@@ -3737,15 +3737,37 @@
    "refs": "agents/interface/letters_zigzag.py, letters_zigzag_exc.py, letters_closed.py, letters_static.py, leapfrog.py"
   },
   {
+   "id": "rounds",
+   "area": "ideas",
+   "title": "The chain runs in rounds",
+   "status": "proved",
+   "intuition": "The chain looks like one long walk, but it has a simple large-scale shape. The mark climbs through the blocks of M one after another. Each block either lets it through to the next block or sends it back, and a mark that is sent back retraces its steps all the way to the bottom stone, repairing every block below on the way. So a run is a sequence of rounds, started alternately by a row move and a column move; each failed round changes exactly one block. Whether a block lets the mark through depends only on the block's position and on whether the mark enters by a row or a column move.",
+   "statement": "Let M = U_1 … U_k, each U_i a single 0 or a block + M′ −, and take any witness of each U_i, placed as a direct sum between two corner stones (U_0 and U_{k+1}). Run the zigzag chain of the card 'Zigzag chain from every solution'. Then: (a) the mark only passes between stones of the same U_i or of neighbouring ones; (b) whenever it passes down from U_j to U_{j−1} it goes on down to the bottom stone, undoing every move of the current round outside U_j, so that only U_j has changed; (c) the bottom stone then makes its other move. If U_j in position q sends back a mark that entered by a row move and ends in position q′, then in position q′ it sends back a mark entering by a row move and ends in q; the same for column moves.",
+   "example": "M = (+ 0 −)(+ + 0 − −), n = 10. The witness of + 0 − built rows-first always lets the mark through and hands it on by a column move; the one built columns-first hands it on by a row move. A witness of + + 0 − − built rows-first lets a row move through and sends a column move back. So the chain loops exactly when both blocks were built with the same first move.",
+   "evidence": "Proof: let I_i be the rows (= columns) of U_i. By induction on the moves, below the marked block each boundary has exactly one pair of neighbouring lines exchanged (the two rows or the two columns at the boundary), and above it nothing has moved; so a move either stays inside a block, or exchanges the two lines at a boundary going up, or undoes that exchange going down. When the mark comes down into U_{j−1}, no stone of U_{j−1} or below has moved since the mark left, so the stone that receives it is the one that passed it up, back in its earlier place, and its next move is of the kind by which it first received the mark; that move is its own inverse, so it undoes the earlier one, and so on down to the bottom stone. Checked on 1,705,474 chain runs (n ≤ 15): no exception.",
+   "refs": "agents/interface/letters_pass.py (15: 25 seconds), letters_trace.py, letters_notes.md"
+  },
+  {
+   "id": "pass",
+   "area": "ideas",
+   "title": "Every block lets each kind of move through",
+   "status": "empirical",
+   "intuition": "By the card 'The chain runs in rounds', the first round reaches the top if every block lets the mark through. A single stone always does. So if every block had, for each kind of entering move, a witness that lets it through, one could choose the witnesses from the bottom up and the first round would never fail. Because of the reflection that exchanges rows and columns, it is enough that some witness of the block lets some move through. Claim: such witnesses always exist.",
+   "statement": "Let K be the class of witnesses built by direct sums and the zigzag chain (K(0) = one stone; K(+ M −) = all results of the chain from direct sums of members of K of the blocks of M). For every block B = + M − and for each kind of move m (row or column) there is a witness in K(B) which, placed between two corner stones, lets a mark that enters by m through to the top stone.",
+   "example": "B = + + 0 − −: the witness built rows-first lets a row move through and sends a column move back; the one built columns-first does the opposite.",
+   "evidence": "True for all 9,360 blocks of length ≤ 13 (200,391 witnesses in K; 914 of them send both kinds of move back, first at length 10). The claim for B is about a second mark crossing the trail of the first, and is not an induction by itself: for + 0 … 0 − the second mark visits every third stone, so what a block does depends on its length mod 3.",
+   "refs": "agents/interface/letters_pass.py (15: 25 seconds), letters_scatter.py"
+  },
+  {
    "id": "flip",
    "area": "ideas",
    "title": "A loop is cured by flipping one block",
-   "status": "empirical",
-   "intuition": "The zigzag chain can run in a closed loop, so it does not work from every solution. But the solutions the induction builds come in pairs: the chain can start with a row move or a column move, and these are the two ends of one leapfrog path. So every block inside M carries a two-way choice. In all cases seen, a loop is caused by two blocks whose choices clash, and switching one of them removes the loop. Claim: one switch always suffices.",
-   "statement": "Let M = B_1 … B_k be a word as in the card 'Every stone within one mark of evenly spaced', split at its returns to height 0 (each B_i is a single 0 or a block + M′ −). Define the class K by: K(0) is the single stone; K(+ M′ −) is the set of witnesses the zigzag chain produces from direct sums of members of K of the blocks of M′, with either first move. The two results of the chain from the same start are called siblings. Claim: if the chain from a_1 ⊕ … ⊕ a_k (a_i ∈ K(B_i), plus corner stones) closes into a loop, then for some i it reaches the last stone after a_i is replaced by its sibling.",
-   "example": "M = (+ 0 −)(+ + 0 − −), n = 10: the chain loops exactly when both blocks were built with the same first move (4 of the 8 combinations); switching either block cures it. With a 0 between the two blocks it loops exactly when they differ.",
-   "evidence": "All words + M − up to n = 13: 100,782 chain runs, 548 loops, and every loop is cured by one switch. The switches that do not help are of bystander blocks: + − (its two siblings are equal) 144 times and + 0 − 16 times; every other block cured the loop each time it was switched. No fixed rule for the choices works: always rows first fails at n = 10, alternating by nesting depth at 10, by the parity of the block's start (11), end (12) or length (10).",
-   "refs": "agents/interface/letters_flip.py (13: 4 minutes), letters_chir.py, letters_canon.py, letters_pos.py, letters_closed.py"
+   "status": "disproved",
+   "intuition": "The solutions the induction builds come in pairs: the chain can start with a row move or a column move, and these are the two ends of one leapfrog path. So every block inside M carries a two-way choice, and in small cases a loop is caused by two blocks whose choices clash. Claim: switching one block always removes the loop.",
+   "statement": "With M = B_1 … B_k and K as in the card 'Every block lets each kind of move through', call the two results of the chain from the same start (rows first, columns first) siblings. If the chain from a_1 ⊕ … ⊕ a_k (a_i ∈ K(B_i), plus corner stones) closes into a loop, then for some i it reaches the last stone after a_i is replaced by its sibling.",
+   "example": "n = 15, M = (+ 0 −)(+ + 0 − −)(+ + 0 − −) with all three built rows-first. The second block sends the mark back. Switching the first or the second block gets the mark past the second block, but for one of the two ways the inside of the second block can be built the third block then sends it back; switching the third block changes nothing.",
+   "evidence": "True for every loop up to n = 14. Fails at n = 15 (the example); 138 of 42,052 loops up to n = 16 are not cured by one switch. Switching both the first and the third block cures the example.",
+   "refs": "agents/interface/letters_flip.py (16: 1 minute), letters_trace.py, letters_bits.py, letters_chir.py, letters_canon.py, letters_pos.py"
   },
   {
    "id": "leapfrog",
@@ -4275,6 +4297,23 @@
    "kind": "related",
    "status": "unchecked",
    "why": "The weaker statement that survives: only witnesses built by the induction, and one switch allowed."
+  },
+  {
+   "from": [
+    "rounds",
+    "pass"
+   ],
+   "to": "l1",
+   "kind": "implies",
+   "status": "proved",
+   "why": "Induction on the length: K(M) is the direct sums; for + M − choose the witnesses of the blocks of M from the bottom up so that each lets through the move handed on by the one below (a single stone always does); by the rounds card the first round reaches the top stone."
+  },
+  {
+   "from": "flip",
+   "to": "pass",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "What replaced it: choose every block for the move that reaches it, instead of repairing a loop afterwards."
   },
   {
    "from": "leapfrog",

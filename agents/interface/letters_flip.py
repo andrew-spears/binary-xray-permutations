@@ -31,31 +31,32 @@ def KM(w):            # all witnesses of a word: direct sums of block witnesses
     for b in blocks(w):
         res = [a + tuple((r + off, c + off) for r, c in x) for a in res for x, _ in KB(b)]; off += len(b)
     return tuple(res)
-st = Counter(); ex = {}
-for n in range(4, int(argv[1]) + 1):
-    for M in product((-1, 0, 1), repeat=n - 2):
-        s = 0; ok = True
-        for x in M:
-            s += x
-            if s < 0: ok = False; break
-        if not ok or s: continue
-        bl = blocks(M); lists = [KB(b) for b in bl]
-        if any(not l for l in lists): st["block with empty class"] += 1; continue
-        offs = [sum(len(b) for b in bl[:i]) for i in range(len(bl))]
-        def build(choice): return tuple((r + o, c + o) for wit, o in zip(choice, offs) for r, c in wit)
-        for combo in product(*lists):
-            a = build([x for x, _ in combo]); st["runs"] += 1
-            if chain(n, frame(a, n), 0)[0]: continue
-            st["loops"] += 1
-            fixes = []
-            for i, (x, sib) in enumerate(combo):
-                if sib is None: continue
-                ch = [y for y, _ in combo]; ch[i] = sib
-                if chain(n, frame(build(ch), n), 0)[0]: fixes.append(i)
-            nz = [i for i, (x, sib) in enumerate(combo) if sib is not None]
-            if not fixes: st["no single flip fixes"] += 1; ex.setdefault("none", (n, M))
-            if nz and nz[-1] not in fixes: st["last block flip fails"] += 1; ex.setdefault("last", (n, M))
-            if nz and nz[0] not in fixes: st["first block flip fails"] += 1; ex.setdefault("first", (n, M))
-            if len(fixes) != len(nz): st["some flip fails"] += 1; ex.setdefault("some", (n, M))
-    print(n, dict(st), flush=True)
-print(ex)
+if __name__ == "__main__":
+    st = Counter(); ex = {}
+    for n in range(4, int(argv[1]) + 1):
+        for M in product((-1, 0, 1), repeat=n - 2):
+            s = 0; ok = True
+            for x in M:
+                s += x
+                if s < 0: ok = False; break
+            if not ok or s: continue
+            bl = blocks(M); lists = [KB(b) for b in bl]
+            if any(not l for l in lists): st["block with empty class"] += 1; continue
+            offs = [sum(len(b) for b in bl[:i]) for i in range(len(bl))]
+            def build(choice): return tuple((r + o, c + o) for wit, o in zip(choice, offs) for r, c in wit)
+            for combo in product(*lists):
+                a = build([x for x, _ in combo]); st["runs"] += 1
+                if chain(n, frame(a, n), 0)[0]: continue
+                st["loops"] += 1
+                fixes = []
+                for i, (x, sib) in enumerate(combo):
+                    if sib is None: continue
+                    ch = [y for y, _ in combo]; ch[i] = sib
+                    if chain(n, frame(build(ch), n), 0)[0]: fixes.append(i)
+                nz = [i for i, (x, sib) in enumerate(combo) if sib is not None]
+                if not fixes: st["no single flip fixes"] += 1; ex.setdefault("none", (n, M))
+                if nz and nz[-1] not in fixes: st["last block flip fails"] += 1; ex.setdefault("last", (n, M))
+                if nz and nz[0] not in fixes: st["first block flip fails"] += 1; ex.setdefault("first", (n, M))
+                if len(fixes) != len(nz): st["some flip fails"] += 1; ex.setdefault("some", (n, M))
+        print(n, dict(st), flush=True)
+    print(ex)

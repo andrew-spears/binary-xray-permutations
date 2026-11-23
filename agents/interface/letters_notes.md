@@ -129,11 +129,30 @@ witnesses of D (mark i) and of D' (mark j) are vertices of the same graph X(D + 
   column b_k - n', and G1 says the sum test decides that.  The recursion above is G1's corner peel, nothing more.
   (I re-ran one-gap boards before finding G1 / edgepeel / sum2 in state.md: same answers, nothing new.)
 
-## Flip lead (letters_flip.py 13)
-Siblings = the two witnesses of + M' - that the chain gives from the same inner witness (row first / column first);
-they are the two ends of one leapfrog path.  For + M -, M = B_1 ... B_k, block witnesses a_i in K(B_i):
-whenever the chain loops, replacing ONE a_i by its sibling makes it reach the top stone.  n <= 13: 548 loops in
-100,782 runs, no exception.  Switches that do not help are only of bystanders: + - (siblings equal, 144 times) and
-+ 0 - (16 times).  'One switch always suffices' => K is never empty => L_1 by induction on the length.
-Idea for a proof (not done): a state space with TWO marks (the outer chain's and block i's own), whose moves commute
-when the marks are far apart; the loop and the sibling's path would be two boundary pieces of one surface.
+## Rounds lemma (proved) and scattering (letters_pass.py, letters_trace.py, letters_scatter.py)
+M = U_1 ... U_k (units: a single 0 or a block + M' -), ANY witness of each unit, direct sum between corner stones
+U_0, U_{k+1}; I_i = rows = columns of U_i.
+Invariant: below the marked unit, each boundary has exactly one pair of neighbouring lines exchanged (the two rows
+or the two columns at the boundary); above it nothing has moved.  So a move is internal, or goes up (exchanging the
+two lines at a boundary), or goes down (undoing that exchange, hence by the same kind of move as the last way up).
+Retracing: when the mark comes down into U_{j-1}, nothing in U_{j-1} or below has moved since the mark left.  The
+stone that receives it is the one that passed it up, back in its earlier place; its next move is of the kind by which
+it first received the mark; that move is an involution, so it undoes the earlier one; and so on down to stone 0.
+=> a run is a sequence of ROUNDS, started alternately by R and C at stone 0.  In a round the mark climbs unit by
+   unit; a unit either transmits (hands the mark up, by R or C) or reflects (sends it back; then everything below
+   is restored, the unit itself has changed, and the next round starts).  Reflection on a given entering move is an
+   involution on the unit's positions.  The run loops iff the rounds return to the starting position.
+Scattering table of a unit between two corner stones, entry R / entry C  (T = through, with the move handed on):
+  0: TC/TR     + -: TC/TR     + 0 - (rows first): TC/TC, (columns first): TR/TR     + 0 0 -: TR/TC
+  + + 0 - - (rows first): TC/F or TR/F, (columns first): F/TC or F/TR      (letters_scatter.py 7 -v for the rest)
+This explains every loop seen: e.g. (+0-)(++0--) loops iff both blocks have the same first move.
+- No simple algebra: for + 0^k - the entering mark visits every third stone (k = 9: stones 2, 5, 8, 11 or 1, 4, 7, 10 of the block),
+  so the behaviour depends on k mod 3 and on parities; a block's behaviour is 'a second mark crossing the trail of
+  the first', and deeper nesting means more trails.
+- Witnesses in K that reflect both moves exist from block length 10 (914 of 200,391 up to length 13).
+- PASSING CLAIM (open, true for all 9,360 blocks of length <= 13): every block has, for each entering move, a witness
+  in K that transmits it.  (By the transpose symmetry of K: some witness transmits some move.)  With the rounds
+  lemma: choose the units bottom-up so that each transmits what reaches it; round 1 succeeds; so K is never empty.
+- RED: 'a loop is cured by replacing one block witness by its sibling (same inside, other first move)': true for
+  n <= 14, false at n = 15, M = (+0-)(++0--)(++0--), all rows-first, for one of the two insides of the second block
+  (letters_flip.py 16: 138 of 42,052 loops).
