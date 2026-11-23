@@ -54,3 +54,9 @@ Check: `python3 fx.py ones 20` compares with the machine for n ≤ 20.
   core2 dim^2: l=1: .881 .827 .760 .754 .766 .814; l=0: .937 .909 .913 .890 .892 .903  (sum 1.64-1.82, no decay)
   core2 dim:   l=1: .681 .647 .592 .565 .569 .599; l=0: .817 .782 .768 .735 .726 .725  (sum ~1.30-1.32 at k=6..8)
   dim:         l=1: .646 .591 .579 .588 .595 .603; l=0: .838 .785 .766 .752 .741 .732
+  k = 9 (s = 45, 54 s, 0.9 GB): l=1: |F| 3,700,460  dim .6058  core2 dim .6063  core2 dim^2 .8301;
+                               l=0: |F| 5,515,478  dim .7235  core2 dim .7182  core2 dim^2 .9010
+- NEXT: (i) fx.py zeros 12 1 too slow in python -> check guess for 1^12 0 with ./fx sizes vs parity-count size;
+  (ii) near-staircases (k k k-1 .. 1; minimisers at s = 16..24 from out/argmin_core2dim2_20.txt) at s ~ 30-40 via ./fx;
+  (iii) item 3: defect sets via (LAST); letter-0 flow proof attempt (growth diagram) or NOTHING;
+  (iv) rewrite REPORT2.md (verdict per item), add runs2.sh, PR into devin/1795444188-two-marks.

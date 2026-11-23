@@ -22,3 +22,8 @@ x = 8 7 6 5 4 3 2 1 0
 3.56s 120932KB
 after letter  8 ( 1): slack 36  |F| =    444905   dim 0.6027   core2 dim 0.5992   core2 dim^2 0.8135
 after letter  9 ( 0): slack 36  |F| =    671385   dim 0.7319   core2 dim 0.7248   core2 dim^2 0.9030
+
+x = 9 8 7 6 5 4 3 2 1 0
+53.91s 903300KB
+after letter  9 ( 1): slack 45  |F| =   3700460   dim 0.6058   core2 dim 0.6063   core2 dim^2 0.8301
+after letter 10 ( 0): slack 45  |F| =   5515478   dim 0.7235   core2 dim 0.7182   core2 dim^2 0.9010
