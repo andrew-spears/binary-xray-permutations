@@ -48,7 +48,7 @@ void rec(int k, int sl, bool down) {
     int lo = k ? e[k - 1] - 1 : 1;
     for (int x = max(lo, -sl); x <= n; x++) {
         int s2 = sl + x; if (k < n - 1 && s2 <= 0) continue; if (uni && down && x > 0) continue;
-        if (s2 > (n - 1 - k) * (n - k) / 2 + (n - 1 - k) * max(x, 0)) break;
+        if (s2 > (n - 1 - k) * (n - k) / 2 - (n - 1 - k) * x) break;
         e[k] = x; rec(k + 1, s2, down || x < 0); }
 }
 int main(int argc, char** argv) {
@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
                 return; }
             int lo = k ? e[k - 1] - 1 : 1;
             for (int x = max(lo, -sl); x <= n; x++) { int s2 = sl + x; if (k < n - 1 && s2 <= 0) continue; if (uni && down && x > 0) continue;
-                if (s2 > (n - 1 - k) * (n - k) / 2 + (n - 1 - k) * max(x, 0)) break; e[k] = x; go(k + 1, s2, down || x < 0); } };
+                if (s2 > (n - 1 - k) * (n - k) / 2 - (n - 1 - k) * x) break; e[k] = x; go(k + 1, s2, down || x < 0); } };
         go(0, 0, false); printf("n = %d (%s, no tight cut): (ceil(max|e|/2), least |S| of an RR-split, 0 = none) -> words:", n, uni ? "unimodal" : "all valid");
         for (auto& q : H) printf("  (%d,%d): %ld", q.first.first, q.first.second, q.second); printf("\n"); return 0; }
     n = atoi(argv[1]); for (int i = 2; i < argc; i++) { if (!strcmp(argv[i], "uni")) uni = true; if (!strcmp(argv[i], "v")) verbose = true; }
