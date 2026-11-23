@@ -21,6 +21,7 @@ def step(A, s, e):
 full = [(1 << len(L)) - 1 for L in St]
 def gfp():
     G = [1] + full[1:]
+    if S == 0: return G                                  # only the empty pattern
     while True:
         ch = False
         for s in range(1, S + 1):
