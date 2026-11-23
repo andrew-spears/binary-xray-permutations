@@ -16,3 +16,13 @@ Known rays (alpha,beta,gamma): (1,1,0) x=(1,1); (3,1,2) x=(1,1,0,0); (3,1,4) x=(
 x=(2) gives (0,1,1): violates (i) but is excluded (0 cannot follow 2).
 TODO: test (i),(ii) on all prefixes (slack <= 10, length <= 12, last letter <= 1) with count_rule.cstep; identify which
 concrete state is alpha/beta (rows used); by the slack-1 lemma the direction of L_x depends only on the tail since the last slack <= 1.
+
+## slack2.py 6 10 (committed script) results
+- formulas for N(xy), N(x0y) confirmed implicitly (assert symmetric ok).  (ii) gamma <= 4 beta holds for ALL prefixes at slack 2
+  (4,340 prefixes), tight (=4) at x=(2,1,0,0,-1,0).  After a last letter 1: gamma = 0 always.
+- (i) alpha >= beta holds after last letter 0 or 1 (2,418 prefixes) but FAILS after last letter -1 (210 of 909, e.g. (2,1,0,0,-1): (2,4,2))
+  and -2 (111 of 272); min alpha/beta = 1/2.  So p p' can be negative: need per-last-letter regions.
+- legal pairs for DEL0: last letter l of x and l' of y* with l <= 1, l' <= 1 and l + l' <= 1 (so that xy is legal).
+NEXT: with P = alpha/beta - 1, Q = gamma/beta - 2:  D/(beta beta') = 2 P P' + 4 - Q Q'.  Compute per last letter the convex hull
+of the points (P,Q) (does it stabilise with N?), then min of D over vertex pairs of legal classes.  If hulls have a simple closure
+-> finite statement 'direction of L_x lies in polygon R_l'.  Then items 2 (injection) and 3 (row holes) of the task, then report + PR.
