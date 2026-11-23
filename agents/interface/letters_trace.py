@@ -1,6 +1,6 @@
 """Trace the zigzag chain on + M - block by block.  For each choice of block witnesses from K, print the sequence of
 visits: block number, how the mark entered (from below '>' or above '<', with the move R/C that brought it in),
-how many stones it marked inside, and where it left.  Usage: python3 letters_trace.py '+0-++0--' [first]"""
+how many times a stone inside was marked (the entry counts), and where it left.  Usage: python3 letters_trace.py '+0-++0--' [first]"""
 import sys
 sys.argv, argv = [sys.argv[0], "0"], sys.argv
 from itertools import product
@@ -34,5 +34,5 @@ if __name__ == "__main__":
         for a_, b_, m, cur, o in seq:
             if a_ == b_: inside += 1
             else:
-                out.append(f"{inside}" if out else ""); out.append(f" {'>' if b_ > a_ else '<'}{m} [{b_}]:"); inside = 0
+                out.append(f"{inside + 1}" if out else ""); out.append(f" {'>' if b_ > a_ else '<'}{m} [{b_}]:"); inside = 0
         print(bits, why, len(seq), "".join(out))
