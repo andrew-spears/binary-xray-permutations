@@ -3833,6 +3833,17 @@
    "refs": "agents/universal/REPORT.md"
   },
   {
+   "id": "blocktypes",
+   "area": "ideas",
+   "title": "Sets that remember only a falling run of five letters, stepped over whole blocks",
+   "status": "empirical",
+   "intuition": "The card above needed to remember the last m letters, and the number of such memories explodes. Two changes make the memory small. First, a set is asked for only when the word has just written a 0 or a 1; a stretch of other letters is swallowed whole as one block. Second, the memory keeps only the tail of the word after its last rise, at most five letters, and after a rise letters fall by 0 or 1 each time, so there are at most 62 different tails. Every arrangement other than the evenly spaced one has a 1 followed by a 0, and cutting there the two sets share a hole pattern, so such a family for every slack would prove the conjecture. Claim: such sets exist for all slacks up to 24.",
+   "statement": "Give a set J only to prefixes that end in a letter 0 or 1, and let the type of such a prefix be its end slack together with its last 5 letters, cut off at the last place where the letters rise (at most 62 types per slack). For all words with slacks ≤ 24 there are nonempty sets J(type), J(empty word) = {empty state}, with J(type of x w) ⊆ step_w(J(type of x)) for every block w = (letters other than 0 and 1)* followed by one letter 0 or 1, such that J(t) ∩ conj J(t′) ≠ ∅ for every type t ending in 1 and t′ ending in 0 of the same slack.",
+   "example": "Tails of 2, 3, 4 letters work through slack 5, 7, 14 and then fail; 5 letters work through 24 (not run further).\nWithout blocks the same 5-letter tail already fails at slack 7.\nThe sets are large, 26 to 100 percent of all hole patterns of that slack; what is left out is mostly hooks.",
+   "evidence": "Computed as the largest such family (cd agents/universal && g++ -O2 -std=c++17 -o types types.cpp && KLO=0 ./types 16 A4K, 8 seconds, last line WORKS; bound 20 a few minutes, bound 24 about 20 minutes). The reduction to the conjecture is proved in the report (§0). It is not an induction for all slacks: the tail length needed still grows (slowly) with the slack, a block has unbounded length, and no rule for the sets was found. The coarser memories proposed earlier (length of the final falling run, run of equal letters, letter before the run, last rise and its age) all fail by slack 7 without blocks and by slack 18 with blocks.",
+   "refs": "agents/universal/REPORT2.md"
+  },
+  {
    "id": "simorder",
    "area": "ideas",
    "title": "One hole pattern is at least as good as another",
@@ -4689,6 +4700,13 @@
    "kind": "related",
    "status": "unchecked",
    "why": "The memory-1 version; fails."
+  },
+  {
+   "from": "blocktypes",
+   "to": "meminv",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The same certificate with a far smaller memory: blocks and a 5-letter falling tail."
   },
   {
    "from": "nonneg",
