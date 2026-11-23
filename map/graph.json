@@ -3798,8 +3798,8 @@
    "intuition": "An odd number is not zero, so this would prove the conjecture, and it is an odd split in which half of the data (the rows) is fixed in advance. Only the choice of stones S is left. Every other row does not work, and neither does the top block of rows; among all row sets, the ones that work for every arrangement of a given size are the evenly spread ones with gaps of 2 or 3. A reason to expect 3: over the field with 4 elements, weight a solution by ω^(row of stone k) for each stone k in a chosen set, ω a cube root of 1. The weighted count is the coefficient of x^d in ∏_{i<j} (u_i x_i² + (u_i + u_j) x_i x_j + u_j x_j²): a sum over tournaments in which two stones with different weights u may tie. With all weights equal the ties vanish and only the evenly spaced arrangement survives; three weights keep them. Claim: for every valid D some S makes the count for R = {1, 4, 7, …} odd.",
    "statement": "Let R be the rows r ≡ 1 (mod 3) of the n × n board. For every valid D there is a set S of stones such that the number of solutions in which the stones in the rows of R are exactly S is odd.",
    "example": "n = 4, D = {−2, −1, 1, 2}: R = {1, 4}. The two solutions 2 4 1 3 and 3 1 4 2 put different stones in rows 1 and 4, so each of the two sets S occurs once.",
-   "evidence": "Every valid D with n ≤ 14 (158,808 arrangements at n = 14). Also rows ≡ 2 (n ≤ 13), rows ≡ 0 and the complement pattern (n ≤ 12). Some arrangements have exactly one such S. No rule for S or for the weights from a stone's letter, position or slack modulo 3 works (n ≤ 8). No proof idea beyond the tournament formula.",
-   "refs": "agents/rowcut/NOTES.md, fixedR.cpp (./fixedR 12 100, 2 s), f4.py"
+   "evidence": "Every valid D with n ≤ 15, for each of the three row classes modulo 3 (223,971 arrangements without a tight cut at n = 15; sub-session, agents/thirds); with all partial sums of the word ≤ 2, up to n = 28. Some arrangements have exactly one such S. No rule for S works: weights from a stone's letter, position or slack modulo 3 (n ≤ 8), S from the first or last solution, S a residue class of stones (all fail at n = 9). The statement is false for partial boards with a general hole pattern (slack 2), so it cannot be carried along the word as it stands. Reformulated without permutations on the card 'Weighted by cube roots of 1'.",
+   "refs": "agents/rowcut/NOTES.md, fixedR.cpp (./fixedR 12 100, 2 s), f4.py; agents/thirds/REPORT.md, sweep.sh (6 minutes)"
   },
   {
    "id": "rowhalf",
@@ -3811,6 +3811,28 @@
    "example": "Odd rows, n = 9: the words 1 1 2 1 0 −1 −2 −1 −1 and 1 1 0 1 0 −1 0 −1 −1 have no such S. Top rows, n = 9: 2 1 0 −1 0 1 0 −1 −2 has none for any a.",
    "evidence": "Odd rows: holds for n ≤ 8, 2 failures at n = 9, 483 at n = 13. Top rows: holds for arrangements without a tight cut for n ≤ 8, 4 failures at n = 9.",
    "refs": "agents/rowcut/NOTES.md, fixedR.cpp (./fixedR 9 10), rowcut.cpp"
+  },
+  {
+   "id": "f4phase",
+   "area": "ideas",
+   "title": "Weighted by cube roots of 1, the solutions add up to 0 or to one known power",
+   "status": "proved",
+   "intuition": "The card 'Fix every third row' asks for an odd count of solutions with a chosen set of stones in rows 1, 4, 7, …. Membership of a row in that set is a sum of three powers of ω, so every such count is a sum of the weighted totals F(u). Before this result each F(u) was one of four values with no pattern. The theorem says the value is known in advance up to a 0/1 factor: a change of variables removes the weights from the formula and leaves a plain count of tournaments in which only stones of different weight may tie. So the fixed-rows card becomes a statement about tournaments on three teams of stones, with no permutations in it: some count for (rows, S) is odd exactly when some set Z of stones has an odd number of (split of the other stones into two teams, tournament with ties only between teams) with the two teams' mark sums different modulo 3. This also explains why 3 is special: only in the field with 4 elements is the middle coefficient 0 or 1 for all weights. It is a restatement, not a proof: no rule for the set of stones came out of it. Claim: every weighted total is 0 or the single power ∏ u_k^(−d_k).",
+   "statement": "Work in the field with 4 elements, ω² + ω + 1 = 0. Give each stone k a weight u_k ∈ {1, ω, ω²} and let F(u) = Σ over solutions of ∏_k u_k^(row of stone k). Then F(u) = τ(u) · ∏_k u_k^(−d_k), where τ(u) ∈ {0, 1} is the parity of the number of tournaments with scores d (2 points a game, a tie gives 1 each) whose ties are only between stones with different weights.",
+   "example": "All weights equal: no ties are allowed, the only tournament-score with no ties that is a valid D is the evenly spaced one, so F is 0 unless D is evenly spaced. This is the fact that the number of solutions is even except for the evenly spaced arrangement.",
+   "evidence": "Hand proof by a sub-session (agents/thirds/REPORT.md §1, Theorem 1 and Corollary 2; the substitution x_i = y_i / u_i² is five lines). Checked against brute force for every valid D and every u for n ≤ 6 (python3 agents/thirds/f4phase.py 6; partition.py 6).",
+   "refs": "agents/thirds/REPORT.md §1; f4phase.py, partition.py, formula.py"
+  },
+  {
+   "id": "thirdsgap",
+   "area": "ideas",
+   "title": "Rows spaced by a mix of 2 and 3 in place of every third row",
+   "status": "disproved",
+   "intuition": "For small boards many evenly spread row sets work, with gaps of 2 or 3 in any mix, which suggested that 'every third row' is one member of a family. It is not: each mixed repeating pattern tried fails on a larger board, and the list of minimal patterns that fail keeps growing with the board size, so there is no description of the good row sets by finitely many forbidden pieces. Only the pure period 3 has survived. Claim (false): mixed repeating gap patterns also work.",
+   "statement": "For a row set R whose gaps follow a fixed repeating pattern of 2s and 3s other than 3, 3, 3, …, every valid D has a set S of stones that fills exactly R in an odd number of solutions.",
+   "example": "Rows 3, 5, 8, 10, 13, 15 (pattern 00101 repeated) on the n = 17 word 1 1 0 −1 0 0 0 0 0 0 0 0 1 0 0 −1 −1: 16 solutions, 7 sets S occur, each an even number of times.",
+   "evidence": "Exact counterexamples: pattern 00101 at n = 17, 00100101 at n = 15, 001011 at n = 14 (python3 agents/thirds/verify.py with the word, seconds each). 00101101 has no failure for n ≤ 15. Number of minimal failing patterns new at each length 9 to 14: 2, 1, 3, 4, 5, 8.",
+   "refs": "agents/thirds/REPORT.md §2; verify.py, forbid.cpp"
   },
   {
    "id": "oddprefix",
@@ -4076,6 +4098,50 @@
    "example": "1 1 1 2 1 0 −1 −2 −3 (slack 3 before the middle 2 1 0 −1 −2 −3, target T = 1): no split of the extreme kinds has its stones inside the middle. The word itself is solvable.",
    "evidence": "Exhaustive over all four extreme kinds and all sets of stones of m: 124 of 13,387 words of length ≤ 12 fail, 380 of 34,677 at length 13. Not tested: odd counts that are not of the extreme kinds.",
    "refs": "agents/hybrid/REPORT.md §5, §7; normal.py 13 (3 minutes)"
+  },
+  {
+   "id": "oddbridge",
+   "area": "ideas",
+   "title": "The middle joins an odd pattern of the padded beginning to an odd pattern of the padded end",
+   "status": "disproved",
+   "intuition": "The transfer card needs an odd count for the padded word 1 … 1 m −1 … −1 with some stones of the middle held in chosen rows and columns. Cut every such solution before and after the middle: the count is a sum, over the ways to place the middle, of (ways to place the run of 1s) × (ways to place the run of −1s). So some odd count exists exactly when the middle joins a pattern with an odd number of ways on the left to one with an odd number of ways on the right. This is the most the transfer card can ever use with this padding, and it is a statement about three explicit things: the odd patterns of a run of 1s (they are the patterns built by adding rim hooks whose sizes are the binary digits of s, checked for s ≤ 13), the same for the run of −1s, and the middle. It holds for every middle that comes from a word of length up to 12, including the 13 cases the one-hill card left open. But the odd patterns are a thin part of the explicit family (at slack 16, 32 of the 3,730 patterns of the right odd-even class), and a steep middle misses all of them. Claim (false): every middle joins two odd patterns.",
+   "statement": "For every middle m with slacks s₁ before and s₂ after: some hole pattern that the run 1 … 1 (s₁ letters) reaches in an odd number of ways is carried by m to a pattern from which the run −1 … −1 (s₂ letters) finishes in an odd number of ways.",
+   "example": "s₁ = 0, m = 4 5 4 3 2 1 0 −1 −2, s₂ = 16 (the word m followed by sixteen letters −1, n = 25): m reaches 4,026 patterns from the empty one, 2,543 of them in the explicit family that every gentle end completes, and none of them is an odd pattern of the run of −1s. So this word and every word x m y with these slacks is solvable, but no parity count of the padded word shows it.",
+   "evidence": "Holds for all 4,605 middles (s₁, m, s₂) from valid words of length ≤ 12 (python3 agents/oddbridge/oddbridge.py 12, 4 minutes) and all 721 middles with at most 8 letters, letters between −5 and 5, s₁ ≤ 4, slack ≤ 16, n ≤ 28. Fails for four middles of 9 letters found by random search: s₁ = 0 or 1 with 6 5 4 3 2 1 0 −1 −2, s₁ = 0 with 4 5 4 3 2 1 0 −1 −2 (n = 25, the smallest found), s₁ = 1 with 5 4 4 3 2 1 0 −1 −2. In all four BRIDGE itself holds with thousands of patterns to spare. Not shown: that n = 25 is the smallest failure. Other paddings (any gentle word whose odd patterns lie in the explicit family) are not ruled out, but no such word other than a run of 1s has a known description of its odd patterns.",
+   "refs": "agents/oddbridge/REPORT.md; oddbridge.py, oddrand.py, bridgeat.py"
+  },
+  {
+   "id": "linebridge",
+   "area": "ideas",
+   "title": "The middle carries a one-line hole pattern to a one-line hole pattern",
+   "status": "disproved",
+   "intuition": "The proof of 'No high stone before a low stone' uses one pattern only: all the slack in a single row. The four one-line patterns (one row or one column, in the first or the second diagram) lie in the explicit family for every slack tried, so a middle that joins two of them would be handled with the smallest possible amount of information: four patterns in, four out, a 4 × 4 table per middle. This holds for every middle from a word of length up to 12, usually with many walks. It fails when the middle climbs steeply after a beginning that already has some slack: the one-line patterns are the ones that become unreachable after a letter 2 (card 'After a letter 2 the one-line patterns are out of reach'). Claim (false): every middle joins two one-line patterns.",
+   "statement": "For every middle m with slacks s₁ and s₂, one of the four patterns of slack s₁ that consist of a single row or a single column (in either diagram) is carried by m to one of the four such patterns of slack s₂.",
+   "example": "s₁ = 3, m = 3 3 2 1 0 −1 −2, s₂ = 9 (n = 19): none of the four one-line patterns of slack 3 is carried to a one-line pattern of slack 9. BRIDGE holds there with 208 patterns.",
+   "evidence": "Holds for all 4,605 middles from valid words of length ≤ 12 (python3 agents/oddbridge/rows.py 12). Among the 199 middles with at most 7 letters, letters between −3 and 3, s₁ ≤ 5 and slack ≤ 12 it fails for three: s₁ = 3 with 3 3 2 1 0 −1 −2 (n = 19), s₁ = 4 with 2 3 2 1 0 −1 −2 and with 3 2 2 1 0 −1 −2 (n = 20) (python3 agents/oddbridge/linemin.py 7 5 12 3, 1 minute).",
+   "refs": "agents/oddbridge/REPORT.md; rows.py, linemin.py, bridgeat.py"
+  },
+  {
+   "id": "onehigh",
+   "area": "ideas",
+   "title": "One high stone: after a 2, the explicit family is back one letter after the next 0",
+   "status": "empirical",
+   "intuition": "The proof for 'No stone more than one mark above' carries one explicit family of hole patterns, G(s), along the word. A letter 2 breaks it: right after a 2 the reached patterns are of a different kind. In a word with a single letter 2, the letters after it are forced to be some 1s, then a 0, then anything gentle. The computation shows what happens to the family along this stretch: after the 2 and the 1s the four one-line patterns and a few dozen others are missing; the 0 brings back all but at most four; one more letter of any kind brings back everything. If that last fact holds in general, the old proof simply resumes after the stretch, and every arrangement with exactly one high stone is solvable (and more: letters up to 2, with each 2 followed by 1s, a 0 and one more letter before the next 2). That implication is proved. The statement itself is tested only, and a proof in the style of the earlier one is blocked: the family in the middle of the stretch has no slack-only description, and the family after the 0 must depend on the number of 1s. Claim: one letter after the first 0 that follows a 2, every pattern of the explicit family is reached again.",
+   "statement": "Let x have no letter above 1 and slack s₀, and let j ≥ 1. (X1) Every pattern of G⁻ is reached from G(s₀) by 2 1^j 0 −1. (X2) If s₀ ≥ 1, every pattern of G is reached from G(s₀) by 2 1^j 0 e, e = 0 or 1. (X3) Every pattern of G⁻ is reached from the empty pattern by 2 1^j 0 y 0 −1, for any y of letters 0 and 1.",
+   "example": "x = 1 1 1 (slack 3), then 2 1: 12 patterns of G(6) are missing. Then 0: only (6|−) and (−|6) are missing. Then one more letter 0, 1 or −1: nothing is missing.",
+   "evidence": "Tested by a sub-session: s₀ ≤ 8, at most 7 letters after the 2, slack ≤ 13 (1,882 words ending 0 or 1, 537 ending −1); selected targets at slack 23, 24 (68,970 pairs) and 400 random targets at slack 34 to 96. The only exceptions are six words with s₀ = 0, which (X3) repairs. The reduction 'statement ⟹ one high stone is solvable' is a short hand proof in the report; I have not read it line by line. After two high stones in a row (2 2, or 3 2) the family is back only after two more letters, and after 4 3 2 not even then, so this is a statement about single letters 2 only. Recheck: cd agents/onehigh && sh runs.sh (25 s).",
+   "refs": "agents/onehigh/REPORT.md §1, §2; exit.py, fam.py"
+  },
+  {
+   "id": "hooksout",
+   "area": "ideas",
+   "title": "After a letter 2 the one-line patterns are out of reach",
+   "status": "proved",
+   "intuition": "A one-line pattern (all the slack in one row, or in one column) has almost no way to arise: its two diagrams are as lopsided as possible, so very few stone positions lead to it. Call (s|−) and (−|s) the row patterns and (1^s|−), (−|1^s) the column patterns, as the reports draw them. Under a letter 2 a column pattern has no source at all; under a letter 1 its only source is the column pattern one size smaller; and the only source of a row pattern, under a letter 1 or a 0, is a column pattern. So a letter 2 removes the column patterns, they stay out through the following 1s, the row patterns go with them from the first 1 on, and the row patterns are still missing after the first 0, whatever came before. This matters because the one-row pattern is the one that the proof of 'No high stone before a low stone' uses at its cut, and because any family that is to be carried through a high stone must leave these patterns out for a while. Claim: after p 2 1^j the four one-line patterns are unreachable, and after p 2 1^j 0 the two row patterns still are.",
+   "statement": "Write (λ|μ) for the hole pattern with diagrams λ and μ, as in the reports. For every beginning p (any letters) and every j ≥ 0, the patterns (−|1^s) and (1^s|−) are not reached by p 2 1^j. For j ≥ 1, the patterns (s|−) and (−|s) are not reached by p 2 1^j, nor by p 2 1^j 0. Here s is the slack at that point and s ≥ 3.",
+   "example": "Smallest case: the beginning 2 1 (slack 3) does not reach (3|−), and neither does 2 1 0.",
+   "evidence": "Hand proof by a sub-session (agents/onehigh/REPORT.md §1, Lemma C: the predecessors of a one-line pattern are listed in bead coordinates). The predecessor lists are machine-checked on all 3,132 patterns of slack ≤ 12 (python3 agents/onehigh/tight.py 12). I have not read the proof line by line.",
+   "refs": "agents/onehigh/REPORT.md §1 (Lemma C), §3; tight.py"
   },
   {
    "id": "signedcount",
@@ -5112,6 +5178,62 @@
    "kind": "related",
    "status": "unchecked",
    "why": "The first parity form tried: no stone fixed. False at 2 1 0 −1 −2."
+  },
+  {
+   "from": "oddbridge",
+   "to": "transfer",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Exactly what the transfer can use with a run of 1s as padding; false for a steep middle at n = 25, so the transfer cannot prove every middle."
+  },
+  {
+   "from": "linebridge",
+   "to": "bridge",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "BRIDGE with four patterns on each side instead of the whole family; false at n = 19."
+  },
+  {
+   "from": "hooksout",
+   "to": "linebridge",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Why steep middles defeat the one-line patterns."
+  },
+  {
+   "from": "onehigh",
+   "to": "bridge",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The smallest open case of the middle: a single letter 2. Here the explicit family returns after the next 0 and one more letter."
+  },
+  {
+   "from": "upone",
+   "to": "onehigh",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The induction this would resume after the high stone."
+  },
+  {
+   "from": "hooksout",
+   "to": "onehigh",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The part of the explicit family that is provably missing between the 2 and the 0."
+  },
+  {
+   "from": "f4phase",
+   "to": "thirds",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Turns the fixed-rows statement into one about tournaments with ties between three teams."
+  },
+  {
+   "from": "thirdsgap",
+   "to": "thirds",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Other evenly spread row sets; each fails on a larger board."
   },
   {
    "from": "padextreme",
