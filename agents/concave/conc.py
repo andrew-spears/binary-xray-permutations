@@ -32,7 +32,7 @@ for mu in vecs:
             if mu[i] == mu[j] and (i > 0 and mu[i - 1] == mu[i] or j < n - 1 and mu[j + 1] == mu[j]): continue   # one pair (first, last) per pair of equal values
             up = list(mu); up[i] += 1; up[j] -= 1; dn = list(mu); dn[i] -= 1; dn[j] += 1    # mu is increasing: up moves the two entries together, dn apart
             fu, fd = f(up), f(dn)                                                           # (at a tie mu[i] = mu[j] both are the same vector)
-            for name, bad in (("concave", fu + fd > 2 * fm), ("half", max(fu, fd) > 2 * fm), ("zero with a solvable inner neighbour", fm == 0 and fd > 0),
+            for name, bad in (("concave", fu + fd > 2 * fm), ("half", max(fu, fd) > 2 * fm), ("zero with a solvable inner neighbour", fm == 0 and fu > 0),
                               ("zero with a solvable neighbour", fm == 0 and max(fu, fd) > 0)):
                 for cls in ("all", "regular") if reg else ("all",):
                     stat[(name, cls, "tests")] += 1
