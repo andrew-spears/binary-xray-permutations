@@ -1,0 +1,7 @@
+8979 situations
+ZERO fails after (2, 3, 3, 2, 2, 1, 1, 0) missing 2 of 1586 [(77823, 93695), (93695, 77823)]
+ZERO 904 1
+RUN(2,1) fails after (4, 3, 2, 1) missing 2 of 928 [(31743, 62463), (62463, 31743)]
+RUN(2,1) fails after (4, 3, 2, 1, 0) missing 2 of 1045 [(31743, 62463), (62463, 31743)]
+RUN(2,1) 1344 2
+PEAK 1941 0
