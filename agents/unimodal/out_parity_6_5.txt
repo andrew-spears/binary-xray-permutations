@@ -1,0 +1,2 @@
+prefixes 394 (length <= 6, slacks <= 5, letters >= 0): 5703 (prefix, state) pairs with a placement, 4491 with an odd number, parity mismatches 0
+prefixes 192 (length <= 5, slacks <= 4, letters of both signs): 1324 (prefix, state) pairs with a placement, 939 with an odd number, parity mismatches 0
