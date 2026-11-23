@@ -5075,7 +5075,7 @@
   {
    "from": [
     "upone",
-    "paritycount"
+    "paritylr"
    ],
    "to": "transfer",
    "kind": "implies",
@@ -5095,9 +5095,9 @@
   {
    "from": "hill2",
    "to": "bridge",
-   "kind": "implies",
-   "status": "proved",
-   "why": "BRIDGE for the middles with one hill and letters between −2 and 2."
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Proves BRIDGE for the middles with one hill and letters between −2 and 2 only; middles with several hills or with letters beyond ±2 stay open."
   },
   {
    "from": "transfer",
