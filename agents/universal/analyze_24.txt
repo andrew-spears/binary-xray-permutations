@@ -52,7 +52,7 @@
    24 a=7 | l=0: True True True True | l=1: True True True True | states of CF(s,1) with a charge outside -1..1: 0
 
 3. relations.  conj U0 inside U1 | U1 = conj U0 | U0 with a 0-predecessor in U1(s) | U1 with a 1-predecessor in U0(s-1) | U0 with a box-predecessor in U0(s-1)
-    1 | True True | 2/2 | 0/2 | 0/2
+    1 | True True | 2/2 | 2/2 | 2/2
     2 | True True | 4/4 | 4/4 | 4/4
     3 | True True | 2/4 | 4/4 | 4/4
     4 | True True | 4/6 | 6/6 | 2/6

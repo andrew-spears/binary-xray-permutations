@@ -42,7 +42,7 @@ for s in range(1, B + 1):
 
 print("\n3. relations.  conj U0 inside U1 | U1 = conj U0 | U0 with a 0-predecessor in U1(s) | U1 with a 1-predecessor in U0(s-1) | U0 with a box-predecessor in U0(s-1)")
 for s in range(1, B + 1):
-    U0, U1, P = U[(s, 0)], U[(s, 1)], U.get((s - 1, 0), set())
+    U0, U1, P = U[(s, 0)], U[(s, 1)], U.get((s - 1, 0), {((), ())} if s == 1 else set())      # slack 0: the empty state
     c = {cc(x) for x in U0}
     p0 = sum(1 for x in U0 if any(x in succ(b, 0) for b in U1))
     p1 = sum(1 for x in U1 if any(x in succ(b, 1) for b in P))
