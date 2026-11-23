@@ -3868,13 +3868,170 @@
   {
    "id": "upone",
    "area": "ideas",
-   "title": "No stone more than one mark above evenly spaced: two sets of hole patterns per slack are enough",
+   "title": "No stone more than one mark above evenly spaced is solvable",
+   "status": "proved",
+   "intuition": "The proof for letters −1, 0, 1 used one set G(s) of hole patterns for each slack (card 'Every stone within one mark…'). Stones far below their evenly spaced place cost almost nothing more. Counting odd and even beads shows that under any negative letter a central pattern has at least two central patterns one step earlier, and the margin grows with the size of the letter; at most one of them lies in the thin exceptional family. So a letter −k is easier than −1. The only place where the sets must know more than the slack is a letter −2 out of a slack divisible by 4; there it is enough to remember whether the last letter was negative, and to use the slightly larger set G⁻(s), which is all central patterns minus at most two. Positive letters are the hard ones: going backwards, a letter 2 can leave a central pattern with no central predecessor at all. Read from the other end of the board, the statement is about placing stones one at a time: if no stone is more than one mark below evenly spaced, there is a rule that places each stone before seeing the next diagonal (for arbitrary arrangements there is none, card 'Online rule'). Claim: every valid word with no letter above 1 has a solution.",
+   "statement": "Every valid word with all letters ≤ 1 has a solution (negative letters of any size, any slack). By the mirror, so does every valid word with all letters ≥ −1. Invariant: after a prefix of slack s with letters ≤ 1, every hole pattern of G(s) is reachable, and after a negative last letter every pattern of G⁻(s) = Central(s) ∖ U(s). Start: G(0) is the empty pattern. Step: for e ∈ {0, 1} every pattern of G(s + e) is one stone after a pattern of G(s); every pattern of G⁻(s − 1) is one stone after a pattern of G(s); for k ≥ 2 every central pattern of slack s − k is one stone after a pattern of G⁻(s).",
+   "example": "1 1 1 0 −1 −2 (n = 6, diagonals {−4, −2, 0, 1, 2, 3}): it has the letter −2, so the card for letters −1, 0, 1 does not cover it; its slacks are 1, 2, 3, 3, 2, 0. One solution: 1 4 6 5 3 2.",
+   "evidence": "Hand proof in agents/l2sets/REPORT.md §1–§2 (Lemma G and Theorem 0), by a sub-session, on top of the proof for letters −1, 0, 1; neither has been read line by line by anyone else. Checks I reran (sh runs.sh, 1 minute): the predecessor counts on 6,597 (pattern, letter) pairs; G⁻(s) = Central(s) ∩ step_{−1}(G(s + 1)) for s ≤ 12; the proof run as an algorithm solves all 9,397 valid words of length 13 with letters ≤ 1 and 150 random ones of length ≥ 250 (slack up to 181, letters down to −12). Before the proof the same was seen on the machine: such sets exist at every slack ≤ 24 (LET=-99,1 KLO=0 ./types 24 K). The class is 24,114 of the 158,808 valid arrangements at n = 14.",
+   "refs": "agents/l2sets/REPORT.md §1–§2, neg0.py, runs.sh; agents/universal/types.cpp (LET); agents/online2/game.py"
+  },
+  {
+   "id": "nocross",
+   "area": "ideas",
+   "title": "No high stone before a low stone: solvable",
+   "status": "proved",
+   "intuition": "Call a stone high if it is two or more marks above its evenly spaced place, and low if it is two or more below. Suppose every low stone comes before every high stone in the order of the diagonals. Cut the word just before the first high stone. The first part has no high stone, so by the card 'No stone more than one mark above' it reaches every pattern of the family G(s). The second part has no low stone; turned around, it is also a word with no high stone, so it can be completed from the mirror image of every pattern of G(s). One explicit pattern lies in both: all s boxes in a single row of the first diagram, and the second diagram empty. So the two parts are solved separately on a board with that fixed set of holes, and the two half-solutions fit together. This is the largest family proved so far: it contains the words with letters −1, 0, 1, the words with no high stone, the words with no low stone, and the rising-then-falling words with letters 0, 1 on one side. What it leaves out is exactly the words with a high stone before a low stone. Claim: if no letter ≥ 2 comes before a letter ≤ −2, the arrangement has a solution.",
+   "pics": [
+    {
+     "t": "board",
+     "rows": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+     ],
+     "cols": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+     ],
+     "D": [
+      -10,
+      -8,
+      -6,
+      -5,
+      -4,
+      -3,
+      3,
+      4,
+      5,
+      6,
+      8,
+      10
+     ],
+     "pts": [
+      [
+       1,
+       11
+      ],
+      [
+       2,
+       10
+      ],
+      [
+       3,
+       8
+      ],
+      [
+       4,
+       7
+      ],
+      [
+       5,
+       9
+      ],
+      [
+       6,
+       12
+      ],
+      [
+       7,
+       4
+      ],
+      [
+       8,
+       3
+      ],
+      [
+       9,
+       5
+      ],
+      [
+       10,
+       2
+      ],
+      [
+       11,
+       1
+      ],
+      [
+       12,
+       6
+      ]
+     ],
+     "cap": "word 1 1 1 0 −1 −2 | 2 1 0 −1 −1 −1: the low stone (−2) comes before the high stone (2); the cut is at slack 0 here"
+    }
+   ],
+   "statement": "Every valid word in which no letter ≥ 2 comes before a letter ≤ −2 has a solution, for any letters and any slack. Precisely: if w = x y, all letters of x are ≤ 1, all letters of y are ≥ −1, and s is the slack at the cut, then the hole pattern (one row of s boxes, empty) is reachable by x and completable by y.",
+   "example": "1 1 1 0 −1 −2 2 1 0 −1 −1 −1 (n = 12, diagonals {−10, −8, −6, −5, −4, −3, 3, 4, 5, 6, 8, 10}) is the first such word that has both a letter 2 and a letter −2. 2 1 0 −1 −2 is the smallest word not covered: its high stone comes first.",
+   "evidence": "Hand proof in agents/l2sets/REPORT.md §2 (Theorem 0′ and Lemma H), by a sub-session; it rests on the card 'No stone more than one mark above', and has not been read line by line by anyone else. Checks I reran: the proof run as an algorithm solves every such word of length ≤ 12 (5,102 of the 14,805 valid words at n = 12; the sub-session reports 35,543 of 158,808 at n = 14) and 100 random ones of length ≥ 120 with letters between −4 and 5; the one-row pattern is in G(s) for s ≤ 300.",
+   "refs": "agents/l2sets/REPORT.md §2, neg0.py split, runs.sh",
+   "vis": {
+    "file": "labs/covered.html",
+    "title": "Which arrangements are proved"
+   }
+  },
+  {
+   "id": "bridge",
+   "area": "ideas",
+   "title": "The middle of a word carries one large explicit set of hole patterns into another (BRIDGE)",
    "status": "empirical",
-   "intuition": "The proof for letters −1, 0, 1 used one set G(s) for each slack (card 'Every stone within one mark…'). Letting stones sit far below their evenly spaced place, but still at most one above it, costs almost nothing: the sets only have to know the last letter as well. They are nearly the same sets: the patterns common to all last letters are exactly G(s) for s ≤ 10, and a letter −k with k ≥ 3 maps G(s) onto all of G(s − k); only the letter −2 at slacks divisible by 4 misses a few patterns, which is where G(s) has its exceptional family. So how much the sets must remember is governed by how far stones go above evenly spaced, not below, and not by the slack. With letters ≤ 2 the last three non-increasing letters are enough in tests, with letters ≤ 3 the last four. Read from the other end of the board (mirror), the same statement is about placing stones one at a time: if no stone is more than one mark below evenly spaced, there is a rule that places each stone before seeing the next diagonal. For arbitrary arrangements no such rule exists (card 'Online rule'); the adversary there needs a letter −2. Claim: sets J(s, ℓ) as above exist for every slack.",
-   "statement": "For words with all letters ≤ 1 (negative letters of any size allowed) there are sets J(s, ℓ) of hole patterns, one for each slack s and last letter ℓ ≤ 1, with J(0, ·) = {empty}, every J(s, ℓ) nonempty, and J(s + e, e) ⊆ step_e(J(s, ℓ)) for every legal letter e ≤ 1 after ℓ. Consequently every such word has a solution.",
-   "example": "1 1 1 0 −1 −2 (n = 6, diagonals {−4, −2, 0, 1, 2, 3}) is such a word: it has the letter −2, so it is not covered by the proved card, and its slacks are 1, 2, 3, 3, 2, 0.",
-   "evidence": "Tested: the largest such family is nonempty at every slack ≤ 24 (LET=-99,1 KLO=0 ./types 24 K, 6 s; without blocks, LET=-99,1 ./types 14 L0). So every valid word with letters ≤ 1 and slacks ≤ 24 is solvable, which also follows from the bounded-slack card only up to 16. The class is 24,114 of the 158,808 valid arrangements at n = 14 (letters −1, 0, 1: 12,735). Letters ≤ 2: works to slack 24 with the last 3 non-increasing letters and fails with 2; letters ≤ 3: works to slack 20 with 4. agents/l1sets/neg.py 13 gives the comparison with G(s). Not proved; a sub-session is extending the hand proof.",
-   "refs": "agents/universal/types.cpp (LET), agents/l1sets/neg.py, agents/online2/game.py (the placing game: python3 game.py 12 -1 99 is won by the placer, 10 -2 99 by the adversary in 7 letters)"
+   "intuition": "After the card 'No high stone before a low stone', a word that is not yet proved has a high stone before a low stone. Cut it twice: before the first high stone and after the last low stone. The beginning x has no high stone, so it reaches every pattern of the explicit family G(s₁), which is most of the patterns of the right odd-even class. The end y has no low stone, so it completes every pattern of the mirrored family. So the ends are no longer part of the problem: all that is left is to walk through the middle from somewhere in one large explicit set to somewhere in another. The statement is stronger than solvability of w, because it must work whatever x and y are, but in tests it loses nothing. Claim: for every middle m, some pattern of G(s₁) is carried into conj G(s₂). For all m this is the conjecture.",
+   "statement": "Write a valid word as w = x m y, where m runs from the first letter ≥ 2 to the last letter ≤ −2, and let s₁, s₂ be the slacks before and after m. Then some pattern of G(s₁) is carried by the letters of m to a pattern of conj G(s₂).",
+   "example": "2 1 0 −1 −2 (n = 5): x and y are empty, m is the whole word, s₁ = s₂ = 0, and the statement is that the word has a solution.\n1 1 2 1 0 −1 −2 −1 −1: x = 1 1 (slack 2), m = 2 1 0 −1 −2, y = −1 −1 (slack 2): some pattern of G(2) must be carried by m into conj G(2).",
+   "evidence": "Tested: all 48,064 valid words of length ≤ 13 that have a letter ≥ 2 before a letter ≤ −2 (34,677 of the 48,107 valid words at n = 13), any letters, and 200 random words with letters between −2 and 2, length ≥ 30, slack ≤ 9. No failure. Not proved, and the proof for letters ≤ 1 does not extend to the middle, for three computed reasons: a central pattern can have no central predecessor under the letter 2; the reachable sets for letters between −2 and 2 are not determined by the slack, the classes present and the last 5 letters (335 ambiguous keys at slack ≤ 10); and the sets found by the block machine are not unions of 2-core or 4-core classes. The hard prefixes are the steep ones, 2 2 … 2 1.",
+   "refs": "agents/l2sets/REPORT.md §3–§4, bridge.py, keys.py, blocks.py, fine.py"
+  },
+  {
+   "id": "thincorners",
+   "area": "ideas",
+   "title": "Hole patterns with at most two corners in each diagram are enough",
+   "status": "disproved",
+   "intuition": "The interface machine has very many states at large slack, and a solution only needs one walk. So one can ask for a small part of the machine, the same for every slack, that still accepts every arrangement; with only polynomially many patterns per slack, an induction might become tractable. The natural measure of smallness turned out to be the number of corners of a Young diagram (its number of distinct row lengths): the pyramids j, j − 1, …, −j, which defeat every other simple restriction, need only one corner on each side. But each bound on the corners fails for some word, later and later: one corner each fails at 6 letters, (1, 2) at 16 letters, (1, 3) at 25, (2, 2) at 44. The words that do it are steep, symmetric, and have several falling runs in their first half; the corners needed grow slowly with the number of runs. Claim: patterns with at most two corners in each diagram accept every valid word.",
+   "statement": "Let T(2, 2) be the hole patterns in which each of the two Young diagrams has at most 2 distinct row lengths. Every valid word has a walk on the interface machine that stays in T(2, 2).",
+   "example": "Rejected by T(2, 2): the 44-letter word 10 9 8 7 6 5 4 3 2 1 3 2 2 1 2 2 2 1 2 1 1 0 0 −1 −1 −2 −1 −2 −2 −2 −1 −2 −2 −3 −1 −2 −3 −4 −5 −6 −7 −8 −9 −10 (slack 74).\nRejected by one corner on each side: 2 1 0 0 −1 −2.",
+   "evidence": "Computed with two programs that agree (C++ and Python), not proved by hand. T(1, 2), T(1, 3) and T(2, 2) accept every word with slacks ≤ 16; T(1, 2) accepts every word of ≤ 15 letters, the other two every word of ≤ 18. T(1, 4) still accepts all four rejected words, so 'no bound on the corners works' is expected but not shown. Other restrictions (bounded rows, columns, Durfee square, hooks, 2-cores, distinct parts, λ = μ or μ′) fail by slack 8 or need a bound growing with the pyramid. A bound that grows with the word, 'corners ≤ number of runs + 2', accepts every word of ≤ 16 letters but is not small.",
+   "refs": "agents/thin/REPORT.md, killers.txt, corners.py, steep.cpp"
+  },
+  {
+   "id": "uni4",
+   "area": "ideas",
+   "title": "Rising then falling, up to 2 above and 4 below: solvable with two chosen stones",
+   "status": "proved",
+   "intuition": "An RR-split asks for a few stones whose removal leaves a word that fits in exactly one way up to parity (card 'A few stones on chosen cells'). For a word that rises and then falls this becomes a balance: each chosen stone must have as much on its left as on its right, after the chosen stones have hidden two units from every deep letter. With letters 0 and 1 on the rising side the running total passes through every whole number, so the balance point always exists; that case (any depth on the falling side) is now also covered by the card 'No stone more than one mark above'. With a letter 2 the running total can jump over the balance point. One jump can be repaired by letting the second chosen stone sit one place further into the falling side. With three or more chosen stones no such repair is known. Claim: for letters up to 2 on the rising side and down to −4 on the falling side, two stones named by the rule above give an odd number of completions.",
+   "statement": "Every valid word that consists of letters in {0, 1, 2} followed by letters in {0, −1, −2, −3, −4} has a solution, for any slack (and so does its mirror). Precisely: with t the last non-negative letter, T = Σ_{k > t} max(|e_k| − 2, 0), P(k) = e_1 + … + e_k, k_1 the first k with P(k) ≥ T, and k_2 = t + 1 if P(k_1) = T, else t + 2, the pair S = {k_1, k_2} is an RR-split.",
+   "example": "2 2 1 1 0 −1 −2 −3 (n = 8): T = 1, P = 2, 4, …, so k_1 = 1 with P(k_1) = T + 1, and k_2 = t + 2 = 7.",
+   "evidence": "Hand proof in agents/oddsplit/REPORT2.md §3 (Theorem B), by a sub-session, using the RR criterion. Checked: the rule gives an odd count for every such word with n ≤ 10 by brute force, and satisfies the RR arithmetic for n ≤ 14. Smallest open statement on this line: rising side in {0, 1, 2}, falling side of any depth. The interleaved pairing behind the rule exists for every word with n ≤ 10 and fails first at n = 11 (4 3 2 1 0 −1 −2 −3 −2 −1 −1), where another RR-split still exists.",
+   "refs": "agents/oddsplit/REPORT2.md §1–§5, thm_b.py, thm_c.py"
+  },
+  {
+   "id": "signedcount",
+   "area": "ideas",
+   "title": "Counting solutions with signs: one of the signed counts is never zero",
+   "status": "disproved",
+   "intuition": "The number of solutions is the coefficient of one monomial in the square of the sum of all rearrangements of z^(n−1, …, 1, 0). If the solutions are counted with the sign of a permutation instead, the same coefficient is taken in a classical object: with the sign of the row order, A is an inverse Kostka number (the coefficient of a Schur function in a monomial symmetric function of staircase type, which has a formula by special rim hook tableaux); with the sign of the permutation matrix itself, P is a coefficient of the discriminant ∏ (z_i − z_j)². A signed count that is not zero proves that a solution exists, and unlike 'the count is odd' it is not killed by the high powers of 2 that divide the number of solutions. But the signed counts do vanish: A for about one arrangement in six, and both together first at n = 9. The same signs can be used for a part of the stones on a chosen set of rows and columns, which is weaker to ask than an odd count (card 'Every arrangement can be split…'); that version was not tested. Claim: for every valid arrangement at least one of the two signed counts is not zero.",
+   "statement": "For a solution let ρ send stone k (in order of diagonals) to its row and κ to its column. Put A = Σ sgn(ρ) and P = Σ sgn(ρ) sgn(κ) over all solutions of D. For every valid D, A ≠ 0 or P ≠ 0.",
+   "example": "D = {−7, −6, −4, −3, 1, 3, 4, 5, 7} (n = 9) has 8 solutions and A = P = 0.\nn = 8: A = 0 for 25 of the 167 arrangements, P = 0 for 25, never both.",
+   "evidence": "The two identities are proved (agents/signed/NOTES.md, a few lines each). The claim is true for n ≤ 8 and false for 7 of the 490 arrangements at n = 9 and 28 of 1,486 at n = 10 (python3 agents/signed/signed.py 9, 20 seconds). The count with the sign of the column order equals ±A.",
+   "refs": "agents/signed/signed.py, NOTES.md"
   },
   {
    "id": "meminv",
@@ -4782,14 +4939,14 @@
    "to": "upone",
    "kind": "related",
    "status": "unchecked",
-   "why": "The no-lookahead rule that fails in general exists, in tests, when no letter is below −1 (the mirror class)."
+   "why": "The no-lookahead rule that fails in general exists when no letter is below −1 (the mirror class)."
   },
   {
-   "from": "upone",
-   "to": "l1",
-   "kind": "related",
-   "status": "unchecked",
-   "why": "The same method with deeper negative letters; the proved card is the case of letters ≥ −1."
+   "from": "l1",
+   "to": "upone",
+   "kind": "implies",
+   "status": "proved",
+   "why": "The same family G(s), with a second set after a negative letter; the step for letters 0 and 1 is the proved card."
   },
   {
    "from": "upone",
@@ -4797,6 +4954,58 @@
    "kind": "related",
    "status": "unchecked",
    "why": "The memory a block type needs grows with the largest positive letter, not with the slack."
+  },
+  {
+   "from": "upone",
+   "to": "nocross",
+   "kind": "implies",
+   "status": "proved",
+   "why": "Cut before the first letter ≥ 2: both halves are words with no letter above 1 (the second after turning it around), and one explicit pattern is in both families."
+  },
+  {
+   "from": "nocross",
+   "to": "bridge",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "What is left after it: the words with a high stone before a low stone, with explicit sets at both ends."
+  },
+  {
+   "from": [
+    "bridge",
+    "nocross"
+   ],
+   "to": "conj",
+   "kind": "implies",
+   "status": "proved",
+   "why": "Every valid word is either covered by 'No high stone before a low stone' or has a middle m; BRIDGE for m gives a pattern reachable by x m and completable by y."
+  },
+  {
+   "from": "thincorners",
+   "to": "slackB",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "A sub-machine of the interface machine that is the same for every slack; each one tried rejects some word."
+  },
+  {
+   "from": "uni4",
+   "to": "rrsplit",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The first case with two stones named by a rule."
+  },
+  {
+   "from": "paritylr",
+   "to": "uni4",
+   "kind": "implies",
+   "status": "proved",
+   "why": "The parity theorem and the dominance bounds on Littlewood–Richardson numbers (RR criterion)."
+  },
+  {
+   "from": "signedcount",
+   "to": "oddsplit",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "A count that is odd has a nonzero signed count, so signs ask for less than parity; for the whole board they still vanish."
   },
   {
    "from": "meminv",
