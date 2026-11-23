@@ -63,7 +63,7 @@ this partner is in M ∖ j without j. ∎
 **Family.** Type of a prefix = (slack, sign of the last letter).
 - last letter 0 or 1, or empty prefix: G(s) = Central(s) ∖ T(s), the L1 family;
 - last letter negative: **G⁻(s) = Central(s) ∖ U(s)**, where U(4m²) = the (−1)-successors of the four states A(4m² + 1)
-  (two states, inside E⁰, by Lemma 5(a) of L1), m ≥ 1, and U(s) = ∅ otherwise. G(s) ⊆ G⁻(s), and they differ only for 4 | s.
+  (two states, inside E⁰, by Lemma 5(a) of L1), m ≥ 1, and U(s) = ∅ otherwise. G(s) ⊆ G⁻(s); they differ for 4 | s and for s = 4m² + 1 (where G⁻(s) = Central(s) contains the four states of A, e.g. 2|111 at s = 5). Nothing below uses where they differ (corrected after the referee read, `../referee/REPORT.md`).
 
 **Theorem 0 (step).** (a) e ∈ {0, 1}: every u ∈ G(s) has an e-predecessor in G(s − e) ⊆ G⁻(s − e).
 (b) Every u ∈ G⁻(s) has a (−1)-predecessor in G(s + 1); in fact G⁻(s) = Central(s) ∩ step_{−1}(G(s + 1)).

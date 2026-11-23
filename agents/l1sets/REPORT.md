@@ -111,7 +111,7 @@ pair, so B = Q′ ∖ k = Q ⊔ {y}. The last condition of (∗), Q = (Q′ − 
 even numbers up to some α and all odd numbers up to some β (a 2-core diagram), and i₀ − 2 ∈ Q°, i₀ ∉ Q° says
 i₀ = α + 2 or β + 2; then Q° ⊔ {i₀} is a 2-core diagram too.
 *Slack.* A 2-core diagram with tops α, β is the staircase δ_j with j = (|α − β| − 1)/2 (the j beads above the full part
-are isolated). Adding i₀ changes α − β by ±2, so the two diagrams are δ_j and δ_{j±1}. The predecessor t_k is
+are isolated). Adding i₀ changes α − β by ±2, so the two diagrams are δ_j and δ_{j±1} (or δ₀ twice, from j = 0 with i₀ = α + 2: that is slack 1, excluded by the hypothesis slack ≥ 5; referee, `../referee/REPORT.md`). The predecessor t_k is
 (eo-pairs(Q°) | eo-pairs(Q° ⊔ {i₀})) up to the shifts, i.e. the two staircases with every box replaced by a 2 × 2 block,
 of slack 4(T_j + T_{j±1}) = 4 max(j, j ± 1)² =: 4m². So the slack of u is 4m² + 1 and {δ_j, δ_{j±1}} = {δ_{m−1}, δ_m}.
 *Count.* The charge of Q is −1, which fixes the diagram Q° of a given staircase; Q° is δ_{m−1} or δ_m (2 choices, i₀ is
