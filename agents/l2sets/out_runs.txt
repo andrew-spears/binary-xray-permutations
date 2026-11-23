@@ -1,0 +1,72 @@
+slack <= 12: G-(s) = Central(s) n step_-1(G(s+1)) for all s; G-(s) inside step_-k(G-(s+k)) for all k >= 2; |Central minus G-| = [0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0]
+G(s-k) not inside step_-k(G(s)) at (s, k, missing): [(4, 2, 2), (8, 2, 2), (12, 2, 4)]
+predecessor counts and classes for the letters -6..2, and 'at most one predecessor in E0': ok on 6597 (state, letter) pairs, slack <= 9
+n 1: 1 valid words with letters <= 1 solved (0 with a letter <= -2)
+n 2: 1 valid words with letters <= 1 solved (0 with a letter <= -2)
+n 3: 2 valid words with letters <= 1 solved (0 with a letter <= -2)
+n 4: 4 valid words with letters <= 1 solved (0 with a letter <= -2)
+n 5: 8 valid words with letters <= 1 solved (0 with a letter <= -2)
+n 6: 18 valid words with letters <= 1 solved (1 with a letter <= -2)
+n 7: 42 valid words with letters <= 1 solved (5 with a letter <= -2)
+n 8: 99 valid words with letters <= 1 solved (17 with a letter <= -2)
+n 9: 239 valid words with letters <= 1 solved (54 with a letter <= -2)
+n 10: 588 valid words with letters <= 1 solved (165 with a letter <= -2)
+n 11: 1465 valid words with letters <= 1 solved (487 with a letter <= -2)
+n 12: 3692 valid words with letters <= 1 solved (1409 with a letter <= -2)
+n 13: 9397 valid words with letters <= 1 solved (4024 with a letter <= -2)
+150 random valid words with letters <= 1, length >= 250: all solved; largest slack 181, lowest letter -12
+(s | -) and (1^s | -) are in G(s) for 1 <= s <= 300
+n 1: 1 valid words with no letter >= 2 before a letter <= -2 solved (0 of them with letters >= 2 and <= -2)
+n 2: 1 valid words with no letter >= 2 before a letter <= -2 solved (0 of them with letters >= 2 and <= -2)
+n 3: 2 valid words with no letter >= 2 before a letter <= -2 solved (0 of them with letters >= 2 and <= -2)
+n 4: 4 valid words with no letter >= 2 before a letter <= -2 solved (0 of them with letters >= 2 and <= -2)
+n 5: 8 valid words with no letter >= 2 before a letter <= -2 solved (0 of them with letters >= 2 and <= -2)
+n 6: 19 valid words with no letter >= 2 before a letter <= -2 solved (0 of them with letters >= 2 and <= -2)
+n 7: 47 valid words with no letter >= 2 before a letter <= -2 solved (0 of them with letters >= 2 and <= -2)
+n 8: 116 valid words with no letter >= 2 before a letter <= -2 solved (0 of them with letters >= 2 and <= -2)
+n 9: 293 valid words with no letter >= 2 before a letter <= -2 solved (0 of them with letters >= 2 and <= -2)
+n 10: 753 valid words with no letter >= 2 before a letter <= -2 solved (0 of them with letters >= 2 and <= -2)
+n 11: 1952 valid words with no letter >= 2 before a letter <= -2 solved (0 of them with letters >= 2 and <= -2)
+n 12: 5102 valid words with no letter >= 2 before a letter <= -2 solved (1 of them with letters >= 2 and <= -2)
+100 random valid words (letters <= 1, then letters >= -1), length >= 240: all solved; largest slack 361, letters from -4 to 5
+n 5: 1 valid words with a letter >= 2 before a letter <= -2; (BRIDGE) fails for 0; least |step_m(G(s1)) n conj G(s2)| = 1 at 2 1 0 -1 -2
+n 6: 3 valid words with a letter >= 2 before a letter <= -2; (BRIDGE) fails for 0; least |step_m(G(s1)) n conj G(s2)| = 1 at 0 2 1 0 -1 -2
+n 7: 12 valid words with a letter >= 2 before a letter <= -2; (BRIDGE) fails for 0; least |step_m(G(s1)) n conj G(s2)| = 1 at 0 0 2 1 0 -1 -2
+n 8: 51 valid words with a letter >= 2 before a letter <= -2; (BRIDGE) fails for 0; least |step_m(G(s1)) n conj G(s2)| = 1 at 0 0 0 2 1 0 -1 -2
+n 9: 197 valid words with a letter >= 2 before a letter <= -2; (BRIDGE) fails for 0; least |step_m(G(s1)) n conj G(s2)| = 1 at 0 0 0 0 2 1 0 -1 -2
+n 10: 733 valid words with a letter >= 2 before a letter <= -2; (BRIDGE) fails for 0; least |step_m(G(s1)) n conj G(s2)| = 1 at 0 0 0 0 0 2 1 0 -1 -2
+n 11: 2687 valid words with a letter >= 2 before a letter <= -2; (BRIDGE) fails for 0; least |step_m(G(s1)) n conj G(s2)| = 1 at 0 0 0 0 0 0 2 1 0 -1 -2
+n 12: 9703 valid words with a letter >= 2 before a letter <= -2; (BRIDGE) fails for 0; least |step_m(G(s1)) n conj G(s2)| = 1 at 0 0 0 0 0 0 0 2 1 0 -1 -2
+60 random valid words with a letter >= 2 before a letter <= -2, letters in [-2, 2], length >= 30, largest slack 9, longest middle 45: (BRIDGE) fails for 0; least intersection 1 at 2 2 1 1 0 2 1 0 -1 0 1 0 0 -1 -1 -1 0 0 1 1 0 0 1 0 0 0 0 -1 -2 -2 -2 -2
+letters [-2, 2], slack <= 9: 344 distinct (F, slack)
+  key (slack, last letter): 44 keys, 26 with more than one set (largest number of sets 62); least slack of an ambiguous key: 3
+  key (slack, Gamma, last letter): 65 keys, 29 with more than one set (largest number of sets 52); least slack of an ambiguous key: 3
+  key (slack, Gamma, run <= 3): 229 keys, 76 with more than one set (largest number of sets 26); least slack of an ambiguous key: 4
+  key (slack, Gamma, run <= 5): 628 keys, 130 with more than one set (largest number of sets 26); least slack of an ambiguous key: 4
+  key (slack, Gamma, last 3 letters): 505 keys, 99 with more than one set (largest number of sets 13); least slack of an ambiguous key: 4
+  key (slack, Gamma, last 4 letters): 1443 keys, 153 with more than one set (largest number of sets 8); least slack of an ambiguous key: 4
+  key (slack, Gamma, last 5 letters): 4166 keys, 202 with more than one set (largest number of sets 5); least slack of an ambiguous key: 5
+  key (slack, last 6 letters): 12027 keys, 228 with more than one set (largest number of sets 4); least slack of an ambiguous key: 6
+letters [-2, 2], slack <= 10, window 3, mask central: 117 types, 12738 block transitions
+4 rounds; empty types: 116; empty state in J(slack 0, run ending in 0): False
+first type to become empty: slack 5 run (1,), through the block (1,) from slack 4 run (1, 0) (round 2)
+sizes |J| by run (rows) and slack 0..10; first row: number of states allowed by the mask
+      mask     1     2     4     8    16    28    48    80   133   212   332
+               1     .     .     .     .     .     .     .     .     .     .
+         0     0     0     0     0     0     0     0     0     0     0     .
+       0 0     0     0     0     0     0     0     0     0     0     0     .
+       1 0     .     0     0     0     0     0     0     0     0     0     0
+     0 0 0     0     0     0     0     0     0     0     0     0     0     0
+     1 0 0     .     0     0     0     0     0     0     0     0     0     0
+     1 1 0     .     .     0     0     0     0     0     0     0     0     0
+     2 1 0     .     .     .     0     0     0     0     0     0     0     0
+         1     .     0     0     0     0     0     0     0     0     0     0
+       1 1     .     .     0     0     0     0     0     0     0     0     0
+       2 1     .     .     .     0     0     0     0     0     0     0     0
+     1 1 1     .     .     .     0     0     0     0     0     0     0     0
+     2 1 1     .     .     .     .     0     0     0     0     0     0     0
+     2 2 1     .     .     .     .     .     0     0     0     0     0     0
+
+real	1m18.686s
+user	1m18.728s
+sys	0m0.207s
