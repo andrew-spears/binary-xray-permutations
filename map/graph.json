@@ -3659,6 +3659,37 @@
    "refs": "2026-11-23, agents/basket/alive.py, shape.py, shape2.py"
   },
   {
+   "id": "cutcore",
+   "area": "ideas",
+   "title": "After a letter 0 or 1, one hole pattern serves every past and every future",
+   "status": "empirical",
+   "intuition": "Cut an arrangement between two consecutive stones. The first part can leave many hole patterns at the cut, and the second part can be completed from many; a solution exists when the two sets share a pattern. In general the shared pattern depends on both parts. At a cut just after a stone that is at its evenly spaced place or one above it (letter 0 or 1), tests show much more: one single pattern lies in every one of these sets at once, for all first parts and all second parts with that slack. So at such a cut the two halves of the board can be solved without knowing each other, on a fixed board with holes. Claim: at every cut after a letter 0 or 1 there is a hole pattern that works for every first part and every second part.",
+   "statement": "For every slack s ≥ 1 and l ∈ {0, 1} there is an interface state c that is reachable after every legal prefix with slack s and last letter l, and from which every suffix that starts at slack s with first letter ≥ l − 1 can be completed.",
+   "example": "Slack 9: all rows below the cut used, and the columns shifted as the diagram 3 3 3 (three columns skipped, the next three used). Slack 6 after a 0: rows 1 1 1, columns 2 1.",
+   "evidence": "Holds for all first and second parts with slacks ≤ 14, at every slack 1…14; the number of such patterns grows from 2 to 36. After other letters it fails (last letter 2 at slack 5: no pattern is reachable after every first part), but a weighted form holds at every cut: weights on the patterns such that every reachable set and every completable set together weigh more than 1 (best values 1.55 to 2). Recheck: python3 agents/majority/core.py 14 (1 minute), maj.py 14 1 (30 seconds). Not yet tied to a proof: see the two red children.",
+   "refs": "agents/majority/REPORT.md, core.py, maj.py"
+  },
+  {
+   "id": "cutgame",
+   "area": "ideas",
+   "title": "The solver can fix a hole pattern at every cut after a 0 or 1",
+   "status": "disproved",
+   "intuition": "If universal patterns could be chained, a word would split at its letters 0 and 1 into independent short pieces, each a walk between two fixed patterns. Claim: patterns can be fixed at all these cuts so that every piece between two cuts has a walk.",
+   "statement": "There are sets G(s, l) of interface states (slack s, last letter l ∈ {0, 1}), with the empty state at slack 0, such that from every state of G(s, l), along every legal run of letters up to the next 0 or 1, some walk ends in the set G of that next cut.",
+   "evidence": "The largest such family is empty for slack bound 8, and for bound 6 when cuts are made only after a 0. A universal pattern works for every future, but which pattern to pass at the next cut depends on what comes after it. Recheck: python3 agents/majority/segment.py 8 (1 second).",
+   "refs": "agents/majority/segment.py"
+  },
+  {
+   "id": "blockinv",
+   "area": "ideas",
+   "title": "Common hole patterns are produced step by step",
+   "status": "disproved",
+   "intuition": "The patterns reachable after every first part might form an invariant: start with the empty board, and show that each block of letters carries the common set of one cut onto the common set of the next. Runs of high letters are treated as single blocks because after a high letter there is no common pattern. Claim: such a family of sets exists.",
+   "statement": "There are nonempty sets J(s, l) of interface states (slack s, last letter l ≤ 1), J(0, ·) = {empty}, with J(s, l) ⊆ step_w(J(s′, l′)) for every block w from (s′, l′) to (s, l), where a block is one letter ≤ 1 or a run of letters ≥ 2 followed by its closing 1.",
+   "evidence": "The largest such family is empty for slack bound 6. The patterns common to all reachable sets are not all reached from common patterns: different first parts reach them through different earlier patterns. Recheck: python3 agents/majority/blockinv.py 6 (1 second).",
+   "refs": "agents/majority/blockinv.py"
+  },
+  {
    "id": "simorder",
    "area": "ideas",
    "title": "One hole pattern is at least as good as another",
@@ -4356,6 +4387,27 @@
    "kind": "related",
    "status": "unchecked",
    "why": "A two-sided version of the same hope."
+  },
+  {
+   "from": "cutcore",
+   "to": "slackB",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "A structure of reachable sets that does not depend on the slack bound in the tested range."
+  },
+  {
+   "from": "cutgame",
+   "to": "cutcore",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The direct way to turn universal patterns into a proof; fails."
+  },
+  {
+   "from": "blockinv",
+   "to": "cutcore",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The direct way to prove that common patterns exist; fails."
   },
   {
    "from": "simorder",
