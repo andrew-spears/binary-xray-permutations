@@ -3769,6 +3769,28 @@
    "refs": "agents/oddsplit/NOTES.md, agents/unimodal/REPORT.md"
   },
   {
+   "id": "rrsplit",
+   "area": "ideas",
+   "title": "A few stones on chosen cells, and the rest fits in exactly one way up to parity (RR-split)",
+   "status": "empirical",
+   "intuition": "This is an odd split in which both parities can be read off without computing anything. The parity of a count of partial placements is a Littlewood–Richardson number (card 'Odd or even'). That number is squeezed between two extreme shapes in dominance order, and at either extreme it is exactly 1. So if the hole pattern (λ, γ) is extreme for the stones of S and its transpose is extreme for the others, both counts are odd and the arrangement is solvable. The condition is plain arithmetic on the word: with N_t = the number of letters ≥ t in the other part-word, the letters of S must be sums of pairs of the numbers N_1 ≥ N_2 ≥ … paired off in sorted order. In every case found S is small: its least size is ⌈max |e_k| / 2⌉ or one more, and it sits near the place where the word turns from positive to negative. Claim: such an S exists for every valid word without a tight cut.",
+   "statement": "Every valid word without a tight cut has a set S of stones and two partitions λ, γ such that both part-words are ≥ 0, the positive letters of the S-word, sorted, are λ + γ, and the positive letters of the other part-word, sorted, are λ′ + γ′. (S-word: u_j = d_{k_j} − 2j for the stones k_1 < k_2 < … of S. Other part-word: 2·#{stones of S after k} − e_k for k ∉ S, read from right to left.)",
+   "example": "1 1 1 1 1 1 0 −1 −2 −3 (n = 10), S = stones 1 and 6: S-word (1, 9); other part-word (3, 2, 1, 0, 1, 1, 1, 1); λ = (7, 1), γ = (2): λ + γ = (9, 1) and λ′ + γ′ = (3, 2, 1, 1, 1, 1, 1).",
+   "evidence": "Proved: the criterion (an RR-split gives an odd split, hence a solution); one dominance lemma is cited from memory. Tested: every valid word without a tight cut for n ≤ 14 (27,225 words at n = 14) has an RR-split, and every unimodal one for n ≤ 15. No rule that names S: S in the first |S| columns fails at n = 9, and a given S survives a shortening step in only 74–84% of cases, so no induction on n yet.",
+   "refs": "agents/oddsplit/REPORT.md, esplit.cpp, check_e.py"
+  },
+  {
+   "id": "uni2",
+   "area": "ideas",
+   "title": "Rising then falling words with letters between −2 and 2 are solvable",
+   "status": "proved",
+   "intuition": "The RR-split with a single stone. Put the stone at the turn of the word on one explicit cell; the other stones then form a part-word with letters 0, 1, 2 only, and the hole pattern left by the one stone is extreme for it, so their number of placements is odd. Conversely a single stone gives an odd split only for words of this kind. Claim: one stone on the cell (p + q + 1, p + 1) leaves an odd number of completions.",
+   "statement": "If e_i ∈ {0, 1, 2} for i < k and e_i ∈ {0, −1, −2} for i > k in a valid word, then the number of solutions with stone k on the cell (p + q + 1, p + 1), rows counted from the bottom, is odd, where p = #{i < k: e_i = 0} + #{i > k: e_i = −2} and q = #{i < k: e_i = 1} + #{i > k: e_i = −1}. In particular every valid word of letters in {0, 1, 2} followed by letters in {0, −1, −2} has a solution, for any slack.",
+   "example": "2 1 0 −1 −2 (n = 5), diagonals {−2, −1, 0, 1, 2}: k = 3, p = 1, q = 2, so stone 3 goes on the cell (4, 2), rows counted from the bottom. Exactly one of the six solutions, 3 2 1 5 4, has it there.",
+   "evidence": "Hand proof in agents/oddsplit/REPORT.md §1–§3 (sub-session). Checked against brute force for all words of size 8 and 9. It covers 221 of the 251 rising-then-falling words without a tight cut at n = 10; the earlier family {0, 1}* {0, −1}* covers 64.",
+   "refs": "agents/oddsplit/REPORT.md §3, check_one.py, check_cell.py"
+  },
+  {
    "id": "thirds",
    "area": "ideas",
    "title": "Fix every third row: some set of stones fills exactly those rows in an odd number of solutions",
@@ -4673,6 +4695,27 @@
    "kind": "related",
    "status": "unchecked",
    "why": "Uses the parity theorem on two complementary sets of stones."
+  },
+  {
+   "from": "rrsplit",
+   "to": "oddsplit",
+   "kind": "implies",
+   "status": "proved",
+   "why": "An RR-split is an odd split whose two parities are both exactly 1 (Lemma R)."
+  },
+  {
+   "from": "uni2",
+   "to": "rrsplit",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The case of a single stone, which is proved."
+  },
+  {
+   "from": "paritylr",
+   "to": "uni2",
+   "kind": "implies",
+   "status": "proved",
+   "why": "The parity theorem and the dominance bounds on Littlewood–Richardson numbers."
   },
   {
    "from": "thirds",
