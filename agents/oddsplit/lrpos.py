@@ -31,4 +31,4 @@ for x in words(LEN, S, False):
                     if L == 0: unreach += 1; ex.append((x, lam, gam, c))
                     elif c > L: bigger += 1
                 assert (c - P.get((lam, gam), 0)) % 2 == 0
-print(f"prefixes with letters >= 0, length <= {LEN}, slack <= {S}: {nw}; reachable states {reach}; states with c > 0: {pos}; of these unreachable: {unreach}; with c > L: {bigger}", ex[:4])
+print(f"prefixes with letters >= 0, length <= {LEN}, slack <= {S}: {nw}; reachable states {reach}; states with c > 0: {pos}; of these unreachable (L = 0): {unreach}; reachable with c > L: {bigger}", ex[:4])
