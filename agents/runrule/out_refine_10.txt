@@ -1,0 +1,145 @@
+canonical steps of valid nonzero words of length <= 10: {'PEAK': 623, 'ZERO': 746, 'RUN': 862}
+PEAK  left    #row holes + #col holes    steps with a violating class:     0 of 623
+PEAK  left    #row holes only            steps with a violating class:     0 of 623
+PEAK  left    (#row holes, #col holes)   steps with a violating class:     0 of 623
+PEAK  left    (lam_1, mu_1) top extras   steps with a violating class:     0 of 623
+PEAK  left    (|lam|, |mu|)              steps with a violating class:     0 of 623
+PEAK  left    full state                 steps with a violating class:     6 of 623   e.g. (3, 2, 1, 1, 0, -1, -1, -2, -3) <- (3, 2, 1, 0, -1, -2, -3) class ((3,), (-1,), (2,), (0,)): 3 > 2
+PEAK  left    lowest holes               steps with a violating class:     0 of 623
+PEAK  left    none (COUNT itself)        steps with a violating class:     0 of 623
+PEAK  left    row side only              steps with a violating class:     0 of 623
+PEAK  left    sizes and hole counts      steps with a violating class:     0 of 623
+PEAK  left    {|lam|, |mu|}              steps with a violating class:     0 of 623
+PEAK  left    |lam| only                 steps with a violating class:     0 of 623
+PEAK  left-1  #row holes + #col holes    steps with a violating class:     0 of 524
+PEAK  left-1  #row holes only            steps with a violating class:     0 of 524
+PEAK  left-1  (#row holes, #col holes)   steps with a violating class:     0 of 524
+PEAK  left-1  (lam_1, mu_1) top extras   steps with a violating class:     0 of 524
+PEAK  left-1  (|lam|, |mu|)              steps with a violating class:     0 of 524
+PEAK  left-1  full state                 steps with a violating class:     0 of 524
+PEAK  left-1  lowest holes               steps with a violating class:     0 of 524
+PEAK  left-1  none (COUNT itself)        steps with a violating class:     0 of 524
+PEAK  left-1  row side only              steps with a violating class:     0 of 524
+PEAK  left-1  sizes and hole counts      steps with a violating class:     0 of 524
+PEAK  left-1  {|lam|, |mu|}              steps with a violating class:     0 of 524
+PEAK  left-1  |lam| only                 steps with a violating class:     0 of 524
+PEAK  right   #row holes + #col holes    steps with a violating class:     0 of 623
+PEAK  right   #row holes only            steps with a violating class:     0 of 623
+PEAK  right   (#row holes, #col holes)   steps with a violating class:     0 of 623
+PEAK  right   (lam_1, mu_1) top extras   steps with a violating class:     0 of 623
+PEAK  right   (|lam|, |mu|)              steps with a violating class:     0 of 623
+PEAK  right   full state                 steps with a violating class:     6 of 623   e.g. (3, 2, 1, 1, 0, -1, -1, -2, -3) <- (3, 2, 1, 0, -1, -2, -3) class ((1,), (-1,), (2,), (-2,)): 3 > 2
+PEAK  right   lowest holes               steps with a violating class:     0 of 623
+PEAK  right   none (COUNT itself)        steps with a violating class:     0 of 623
+PEAK  right   row side only              steps with a violating class:     0 of 623
+PEAK  right   sizes and hole counts      steps with a violating class:     0 of 623
+PEAK  right   {|lam|, |mu|}              steps with a violating class:     0 of 623
+PEAK  right   |lam| only                 steps with a violating class:     0 of 623
+PEAK  right+1 #row holes + #col holes    steps with a violating class:     0 of 615
+PEAK  right+1 #row holes only            steps with a violating class:     0 of 615
+PEAK  right+1 (#row holes, #col holes)   steps with a violating class:     0 of 615
+PEAK  right+1 (lam_1, mu_1) top extras   steps with a violating class:     0 of 615
+PEAK  right+1 (|lam|, |mu|)              steps with a violating class:     0 of 615
+PEAK  right+1 full state                 steps with a violating class:     0 of 615
+PEAK  right+1 lowest holes               steps with a violating class:     0 of 615
+PEAK  right+1 none (COUNT itself)        steps with a violating class:     0 of 615
+PEAK  right+1 row side only              steps with a violating class:     0 of 615
+PEAK  right+1 sizes and hole counts      steps with a violating class:     0 of 615
+PEAK  right+1 {|lam|, |mu|}              steps with a violating class:     0 of 615
+PEAK  right+1 |lam| only                 steps with a violating class:     0 of 615
+RUN   left    #row holes + #col holes    steps with a violating class:     1 of 862   e.g. (3, 2, 1, 0, 1, 0, -1, -2, -2, -2) <- (3, 2, 1, 0, 0, -1, -1, -2, -2) class 1: 12 > 8
+RUN   left    #row holes only            steps with a violating class:     0 of 862
+RUN   left    (#row holes, #col holes)   steps with a violating class:     1 of 862   e.g. (3, 2, 1, 0, 1, 0, -1, -2, -2, -2) <- (3, 2, 1, 0, 0, -1, -1, -2, -2) class (0, 1): 6 > 4
+RUN   left    (lam_1, mu_1) top extras   steps with a violating class:    13 of 862   e.g. (2, 2, 1, 1, 0, -1, -2, -2, -1) <- (2, 2, 1, 0, -1, -1, -2, -1) class (2, 2): 6 > 4
+RUN   left    (|lam|, |mu|)              steps with a violating class:     0 of 862
+RUN   left    full state                 steps with a violating class:    21 of 862   e.g. (2, 2, 1, 1, 0, -1, -2, -2, -1) <- (2, 2, 1, 0, -1, -1, -2, -1) class ((2,), (0,), (2,), (-1,)): 3 > 2
+RUN   left    lowest holes               steps with a violating class:     3 of 862   e.g. (1, 2, 1, 1, 1, 0, -1, -2, -1, -2) <- (1, 2, 1, 1, 0, -1, -1, -1, -2) class (-1, 1): 3 > 2
+RUN   left    none (COUNT itself)        steps with a violating class:     0 of 862
+RUN   left    row side only              steps with a violating class:     7 of 862   e.g. (1, 1, 2, 1, 1, 0, -1, -2, -1, -2) <- (1, 1, 2, 1, 0, -1, -1, -1, -2) class ((4,), (-1,)): 3 > 2
+RUN   left    sizes and hole counts      steps with a violating class:     1 of 862   e.g. (3, 2, 1, 0, 1, 0, -1, -2, -2, -2) <- (3, 2, 1, 0, 0, -1, -1, -2, -2) class (0, 6, 0, 1): 6 > 4
+RUN   left    {|lam|, |mu|}              steps with a violating class:     0 of 862
+RUN   left    |lam| only                 steps with a violating class:     0 of 862
+RUN   left-1  #row holes + #col holes    steps with a violating class:     0 of 725
+RUN   left-1  #row holes only            steps with a violating class:     0 of 725
+RUN   left-1  (#row holes, #col holes)   steps with a violating class:     0 of 725
+RUN   left-1  (lam_1, mu_1) top extras   steps with a violating class:     1 of 725   e.g. (3, 2, 1, 0, 1, 0, -1, -2, -2, -2) <- (3, 2, 1, 0, 0, -1, -1, -2, -2) class (1, 1): 12 > 8
+RUN   left-1  (|lam|, |mu|)              steps with a violating class:     0 of 725
+RUN   left-1  full state                 steps with a violating class:     1 of 725   e.g. (3, 2, 1, 0, 1, 0, -1, -2, -2, -2) <- (3, 2, 1, 0, 0, -1, -1, -2, -2) class ((1,), (-2,), (1,), (-2,)): 12 > 8
+RUN   left-1  lowest holes               steps with a violating class:     1 of 725   e.g. (3, 2, 1, 0, 1, 0, -1, -2, -2, -2) <- (3, 2, 1, 0, 0, -1, -1, -2, -2) class (-2, -2): 12 > 8
+RUN   left-1  none (COUNT itself)        steps with a violating class:     0 of 725
+RUN   left-1  row side only              steps with a violating class:     1 of 725   e.g. (3, 2, 1, 0, 1, 0, -1, -2, -2, -2) <- (3, 2, 1, 0, 0, -1, -1, -2, -2) class ((1,), (-2,)): 17 > 16
+RUN   left-1  sizes and hole counts      steps with a violating class:     0 of 725
+RUN   left-1  {|lam|, |mu|}              steps with a violating class:     0 of 725
+RUN   left-1  |lam| only                 steps with a violating class:     0 of 725
+RUN   right   #row holes + #col holes    steps with a violating class:     1 of 862   e.g. (2, 2, 2, 1, 0, -1, 0, -1, -2, -3) <- (2, 2, 1, 1, 0, 0, -1, -2, -3) class 1: 12 > 8
+RUN   right   #row holes only            steps with a violating class:     0 of 862
+RUN   right   (#row holes, #col holes)   steps with a violating class:     1 of 862   e.g. (2, 2, 2, 1, 0, -1, 0, -1, -2, -3) <- (2, 2, 1, 1, 0, 0, -1, -2, -3) class (1, 0): 6 > 4
+RUN   right   (lam_1, mu_1) top extras   steps with a violating class:     3 of 862   e.g. (2, 1, 2, 1, 0, -1, -1, -1, -2, -1) <- (2, 1, 1, 1, 0, -1, -1, -2, -1) class (0, 2): 3 > 2
+RUN   right   (|lam|, |mu|)              steps with a violating class:     0 of 862
+RUN   right   full state                 steps with a violating class:    21 of 862   e.g. (1, 2, 2, 1, 0, -1, -1, -2, -2) <- (1, 2, 1, 1, 0, -1, -2, -2) class ((2,), (-1,), (1,), (-1,)): 3 > 2
+RUN   right   lowest holes               steps with a violating class:    13 of 862   e.g. (1, 2, 2, 1, 0, -1, -1, -2, -2) <- (1, 2, 1, 1, 0, -1, -2, -2) class (-1, -1): 6 > 4
+RUN   right   none (COUNT itself)        steps with a violating class:     0 of 862
+RUN   right   row side only              steps with a violating class:     7 of 862   e.g. (2, 2, 2, 1, 0, -1, -1, -1, -2, -2) <- (2, 2, 1, 1, 0, -1, -1, -2, -2) class ((4,), (-2,)): 3 > 2
+RUN   right   sizes and hole counts      steps with a violating class:     1 of 862   e.g. (2, 2, 2, 1, 0, -1, 0, -1, -2, -3) <- (2, 2, 1, 1, 0, 0, -1, -2, -3) class (6, 0, 1, 0): 6 > 4
+RUN   right   {|lam|, |mu|}              steps with a violating class:     0 of 862
+RUN   right   |lam| only                 steps with a violating class:     0 of 862
+RUN   right+1 #row holes + #col holes    steps with a violating class:     0 of 771
+RUN   right+1 #row holes only            steps with a violating class:     0 of 771
+RUN   right+1 (#row holes, #col holes)   steps with a violating class:     0 of 771
+RUN   right+1 (lam_1, mu_1) top extras   steps with a violating class:     1 of 771   e.g. (2, 2, 2, 1, 0, -1, 0, -1, -2, -3) <- (2, 2, 1, 1, 0, 0, -1, -2, -3) class (3, 3): 12 > 8
+RUN   right+1 (|lam|, |mu|)              steps with a violating class:     0 of 771
+RUN   right+1 full state                 steps with a violating class:     1 of 771   e.g. (2, 2, 2, 1, 0, -1, 0, -1, -2, -3) <- (2, 2, 1, 1, 0, 0, -1, -2, -3) class ((3,), (0,), (3,), (0,)): 12 > 8
+RUN   right+1 lowest holes               steps with a violating class:     1 of 771   e.g. (2, 2, 2, 1, 0, -1, 0, -1, -2, -3) <- (2, 2, 1, 1, 0, 0, -1, -2, -3) class (0, 0): 12 > 8
+RUN   right+1 none (COUNT itself)        steps with a violating class:     0 of 771
+RUN   right+1 row side only              steps with a violating class:     1 of 771   e.g. (2, 2, 2, 1, 0, -1, 0, -1, -2, -3) <- (2, 2, 1, 1, 0, 0, -1, -2, -3) class ((3,), (0,)): 17 > 16
+RUN   right+1 sizes and hole counts      steps with a violating class:     0 of 771
+RUN   right+1 {|lam|, |mu|}              steps with a violating class:     0 of 771
+RUN   right+1 |lam| only                 steps with a violating class:     0 of 771
+ZERO  left    #row holes + #col holes    steps with a violating class:     0 of 746
+ZERO  left    #row holes only            steps with a violating class:    17 of 746   e.g. (1, 2, 1, 0, 0, -1, -1, -1, -1) <- (1, 2, 1, 0, -1, -1, -1, -1) class 2: 2 > 0
+ZERO  left    (#row holes, #col holes)   steps with a violating class:    19 of 746   e.g. (1, 2, 1, 0, 0, -1, -1, -1, -1) <- (1, 2, 1, 0, -1, -1, -1, -1) class (2, 0): 2 > 0
+ZERO  left    (lam_1, mu_1) top extras   steps with a violating class:    71 of 746   e.g. (1, 2, 1, 0, 0, -1, -1, -2) <- (1, 2, 1, 0, -1, -1, -2) class (2, 2): 4 > 0
+ZERO  left    (|lam|, |mu|)              steps with a violating class:     6 of 746   e.g. (3, 2, 1, 0, 0, -1, -2, -1, -2) <- (3, 2, 1, 0, -1, -2, -1, -2) class (6, 0): 8 > 6
+ZERO  left    full state                 steps with a violating class:    89 of 746   e.g. (1, 2, 1, 0, 0, -1, -1, -2) <- (1, 2, 1, 0, -1, -1, -2) class ((2,), (0,), (2,), (0,)): 4 > 0
+ZERO  left    lowest holes               steps with a violating class:    61 of 746   e.g. (1, 2, 1, 0, 0, -1, -1, -2) <- (1, 2, 1, 0, -1, -1, -2) class (0, 0): 6 > 2
+ZERO  left    none (COUNT itself)        steps with a violating class:     0 of 746
+ZERO  left    row side only              steps with a violating class:    28 of 746   e.g. (1, 2, 1, 0, 0, -1, -1, -1, -1) <- (1, 2, 1, 0, -1, -1, -1, -1) class ((1, 2), (-1, 0)): 2 > 0
+ZERO  left    sizes and hole counts      steps with a violating class:    20 of 746   e.g. (1, 2, 1, 0, 0, -1, -1, -1, -1) <- (1, 2, 1, 0, -1, -1, -1, -1) class (4, 0, 2, 0): 2 > 0
+ZERO  left    {|lam|, |mu|}              steps with a violating class:     6 of 746   e.g. (3, 2, 1, 0, 0, -1, -2, -1, -2) <- (3, 2, 1, 0, -1, -2, -1, -2) class (0, 6): 16 > 12
+ZERO  left    |lam| only                 steps with a violating class:     6 of 746   e.g. (3, 2, 1, 0, 0, -1, -2, -1, -2) <- (3, 2, 1, 0, -1, -2, -1, -2) class 6: 8 > 6
+ZERO  left-1  #row holes + #col holes    steps with a violating class:    19 of 746   e.g. (1, 2, 1, 0, 0, -1, -1, -2) <- (1, 2, 1, 0, -1, -1, -2) class 1: 8 > 4
+ZERO  left-1  #row holes only            steps with a violating class:     0 of 746
+ZERO  left-1  (#row holes, #col holes)   steps with a violating class:    19 of 746   e.g. (1, 2, 1, 0, 0, -1, -1, -2) <- (1, 2, 1, 0, -1, -1, -2) class (0, 1): 4 > 2
+ZERO  left-1  (lam_1, mu_1) top extras   steps with a violating class:    47 of 746   e.g. (1, 2, 1, 0, 0, -1, -1, -2) <- (1, 2, 1, 0, -1, -1, -2) class (3, 0): 3 > 1
+ZERO  left-1  (|lam|, |mu|)              steps with a violating class:     1 of 746   e.g. (1, 2, 1, 0, 0, -1, 0, 0, -1, -2) <- (1, 2, 1, 0, -1, 0, 0, -1, -2) class (2, 2): 8 > 4
+ZERO  left-1  full state                 steps with a violating class:    55 of 746   e.g. (1, 2, 1, 0, 0, -1, -1, -2) <- (1, 2, 1, 0, -1, -1, -2) class ((3,), (-1,), (), ()): 3 > 1
+ZERO  left-1  lowest holes               steps with a violating class:     8 of 746   e.g. (1, 1, 1, 1, 0, 0, 0, -1, -1, -2) <- (1, 1, 1, 1, 0, 0, -1, -1, -2) class (-1, 1): 3 > 1
+ZERO  left-1  none (COUNT itself)        steps with a violating class:     0 of 746
+ZERO  left-1  row side only              steps with a violating class:    52 of 746   e.g. (1, 2, 1, 0, 0, -1, -1, -2) <- (1, 2, 1, 0, -1, -1, -2) class ((3,), (-1,)): 3 > 1
+ZERO  left-1  sizes and hole counts      steps with a violating class:    20 of 746   e.g. (1, 2, 1, 0, 0, -1, -1, -2) <- (1, 2, 1, 0, -1, -1, -2) class (0, 4, 0, 1): 4 > 2
+ZERO  left-1  {|lam|, |mu|}              steps with a violating class:     1 of 746   e.g. (1, 2, 1, 0, 0, -1, 0, 0, -1, -2) <- (1, 2, 1, 0, -1, 0, 0, -1, -2) class (2, 2): 8 > 4
+ZERO  left-1  |lam| only                 steps with a violating class:     1 of 746   e.g. (1, 2, 1, 0, 0, -1, 0, 0, -1, -2) <- (1, 2, 1, 0, -1, 0, 0, -1, -2) class 2: 8 > 4
+ZERO  right   #row holes + #col holes    steps with a violating class:    11 of 746   e.g. (2, 1, 1, 0, 0, -1, -2, -1) <- (2, 1, 1, 0, -1, -2, -1) class 2: 8 > 4
+ZERO  right   #row holes only            steps with a violating class:     0 of 746
+ZERO  right   (#row holes, #col holes)   steps with a violating class:    11 of 746   e.g. (2, 1, 1, 0, 0, -1, -2, -1) <- (2, 1, 1, 0, -1, -2, -1) class (1, 1): 8 > 4
+ZERO  right   (lam_1, mu_1) top extras   steps with a violating class:    29 of 746   e.g. (2, 1, 1, 0, 0, -1, -1, -2) <- (2, 1, 1, 0, -1, -1, -2) class (2, 1): 4 > 2
+ZERO  right   (|lam|, |mu|)              steps with a violating class:    10 of 746   e.g. (2, 1, 1, 0, 0, -1, -2, -1) <- (2, 1, 1, 0, -1, -2, -1) class (2, 1): 4 > 2
+ZERO  right   full state                 steps with a violating class:    34 of 746   e.g. (2, 1, 1, 0, 0, -1, -1, -2) <- (2, 1, 1, 0, -1, -1, -2) class ((2,), (0,), (1,), (0,)): 4 > 2
+ZERO  right   lowest holes               steps with a violating class:    30 of 746   e.g. (2, 1, 1, 0, 0, -1, -1, -2) <- (2, 1, 1, 0, -1, -1, -2) class (0, 0): 8 > 4
+ZERO  right   none (COUNT itself)        steps with a violating class:     0 of 746
+ZERO  right   row side only              steps with a violating class:    31 of 746   e.g. (2, 1, 1, 0, 0, -1, -1, -2) <- (2, 1, 1, 0, -1, -1, -2) class ((2,), (0,)): 4 > 2
+ZERO  right   sizes and hole counts      steps with a violating class:    12 of 746   e.g. (2, 1, 1, 0, 0, -1, -2, -1) <- (2, 1, 1, 0, -1, -2, -1) class (2, 1, 1, 1): 4 > 2
+ZERO  right   {|lam|, |mu|}              steps with a violating class:    10 of 746   e.g. (2, 1, 1, 0, 0, -1, -2, -1) <- (2, 1, 1, 0, -1, -2, -1) class (1, 2): 8 > 4
+ZERO  right   |lam| only                 steps with a violating class:    10 of 746   e.g. (2, 1, 1, 0, 0, -1, -2, -1) <- (2, 1, 1, 0, -1, -2, -1) class 2: 4 > 2
+ZERO  right+1 #row holes + #col holes    steps with a violating class:     0 of 718
+ZERO  right+1 #row holes only            steps with a violating class:     0 of 718
+ZERO  right+1 (#row holes, #col holes)   steps with a violating class:     0 of 718
+ZERO  right+1 (lam_1, mu_1) top extras   steps with a violating class:     6 of 718   e.g. (2, 1, 1, 0, 0, -1, 0, -1, -2) <- (2, 1, 1, 0, -1, 0, -1, -2) class (1, 1): 8 > 4
+ZERO  right+1 (|lam|, |mu|)              steps with a violating class:     0 of 718
+ZERO  right+1 full state                 steps with a violating class:     6 of 718   e.g. (2, 1, 1, 0, 0, -1, 0, -1, -2) <- (2, 1, 1, 0, -1, 0, -1, -2) class ((1,), (0,), (1,), (-1,)): 4 > 2
+ZERO  right+1 lowest holes               steps with a violating class:     6 of 718   e.g. (2, 1, 1, 0, 0, -1, 0, -1, -2) <- (2, 1, 1, 0, -1, 0, -1, -2) class (0, -1): 4 > 2
+ZERO  right+1 none (COUNT itself)        steps with a violating class:     0 of 718
+ZERO  right+1 row side only              steps with a violating class:     5 of 718   e.g. (2, 1, 1, 0, 0, -1, 0, -1, -2) <- (2, 1, 1, 0, -1, 0, -1, -2) class ((1,), (-1,)): 4 > 2
+ZERO  right+1 sizes and hole counts      steps with a violating class:     0 of 718
+ZERO  right+1 {|lam|, |mu|}              steps with a violating class:     0 of 718
+ZERO  right+1 |lam| only                 steps with a violating class:     0 of 718
