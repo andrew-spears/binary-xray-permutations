@@ -67,8 +67,9 @@ def relsplits(e, kmax=1, p=None, r=None, first=False):
                             if first: return out
     return out
 if __name__ == "__main__":
-    e = tuple(int(a) for a in sys.argv[1].split()); kmax = int(sys.argv[2]) if len(sys.argv) > 2 else 1
-    p, r = cuts(e); every = len(sys.argv) > 3 and sys.argv[3] == "all"
+    e = tuple(int(a) for a in sys.argv[1].split()); rest = sys.argv[2:]; every = "all" in rest
+    kmax = next((int(a) for a in rest if a != "all"), 1)
+    p, r = cuts(e)
     for p1, r1 in ([(a, b) for a in range(p, -1, -1) for b in range(r, -1, -1)] if every else [(p, r)]):
         print("x =", e[:p1], " m =", e[p1:len(e) - r1], " y =", e[len(e) - r1:])
         for S, RS, CS, tx, ty in relsplits(e, kmax, p1, r1):
