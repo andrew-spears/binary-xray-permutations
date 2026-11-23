@@ -7,6 +7,7 @@ def F(word):
     return {tuple(() if p == "-" else tuple(int(a) for a in p.split(",")) for p in t.split("|")) for t in out}
 def states(s): return [(l, m) for a in range(s + 1) for l in partitions(a) for m in partitions(s - a)]
 odd = lambda A: sum(a % 2 for a in A)
+nm2 = lambda t: "|".join("".join(map(str, p)) or "-" for p in t)
 def E1(n):          # (lam | lam'), |lam| = n/2, empty 2-core
     return {(l, conj(l)) for l in partitions(n // 2) if 2 * odd(beta(l, n)) == n} if n % 4 == 0 else set()
 def E0(a):          # (2nu2 | 2kappa2), |nu| + |kappa| = a/4, beta(nu) and a - beta(kappa) (a/2 beads each) meet in one point
@@ -17,7 +18,7 @@ def E0(a):          # (2nu2 | 2kappa2), |nu| + |kappa| = a/4, beta(nu) and a - b
             for ka in partitions(m - i):
                 if len(beta(nu, 2 * m) & {a - b for b in beta(ka, 2 * m)}) == 1: out.add((blow(nu), blow(ka)))
     return out
-for a in range(1, int(sys.argv[1]) + 1):
+for a in range(1, int(sys.argv[1]) + 1) if __name__ == "__main__" else ():
     S = states(a)
     P = {t for t in S if odd(beta(t[0], a)) + odd(beta(t[1], a)) == a}
     Q = {t for t in S if abs(odd(beta(t[0], a + 1)) + odd(beta(t[1], a + 1)) - a - 1) == 1}

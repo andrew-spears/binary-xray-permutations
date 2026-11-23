@@ -1,0 +1,2 @@
+6 5 4 3 2 1 : 24 LP-feasible states not in F; first modulus whose residue counts fail (None = all pass up to 9): {None: 22, 8: 2}
+6 5 4 3 2 1 0 : 24 LP-feasible states not in F; first modulus whose residue counts fail (None = all pass up to 9): {None: 24}

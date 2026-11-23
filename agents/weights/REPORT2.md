@@ -60,3 +60,10 @@ Check: `python3 fx.py ones 20` compares with the machine for n ≤ 20.
   (ii) near-staircases (k k k-1 .. 1; minimisers at s = 16..24 from out/argmin_core2dim2_20.txt) at s ~ 30-40 via ./fx;
   (iii) item 3: defect sets via (LAST); letter-0 flow proof attempt (growth diagram) or NOTHING;
   (iv) rewrite REPORT2.md (verdict per item), add runs2.sh, PR into devin/1795444188-two-marks.
+- PROVED (to write up): F(1^a 0) = Q_{a,1} - E0_a, E0_a = {(2nu2 | 2kappa2): |nu|+|kappa| = a/4, beta_{a/2}(nu) meets a - beta_{a/2}(kappa) in one point}
+  (ones0.py, a <= 24: |E0| = 2 2 4 5 6 10 for a = 4..24).  F(1^a 0^b) = Q_{a,b} for b >= 2 (pigeonhole on (R_odd+1, X_even) /
+  (R_even+1, X_odd); b = 2 uses the pair structure of E0).  zeros.py 20 4 confirms; Q = all states for b >= 3 or 4.
+- letter-1 defect = {(lam | lam')}: zo.py 10 (all {0,1} words): missing sets contain it; 1 0 1^j misses a lot (80 of 292): not "parity minus small".
+- staircases: F = plain LP set for k <= 5 (k..1) and k <= 4 (k..1 0); k = 5 with 0: 4 exceptions; k = 6: 24 and 24 exceptions,
+  all but 2 pass residue counts mod 2..9 (stair.py, stair6.py).  Skolem-type matching: differences x - r = 0..k-1 (resp. 1..k+1).
+- dim fails for large s: Plancherel 2-core charge spreads (Lulov-Pittel), P(s) -> 0.
