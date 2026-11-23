@@ -18,7 +18,8 @@ static void gen(int n,int m,vector<int>& l,vector<array<ld,6>>& S,int tot){ // S
     if (n==0){ auto x=info(l); if (x.second<2){ S[tot][x.second*2]+=x.first; S[tot][x.second*2+1]+=x.first*x.first; } S[tot][4]+=x.first; return; }
     for (int a=min(n,m);a>=1;a--){ l.push_back(a); gen(n-a,a,l,S,tot); l.pop_back(); } }
 int main(int argc,char** argv){
-    vector<int> w; for (int i=1;i<argc;i++) w.push_back(atoi(argv[i]));
+    bool dumpF = argc>1 && !strcmp(argv[1],"-d");   // ./fx -d e1 e2 ... : print the states of F(x) as lam|mu, nothing else
+    vector<int> w; for (int i=1+dumpF;i<argc;i++) w.push_back(atoi(argv[i]));
     int smax=0,s=0; for (int e: w){ s+=e; smax=max(smax,s); }
     vector<array<ld,6>> S(smax+1); for (auto& a: S) a.fill(0);
     for (int n=0;n<=smax;n++){ vector<int> l; gen(n,n,l,S,n); }
@@ -29,6 +30,9 @@ int main(int argc,char** argv){
             if ((t.r>>(M+u)&1)||(t.c>>(M+v)&1)) continue; u128 r2=t.r|((u128)1<<(M+u)), c2=t.c|((u128)1<<(M+v));
             if ((r2&1)&&(c2&1)) nx.insert({r2>>1,c2>>1}); }
         cur.swap(nx); s+=e;
+        if (dumpF){ if (i+1==w.size()) for (const St& t: cur){ auto l=part(t.r), m=part(t.c);
+            for (size_t q=0;q<l.size();q++) printf("%s%d", q?",":"", l[q]); if (l.empty()) printf("-"); printf("|");
+            for (size_t q=0;q<m.size();q++) printf("%s%d", q?",":"", m[q]); if (m.empty()) printf("-"); printf("\n"); } continue; }
         ld tot[3]={0,0,0}, got[3]={0,0,0};
         for (int a=0;a<=s;a++){ ld c=C[s][a]; tot[0]+=c*S[a][4]*S[s-a][4];
             if (s%2==0){ tot[1]+=c*S[a][0]*S[s-a][0]; tot[2]+=c*c*S[a][1]*S[s-a][1]; }
