@@ -2,10 +2,12 @@
 t <=_l t'  (same slack s, last letter l) is the largest relation with:  t empty => t' empty, and for every legal next
 letter e (e >= l-1, e >= -s, s+e <= B) every e-successor u of t has an e-successor u' of t' with u <=_e u'.
 If t <=_l t' then every continuation that completes t completes t'.  (Truncated at slack B: letters that would exceed
-B are not challenged, so the relation at slacks near B is too generous; compare across B.)
+B are not challenged, so the relation is too generous near the bound: nonzero cells appear only where a large last
+letter forces the next letters up to the bound, and they move away when B grows.)
+Output: for each last letter and slack, the number of comparable pairs that are not mirror images.
 Usage: python3 sim.py B"""
-import sys, pickle
-sys.path.insert(0, "../interface")
+import os, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "interface"))
 from rewrite import machine
 def parts(mask, B):
     """mask -> partition (Young diagram) in the Maya/bead reading"""
@@ -56,12 +58,13 @@ def simulate(B):
 if __name__ == "__main__":
     B = int(sys.argv[1])
     step, start, slack, lev, R, rounds = simulate(B)
-    pickle.dump((slack, R), open(f"sim{B}.pkl", "wb"))
     print(f"B = {B}: {len(slack)} states, {rounds} rounds")
-    for l in (-B, -2, -1, 0, 1, 2):
+    print("cells: pairs t != t' with t <=_l t' that are NOT mirror images (0 = the order is trivial there); '.' = no state/letter")
+    mirror = lambda t: (t[1], t[0])
+    print("last letter  " + " ".join(f"s={s:>3d}" for s in sorted(lev)))
+    for l in range(-B, B + 1):
         row = []
         for s in sorted(lev):
-            n = len(lev[s]); strict = sum(1 for (t, t2) in R[l] if slack[t] == s and t != t2)
-            both = sum(1 for (t, t2) in R[l] if slack[t] == s and t != t2 and (t2, t) in R[l])
-            row.append(f"{s}:{n}/{strict}/{both}")
-        print(f"  last {l:3d}  slack:states/comparable ordered pairs/equivalent  ", " ".join(row))
+            if l - 1 > B - s: row.append("  .  "); continue       # no legal next letter inside the bound
+            row.append(f"{sum(1 for (t, t2) in R[l] if slack[t] == s and t != t2 and t2 != mirror(t)):5d}")
+        print(f"   {l:3d}       " + " ".join(row))
