@@ -3649,6 +3649,16 @@
    "refs": "agents/interface/slack_dfa.cpp, slack_dfa.py, slack_dfa2.cpp, audit_step.py"
   },
   {
+   "id": "alivedom",
+   "area": "ideas",
+   "title": "Alive sets are closed under moving boxes down",
+   "status": "disproved",
+   "intuition": "An induction over the slack bound needs a description of which hole states are still alive after a prefix. The simplest hope is an order-theoretic shape, like Landau's own condition: if a state is alive, so is every 'more spread out' one. Claim: alive sets have that shape.",
+   "statement": "For every valid prefix, the set of alive interface states (λ, μ) is closed under replacing λ or μ by a diagram it dominates (equivalently, moving a box to a lower row), or under the reverse; the same for the combined diagram of rows and columns interleaved.",
+   "evidence": "False in every version. With slack ≤ 6, 100 distinct alive sets occur: all are symmetric under swapping rows and columns, but only 14 are closed downward and 14 upward under dominance, and only 20 are intervals in the interleaved form. Example at slack 5: with no row holes, the column diagrams 41, 32, 311, 221 are alive and 5, 2111, 11111 are dead — the middle of the order survives, both extremes die.",
+   "refs": "2026-11-23, agents/basket/alive.py, shape.py, shape2.py"
+  },
+  {
    "id": "online",
    "area": "ideas",
    "title": "Online rule: place each stone before seeing the next diagonal",
@@ -4143,6 +4153,13 @@
    "kind": "related",
    "status": "unchecked",
    "why": "The bounds B ≤ 16."
+  },
+  {
+   "from": "alivedom",
+   "to": "slackB",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "A shape like this would be the natural induction hypothesis for every slack bound."
   },
   {
    "from": "online",

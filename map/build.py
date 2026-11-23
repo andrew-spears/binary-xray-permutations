@@ -418,6 +418,11 @@ nodes = [
       example="P_n has slack 1 at every cut. A minimal move raises the slack by 1 at the cuts between its two stones,\nso P_n followed by any 15 minimal moves is covered, for every n.\nEvery D with n ≤ 11 has slack ≤ 16.",
       evidence="Not a sample: the automaton A_16 (22,358 reachable states after determinising, 11 s, 0.94 GB) accepts every valid word, and by the interface card this covers every n. It is listed as empirical only because the finite check is done by a program. Three implementations give the same verdict (Python for B ≤ 8, two C++ programs for B ≤ 12), and the step rule was compared with brute force on all 6,742 multisets with repeats for n ≤ 8, including the 39 with no solution. B = 17 was not done: the program packs a state into 64 bits, which stops at B = 16, and the search would also need more than the 7 GB available. Does not depend on the conjecture at any size. Recheck: g++ -O2 -o slack_dfa slack_dfa.cpp && ./slack_dfa 16.",
       refs="agents/interface/slack_dfa.cpp, slack_dfa.py, slack_dfa2.cpp, audit_step.py"),
+    N("alivedom", "ideas", "Alive sets are closed under moving boxes down", "disproved",
+      "For every valid prefix, the set of alive interface states (λ, μ) is closed under replacing λ or μ by a diagram it dominates (equivalently, moving a box to a lower row), or under the reverse; the same for the combined diagram of rows and columns interleaved.",
+      "An induction over the slack bound needs a description of which hole states are still alive after a prefix. The simplest hope is an order-theoretic shape, like Landau's own condition: if a state is alive, so is every 'more spread out' one. Claim: alive sets have that shape.",
+      evidence="False in every version. With slack ≤ 6, 100 distinct alive sets occur: all are symmetric under swapping rows and columns, but only 14 are closed downward and 14 upward under dominance, and only 20 are intervals in the interleaved form. Example at slack 5: with no row holes, the column diagrams 41, 32, 311, 221 are alive and 5, 2111, 11111 are dead — the middle of the order survives, both extremes die.",
+      refs="2026-11-23, agents/basket/alive.py, shape.py, shape2.py"),
     N("online", "ideas", "Online rule: place each stone before seeing the next diagonal", "disproved",
       "There is a rule that places the stone of the k-th smallest diagonal knowing only n and the k smallest diagonals, and that completes a witness for every valid D.",
       "The simplest proof in diagonal order would be a rule with no lookahead. Claim: such a rule exists.",
@@ -523,6 +528,7 @@ e("greedy", T, "implies", "A rule that never gets stuck produces a witness.")
 # interface walks
 e(["interface", "slackB"], T, "implies", "A valid D of size n has all slacks ≤ n²/8, so it is covered by the bound B = n²/8; an accepted word is a walk, and a walk is a witness.")
 e("slack16", "slackB", "related", "The bounds B ≤ 16.", "unchecked")
+e("alivedom", "slackB", "related", "A shape like this would be the natural induction hypothesis for every slack bound.", "unchecked")
 e("online", "slackB", "implies", "An online rule traces an accepted walk for every word.")
 e("summary", "slackB", "implies", "Induction along the word with invariant 'every state of I is reachable'; nonempty at the end means a witness.")
 e("meet", T, "implies", "Two sets with more elements than their universe intersect; a common state joins a left half-walk to a right half-walk.")
