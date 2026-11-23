@@ -117,6 +117,18 @@ nodes = [
       evidence="False: D = {−4, −2, 0, 1, 2, 3} with {−2, 0} fattened passes the count, yet no witness has that block (the pairs {−4, −2}, {0, 2}, {+1, +3} do). Failures are common (117 of 260 in one class at total width 8), and parity gives no fix.",
       refs="Weighted agent 2026-11-22, /home/claude/agents/weighted/"),
 
+    N("boundedframes", "families", "Bounded frames build everything", "open",
+      "There is a constant K such that every valid D has a witness whose substitution tree uses only the frames 12, 21, the solutions of the P_k, and block-free permutations with at most K points.",
+      "Every permutation is a frame with blocks filled in: shrink each maximal block to a point and what remains is the frame, a permutation with no blocks of its own (or 12 / 21 when the board splits corner to corner). Repeating this inside the blocks gives a tree of frames. Example: 3 6 2 1 5 4 is the frame 2413 with two of its points widened into 21. A frame may itself repeat a diagonal — the widening shifts the stones around it and can fix that. The claim: a fixed finite list of small frames, together with P_k's own solutions, is enough to build a solution of every arrangement. Then all the difficulty would sit in a finite list plus one explicit family.",
+      [board(6, D=[-3, -2, -1, 0, 2, 4], pts=perm([3, 6, 2, 1, 5, 4]), blocks=[[3, 4, 1, 2], [5, 6, 4, 5]], cap="Frame 2413 (P₄'s solution) with two points widened into 21")],
+      evidence="For n ≤ 9 a greedy search found 23 frames of size ≤ 8 that, together with 12, 21 and P_k's solutions, build a witness of every valid D (mirrors and tight cuts included; checked recursively at every level). The frames needed per size so far: 1, 3, 8, 6, 4 for sizes 4–8; about half repeat a diagonal (e.g. 3 1 5 2 4, which builds ±{1, 2, 3}). Whether the sizes stay bounded as n grows is unknown. Interactive builder and data: Block-building experiments page.",
+      refs="Basket agent 2026-11-23, /home/claude/agents/basket/ (frames.py, recursive.py); https://claude.ai/artifact/E4q4L8E73nqREQg4RzhDZP"),
+    N("pkframes", "families", "Rule: only P_k's solutions as frames", "disproved",
+      "Every valid D has a witness whose substitution tree uses only the frames 12, 21 and the solutions of the P_k.",
+      "The P_k are the only arrangements that can't be split, so their solutions are the natural building blocks. Claim: gluing and P_k's solutions are all the frames ever needed.",
+      [stones([-3, -2, -1, 1, 2, 3], -5, 5, cap="±{1, 2, 3}: each of its 6 solutions needs another frame")],
+      evidence="False at n = 6 for ±{1, 2, 3}: two of its solutions are block-free themselves, and the others have frames like 3 1 5 2 4 or 2 5 1 6 4 3. Misses 1, 3, 17, 79 arrangements at n = 6–9.",
+      refs="Basket agent 2026-11-23, framesets.py"),
     # ================= symmetric / non-symmetric split =================
     N("sym", "families", "Symmetric arrangements are solvable", "open",
       "Let 𝒩 be the valid arrangements with no tight cut and 𝒮 ⊂ 𝒩 the symmetric ones (D = −D). Every D ∈ 𝒮 has a witness.",
@@ -324,6 +336,12 @@ nodes = [
       "Polynomial-method proofs (Alon–Tarsi) show existence by showing a coefficient is nonzero; here the natural coefficient is the signed count of solutions. Claim: it never vanishes.",
       evidence="Vanishes for some valid no-tight-cut D at n = 4–6."),
 
+    N("countglobal", "ideas", "Global counting forces every arrangement to be hit", "disproved",
+      "For every n, (Σ_D W(D))² / Σ_D W(D)² > A_n − 1, where the sums run over valid D of size n and A_n is the number of valid D.",
+      "A counting proof would build many objects (here: all permutations with distinct diagonals), count them, count the repeats, and conclude there are too many for any arrangement to be left out. Cauchy–Schwarz says the number of arrangements that get at least one witness is at least (total)² / (sum of squared counts), so if that exceeded A_n − 1, every arrangement would be hit. Claim: the counts are spread evenly enough for this to work.",
+      example="n = 5: 9 arrangements, 23 witnesses, Σ W² = 77:\n23² / 77 ≈ 6.9, not above 8.\nn = 9: 490 arrangements, ΣW = 12657, ratio ≈ 208.",
+      evidence="False for every n checked: the ratio is 6.9, 16.4, 34.7, 92, 208 against A_n − 1 = 8, 21, 58, 166, 489 for n = 5–9, so it covers well under half. The counts are very uneven (P_n has 2 witnesses, others hundreds), so any global count with repeats loses. A counting proof has to give a lower bound for each arrangement separately, as the capacity and move-ratio claims do.",
+      refs="framesets.py (counts)"),
     # ================= other routes =================
     N("delta", "ideas", "Every score sequence has a tournament δ accepts", "open",
       "For every valid score sequence s there is a tournament with scores s on which Davis–Schroeder's reverse map δ is defined (then δ of it is a witness).",
@@ -352,6 +370,8 @@ e(["tightcut", "notight"], "conj", "implies", "Strong induction on n: split at a
 e(["decomp", "pn", "inflation"], T, "implies", "Strong induction on n: every D ≠ P_n splits into smaller valid groups whose layout exists; the groups have witnesses by induction, and the block-layout lemma glues them. P_n has its formula.")
 e("inflation", "directsum", "implies", "The direct sum is the layout σ = 12.")
 e("directsum", "fixedpoint", "implies", "The fixed point is the direct sum with the 1×1 block {0}.")
+e("boundedframes", "decomp", "implies", "For n > K and D ≠ P_n, such a witness's top frame is smaller than the board, so its blocks give a split with a realizable layout.")
+e("pkframes", "boundedframes", "implies", "The case K = 2.")
 e("twoblock", "decomp", "implies", "A 2×2 block plus single stones is such a split.")
 e("closestpair", "twoblock", "implies", "Names a pair that works.")
 e("mergepair", "twoblock", "related", "Merging would be the simplest way to produce the block; it fails already on the stone sum.", "unchecked")
@@ -394,6 +414,7 @@ e("at", T, "implies", "A nonzero signed count means some witness exists.")
 # other routes
 e("delta", T, "implies", "δ of the accepted tournament is a witness.")
 e("maxupset", "delta", "implies", "Names an accepted tournament.")
+e("countglobal", "conj", "implies", "If more than A_n − 1 arrangements must be hit, all A_n are.")
 e("greedy", T, "implies", "A rule that never gets stuck produces a witness.")
 
 PROOFS = json.load(open(os.path.join(HERE, "proofs.json")))

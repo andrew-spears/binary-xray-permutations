@@ -822,6 +822,112 @@
    "refs": "Weighted agent 2026-11-22, /home/claude/agents/weighted/"
   },
   {
+   "id": "boundedframes",
+   "area": "families",
+   "title": "Bounded frames build everything",
+   "status": "open",
+   "intuition": "Every permutation is a frame with blocks filled in: shrink each maximal block to a point and what remains is the frame, a permutation with no blocks of its own (or 12 / 21 when the board splits corner to corner). Repeating this inside the blocks gives a tree of frames. Example: 3 6 2 1 5 4 is the frame 2413 with two of its points widened into 21. A frame may itself repeat a diagonal — the widening shifts the stones around it and can fix that. The claim: a fixed finite list of small frames, together with P_k's own solutions, is enough to build a solution of every arrangement. Then all the difficulty would sit in a finite list plus one explicit family.",
+   "pics": [
+    {
+     "t": "board",
+     "rows": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "cols": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "D": [
+      -3,
+      -2,
+      -1,
+      0,
+      2,
+      4
+     ],
+     "pts": [
+      [
+       1,
+       3
+      ],
+      [
+       2,
+       6
+      ],
+      [
+       3,
+       2
+      ],
+      [
+       4,
+       1
+      ],
+      [
+       5,
+       5
+      ],
+      [
+       6,
+       4
+      ]
+     ],
+     "cap": "Frame 2413 (P₄'s solution) with two points widened into 21",
+     "blocks": [
+      [
+       3,
+       4,
+       1,
+       2
+      ],
+      [
+       5,
+       6,
+       4,
+       5
+      ]
+     ]
+    }
+   ],
+   "statement": "There is a constant K such that every valid D has a witness whose substitution tree uses only the frames 12, 21, the solutions of the P_k, and block-free permutations with at most K points.",
+   "evidence": "For n ≤ 9 a greedy search found 23 frames of size ≤ 8 that, together with 12, 21 and P_k's solutions, build a witness of every valid D (mirrors and tight cuts included; checked recursively at every level). The frames needed per size so far: 1, 3, 8, 6, 4 for sizes 4–8; about half repeat a diagonal (e.g. 3 1 5 2 4, which builds ±{1, 2, 3}). Whether the sizes stay bounded as n grows is unknown. Interactive builder and data: Block-building experiments page.",
+   "refs": "Basket agent 2026-11-23, /home/claude/agents/basket/ (frames.py, recursive.py); https://claude.ai/artifact/E4q4L8E73nqREQg4RzhDZP"
+  },
+  {
+   "id": "pkframes",
+   "area": "families",
+   "title": "Rule: only P_k's solutions as frames",
+   "status": "disproved",
+   "intuition": "The P_k are the only arrangements that can't be split, so their solutions are the natural building blocks. Claim: gluing and P_k's solutions are all the frames ever needed.",
+   "pics": [
+    {
+     "t": "stones",
+     "lo": -5,
+     "hi": 5,
+     "D": [
+      -3,
+      -2,
+      -1,
+      1,
+      2,
+      3
+     ],
+     "cap": "±{1, 2, 3}: each of its 6 solutions needs another frame"
+    }
+   ],
+   "statement": "Every valid D has a witness whose substitution tree uses only the frames 12, 21 and the solutions of the P_k.",
+   "evidence": "False at n = 6 for ±{1, 2, 3}: two of its solutions are block-free themselves, and the others have frames like 3 1 5 2 4 or 2 5 1 6 4 3. Misses 1, 3, 17, 79 arrangements at n = 6–9.",
+   "refs": "Basket agent 2026-11-23, framesets.py"
+  },
+  {
    "id": "sym",
    "area": "families",
    "title": "Symmetric arrangements are solvable",
@@ -2802,6 +2908,17 @@
    "evidence": "Vanishes for some valid no-tight-cut D at n = 4–6."
   },
   {
+   "id": "countglobal",
+   "area": "ideas",
+   "title": "Global counting forces every arrangement to be hit",
+   "status": "disproved",
+   "intuition": "A counting proof would build many objects (here: all permutations with distinct diagonals), count them, count the repeats, and conclude there are too many for any arrangement to be left out. Cauchy–Schwarz says the number of arrangements that get at least one witness is at least (total)² / (sum of squared counts), so if that exceeded A_n − 1, every arrangement would be hit. Claim: the counts are spread evenly enough for this to work.",
+   "statement": "For every n, (Σ_D W(D))² / Σ_D W(D)² > A_n − 1, where the sums run over valid D of size n and A_n is the number of valid D.",
+   "example": "n = 5: 9 arrangements, 23 witnesses, Σ W² = 77:\n23² / 77 ≈ 6.9, not above 8.\nn = 9: 490 arrangements, ΣW = 12657, ratio ≈ 208.",
+   "evidence": "False for every n checked: the ratio is 6.9, 16.4, 34.7, 92, 208 against A_n − 1 = 8, 21, 58, 166, 489 for n = 5–9, so it covers well under half. The counts are very uneven (P_n has 2 witnesses, others hundreds), so any global count with repeats loses. A counting proof has to give a lower bound for each arrangement separately, as the capacity and move-ratio claims do.",
+   "refs": "framesets.py (counts)"
+  },
+  {
    "id": "delta",
    "area": "ideas",
    "title": "Every score sequence has a tournament δ accepts",
@@ -2867,6 +2984,20 @@
    "kind": "implies",
    "status": "proved",
    "why": "The fixed point is the direct sum with the 1×1 block {0}."
+  },
+  {
+   "from": "boundedframes",
+   "to": "decomp",
+   "kind": "implies",
+   "status": "proved",
+   "why": "For n > K and D ≠ P_n, such a witness's top frame is smaller than the board, so its blocks give a split with a realizable layout."
+  },
+  {
+   "from": "pkframes",
+   "to": "boundedframes",
+   "kind": "implies",
+   "status": "proved",
+   "why": "The case K = 2."
   },
   {
    "from": "twoblock",
@@ -3156,6 +3287,13 @@
    "kind": "implies",
    "status": "proved",
    "why": "Names an accepted tournament."
+  },
+  {
+   "from": "countglobal",
+   "to": "conj",
+   "kind": "implies",
+   "status": "proved",
+   "why": "If more than A_n − 1 arrangements must be hit, all A_n are."
   },
   {
    "from": "greedy",
