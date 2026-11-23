@@ -1,0 +1,11 @@
+n = 3, pattern 100: words without a tight cut 1; level -> words: 1: 1; words where some phase has no odd G_R(A) with |A| = level: 0 (word, phase pairs: 0); by level: 1: 0
+n = 4, pattern 100: words without a tight cut 1; level -> words: 1: 1; words where some phase has no odd G_R(A) with |A| = level: 0 (word, phase pairs: 0); by level: 1: 0
+n = 5, pattern 100: words without a tight cut 3; level -> words: 1: 3; words where some phase has no odd G_R(A) with |A| = level: 0 (word, phase pairs: 0); by level: 1: 0
+n = 6, pattern 100: words without a tight cut 7; level -> words: 1: 7; words where some phase has no odd G_R(A) with |A| = level: 0 (word, phase pairs: 0); by level: 1: 0
+n = 7, pattern 100: words without a tight cut 21; level -> words: 1: 20 2: 1; words where some phase has no odd G_R(A) with |A| = level: 0 (word, phase pairs: 0); by level: 1: 0 2: 0
+n = 8, pattern 100: words without a tight cut 61; level -> words: 1: 52 2: 9; words where some phase has no odd G_R(A) with |A| = level: 0 (word, phase pairs: 0); by level: 1: 0 2: 0
+n = 9, pattern 100: words without a tight cut 184; level -> words: 1: 137 2: 47; words where some phase has no odd G_R(A) with |A| = level: 0 (word, phase pairs: 0); by level: 1: 0 2: 0
+n = 10, pattern 100: words without a tight cut 573; level -> words: 1: 357 2: 216; words where some phase has no odd G_R(A) with |A| = level: 0 (word, phase pairs: 0); by level: 1: 0 2: 0
+n = 11, pattern 100: words without a tight cut 1835; level -> words: 1: 935 2: 899 3: 1; words where some phase has no odd G_R(A) with |A| = level: 1 (word, phase pairs: 1); by level: 1: 0 2: 1 3: 0
+n = 12, pattern 100: words without a tight cut 5969; level -> words: 1: 2447 2: 3493 3: 29; words where some phase has no odd G_R(A) with |A| = level: 4 (word, phase pairs: 8); by level: 1: 0 2: 4 3: 0
+n = 13, pattern 100: words without a tight cut 19715; level -> words: 1: 6408 2: 13041 3: 266; words where some phase has no odd G_R(A) with |A| = level: 26 (word, phase pairs: 70); by level: 1: 0 2: 26 3: 0

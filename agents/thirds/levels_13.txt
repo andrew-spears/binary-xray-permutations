@@ -1,0 +1,6 @@
+  level 2, N = 3144, phases without an odd G_R(A), |A| = level: 0 1 2;  e = 1 1 4 3 2 1 0 -1 -2 -3 -2 -2 -2
+  level 2, N = 5112, phases without an odd G_R(A), |A| = level: 0 1 2;  e = 1 2 2 2 3 2 1 0 -1 -2 -3 -4 -3
+  level 2, N = 5344, phases without an odd G_R(A), |A| = level: 0 1 2;  e = 1 2 2 2 3 2 1 0 -1 -2 -3 -3 -4
+  level 2, N = 2680, phases without an odd G_R(A), |A| = level: 1;  e = 1 2 3 2 2 1 0 -1 -2 -2 -3 -2 -1
+  level 2, N = 4376, phases without an odd G_R(A), |A| = level: 1;  e = 1 2 3 2 2 1 1 0 -1 -2 -3 -4 -2
+n = 13, pattern 100: words without a tight cut 19715; level -> words: 1: 6408 2: 13041 3: 266; words where some phase has no odd G_R(A) with |A| = level: 26 (word, phase pairs: 70)

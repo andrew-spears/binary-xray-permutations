@@ -1,0 +1,17 @@
+n = 2, all n-subsets of 0..2n-2 with sum n(n-1): 1; (D, k) where the formula is wrong: 0; D with N even and M != 0: 0; of these, without an odd single-stone count for some phase: 0
+n = 3, all n-subsets of 0..2n-2 with sum n(n-1): 2; (D, k) where the formula is wrong: 0; D with N even and M != 0: 1; of these, without an odd single-stone count for some phase: 0
+n = 4, all n-subsets of 0..2n-2 with sum n(n-1): 5; (D, k) where the formula is wrong: 0; D with N even and M != 0: 3; of these, without an odd single-stone count for some phase: 0
+n = 5, all n-subsets of 0..2n-2 with sum n(n-1): 12; (D, k) where the formula is wrong: 0; D with N even and M != 0: 8; of these, without an odd single-stone count for some phase: 0
+n = 6, all n-subsets of 0..2n-2 with sum n(n-1): 32; (D, k) where the formula is wrong: 0; D with N even and M != 0: 20; of these, without an odd single-stone count for some phase: 0
+n = 7, all n-subsets of 0..2n-2 with sum n(n-1): 94; (D, k) where the formula is wrong: 0; D with N even and M != 0: 52; of these, without an odd single-stone count for some phase: 0
+n = 8, all n-subsets of 0..2n-2 with sum n(n-1): 289; (D, k) where the formula is wrong: 0; D with N even and M != 0: 136; of these, without an odd single-stone count for some phase: 0
+n = 9, all n-subsets of 0..2n-2 with sum n(n-1): 910; (D, k) where the formula is wrong: 0; D with N even and M != 0: 357; of these, without an odd single-stone count for some phase: 0
+n = 3, words without a tight cut: 1; (D, k) where the formula is wrong: 0; D with N even and M != 0: 1; of these, without an odd single-stone count for some phase: 0
+n = 4, words without a tight cut: 1; (D, k) where the formula is wrong: 0; D with N even and M != 0: 1; of these, without an odd single-stone count for some phase: 0
+n = 5, words without a tight cut: 3; (D, k) where the formula is wrong: 0; D with N even and M != 0: 3; of these, without an odd single-stone count for some phase: 0
+n = 6, words without a tight cut: 7; (D, k) where the formula is wrong: 0; D with N even and M != 0: 7; of these, without an odd single-stone count for some phase: 0
+n = 7, words without a tight cut: 21; (D, k) where the formula is wrong: 0; D with N even and M != 0: 20; of these, without an odd single-stone count for some phase: 0
+n = 8, words without a tight cut: 61; (D, k) where the formula is wrong: 0; D with N even and M != 0: 52; of these, without an odd single-stone count for some phase: 0
+n = 9, words without a tight cut: 184; (D, k) where the formula is wrong: 0; D with N even and M != 0: 137; of these, without an odd single-stone count for some phase: 0
+n = 10, words without a tight cut: 573; (D, k) where the formula is wrong: 0; D with N even and M != 0: 357; of these, without an odd single-stone count for some phase: 0
+n = 11, words without a tight cut: 1835; (D, k) where the formula is wrong: 0; D with N even and M != 0: 935; of these, without an odd single-stone count for some phase: 0
