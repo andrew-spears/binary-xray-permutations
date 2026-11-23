@@ -6,11 +6,17 @@ Usage: python3 cover.py rules_output.txt Bw N [Tmin] [P|PS]     (words: slacks <
 import sys, re
 from collections import defaultdict
 def load(fn, tmin):
-    rules = {}
+    rules = {}; skipped = []
     for line in open(fn):
         m = re.match(r'(.*)>(.*) tested (\d+) fails (\d+)', line)
-        if m and int(m.group(4)) == 0 and int(m.group(3)) >= tmin:
-            rules[(tuple(map(int, m.group(1).split())), tuple(map(int, m.group(2).split())))] = int(m.group(3))
+        if not m: continue
+        try: u, v = (tuple(map(int, m.group(i).split())) for i in (1, 2))
+        except ValueError: u = v = None
+        # only names written as letters separated by blanks (enum_rules.py) are rules; '0>000' or 'PEAK' are labels
+        if u is None or any(" ".join(map(str, t)) != m.group(i).strip() for i, t in ((1, u), (2, v))):
+            skipped.append(line.split(" tested")[0].strip()); continue
+        if int(m.group(4)) == 0 and int(m.group(3)) >= tmin: rules[(u, v)] = int(m.group(3))
+    if skipped: print(f"skipped {len(skipped)} lines whose name is a label, not 'u>v' in letters:", skipped[:5])
     return rules
 def legal(w, B):
     s = 0; last = None
@@ -41,7 +47,7 @@ if __name__ == "__main__":
     tmin = int(sys.argv[4]) if len(sys.argv) > 4 else 1; sides = sys.argv[5] if len(sys.argv) > 5 else "PS"
     rules = load(fn, tmin); byv = defaultdict(list)
     for u, v in rules: byv[v].append(u)
-    Lmax = max(len(v) for u, v in rules)
+    Lmax = max((len(v) for u, v in rules), default=0)
     ws = words(Bw, N); uses = defaultdict(set); stuck = []
     for wi, w in enumerate(ws):
         a = {("P",) + r for r in apps(w, byv, Lmax, Bw)}
