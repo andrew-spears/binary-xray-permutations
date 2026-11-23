@@ -1,0 +1,29 @@
+ZERO  (h_r, h_c)           placements with a violating class:    20 of 1447   e.g. (1, 2, 1, 0, 0, -1, -1, -1, -1) (0 at index 4) class (2, 0): 2 > 0
+ZERO  h_c                  placements with a violating class:    18 of 1447   e.g. (1, 2, 1, 0, 0, -1, -1, -1, -1) (0 at index 4) class 2: 2 > 0
+ZERO  h_r                  placements with a violating class:    18 of 1447   e.g. (1, 2, 1, 0, 0, -1, -1, -1, -1) (0 at index 4) class 2: 2 > 0
+ZERO  h_r + h_c            placements with a violating class:     0 of 1447
+ZERO  h_r - h_c            placements with a violating class:    20 of 1447   e.g. (1, 2, 1, 0, 0, -1, -1, -1, -1) (0 at index 4) class 2: 2 > 0
+ZERO  min(h_r, h_c), max   placements with a violating class:    20 of 1447   e.g. (1, 2, 1, 0, 0, -1, -1, -1, -1) (0 at index 4) class (0, 2): 4 > 0
+ZERO  |h_r - h_c|          placements with a violating class:    20 of 1447   e.g. (1, 2, 1, 0, 0, -1, -1, -1, -1) (0 at index 4) class 2: 4 > 0
+other (h_r, h_c)           placements with a violating class:    23 of 4721   e.g. (1, 2, 1, 0, 0, -1, -1, -2) (0 at index 3) class (0, 1): 4 > 2
+other h_c                  placements with a violating class:     2 of 4721   e.g. (1, 1, 0, 0, 0, 1, 0, 0, -1, -2) (0 at index 4) class 0: 14 > 12
+other h_r                  placements with a violating class:     2 of 4721   e.g. (1, 1, 0, 0, 0, 1, 0, 0, -1, -2) (0 at index 4) class 0: 14 > 12
+other h_r + h_c            placements with a violating class:    23 of 4721   e.g. (1, 2, 1, 0, 0, -1, -1, -2) (0 at index 3) class 1: 8 > 4
+other h_r - h_c            placements with a violating class:    21 of 4721   e.g. (1, 2, 1, 0, 0, -1, -1, -2) (0 at index 3) class -1: 4 > 2
+other min(h_r, h_c), max   placements with a violating class:    23 of 4721   e.g. (1, 2, 1, 0, 0, -1, -1, -2) (0 at index 3) class (0, 1): 8 > 4
+other |h_r - h_c|          placements with a violating class:    21 of 4721   e.g. (1, 2, 1, 0, 0, -1, -1, -2) (0 at index 3) class 1: 8 > 4
+the 0-stone (over all solutions of x 0 y): what it fills, and the change of h_r + h_c
+   ZERO  fills column hole   change -1: 4022
+   ZERO  fills column hole   change +0: 11526
+   ZERO  fills column hole   change +1: 3864
+   ZERO  fills main diagonal change +0: 6328
+   ZERO  fills row hole      change -1: 4022
+   ZERO  fills row hole      change +0: 11526
+   ZERO  fills row hole      change +1: 3864
+   other fills column hole   change -1: 5456
+   other fills column hole   change +0: 16366
+   other fills column hole   change +1: 5614
+   other fills main diagonal change +0: 46340
+   other fills row hole      change -1: 5456
+   other fills row hole      change +0: 16366
+   other fills row hole      change +1: 5614

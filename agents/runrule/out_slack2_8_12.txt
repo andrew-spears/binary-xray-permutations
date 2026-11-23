@@ -1,0 +1,21 @@
+last letter -3: prefixes 536; alpha < beta: 277 ((0, 0, 0, 0, 3, 2, 2, 1, 0, -1, -2, -3), 52, 56, 56); gamma > 4 beta: 0 ; max gamma/beta = 1.2222 at (0, 0, 2, 1, 0, 2, 2, 1, 0, -1, -2, -3)
+last letter -2: prefixes 3577; alpha < beta: 1606 ((0, 0, 0, 0, 0, 2, 2, 1, 0, 0, -1, -2), 14, 16, 14); gamma > 4 beta: 0 ; max gamma/beta = 1.5385 at (0, 0, 2, 2, 1, 1, 0, 0, 0, -1, -1, -2)
+last letter -1: prefixes 8420; alpha < beta: 2487 ((0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, -1), 2, 4, 2); gamma > 4 beta: 0 ; max gamma/beta = 2.0000 at (0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, -1)
+last letter 0: prefixes 11532; alpha < beta: 0 ; gamma > 4 beta: 0 ; max gamma/beta = 4.0000 at (0, 0, 0, 0, 0, 0, 2, 1, 0, 0, -1, 0)
+last letter 1: prefixes 9910; alpha < beta: 0 ; gamma > 4 beta: 0 ; max gamma/beta = 0.0000 at None
+last letter >= 2: prefixes 6573; alpha < beta: 6573 ((0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2), 0, 1, 1); gamma > 4 beta: 0 ; max gamma/beta = 1.0000 at (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2)
+6447 directions with last letter <= 1; least N(x0y)/N(xy) over all pairs of directions: 1.0000 at x = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1), y* = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1)
+least alpha/beta: (Fraction(1, 2), (0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, -1))  least beta/gamma: (Fraction(1, 4), (0, 0, 0, 0, 0, 0, 2, 1, 0, 0, -1, 0))
+S2, violations by last letter (prefixes; then one count per inequality):
+   last letter -3: 536 prefixes; violations [0, 0, 0, 0, 0] 
+   last letter -2: 3577 prefixes; violations [0, 0, 0, 0, 0] 
+   last letter -1: 8420 prefixes; violations [0, 0, 0, 0, 0] 
+   last letter 0: 11532 prefixes; violations [0, 0, 0, 0, 0] 
+   last letter 1: 9910 prefixes; violations [0, 0, 0, 0, 0] 
+   gamma <= 4 beta        equality at x = (0, 0, 0, 0, 0, 0, 2, 1, 0, 0, -1, 0)
+   beta <= 2 alpha        equality at x = (0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, -1)
+   alpha <= beta + gamma  equality at x = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1)
+   gamma <= alpha + beta  equality at x = (0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0)
+   beta <= alpha + gamma  equality at x = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1)
+form 2PP' + 4 - QQ' at the 15 pairs of vertices of the pentagon: min = 0
+all 40548 prefixes at slack 2 (any last letter): (u, v, w) not nonnegative integers: 0
