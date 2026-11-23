@@ -35,7 +35,7 @@ while queue:
     for S, s, l, w in queue:
         if l is not None and not any(S is T for T, _ in anti[(s, l)]): continue     # no longer minimal
         for e in range(0 if l is None else max(0, l - 1), s_end - s + 1):
-            if s + e == s_end and e != l_end: continue
+            if s + e == s_end and e != l_end and not (l_end == 0 and e == 1): continue     # (s_end, 0) is entered through (s_end, 1)
             T = bstep(S, e); fam = anti.setdefault((s + e, e), [])
             if any(U & T == U for U, _ in fam): continue
             fam[:] = [(U, v) for U, v in fam if U & T != T]; fam.append((T, w + (e,))); nxt.append((T, s + e, e, w + (e,))); n += 1
