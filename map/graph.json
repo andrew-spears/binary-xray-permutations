@@ -3741,8 +3741,19 @@
    "status": "disproved",
    "intuition": "The patterns reachable after every first part might form an invariant: start with the empty board, and show that each block of letters carries the common set of one cut onto the common set of the next. Runs of high letters are treated as single blocks because after a high letter there is no common pattern. Claim: such a family of sets exists.",
    "statement": "There are nonempty sets J(s, l) of interface states (slack s, last letter l ≤ 1), J(0, ·) = {empty}, with J(s, l) ⊆ step_w(J(s′, l′)) for every block w from (s′, l′) to (s, l), where a block is one letter ≤ 1 or a run of letters ≥ 2 followed by its closing 1.",
-   "evidence": "The largest such family is empty for slack bound 6. The patterns common to all reachable sets are not all reached from common patterns: different first parts reach them through different earlier patterns. Recheck: python3 agents/majority/blockinv.py 6 (1 second).",
+   "evidence": "The largest such family is empty for slack bound 6. The patterns common to all reachable sets are not all reached from common patterns: different first parts reach them through different earlier patterns. Remembering the last m letters instead of one does not rescue it for any fixed m: the largest family is empty from slack bound 3, 5, 9, 14 for m = 1, 2, 3, 4 (see the card on growing memory). Recheck: python3 agents/majority/blockinv.py 6 (1 second).",
    "refs": "agents/majority/blockinv.py"
+  },
+  {
+   "id": "meminv",
+   "area": "ideas",
+   "title": "Step-by-step sets that remember the last few letters",
+   "status": "empirical",
+   "intuition": "A proof by induction along the word needs sets of hole patterns that are carried into each other by every letter. Sets that depend only on the slack and the last letter do not exist (red card 'Common hole patterns are produced step by step'). If the sets may also depend on the last few letters they do exist, as long as the memory is about as long as the steepest staircase that fits under the slack bound, and the sets of a first part and of a turned-around second part always share a pattern. That is a certificate for the conjecture that is checked letter by letter, with no search. Claim: such sets exist with a memory of 5 letters for all slacks up to 14.",
+   "statement": "Let the type of a prefix be its end slack and its last m letters. For m = 5 and all words with slacks ≤ 14 there are nonempty sets J(type), J(empty word) = {empty state}, with J(type of x e) ⊆ step_e(J(type of x)) for every prefix x and letter e, such that J(t) ∩ conj J(t′) ≠ ∅ for all types t, t′ of the same slack whose last letters add up to at most 1.",
+   "example": "Memory 1 works to slack 2, memory 2 to slack 4, memory 3 to slack 8, memory 4 to slack 13, memory 5 at least to slack 14.\nThe failures come at slack 3, 5, 9, 14: one less than a triangular number, when the steepest staircase no longer fits in the memory.",
+   "evidence": "Computed as the largest such family, so 'none exists' is exact (python3 agents/universal/memory_inv.py 14 5 q, 75 seconds). The common part of the sets is a universal hole pattern at every slack ≤ 14. The needed memory grows with the slack, so this is not yet an induction for all slacks: a proof needs a formula for the sets, or a coarser type than 'the last m letters' (for example the final descending run and the final run of zeros). The same sub-session found no closed form for the universal patterns themselves: every simple shape (no row hole, both rectangles, staircases, …) is missing at some slack ≤ 24, and the steepest staircase alone removes 84 to 89 percent of the patterns that are not universal.",
+   "refs": "agents/universal/REPORT.md"
   },
   {
    "id": "simorder",
@@ -4510,6 +4521,20 @@
    "kind": "related",
    "status": "unchecked",
    "why": "The weighted form of the same statement, with explicit weights."
+  },
+  {
+   "from": "meminv",
+   "to": "cutcore",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "An induction along the word that produces universal patterns, with growing memory."
+  },
+  {
+   "from": "blockinv",
+   "to": "meminv",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The memory-1 version; fails."
   },
   {
    "from": "nonneg",
