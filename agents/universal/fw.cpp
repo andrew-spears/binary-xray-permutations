@@ -30,7 +30,7 @@ static bool isE0(u64 Mm, u64 Bm){ if (!pairs(Mm)||!pairs(Bm)) return false; u64 
 static bool jstar(u64 a, u64 b, int s, int tail, int mode){
     static u64 e=mk({}); static set<St> A17={{mk({3,3,1,1}),mk({5,2,2})},{mk({3,3,1,1,1}),mk({4,2,2})},{mk({4,2,2}),mk({3,3,1,1,1})},{mk({5,2,2}),mk({3,3,1,1})}};
     int ca=c0(a), cb=c0(b), c=ca+cb, D=abs(ca-cb); static const int dmax[5]={4,3,3,2,3}; if ((mode==2&&D>2)||(mode==3&&D>dmax[tail])) return false;
-    bool sc= a==cj[b], row= (a==e&&b==mk({s}))||(b==e&&a==mk({s})), rect= s%2==0&&((a==e&&b==mk({s/2,s/2}))||(b==e&&a==mk({s/2,s/2}))), kk= s%2==0&&a==mk({s/2})&&b==mk({s/2});
+    bool sc= a==cj[b], row= s>0&&((a==e&&b==mk({s}))||(b==e&&a==mk({s}))), rect= s%2==0&&((a==e&&b==mk({s/2,s/2}))||(b==e&&a==mk({s/2,s/2}))), kk= s%2==0&&a==mk({s/2})&&b==mk({s/2});
     switch (tail){
         case 0: return 0<=c&&c<=1&&!sc;
         case 1: return -1<=c&&c<=2&&!sc&&!(mode>=2&&s==17&&A17.count({a,b}))&&!(mode==3&&kk);
