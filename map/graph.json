@@ -3870,11 +3870,11 @@
    "area": "ideas",
    "title": "No stone more than one mark above evenly spaced: two sets of hole patterns per slack are enough",
    "status": "empirical",
-   "intuition": "The proof for letters −1, 0, 1 used one set G(s) for each slack (card 'Every stone within one mark…'). Letting stones sit far below their evenly spaced place, but still at most one above it, costs almost nothing: the sets only have to know the last letter as well. They are nearly the same sets: the patterns common to all last letters are exactly G(s) for s ≤ 10, and a letter −k with k ≥ 3 maps G(s) onto all of G(s − k); only the letter −2 at slacks divisible by 4 misses a few patterns, which is where G(s) has its exceptional family. So how much the sets must remember is governed by how far stones go above evenly spaced, not below, and not by the slack. With letters ≤ 2 the last three non-increasing letters are enough in tests, with letters ≤ 3 the last four. Claim: sets J(s, ℓ) as above exist for every slack.",
+   "intuition": "The proof for letters −1, 0, 1 used one set G(s) for each slack (card 'Every stone within one mark…'). Letting stones sit far below their evenly spaced place, but still at most one above it, costs almost nothing: the sets only have to know the last letter as well. They are nearly the same sets: the patterns common to all last letters are exactly G(s) for s ≤ 10, and a letter −k with k ≥ 3 maps G(s) onto all of G(s − k); only the letter −2 at slacks divisible by 4 misses a few patterns, which is where G(s) has its exceptional family. So how much the sets must remember is governed by how far stones go above evenly spaced, not below, and not by the slack. With letters ≤ 2 the last three non-increasing letters are enough in tests, with letters ≤ 3 the last four. Read from the other end of the board (mirror), the same statement is about placing stones one at a time: if no stone is more than one mark below evenly spaced, there is a rule that places each stone before seeing the next diagonal. For arbitrary arrangements no such rule exists (card 'Online rule'); the adversary there needs a letter −2. Claim: sets J(s, ℓ) as above exist for every slack.",
    "statement": "For words with all letters ≤ 1 (negative letters of any size allowed) there are sets J(s, ℓ) of hole patterns, one for each slack s and last letter ℓ ≤ 1, with J(0, ·) = {empty}, every J(s, ℓ) nonempty, and J(s + e, e) ⊆ step_e(J(s, ℓ)) for every legal letter e ≤ 1 after ℓ. Consequently every such word has a solution.",
    "example": "1 1 1 0 −1 −2 (n = 6, diagonals {−4, −2, 0, 1, 2, 3}) is such a word: it has the letter −2, so it is not covered by the proved card, and its slacks are 1, 2, 3, 3, 2, 0.",
    "evidence": "Tested: the largest such family is nonempty at every slack ≤ 24 (LET=-99,1 KLO=0 ./types 24 K, 6 s; without blocks, LET=-99,1 ./types 14 L0). So every valid word with letters ≤ 1 and slacks ≤ 24 is solvable, which also follows from the bounded-slack card only up to 16. The class is 24,114 of the 158,808 valid arrangements at n = 14 (letters −1, 0, 1: 12,735). Letters ≤ 2: works to slack 24 with the last 3 non-increasing letters and fails with 2; letters ≤ 3: works to slack 20 with 4. agents/l1sets/neg.py 13 gives the comparison with G(s). Not proved; a sub-session is extending the hand proof.",
-   "refs": "agents/universal/types.cpp (LET), agents/l1sets/neg.py"
+   "refs": "agents/universal/types.cpp (LET), agents/l1sets/neg.py, agents/online2/game.py (the placing game: python3 game.py 12 -1 99 is won by the placer, 10 -2 99 by the adversary in 7 letters)"
   },
   {
    "id": "meminv",
@@ -4776,6 +4776,13 @@
    "kind": "related",
    "status": "unchecked",
    "why": "Exact sets on which the weights can be computed at any slack."
+  },
+  {
+   "from": "online",
+   "to": "upone",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The no-lookahead rule that fails in general exists, in tests, when no letter is below −1 (the mirror class)."
   },
   {
    "from": "upone",
