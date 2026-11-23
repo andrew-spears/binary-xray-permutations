@@ -21,6 +21,8 @@ Example π = 2 4 1 3: diagonals {−2,−1,1,2}, s = (1,1,2,2).
 5. Stones on a plank: n stones on marks −(n−1)…n−1; start = every other mark (transitive, W=1). Score = #empty marks to the left; Σs = C(n,2) ⇔ balance.
 6. Skolem: rows at positions 1…n, columns at n+1…2n; witness = pairing of {1…2n} with lengths A = D+n. ΣA = n² forces every pair to straddle the middle. Nordh's parity condition is automatic; his density condition = Landau upper bound. (Skolem tab in the equivalent-views lab.)
 
+- **Sum of two permutations / interface walk** (Devin 2026-11-23, agents/interface/): rows numbered from the bottom, the k-th smallest diagonal needs r′ + c = b_k = d_k + n + 1 = 2k + e_k, e_k = s_k − (k−1). Witness ⇔ b = ρ + γ with ρ, γ permutations ⇔ {1…2n} splits into pairs with the odd sums 2b_k − 1 ⇔ m_b occurs in m_δ². Landau slack σ_k = Σ_{i≤k} e_i; words: e_1 ≥ 0, e_{k+1} ≥ e_k − 1, σ_k ≥ 1 inside, σ_n = 0. After k stones the used rows/columns are a pair of partitions (λ, μ) with |λ| + |μ| = σ_k; a witness is a walk ∅∅ → ∅∅, step rule independent of k and n. Map: interface.
+
 ## 2. Proved
 - **Tight prefix splits.** Equality at k<n ⇒ S splits into two smaller instances whose witnesses glue (= Nordh's skew sum). Only no-tight-cut D matter.
 - **Mirror.** Transpose reverses the x-ray; check one of S, reverse(S). (Anti-diagonal reflection fixes the x-ray, so it isn't a symmetry to use.)
@@ -51,6 +53,9 @@ Example π = 2 4 1 3: diagonals {−2,−1,1,2}, s = (1,1,2,2).
 - Greedy Robin Hood lifts need ≤ 4 swaps through n = 12 (E11); good witnesses aren't closed under moves (E10).
 - **Capacity bound (loose lead).** P_D(x) = per(M), M_ij = x_{j−i} for j−i ∈ D. cap(P_D) = inf_{x>0} P_D/∏x_d; Li–Yao ⇔ cap > 0. W(D) ≥ (n!/nⁿ)·cap(P_D) holds for all no-tight-cut D, n ≤ 8, with 5–12× slack (Gurvits would give it if P_D were real stable; it isn't). Extended (capacity agent 2026-11-22): holds for all no-tight-cut D with n ≤ 11, worst slack 13.8, 17.2, 18.0 at n = 9–11 (near-regular D, not P_n); along P_n (W = 2) slack grows ~e^{0.21n} to n = 20. P_D is not log-concave or Lorentzian (already D = {−1,0,1}), so AOV/Gurvits don't apply. Gurvits' one-variable step fails at n = 5 (P₅, every order); best per-step constant 0.5, 0.39, 0.33, 0.33, 0.26, 0.22 (n = 4–9) (capstep agent). Any proof of the inequality (even with cⁿ) proves the conjecture. Note: the problem is a 3-way matching (rows, columns, diagonals), where such bounds fail in general, so a proof must use diagonal = column − row.
 
+- **Bounded slack, all n** (Devin 2026-11-23, agents/interface/slack_dfa.cpp): if all σ_k ≤ B the interface walk lives in a finite automaton A_B independent of n. Complete search: A_B accepts every valid word for B ≤ 16 (22,358 determinised states at B = 16; B = 17 needs a wider state encoding than 64 bits and more than 7 GB). So **every valid D of any size with all Landau slacks ≤ 16 has a witness** (covers all n ≤ 11, and P_n plus any 15 minimal moves for every n). After a few letters e = 0 every pair of partitions of σ is reachable (B ≤ 8: at most 7 zeros from any reachable set; flat.py). Map: slack16, slackB.
+- **Each diagonal at most twice** (Devin 2026-11-23, agents/interface/twice.cpp, slack_dfa2.cpp): multisets d_1 ≤ … ≤ d_n with the Landau sums and no value used more than twice always have a permutation: exhaustive n ≤ 15 (174,292,169 multisets at n = 15), and all n with slack ≤ 12. With triples Landau fails at n = 6 ({−2³, 2³}); failures for n = 6…10: 1, 6, 32, 145, 634, all with a value used ≥ 3 times. Answers the side question in §5 Saturation: no gap with multiplicities ≤ 2 for n ≤ 15. Map: twice, thrice.
+
 ## 4. Open lines
 - 4.1 Rainbow matching / flows: plain flow can't enforce one edge per offset (only gives fractional). Look for structure forcing integrality; transversal / rainbow-matching literature.
 - 4.2 Ejection chains: deterministic chain rule for minimal moves that terminates. Must allow chain length to grow (see §5 repair radius).
@@ -68,6 +73,9 @@ Example π = 2 4 1 3: diagonals {−2,−1,1,2}, s = (1,1,2,2).
 - 4.13 Davis–Schroeder δ: ruled out as a reduction (§5).
 - 4.14 Capacity bound: slack grows (§3). Needs a proof technique not based on stability or per-variable steps.
 - 4.15 Symmetric D: prove the pairing problems behind §3's symmetric witnesses (odd n: pair {1…n} minus one point with differences D ∩ (0,∞); even n: the half-size problem for centrosymmetric witnesses) whenever Landau holds; no matching theorem exists in the literature (sympair agent); even case with even #even(L) = Nordh Conj 8. Would settle all symmetric D.
+
+- 4.17 **Interface walks / slack slicing** (agents/interface/README.md). Prove that A_B accepts for every B, i.e. describe a set of interface states reachable after every prefix. Known: needs lookahead and a window growing with B (§5). Unexplored: count-valued invariants (inequalities between numbers of walks), the structure of the states missing from the reachable set, more memory to push B past 16.
+- 4.18 **At most twice** as the induction class: adjacent column swaps of a witness change two diagonals by ±1 and stay inside the class much more often than inside distinct diagonals. No induction found yet.
 
 ## 5. Ruled out (don't retry without a new idea)
 - **Local repair from an arbitrary witness.** R(n) = worst-case # non-moving stones that must change to repair a witness across a minimal move is unbounded: 1,2,2,3,3,3,4,4,5,5,5 (n = 4–14, Devin; confirmed for n ≤ 9 by verify agent). Our earlier 0,0,1 for n = 4–6 used only 3-apart moves (T6 resolved). Example n=7: D = {−5,−2,−1,0,1,2,5}, move −5,−2 → −4,−3, π = 3714652 needs ≥ 3. Not ruled out: starting from a well-chosen witness.
@@ -97,6 +105,11 @@ Example π = 2 4 1 3: diagonals {−2,−1,1,2}, s = (1,1,2,2).
 - **Real-stable / Lorentzian:** balance-free score polynomial fails the Hessian test at n = 4 (plain), 5 (normalized). Balanced support can't be M-convex.
 - **Local-surgery maps for the ratio bound:** best (unit zigzag chain) repairs ~80% of (move, witness) pairs but covers no witness on some moves from n = 6.
 - **Flow networks:** only give fractional solutions (§4.1).
+
+- **Online placement in diagonal order** (Devin 2026-11-23, agents/interface/online_fixed_n.py): a rule that places the k-th smallest diagonal knowing only n and the k smallest diagonals exists for n ≤ 7 and for no n = 8…11 (exhaustive game search; the adversary needs a branching strategy, no two D suffice for n ≤ 8). On the automaton: exists for B ≤ 2 only.
+- **Invariant from (σ, last L letters)** (agents/interface/invariant.cpp): the largest inductive family of reachable interface states is nonempty inside slack ≤ B only for B ≤ 2 (L = 1), B ≤ 4 (L = 2), B ≤ 8 (L = 3), B ≤ 13 (L = 4); L ≥ 5 not run to failure. Last letter plus a capped counter (length, max slack, sum of slacks, max letter, steps since last rise): fails from B = 4.
+- **Meet in the middle by counting** (agents/interface/meet.cpp): F_k = interface states reachable from the left, G_k from the right, N_k all states at cut k; |F_k| + |G_k| > N_k would force a common state. At the middle cut it holds for every no-tight-cut D with n ≤ 14 (worst ratio 2, 1.75, 1.6, 1.56, 1.47, 1.41, 1.33, 1.23, 1.14, 1.10, 1.03 for n = 4…14) and fails at n = 15: e = (5,4,3,2,1,0,−1,−2,−3,−4,−4,0,0,0,−1), ratio 0.973. Reachable sets are not large enough for pigeonhole; density of F_k alone falls below 0.3.
+- **Pair sums with any parity** (agents/interface/pairsum.cpp): '{1…2m} splits into pairs with prescribed distinct sums whenever the j smallest sum to ≥ j(2j+1)' is the conjecture for odd sums; with even sums it fails at m = 4, sums (4, 8, 10, 14); 1026 of 50944 fail at m = 8.
 
 ## 6. Labs
 - **Claims map** (graph of all claims and implications; labs embedded in nodes): https://claude.ai/artifact/2pe8j5i5QgKJ5ouVYGJoRY. Conjecture node → four equivalent views + stones intro (`labs/views.html`).

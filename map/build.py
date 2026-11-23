@@ -399,6 +399,61 @@ nodes = [
       "Landau's theorem for tournaments has step-by-step constructions. Claim: one of these step-by-step placements never gets stuck.",
       example="n = 5, D = {−3, −2, 0, 2, 3}: a few placements can leave rows {2,3,4},\ncolumns {1,3,5}, diagonals {−2,0,2}, all usable only in row 3.",
       evidence="All 92 fail by n ≤ 10; the best fails 0.5–0.9% at n = 11–13."),
+    # ---- interface walks (agents/interface) ----
+    N("interface", "ideas", "Solutions are walks on pairs of Young diagrams", "proved",
+      "Sort D and put e_k = s_k − (k−1), σ_k = e_1 + … + e_k (the Landau slack of the first k stones). Witnesses of D correspond one-to-one to sequences of pairs of partitions (λ_k, μ_k), k = 0…n, with (λ_0, μ_0) = (λ_n, μ_n) = (∅, ∅), |λ_k| + |μ_k| = σ_k, in which step k adds one bead to each partition at offsets u and v with u + v = e_k. The allowed steps do not depend on k or n. If all σ_k ≤ B, only finitely many pairs can occur, so whether D has a witness is decided by a finite automaton A_B that reads e_1, e_2, … and is the same for every n.",
+      "Number the rows from the bottom. Then a stone on the k-th smallest diagonal sits in a cell whose row number plus column number is a fixed target, and the targets increase with k. Place the stones in that order. After k stones, all that matters for the future is which rows and which columns are used. With no drift these would be rows 1…k and columns 1…k. The slack σ_k says exactly how far the used rows and used columns together stick out above that, so the two sets are described by two Young diagrams with σ_k boxes in total. A solution is a walk on such pairs that starts and ends at the empty pair. Nothing in the rules for one step mentions n. Claim: solutions are exactly these walks, and when the slack stays below a fixed bound, one finite machine decides solvability for boards of every size.",
+      pics=[board(5, D=[-3, -1, 0, 1, 3], pts=perm([1, 5, 4, 3, 2]), cap="D = {−3,−1,0,1,3}: e = (1,1,0,−1,−1), slacks 1,2,2,1,0")],
+      example="The board above, rows numbered from the bottom, stones in order of diagonal:\n(row, column) = (1,2), (2,3), (5,1), (3,4), (4,5); row + column = 3, 5, 6, 7, 9.\nUsed rows / columns after each stone, as (rows diagram, columns diagram):\n{1} / {2}: (∅, 1)   {1,2} / {2,3}: (∅, 1+1)   {1,2,5} / {1,2,3}: (2, ∅)\n{1,2,3,5} / {1,2,3,4}: (1, ∅)   all / all: (∅, ∅).\nBox counts 1, 2, 2, 1, 0 are the slacks.",
+      refs="agents/interface/README.md §1; check_walks.py (walk count = number of witnesses, all valid D, n ≤ 8)"),
+    N("slackB", "ideas", "Bounded slack: one finite machine per bound", "open",
+      "For every B ≥ 1, the automaton A_B accepts every valid no-tight-cut word with all slacks ≤ B. Equivalently: for every B, every valid D of every size whose Landau slacks are all ≤ B has a witness.",
+      "The slack measures how far an arrangement is from the start. P_n is the family with slack 1 everywhere, and it needed its own formula. This card slices the whole problem by slack instead of by board size: for a fixed bound there are arrangements of every size, but only finitely many interface states, so the question for that bound is a finite check. Each bound settled is a theorem about all n at once. A proof for every bound needs a description of which interface states are reachable after a given prefix; the red cards below are the simple descriptions that fail. What the machine shows: after a few stones with e_k = 0 every pair of diagrams of the right size is reachable, and what matters is only the part of the word since that last happened. Claim: for every bound, the machine accepts every valid word.",
+      example="B = 1: the only words are e = (1, 0, …, 0, −1), which is P_n.\nThe machine has 3 states and accepts all of them: P_n is solvable for every n.",
+      evidence="Settled for B ≤ 16 by complete search of A_B (see the card for B = 16). Open for B ≥ 17, where only n ≤ 22 is known. The statement about stones with e_k = 0 was checked for B ≤ 8: from every reachable set of the machine after which a letter 0 is allowed, at most 7 letters 0 lead to the set of all pairs. From a single interface state this is false (at slack 1 the two states just alternate).",
+      refs="agents/interface/README.md §2, §4; flat.py"),
+    N("slack16", "ideas", "Every arrangement with slack at most 16 is solvable", "empirical",
+      "For every n, every valid D whose Landau slacks σ_k are all ≤ 16 has a witness.",
+      "The slack of a cut is the total drift of the stones to its left. The largest slack of an arrangement of size n is about n²/8, so small boards have small slack, but so do arrangements of any size that stay close to the start. For slack up to 16 the interface machine has a few thousand states, and a program can run through all of them. Claim: every arrangement of any size whose slacks never exceed 16 has a solution.",
+      example="P_n has slack 1 at every cut. A minimal move raises the slack by 1 at the cuts between its two stones,\nso P_n followed by any 15 minimal moves is covered, for every n.\nEvery D with n ≤ 11 has slack ≤ 16.",
+      evidence="Not a sample: the automaton A_16 (22,358 reachable states after determinising, 11 s, 0.94 GB) accepts every valid word, and by the interface card this covers every n. It is listed as empirical only because the finite check is done by a program. Three implementations give the same verdict (Python for B ≤ 8, two C++ programs for B ≤ 12), and the step rule was compared with brute force on all 6,742 multisets with repeats for n ≤ 8, including the 39 with no solution. B = 17 was not done: the program packs a state into 64 bits, which stops at B = 16, and the search would also need more than the 7 GB available. Does not depend on the conjecture at any size. Recheck: g++ -O2 -o slack_dfa slack_dfa.cpp && ./slack_dfa 16.",
+      refs="agents/interface/slack_dfa.cpp, slack_dfa.py, slack_dfa2.cpp, audit_step.py"),
+    N("online", "ideas", "Online rule: place each stone before seeing the next diagonal", "disproved",
+      "There is a rule that places the stone of the k-th smallest diagonal knowing only n and the k smallest diagonals, and that completes a witness for every valid D.",
+      "The simplest proof in diagonal order would be a rule with no lookahead. Claim: such a rule exists.",
+      example="n = 8: whatever the rule does, an adversary who reveals the diagonals one at a time can steer to a valid D on which the rule is stuck. No two arrangements suffice for this; the adversary needs a branching strategy.",
+      evidence="Exhaustive game search: a rule exists for n ≤ 7 and for no n from 8 to 11. On the automaton: exists for B ≤ 2, not for B = 3…8.",
+      refs="agents/interface/online_fixed_n.py, online_check.py (independent recheck, n ≤ 9), online_game.py, online_cex.py"),
+    N("summary", "ideas", "Invariant from the slack and the last few diagonals", "disproved",
+      "For some L with 1 ≤ L ≤ 4 there is a family I(σ, e_{k−L+1}, …, e_k) of nonempty sets of interface states such that every prefix with that slack and those last L letters reaches every state of I, and each step maps I onto a superset of the next I.",
+      "An induction along the word needs an invariant: a set of interface states guaranteed reachable. Claim: the invariant can be read off from the current slack and a bounded window of recent diagonals.",
+      example="Window of 2 letters, arrangements with slack ≤ 5: the largest family satisfying the step condition is empty, for instance at slack 1 after the letters (0, 0).",
+      evidence="Largest such family computed exactly inside slack ≤ B: a window of L = 1 letter works only for B ≤ 2, L = 2 only for B ≤ 4, L = 3 only for B ≤ 8, L = 4 only for B ≤ 13. So no window of at most 4 letters works for all D, and the window needed grows with the slack bound. Windows of 5 or more letters were not run to failure. Replacing the window by the last letter plus a capped counter (length, largest slack so far, sum of slacks, largest letter, steps since the last rise) fails from B = 4.",
+      refs="agents/interface/invariant.cpp, invariant.py, invariant_other.py"),
+    N("meet", "ideas", "Counting: the two halves must meet at the middle cut", "disproved",
+      "For every valid no-tight-cut D of size n and k = ⌊n/2⌋: |F_k| + |G_k| > N_k, where F_k is the set of interface states reachable by placing the k smallest diagonals, G_k the set reachable backwards by placing the n − k largest, and N_k the number of all interface states at that cut.",
+      "D has a solution exactly when some interface state at a cut can be reached both from the left and from the right. If the two reachable sets together had more elements than there are states, they would have to share one. Claim: at the middle cut they always do.",
+      example="n = 15, D = {−9, …, 0, 2, 8, 10, 12, 13}, cut after 7 stones: the two sets together have 0.973 times the number of states (they still meet).",
+      evidence="True for every D with n ≤ 14 (exhaustive; the smallest ratio falls steadily: 2, 1.75, 1.6, 1.56, 1.47, 1.41, 1.33, 1.23, 1.14, 1.10, 1.03 for n = 4…14). Fails at n = 15 (example).",
+      refs="agents/interface/meet.cpp, meet.py"),
+    N("twice", "ideas", "Each diagonal used at most twice", "empirical",
+      "Let d_1 ≤ … ≤ d_n be integers in which no value occurs more than twice, with Σ_{i≤k} (d_i + n − i) ≥ C(k,2) for all k and equality at k = n. Then some permutation has exactly these diagonals, with these multiplicities.",
+      "The conjecture asks for one stone per chosen diagonal. Allow a diagonal to be chosen twice, keeping the same Landau sums. With three stones on one diagonal Landau is no longer enough, and with five even a fractional solution is not enough. With at most two, no failure has turned up. A stronger statement can be easier to prove by induction, because steps may pass through arrangements with a doubled diagonal: for example, swapping two adjacent columns of any solution moves one stone up one diagonal and one stone down one, which often creates a double. Claim: Landau is sufficient whenever no diagonal is used more than twice.",
+      example="n = 4, diagonals {−1, −1, 1, 1}: the permutation 2 1 4 3 has them.\nn = 6, diagonals {−2, −2, −2, 2, 2, 2} (Landau holds): no permutation. Rows 1, 2 need diagonal +2 and rows 5, 6 need −2, and both pairs land in columns 3, 4.",
+      evidence="Exhaustive for n ≤ 15 (174,292,169 multisets at n = 15, no failure), and for every n when all slacks are ≤ 12 (automaton with repeats, 207,436 states). Among all multisets passing Landau, those with no solution number 1, 6, 32, 145, 634 for n = 6…10 and every one has a diagonal used at least three times. The fractional test stays exact for all multisets up to n = 11 and first fails at n = 12 with a diagonal used five times (the saturation card's example). Does not depend on the conjecture. Recheck: g++ -O2 -o twice twice.cpp && ./twice 13 2.",
+      refs="agents/interface/twice.cpp, nonstrict.py, slack_dfa2.cpp, lp_fails.py"),
+    N("thrice", "ideas", "Each diagonal used at most three times", "disproved",
+      "The same statement with 'no value occurs more than three times'.",
+      "Claim: Landau stays sufficient with triples.",
+      example="n = 6, diagonals {−2, −2, −2, 2, 2, 2}: Landau holds, no permutation.",
+      evidence="Smallest failure is n = 6 (unique there).",
+      refs="agents/interface/twice.cpp (./twice 6 3)"),
+    N("pairsum", "ideas", "Pairs with prescribed sums, any parity", "disproved",
+      "If c_1 < … < c_m are integers with Σ_{i≤j} c_i ≥ j(2j+1) for all j and equality at j = m, then {1, …, 2m} can be split into pairs whose sums are c_1, …, c_m.",
+      "A solution is the same as splitting {1, …, 2n} into pairs with the odd sums 2(d_k + n) + 1: an odd sum forces one odd number (a row) and one even number (a column). Dropping 'odd' gives a more symmetric puzzle with no board in it. Claim: the Landau-type condition is sufficient for any prescribed sums.",
+      example="m = 4, sums (4, 8, 10, 14): no pairing of {1, …, 8}. Even sums pair odd with odd and even with even; the odd numbers can make {4,12}, {6,10} or {8,8} and the even ones {6,14}, {8,12} or {10,10}.",
+      evidence="With all sums odd this is the conjecture (no failure, m ≤ 8). With even sums allowed: 1 of 37 fails at m = 4, 1026 of 50944 at m = 8.",
+      refs="agents/interface/pairsum.cpp"),
 ]
 
 E = []
@@ -465,6 +520,16 @@ e("delta", T, "implies", "δ of the accepted tournament is a witness.")
 e("maxupset", "delta", "implies", "Names an accepted tournament.")
 e("countglobal", "conj", "implies", "If more than A_n − 1 arrangements must be hit, all A_n are.")
 e("greedy", T, "implies", "A rule that never gets stuck produces a witness.")
+# interface walks
+e(["interface", "slackB"], T, "implies", "A valid D of size n has all slacks ≤ n²/8, so it is covered by the bound B = n²/8; an accepted word is a walk, and a walk is a witness.")
+e("slack16", "slackB", "related", "The bounds B ≤ 16.", "unchecked")
+e("online", "slackB", "implies", "An online rule traces an accepted walk for every word.")
+e("summary", "slackB", "implies", "Induction along the word with invariant 'every state of I is reachable'; nonempty at the end means a witness.")
+e("meet", T, "implies", "Two sets with more elements than their universe intersect; a common state joins a left half-walk to a right half-walk.")
+e("twice", "conj", "implies", "The case with no repeated diagonal.")
+e("thrice", "twice", "implies", "At most twice is a special case.")
+e("twice", "sat", "related", "Answers the side question there: no gap with multiplicities ≤ 2 for n ≤ 15.", "unchecked")
+e("pairsum", "conj", "implies", "The case where every sum is odd.")
 
 PROOFS = json.load(open(os.path.join(HERE, "proofs.json")))
 for n in nodes:
