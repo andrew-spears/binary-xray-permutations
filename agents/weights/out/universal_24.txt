@@ -1,0 +1,24 @@
+s  1: 2 of 2 states in every F, 2 with core2; 2 good for 1|0:  -|1  1|-
+s  2: 4 of 5 states in every F, 4 with core2; 4 good for 1|0:  -|11  -|2  11|-  2|-
+s  3: 4 of 10 states in every F, 4 with core2; 4 good for 1|0:  1|11  1|2  11|1  2|1
+s  4: 6 of 20 states in every F, 4 with core2; 6 good for 1|0:  -|211  -|31  211|-  31|-  1|21  21|1
+s  5: 6 of 36 states in every F, 6 with core2; 6 good for 1|0:  11|111  111|11  2|3  3|2  1|211  211|1
+s  6: 2 of 65 states in every F, 0 with core2; 2 good for 1|0:  21|3  3|21
+s  7: 6 of 110 states in every F, 6 with core2; 6 good for 1|0:  -|322  111|1111  1111|111  322|-  2|221  221|2
+s  8: 14 of 185 states in every F, 6 with core2; 12 good for 1|0:  111|41  1111|211  2|2211  2|3111  211|1111  2211|2  3|41  3111|2
+s  9: 12 of 300 states in every F, 12 with core2; 8 good for 1|0:  -|333  333|-  1|2222  2222|1  22|311  221|4  311|22  32|4
+s 10: 18 of 481 states in every F, 12 with core2; 14 good for 1|0:  -|3331  -|4222  222|4  3331|-  4|222  4222|-  31|33  33|31
+s 11: 20 of 752 states in every F, 20 with core2; 12 good for 1|0:  -|3332  222|5  3332|-  5|222  111|41111  2|33111  22|31111  22211|3
+s 12: 30 of 1165 states in every F, 16 with core2; 22 good for 1|0:  -|3333  3333|-  2|22222  22222|2  -|4332  22|41111  222|3111  2221|5
+s 13: 40 of 1770 states in every F, 40 with core2; 26 good for 1|0:  -|33331  1|3333  3333|1  33331|-  -|44311  -|5332  11|32222  1111|22221
+s 14: 58 of 2665 states in every F, 38 with core2; 40 good for 1|0:  11|33222  11|42222  11|4422  1111|3322  211|22222  22|4411  222|41111  222|5111
+s 15: 56 of 3956 states in every F, 56 with core2; 40 good for 1|0:  -|33333  33333|-  -|44331  -|53322  -|53331  1|33332  1|4433  1|5333
+s 16: 124 of 5822 states in every F, 76 with core2; 78 good for 1|0:  -|43333  43333|-  -|443311  -|44332  -|444211  -|44431  -|533311  -|53332
+s 17: 178 of 8470 states in every F, 178 with core2; 136 good for 1|0:  -|44333  -|53333  11|33333  2|33333  3333|5  33333|11  33333|2  44333|-
+s 18: 246 of 12230 states in every F, 114 with core2; 184 good for 1|0:  3333|6  6|3333  11|333322  11|333331  11|43333  11|442222  2|333322  2|333331
+s 19: 356 of 17490 states in every F, 356 with core2; 270 good for 1|0:  -|44443  1|333333  333333|1  44443|-  -|54433  -|544411  -|54442  -|64333
+s 20: 452 of 24842 states in every F, 198 with core2; 348 good for 1|0:  -|44444  44444|-  -|533333  11|333333  2|333333  333333|11  333333|2  533333|-
+s 21: 520 of 35002 states in every F, 520 with core2; 366 good for 1|0:  111|333333  333333|111  -|543333  -|544422  -|553332  1|443333  1|444422  1|533333
+s 22: 1304 of 49010 states in every F, 566 with core2; 926 good for 1|0:  -|444433  -|4444411  -|444442  -|733333  444433|-  4444411|-  444442|-  733333|-
+s 23: 2066 of 68150 states in every F, 2066 with core2; 1740 good for 1|0:  -|4444322  -|544433  -|544442  -|5533322  -|555422  11|555222  11|55533  11|66333
+s 24: 2956 of 94235 states in every F, 1530 with core2; 2476 good for 1|0:  -|444444  444444|-  -|4444431  -|544443  -|5544222  -|554433  -|5544411  -|554442

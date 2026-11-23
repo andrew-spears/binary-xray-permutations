@@ -1,0 +1,1 @@
+row insertion = machine step for all states of slack <= 10, all letters, slacks <= 10: 12140 cases
