@@ -6,19 +6,20 @@ Usage: python3 rewrite_l1.py B maxlen [B2]     (B2: recheck the survivors at the
 import sys
 from itertools import product
 from rewrite import machine
-def sits_l1(B):
+def sits_l1(B, rep=False):
+    """rep = True: '+ -' adjacent is allowed (that diagonal is used twice)"""
     step, start = machine(B)
     s0 = (frozenset([start]), 0, None); seen = {s0}; todo = [s0]
     while todo:
         S, s, last = todo.pop()
         for e in (-1, 0, 1):
-            if s + e < 0 or s + e > B or (last == 1 and e == -1): continue
+            if s + e < 0 or s + e > B or (last == 1 and e == -1 and not rep): continue
             x = (step(S, e), s + e, e)
             if x not in seen: seen.add(x); todo.append(x)
     return seen, step
-def run(S, s, last, u, B, step):
+def run(S, s, last, u, B, step, rep=False):
     for e in u:
-        if s + e < 0 or s + e > B or (last == 1 and e == -1): return None
+        if s + e < 0 or s + e > B or (last == 1 and e == -1 and not rep): return None
         S = step(S, e); s += e; last = e
     return S
 def test(rules, B):

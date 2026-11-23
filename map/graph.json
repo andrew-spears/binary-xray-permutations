@@ -3781,13 +3781,35 @@
   {
    "id": "l1red",
    "area": "ideas",
-   "title": "Two shortening rules would settle 'within one mark'",
+   "title": "Three shortening rules would settle 'within one mark'",
    "status": "empirical",
-   "intuition": "The interface machine reads the word letter by letter and keeps the set of hole patterns that can be reached. If replacing a piece of the word by a longer piece never loses a reachable pattern, then the longer word is solvable whenever the shorter one is. Two such rules are enough for the family where every stone is within one mark of evenly spaced: (A) a zero may be doubled, (B) a zero may be replaced by + 0 −. Any word of the family with a + in it contains + 0 … 0 −; rule (A) backwards shortens the zeros to one, rule (B) backwards turns + 0 − into 0, and the word left at the end is all zeros, which is the anti-diagonal. Neither rule is true for a single hole pattern, only for the whole reachable set, and neither is true for general words. Claim: both rules hold after every prefix of the family.",
-   "statement": "For a prefix x with letters in {−1, 0, +1} let F(x) be the set of interface states (pairs of diagrams) reachable after x. (A) F(x 0) ⊆ F(x 0 0). (B) F(x 0) ⊆ F(x + 0 −). Both hold for every legal prefix x.",
+   "intuition": "The interface machine reads the word letter by letter and keeps the set of hole patterns that can be reached. If replacing a piece of the word by a longer piece never loses a reachable pattern, then the longer word is solvable whenever the shorter one is. Three such rules are enough for the family where every stone is within one mark of evenly spaced: (A) a zero may be doubled, (B) a zero may be replaced by + 0 −, (C) + − may be inserted anywhere. Any word of the family with a + in it contains + 0 … 0 −, possibly with no zeros. With no zeros, rule (C) backwards removes it. Otherwise rule (A) backwards shortens the zeros to one and rule (B) backwards turns + 0 − into 0. The word left at the end is all zeros, which is the anti-diagonal. For arrangements with distinct diagonals + − never occurs and rules (A), (B) suffice. No rule is true for a single hole pattern, only for the whole reachable set, and (A) is false for general words. Claim: the three rules hold after every prefix of the family.",
+   "statement": "For a prefix x with letters in {−1, 0, +1} and partial sums ≥ 0 let F(x) be the set of interface states (pairs of diagrams) reachable after x. (A) F(x 0) ⊆ F(x 0 0). (B) F(x 0) ⊆ F(x + 0 −). (C) F(x) ⊆ F(x + −). All three hold for every such x.",
    "example": "P_n is + 0 … 0 −: rule (A) shortens it to + 0 −, rule (B) to 0.",
-   "evidence": "Both hold for every prefix with slack ≤ 23 (205 distinct reachable sets), so every word of the family with slack ≤ 23 is solvable for every n. No proof for all slacks: that needs a description of the reachable sets. The smallest one at slack s is the set reached by s plus letters (sizes 1, 2, 4, 8, 14, 28, 48, 80, 128, 212, …). Recheck: python3 l1_reduce.py 24 (45 seconds).",
+   "evidence": "All three hold for every prefix with slack ≤ 23 (233 distinct situations), so every word of the family with slack ≤ 23 is solvable for every n. No proof for all slacks: that needs a description of the reachable sets, or a direct way to turn a solution of the short word into one of the long word with the same hole pattern. Recheck: python3 l1_reduce.py 24 (1 minute).",
    "refs": "agents/interface/l1_reduce.py, rewrite_l1.py, letters_notes.md"
+  },
+  {
+   "id": "paritycount",
+   "area": "ideas",
+   "title": "Odd and even rows: a count every reachable hole pattern obeys",
+   "status": "proved",
+   "intuition": "Colour the board like a chessboard. A stone with an even letter sits on a cell whose row and column have the same parity, a stone with an odd letter on a cell where they differ. Counting the four kinds of stones gives the number of each kind from the hole pattern alone: #(odd row, odd column) = (#odd(R) + #odd(C) − p)/2, and so on. All four must be between 0 and the number of letters of that parity. The number of odd rows in a hole pattern is what the 2-core of its diagram measures, so this is a condition on the two 2-cores. It explains the first missing patterns: the pair (staircase with t rows, staircase with t rows), which has slack t(t+1), cannot be reached before the prefix has t even letters. So the number of zeros needed before every pattern is reachable grows like the square root of the slack, and no bounded window can work. Claim: the two inequalities hold for every reachable state.",
+   "statement": "Reflect the rows, so stone j has row + column = 2j + e_j. After a prefix of k stones with z even letters and p odd letters, every reachable state (R, C) (used rows, used columns) satisfies |#odd(R) − #odd(C)| ≤ p and |#odd(R) + #odd(C) − k| ≤ z.",
+   "example": "After + + + + + + 0 the pattern ((2,1), (2,1)) is the only one of 65 missing: it would need two stones on (odd, odd) cells and there is one even letter.",
+   "evidence": "Proof: count stones by (row parity, column parity); even letters give equal parities, odd letters unequal. The condition is far from exact: for words with letters −1, 0, +1, slack ≤ 6 and length ≤ 9, of 1,935 unreachable (prefix, pattern) pairs it rules out 45; adding a sum test inside each parity class rules out 1,182. The rest need the same split repeated on rows mod 4, 8, …: e.g. after + + + + the pattern rows {1,2,3,6}, columns {1,2,4,5} fails because no free cell has row + column = 9.",
+   "refs": "agents/interface/parity_test.py (6 9 l1: 1 minute), letters_notes.md"
+  },
+  {
+   "id": "neardiag",
+   "area": "ideas",
+   "title": "Plus and minus stones next to the main diagonal",
+   "status": "disproved",
+   "intuition": "In the witnesses of P_n and of + + 0 − − the + and − stones sit right next to the main diagonal and only the 0 stones move far. If that were always possible, the + and − stones would be fixed up to a two-way choice and the problem would become: pair the remaining rows with the remaining columns so that the midpoints are exactly the positions of the zeros. Claim: such a witness always exists.",
+   "statement": "Every word with letters −1, 0, +1 (distinct diagonals) has a witness in which each + stone k is at (k, k+1) or (k+1, k) and each − stone at (k−1, k) or (k, k−1), in reflected rows.",
+   "example": "+ + 0 0 − − (n = 6) has no such witness; its witnesses move a − stone two rows away.",
+   "evidence": "Fails for 1 of 17 words at n = 6, 106 of 423 at n = 10, 770 of 2,283 at n = 12. With the choice fixed (+ at (k, k+1), − at (k−1, k)) it already fails for + 0 0 −.",
+   "refs": "agents/l1form/form2.py, form.py"
   },
   {
    "id": "zeros",
@@ -4398,7 +4420,35 @@
    "to": "l1",
    "kind": "implies",
    "status": "proved",
-   "why": "Induction on the length: a word with a + contains + 0…0 −; (A) and (B) reduce it to a shorter word of the family; the all-zero word is the anti-diagonal."
+   "why": "Induction on the length: a word with a + contains + 0…0 − (possibly no zeros); (C), or (A) and (B), reduce it to a shorter word of the family; the all-zero word is the anti-diagonal."
+  },
+  {
+   "from": "paritycount",
+   "to": "slackB",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "A proved necessary condition on reachable hole patterns; shows the number of zeros needed to reach every pattern grows with the slack."
+  },
+  {
+   "from": "paritycount",
+   "to": "summary",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Explains why a bounded window fails: staircase pairs need about √slack even letters."
+  },
+  {
+   "from": "paritycount",
+   "to": "parity",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The counting part of the parity test, for boards with holes in both rows and columns (interface states)."
+  },
+  {
+   "from": "neardiag",
+   "to": "l1",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "A special form of witness that would have reduced the family to a pairing problem on the zeros; fails."
   },
   {
    "from": "zeros",

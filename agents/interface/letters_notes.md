@@ -193,8 +193,10 @@ in the set, so then 'x u y solvable' implies 'x v y solvable'.
   (set, slack, last letter) for slack <= 24), and 246 rules with |u| < |v| <= 4 are monotone (slack <= 12).  Two suffice:
      (A)  F(x 0) is a subset of F(x 0 0)          (B)  F(x 0) is a subset of F(x + 0 -)
   Every valid word with a + contains + 0^j -, j >= 1 (+ - adjacent would repeat a diagonal).  (A) shortens it to
-  + 0 -, (B) replaces that by 0, and the all-zero word is the anti-diagonal.  So (A) and (B) for all x imply l1.
-  Checked for every l1 prefix with slack <= 24 (A) / 23 (B): python3 l1_reduce.py 24, 45 seconds.
+  + 0 -, (B) replaces that by 0, and the all-zero word is the anti-diagonal.  So (A) and (B) for all x imply l1
+  for distinct diagonals.  With '+ -' adjacent allowed (a diagonal used twice, as card l1 permits) add
+     (C)  F(x) is a subset of F(x + -)
+  Checked for every such prefix with slack <= 24 (A) / 23 (B, C): python3 l1_reduce.py 24, 1 minute; 233 situations.
   Hence every l1 word with all slacks <= 23 is solvable, for every n.
 - (A) and (B) are NOT true state by state, even allowing the transpose: for a single state a and b in 0.a, b need
   not be in 00.{a, a^T} (fails from slack 2).  They are properties of the sets F(x).
@@ -208,3 +210,16 @@ in the set, so then 'x u y solvable' implies 'x v y solvable'.
 - Lookahead (lookahead_game.py B L): Placer knows L letters (the current one and L - 1 ahead).  Wins exactly for
   L = 1, 2: B <= 2;  L = 3: B <= 4;  L = 4: B <= 8;  L = 5: wins at B = 9, 11, 13 (B = 10, 12, 14 not run).
   Same thresholds 2, 4, 8 as the window of L - 1 past letters (invariant.py; window 4 stops at 13).  So lookahead grows with B as well.
+
+## Parity counts (parity_test.py) and the near-diagonal form (agents/l1form)
+- Reflected rows, stone j at row + col = 2j + e_j.  Even letter: row, col of equal parity; odd letter: unequal.
+  With z even, p odd letters in the prefix: #OO = (odd(R) + odd(C) - p)/2 in [0, z], #OE = (p + odd(R) - odd(C))/2 in [0, p].
+  PROVED necessary condition (P) on reachable states.  Staircase pair (t..1, t..1), slack t(t+1), needs z >= t.
+  Seen in the machine: F(+^s 0) misses ((2,1),(2,1)) at s = 6; F(+^12 0 0) misses only ((3,2,1),(3,2,1)).
+- (P) alone explains little (45 of 1,935 unreachable pairs, l1, slack <= 6, length <= 9; 33 of 3,126 for all letters,
+  slack <= 4, length <= 7).  With the sum test inside each parity class (S): 1,182 of 1,935 and 2,506 of 3,126.
+  What is left is the same thing one level down (rows mod 4): reachable = solvable hole board, a 2-adic hierarchy.
+- Near-diagonal form: + stone at (k,k+1)/(k+1,k), - stone at (k-1,k)/(k,k-1), zeros free => 'midpoint problem'
+  (pair the free rows with the free columns so that the midpoints are the zeros).  Fails: + + 0 0 - - (form2.py 6).
+  Witnesses of +^a 0^j -^a with fewest moves: rho rotates the pluses (1 2 .. a+1) and the minuses, pi is ONE
+  transposition across the middle (e.g. +++0000---: pi = (4 7), rho = (1 2 3 4)(7 10 9 8)).

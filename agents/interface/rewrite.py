@@ -3,9 +3,8 @@ F(x) = set of interface states reachable after the prefix x (letters e_k; slack 
 A rewrite u -> v (two letter strings with the same sum) is MONOTONE if F(xu) is a subset of F(xv) for every prefix x
 after which both xu and xv are legal prefixes with all slacks <= B.  Then for every continuation y legal after both,
 'xuy is solvable' implies 'xvy is solvable': xvy is the easier word.
-Legal: e_1 >= 0, e_{k+1} >= e_k - gap, all partial sums >= 0   (gap = 1: distinct diagonals; gap = 2: repeats allowed,
-which this script only uses to let a rewrite pass through a doubled diagonal -- no triple is ever created by len-1/2 strings
-checked here unless stated).
+Legal: e_1 >= 0, e_{k+1} >= e_k - gap, all partial sums >= 0   (gap = 1: distinct diagonals; gap = 2: a diagonal may be
+used twice, never three times: after a drop of 2 the next drop is at most 1; the situation carries that flag).
 Usage: python3 rewrite.py B [maxlen] [gap]"""
 import sys
 from itertools import product
@@ -38,22 +37,23 @@ def machine(B):
     base = (1 << B) - 1
     return step, (base, base)
 def situations(B, step, start, gap=1):
-    """all (F, slack, last letter) over legal prefixes with slacks <= B (no completability pruning)"""
-    s0 = (frozenset([start]), 0, None); seen = {s0}; todo = [s0]
+    """all (F, slack, last letter, doubled) over legal prefixes with slacks <= B (no completability pruning);
+    doubled = the last two stones share a diagonal (only with gap = 2)"""
+    s0 = (frozenset([start]), 0, None, False); seen = {s0}; todo = [s0]
     while todo:
-        S, s, last = todo.pop()
-        lo = -s if last is None else max(-s, last - gap)
-        if last is None: lo = 0
+        S, s, last, dbl = todo.pop()
+        lo = 0 if last is None else max(-s, last - (1 if dbl else gap))
         for e in range(lo, B - s + 1):
-            x = (step(S, e), s + e, e)
+            x = (step(S, e), s + e, e, last is not None and e == last - 2)
             if x not in seen: seen.add(x); todo.append(x)
     return seen
-def run(S, s, last, u, B, step, gap):
+def run(S, s, last, u, B, step, gap, dbl=False):
     for e in u:
-        if last is not None and e < last - gap: return None
+        if last is not None and e < last - (1 if dbl else gap): return None
         if last is None and e < 0: return None
         s += e
         if s < 0 or s > B: return None
+        dbl = last is not None and e == last - 2
         S = step(S, e); last = e
     return S
 if __name__ == "__main__":
@@ -65,8 +65,8 @@ if __name__ == "__main__":
         for v in strings:
             if u == v or sum(u) != sum(v): continue
             tested = bad = 0
-            for S, s, last in sits:
-                a = run(S, s, last, u, B, step, gap); b = run(S, s, last, v, B, step, gap)
+            for S, s, last, dbl in sits:
+                a = run(S, s, last, u, B, step, gap, dbl); b = run(S, s, last, v, B, step, gap, dbl)
                 if a is None or b is None: continue
                 tested += 1
                 if not a <= b: bad += 1
