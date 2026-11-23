@@ -22,6 +22,9 @@ rules = {
  "e > 0, or e = 0 at slack 0": lambda e, k, s: e[k] > 0 or (e[k] == 0 and s == 0),
  "e > 0, or e = 0 at slack > 0": lambda e, k, s: e[k] > 0 or (e[k] == 0 and s > 0),
  "e > 0, or e = 0 after a positive letter": lambda e, k, s: e[k] > 0 or (e[k] == 0 and k > 0 and e[k - 1] > 0),
+ "e odd": lambda e, k, s: e[k] % 2 == 1,
+ "e odd and positive, or e even and <= 0": lambda e, k, s: (e[k] % 2 == 1) == (e[k] > 0),
+ "slack before the stone is 0 or e > 0": lambda e, k, s: s == 0 or e[k] > 0,
  "e > 0, or e = 0 before a positive letter": lambda e, k, s: e[k] > 0 or (e[k] == 0 and k < n - 1 and e[k + 1] > 0),
 }
 for name, pr in rules.items():

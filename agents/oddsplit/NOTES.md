@@ -15,6 +15,11 @@ For n ≤ 9 the fixed rules S = {e_k > 0} and S = {e_k ≥ 0} always work (`rule
 are odd (mean 91%). These fixed rules do not work for ever: for 1^9 0 −1 −2 −3 −3 (n = 14, the PAR failure of the
 unimodal report) both give no odd state, but 29 of 30 random admissible S are odd splits (`single.cpp`).
 
+**The parity split (`paritysplit.cpp`).** S = stones on odd diagonals, S^c = stones on even diagonals (always admissible).
+It is an odd split for every valid D with n ≤ 9, and it works on the two words of size 13 and 14 above. It fails for
+2 of 1,485 at n = 10 (1^6 0 −1 −2 −3 and its mirror) and 4 of 4,638 at n = 11 (the same two with a 0 added at either end).
+So no fixed rule tried survives: the words 1^a 0 −1 −2 −3 … defeat each of them, while most other S work for them.
+
 **In symmetric functions.** L_S(R, C) ≡ c(α; δ_m, λ, γ) mod 2, the coefficient of s_α in s_δ s_λ s_γ, where the
 partitions are given by their beta-sets: α ↔ {d − 2 : d ∈ D_S}, δ_m ↔ {0, 2, …, 2m − 2}, λ ↔ R − 1, γ ↔ C − 1.
 So the odd-split statement is: for some S there are λ, γ in the m × (n − m) box with c(α_S; δ_m, λ, γ) and
@@ -28,4 +33,5 @@ c(α′_S; δ_{n−m}, λ^c′, γ^c′) both odd.
 
 Recheck: `g++ -O2 -o oddsplit oddsplit.cpp && ./oddsplit 9 v` (2 s; n = 10: 50 s);
 `g++ -O2 -o dump dump.cpp && ./dump 9 > /tmp/os_9.txt && python3 rules.py /tmp/os_9.txt`;
+`g++ -O2 -o paritysplit paritysplit.cpp && ./paritysplit 10` (2 s; n = 11: 20 s);
 `g++ -O2 -o single single.cpp && ./single 30 1 1 1 1 1 1 1 1 1 0 -1 -2 -3 -3` (10 s, 0.1 GB).

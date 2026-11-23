@@ -1,5 +1,5 @@
 // Odd splits of one word (any n <= 15).  Usage: ./single K e_1 ... e_n      (letters e_k = d_k - 2k)
-// Tests the splits S = {e > 0}, S = {e >= 0}, every prefix, and then K random admissible S; prints which are odd.
+// Tests the splits S = {e > 0}, S = {e >= 0}, S = {e odd}, every prefix, and then K random admissible S; prints which are odd.
 #include <bits/stdc++.h>
 using namespace std;
 int n, full; vector<int> d; size_t W;
@@ -32,6 +32,7 @@ int main(int argc, char** argv) {
     vector<int> e(n); for (int k = 0; k < n; k++) { e[k] = atoi(argv[k + 2]); d.push_back(2 * (k + 1) + e[k]); }
     int Sp = 0, Sn = 0; for (int k = 0; k < n; k++) { if (e[k] > 0) Sp |= 1 << k; if (e[k] >= 0) Sn |= 1 << k; }
     printf("S = {e > 0}: %ld odd states;  S = {e >= 0}: %ld odd states\n", odd(Sp), odd(Sn));
+    { int So = 0; for (int k = 0; k < n; k++) if (e[k] & 1) So |= 1 << k; printf("S = {e odd}: %ld odd states\n", odd(So)); }
     printf("prefix cuts (m: odd states):"); for (int m = 1; m < n; m++) if (adm((1 << m) - 1)) printf(" %d:%ld", m, odd((1 << m) - 1)); printf("\n");
     mt19937 rng(1); int tested = 0, good = 0, tries = 0;
     while (tested < K && tries < 100000 * (K + 1)) { int S = rng() & full; tries++; if (!S || S == full || !adm(S)) continue; tested++;
