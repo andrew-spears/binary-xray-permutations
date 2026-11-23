@@ -1,0 +1,8 @@
+n 5: 1 words; HYBRID fails 1 (least number of odd pairs 0 at 2 1 0 -1 -2); no odd hook pair 1 (first 2 1 0 -1 -2); no odd row-extreme pair 1 (first 2 1 0 -1 -2)
+n 6: 3 words; HYBRID fails 3 (least number of odd pairs 0 at 0 2 1 0 -1 -2); no odd hook pair 3 (first 0 2 1 0 -1 -2); no odd row-extreme pair 3 (first 0 2 1 0 -1 -2)
+n 7: 12 words; HYBRID fails 12 (least number of odd pairs 0 at 0 0 2 1 0 -1 -2); no odd hook pair 12 (first 0 0 2 1 0 -1 -2); no odd row-extreme pair 12 (first 0 0 2 1 0 -1 -2)
+n 8: 51 words; HYBRID fails 51 (least number of odd pairs 0 at 0 0 0 2 1 0 -1 -2); no odd hook pair 51 (first 0 0 0 2 1 0 -1 -2); no odd row-extreme pair 51 (first 0 0 0 2 1 0 -1 -2)
+n 9: 197 words; HYBRID fails 197 (least number of odd pairs 0 at 0 0 0 0 2 1 0 -1 -2); no odd hook pair 197 (first 0 0 0 0 2 1 0 -1 -2); no odd row-extreme pair 197 (first 0 0 0 0 2 1 0 -1 -2)
+n 10: 733 words; HYBRID fails 733 (least number of odd pairs 0 at 0 0 0 0 0 2 1 0 -1 -2); no odd hook pair 733 (first 0 0 0 0 0 2 1 0 -1 -2); no odd row-extreme pair 733 (first 0 0 0 0 0 2 1 0 -1 -2)
+n 11: 2687 words; HYBRID fails 2686 (least number of odd pairs 0 at 0 0 0 0 0 0 2 1 0 -1 -2); no odd hook pair 2687 (first 0 0 0 0 0 0 2 1 0 -1 -2); no odd row-extreme pair 2686 (first 0 0 0 0 0 0 2 1 0 -1 -2)
+n 12: 9703 words; HYBRID fails 9694 (least number of odd pairs 0 at 0 0 0 0 0 0 0 2 1 0 -1 -2); no odd hook pair 9703 (first 0 0 0 0 0 0 0 2 1 0 -1 -2); no odd row-extreme pair 9694 (first 0 0 0 0 0 0 0 2 1 0 -1 -2)
