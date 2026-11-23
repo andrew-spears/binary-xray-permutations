@@ -47,3 +47,16 @@ Findings so far (all small computations, scripts letters*.py):
 NEXT (not done): put an 'L_1' card on the map (open; lead: slack-only family F, order-free), characterise the
 2^(n-1) words solvable with displacement <= 1, look for the rule that says how far a stone must move (height of the
 word at k?), and test the zigzag-chain induction + M - from 0 M 0.
+
+## LEAD: zigzag-chain induction for L_1 (letters_zigzag.py 10)
+w = + M - (length n; M any word in -1,0,+1 with prefix sums >= 0 and total 0, tight cuts allowed).
+Take ANY witness of M on rows/columns 2..n-1 and add corner stones (1,1), (n,n). Run the alternating chain
+(row, column, row, ... or column, row, column, ...): the stone that is 1 short moves up one row / right one column
+and pushes the stone there down / left; stop when the pushed stone is stone n.
+Result: for n <= 9 the chain ends on stone n (so gives a witness of + M -) from EVERY witness of every M (with one of
+the two starts); n = 10: from every witness for 322 of 323 words, and from some witness for all 323.
+Since every L_1 word is a concatenation of blocks + M - and zeros at height 0 (direct sums), a proof that the chain
+always ends on stone n (for a suitable class of witnesses closed under the chain) proves the conjecture for L_1
+by induction on n. Static argument so far: the chain map on (stone, parity) is injective and the start has no
+preimage, so it cannot cycle as long as no stone is visited in both parities; it can only stop in row n or column n.
+TODO: find the n = 10 exception (which witness, why), and the class of witnesses that is closed.
