@@ -16,7 +16,7 @@ def words(n, uni):
             return
         lo = (w[-1] - 1) if w else 0
         for e in range(max(lo, -s), 2 * n):
-            if s + e > (n - k - 1) * (n - k) // 2 + (n-k-1)*max(e,0): continue
+            if s + e > (n - k - 1) * (n - k) // 2 - (n - k - 1) * e: continue
             if uni and down and e > 0: continue
             if k and s == 0 and not uni: pass
             w.append(e); rec(w, s + e, down or e < 0); w.pop()

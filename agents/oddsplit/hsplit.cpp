@@ -27,7 +27,7 @@ void rec(int k, int sl, bool down) {
     int lo = k ? e[k - 1] - 1 : 1;
     for (int x = max(lo, -sl); x <= n; x++) {
         int s2 = sl + x; if (k < n - 1 && s2 <= 0) continue; if (uni && down && x > 0) continue;
-        if (s2 > (n - 1 - k) * (n - k) / 2 + (n - 1 - k) * max(x, 0)) break;
+        if (s2 > (n - 1 - k) * (n - k) / 2 - (n - 1 - k) * x) break;
         e[k] = x; rec(k + 1, s2, down || x < 0); }
 }
 int main(int argc, char** argv) {
