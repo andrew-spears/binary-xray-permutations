@@ -45,7 +45,7 @@ final run of equal letters. `L0`..`L4` are the memories m = 1..5 of `REPORT.md` 
 | r, letter before the run (`RP`) | 6 | 633, 1742, 3627 |
 | r, q ≤ 2, letter before the runs (`RPQ2`) | 7 | 1040, 3002, 6457 |
 | last rise: its letter and its age ≤ 3 (`M3`); age ≤ 8 (`M8`) | 6; 6 | 280, 614, 1092; 683, 1447, 2481 |
-| final non-increasing run, ≤ 5 letters (`A4`); plus the letter before it (`C4`) | 6; 7 | 566, 1203, 2056; 1324, 3322, 6496 |
+| final non-increasing run, ≤ 5 letters (`A4`); the last 5 letters cut off one letter before the last rise (`C4`) | 6; 7 | 566, 1203, 2056; 1324, 3322, 6496 |
 | previous letter (`L1`) | 4 | 268, 667, 1313 |
 | previous 2 letters (`L2`); with `M3` | 8; 10 | 896, 2687, 6126; 1120, 3282, 7325 |
 | previous 3 letters (`L3`) | 13 | 2668, 9266, 23797 |
@@ -62,7 +62,7 @@ J(t') ⊆ step_w(J(t)) is required for whole blocks. Types with last letter ≥ 
 | `K` alone; `RK`; `RQ3K` | 2; 4; 7 |
 | `M3K`; `M8K`; `L2K` | 6; 11; 8 |
 | `RPQ2K`; `RPQ3K` | 11; 17 (fails at 18) |
-| `C3K` (final non-increasing run ≤ 4 letters + the letter before it) | 18 (fails at 19) |
+| `C3K` (the last 4 letters, cut off one letter before the last rise) | 18 (fails at 19) |
 | `A1K`, `A2K`, `A3K` (final non-increasing run ≤ 2, 3, 4 letters) | 4, 7, 14 |
 | `A4K` (≤ 5 letters) | 24 (not run further), 4383 types at B = 24 |
 

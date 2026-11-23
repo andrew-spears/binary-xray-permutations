@@ -12,7 +12,8 @@
 //   M[c]  last letter that was larger than its predecessor (or the first letter), and how many letters ago, capped c
 //   L[k]  the k letters before the last one (default 1)
 //   A[k]  as L, but the window is cleared when a letter is larger than its predecessor (so: the final non-increasing
-//         run, at most k + 1 letters);   C[k]  the same, but the letter before that run is kept
+//         run, at most k + 1 letters);   C[k]  the same, but cleared one letter earlier: the last k + 1 letters, cut off
+//         just before the letter that precedes the last rise (that letter is forgotten once the run has k + 1 letters)
 //         With the environment variable NEED=file (lines: slack, last letter, the one before, ...; L must come first)
 //         the window is variable: the k-th letter before the last is kept only if the slack and the letters after it
 //         are a line of the file (and the letter was still known one step earlier).  See ctx.py.
