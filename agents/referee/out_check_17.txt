@@ -1,0 +1,13 @@
+ok    predecessor formula, Lemma 1, Lemma G (i)-(iv): all 25815 states of slack <= 17, letters -5..2
+ok    Lemma 2 (a), (b), (c), Lemma 3 (a), (b), converse: slack <= 17
+      note: -|- is in SC and satisfies the definition of E0: True ; other states in both, slack <= 17 : []
+      central states of odd slack with all 1-predecessors in SC u E0 (definition of A), by slack: {1: ['-|1', '1|-'], 5: ['111|2', '11|3', '2|111', '3|11'], 17: ['33111|422', '3311|522', '422|33111', '522|3311']}
+ok    Lemma 4: at odd slack 3..18 such states exist only for slack 4m^2 + 1, 4 of them, one predecessor, in E0
+ok    Lemma 5 (a), (b), (c) and the two finite sub-cases, for A(s), s + 1 <= 18
+ok    L1 Theorem (e = -1, 0, 1), Theorem 0 (b) with equality, (c) for k = 2..5, G inside G-: slack <= 17
+      slacks where G-(s) != G(s): [(4, 2), (5, 4), (8, 7), (12, 14), (16, 23), (17, 4)]  (slack, number of states in G- minus G)
+ok    U(s) is empty except U(4m^2) = two states, both in E0: {4: ['-|22', '22|-'], 16: ['22|4422', '4422|22']}
+      remark of l2sets section 2 (tested only): (source slack s, k) with G(s - k) not inside step_-k(G(s)): [(4, 2), (8, 2), (12, 2), (16, 2)]
+ok    Lemma H: (s|-) and (1^s|-) are in G(s), 1 <= s <= 17
+ok    A(y) = conj F(-reverse(y)) with conj = conjugate both partitions: all 2216 cuts of all valid words of length <= 8
+      conj(1^5|-) = 5|-
