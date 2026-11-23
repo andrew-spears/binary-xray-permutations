@@ -4264,9 +4264,9 @@
     "nocycle"
    ],
    "to": "l1",
-   "kind": "implies",
-   "status": "proved",
-   "why": "Lower the last + of the word without its final −: that word is shorter and solvable by induction, so X is non-empty; without cycles X has a path, whose ends are witnesses. (With a repeated diagonal the count changes but 'solvable iff some component is not a cycle' still holds.)"
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Would give only the words with no repeated diagonal (no + directly followed by −), by induction on the length: such a word ends in − or splits at a tight cut; lower the last + of the word without its final −, which is again such a word, so X is non-empty; without cycles X has a path, whose ends are witnesses."
   }
  ]
 }

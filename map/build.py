@@ -557,7 +557,7 @@ e("pairsum", "conj", "implies", "The case where every sum is odd.")
 e("twice", "l1", "implies", "These words use each diagonal at most twice and satisfy Landau.")
 e("zigzag", "l1", "implies", "Induction on the length: a word is a concatenation of zeros and blocks + M −; direct sums handle concatenation and the chain handles + M −.")
 e("leapfrog", "zigzag", "related", "The chain is the leapfrog walk started from 0 M 0 with the mark on stone 1.", "unchecked")
-e(["leapfrog", "nocycle"], "l1", "implies", "Lower the last + of the word without its final −: that word is shorter and solvable by induction, so X is non-empty; without cycles X has a path, whose ends are witnesses. (With a repeated diagonal the count changes but 'solvable iff some component is not a cycle' still holds.)")
+e(["leapfrog", "nocycle"], "l1", "related", "Would give only the words with no repeated diagonal (no + directly followed by −), by induction on the length: such a word ends in − or splits at a tight cut; lower the last + of the word without its final −, which is again such a word, so X is non-empty; without cycles X has a path, whose ends are witnesses.", "unchecked")
 
 PROOFS = json.load(open(os.path.join(HERE, "proofs.json")))
 for n in nodes:
