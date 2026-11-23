@@ -3645,7 +3645,7 @@
    "intuition": "The slack of a cut is the total drift of the stones to its left. The largest slack of an arrangement of size n is about n²/8, so small boards have small slack, but so do arrangements of any size that stay close to the start. For slack up to 16 the interface machine has a few thousand states, and a program can run through all of them. Claim: every arrangement of any size whose slacks never exceed 16 has a solution.",
    "statement": "For every n, every valid D whose Landau slacks σ_k are all ≤ 16 has a witness.",
    "example": "P_n has slack 1 at every cut. A minimal move raises the slack by 1 at the cuts between its two stones,\nso P_n followed by any 15 minimal moves is covered, for every n.\nEvery D with n ≤ 11 has slack ≤ 16.",
-   "evidence": "Not a sample: the automaton A_16 (22,358 reachable states after determinising, 11 s, 0.94 GB) accepts every valid word, and by the interface card this covers every n. It is listed as empirical only because the finite check is done by a program. Three implementations give the same verdict (Python for B ≤ 8, two C++ programs for B ≤ 12), and the step rule was compared with brute force on all 6,742 multisets with repeats for n ≤ 8, including the 39 with no solution. B = 17 needs more than 7 GB. Does not depend on the conjecture at any size. Recheck: g++ -O2 -o slack_dfa slack_dfa.cpp && ./slack_dfa 16.",
+   "evidence": "Not a sample: the automaton A_16 (22,358 reachable states after determinising, 11 s, 0.94 GB) accepts every valid word, and by the interface card this covers every n. It is listed as empirical only because the finite check is done by a program. Three implementations give the same verdict (Python for B ≤ 8, two C++ programs for B ≤ 12), and the step rule was compared with brute force on all 6,742 multisets with repeats for n ≤ 8, including the 39 with no solution. B = 17 was not done: the program packs a state into 64 bits, which stops at B = 16, and the search would also need more than the 7 GB available. Does not depend on the conjecture at any size. Recheck: g++ -O2 -o slack_dfa slack_dfa.cpp && ./slack_dfa 16.",
    "refs": "agents/interface/slack_dfa.cpp, slack_dfa.py, slack_dfa2.cpp, audit_step.py"
   },
   {
@@ -3657,7 +3657,7 @@
    "statement": "There is a rule that places the stone of the k-th smallest diagonal knowing only n and the k smallest diagonals, and that completes a witness for every valid D.",
    "example": "n = 8: whatever the rule does, an adversary who reveals the diagonals one at a time can steer to a valid D on which the rule is stuck. No two arrangements suffice for this; the adversary needs a branching strategy.",
    "evidence": "Exhaustive game search: a rule exists for n ≤ 7 and for no n from 8 to 11. On the automaton: exists for B ≤ 2, not for B = 3…8.",
-   "refs": "agents/interface/online_fixed_n.py, online_game.py, online_cex.py"
+   "refs": "agents/interface/online_fixed_n.py, online_check.py (independent recheck, n ≤ 9), online_game.py, online_cex.py"
   },
   {
    "id": "summary",
@@ -3665,9 +3665,9 @@
    "title": "Invariant from the slack and the last few diagonals",
    "status": "disproved",
    "intuition": "An induction along the word needs an invariant: a set of interface states guaranteed reachable. Claim: the invariant can be read off from the current slack and a bounded window of recent diagonals.",
-   "statement": "For some L ≤ 4 there is a family I(σ, e_{k−L+1}, …, e_k) of nonempty sets of interface states such that every prefix with that slack and those last L letters reaches every state of I, and each step maps I onto a superset of the next I.",
+   "statement": "For some L with 1 ≤ L ≤ 4 there is a family I(σ, e_{k−L+1}, …, e_k) of nonempty sets of interface states such that every prefix with that slack and those last L letters reaches every state of I, and each step maps I onto a superset of the next I.",
    "example": "Window of 2 letters, arrangements with slack ≤ 5: the largest family satisfying the step condition is empty, for instance at slack 1 after the letters (0, 0).",
-   "evidence": "Largest such family computed exactly inside slack ≤ B: a window of L = 0 or 1 letters works only for B ≤ 2, L = 2 only for B ≤ 4, L = 3 only for B ≤ 8, L = 4 only for B ≤ 13. So no window of at most 4 letters works for all D, and the window needed grows with the slack bound. Windows of 5 or more letters were not run to failure. Replacing the window by the last letter plus a capped counter (length, largest slack so far, sum of slacks, largest letter, steps since the last rise) fails from B = 4.",
+   "evidence": "Largest such family computed exactly inside slack ≤ B: a window of L = 1 letter works only for B ≤ 2, L = 2 only for B ≤ 4, L = 3 only for B ≤ 8, L = 4 only for B ≤ 13. So no window of at most 4 letters works for all D, and the window needed grows with the slack bound. Windows of 5 or more letters were not run to failure. Replacing the window by the last letter plus a capped counter (length, largest slack so far, sum of slacks, largest letter, steps since the last rise) fails from B = 4.",
    "refs": "agents/interface/invariant.cpp, invariant.py, invariant_other.py"
   },
   {

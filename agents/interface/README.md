@@ -28,7 +28,8 @@ forces excess > B), so the walk lives in a finite automaton that does not depend
 Determinizing it over all valid words decides the conjecture for ALL n on {D : max slack <= B}.
 **Result: every valid D of any size with all Landau slacks <= 16 has a witness.**
 (B = 16: 22358 DFA states, largest reachable set 5822 = all pairs of partitions of 16; 11 s, 0.94 GB.
-B = 17 runs out of the 7 GB of this VM.)  Recheck: `g++ -O2 -o slack_dfa slack_dfa.cpp && ./slack_dfa 16`.
+B = 17 not done: states are packed into 64 bits, which stops at B = 16 (the programs refuse B > 16), and the
+attempt logged at the end of `dfa_16_17.log` was killed at 7.3 GB, so it needs both wider masks and more memory.)  Recheck: `g++ -O2 -o slack_dfa slack_dfa.cpp && ./slack_dfa 16`.
 Three implementations give ALL ACCEPTED (python B <= 8, two C++ versions B <= 12; their state counts differ
 because they key states differently).  Audit of the step rule with negative controls: `audit_step.py 8` compares the
 window/bitmask step with brute force on every majorized multiset b with repeats, n <= 8 (6742 multisets, 39 unsolvable, 0 mismatches).
@@ -36,14 +37,15 @@ Covers every D with n <= 11 (n^2/8 <= 16) and, for larger n, everything within s
 
 ## 3. NOTHING: no online rule (`online_game.py`, `online_fixed_n.py`, `online_cex.py`)
 Game: diagonals are revealed in increasing order, the stone must be placed at once.
-Placer wins for n <= 7 and LOSES for n = 8, 9, 10, 11 (fixed n known to Placer; exhaustive game search).
+Placer wins for n <= 7 and LOSES for n = 8, 9, 10, 11 (fixed n known to Placer; exhaustive game search;
+`online_check.py 9` is an independent version in board coordinates and agrees for n <= 9).
 On the automaton: Placer wins for B <= 2, loses for B >= 3.  No single pair of D's does it for n <= 8
 (`online_cex.py 8`: any two valid D with a common prefix share a prefix placement), the adversary needs
 a tree.  So any proof in diagonal order needs lookahead.
 
 ## 4. NOTHING: short summaries of the prefix do not carry an invariant (`invariant.py`, `invariant_other.py`)
 Greatest family I(summary) with I(s.e) inside step_e(I(s)).  Summary (sigma, last L letters) suffices
-inside slack <= B only for B <= 2 (L = 0, 1), B <= 4 (L = 2), B <= 8 (L = 3), B <= 13 (L = 4)
+inside slack <= B only for B <= 2 (L = 1), B <= 4 (L = 2), B <= 8 (L = 3), B <= 13 (L = 4)
 (`invariant.cpp B L`).  L >= 5 not run to failure.
 (sigma, e_last, capped length / max slack / sum of slacks / max letter / steps since last rise): all fail from B = 4.
 What the DFA shows (`structure.py`, `inspect_dfa.py`): the reachable set becomes ALL pairs of partitions
