@@ -105,8 +105,8 @@ static Key upd(const Key& k, int e){
         case 'Q': n[p]= (l!=NONE&&e==l) ? min(k[p]+1,f.cap) : 1; break;
         case 'P': if (l==NONE) n[p]=NONE; else if (e==l-1) n[p]= (q>1 ? l : k[p]); else if (e==l&&hasQ) n[p]=k[p]; else n[p]=l; break;
         case 'M': if (l==NONE||e>l){ n[p]=e; n[p+1]=0; } else n[p+1]=min(k[p+1]+1,f.cap); break;
-        case 'L': for (int i=0;i+1<f.cap;i++) n[p+i]=k[p+i+1]; n[p+f.cap-1]= l==NONE ? NONE : max(clo,min(chi,l)); break;
-        case 'A': case 'C': if (l==NONE||e>l){ for (int i=0;i<f.cap;i++) n[p+i]=NONE; if (f.c=='C') n[p+f.cap-1]=l; }
+        case 'L': if (!f.cap) break; for (int i=0;i+1<f.cap;i++) n[p+i]=k[p+i+1]; n[p+f.cap-1]= l==NONE ? NONE : max(clo,min(chi,l)); break;   // L0 = no window
+        case 'A': case 'C': if (!f.cap) break; if (l==NONE||e>l){ for (int i=0;i<f.cap;i++) n[p+i]=NONE; if (f.c=='C') n[p+f.cap-1]=l; }
                   else { for (int i=0;i+1<f.cap;i++) n[p+i]=k[p+i+1]; n[p+f.cap-1]=l; } break;
         case 'T': n[p]= k[p] || s==B; break;
         case 'E': n[p]=min(k[p]+(e%2==0),f.cap); break;
