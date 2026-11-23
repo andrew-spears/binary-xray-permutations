@@ -93,7 +93,8 @@ sets for slack ≤ 8. J(t) at slack ≤ 8 is the same for B = 12 and B = 15, so 
 ## 4. Other ways to shrink the window (all still windows)
 - Clamping (`CLAMP`, `CLAMPL`): at B = 16, `L4` with the 4 previous letters clamped to [0, 5] works with 10763 types
   against 83079. The clamp must grow with B: [0, 3] fails at 14; [0, 4] at 16 and [0, 5] at 20 have no bad pair but
-  empty sets at types that cannot be continued within the bound. Clamping the last letter too: [−1, 6] fails at 16.
+  empty sets at types that cannot be continued within the bound. Clamping the last letter too: [−1, 6] fails at 16
+  (this run also demands sets at some types that no legal prefix reaches, so the failure is not conclusive).
 - Window length depending on the slack (`window.py`: keep the j-th previous letter iff slack ≥ θ_j): θ = (3, 5, 8)
   works through B = 13; θ = (3, 5, 9) fails at 9; restricting further to staircases or non-increasing runs fails.
 - Greedy removal of contexts (`ctx.py`): at B = 9 with `L3`, only 68–75 of the 1569 contexts (slack, last k letters)

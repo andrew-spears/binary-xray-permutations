@@ -19,7 +19,8 @@
 //         are a line of the file (and the letter was still known one step earlier).  See ctx.py.
 //         With CLAMP=lo,hi the letters kept in the L window are clamped to [lo, hi] (the last letter stays exact).
 //         With CLAMPL=lo,hi the last letter is clamped too (lo <= -1, hi >= 2; use only with L): then the number
-//         of types is at most (B + 1) * const.
+//         of types is at most (B + 1) * const.  A clamped last letter allows every continuation that is legal for some
+//         letter of its class, so some types are reached by no legal prefix: WORKS is still sound, a failure may be spurious.
 //   T     whether the slack bound B was reached before the last letter
 //   E[c] Z[c] N[c] G[c]   number of even letters / zeros / letters / negative letters so far, capped at c
 //   H     largest slack so far
