@@ -1,5 +1,7 @@
 """Bounded letters |e_k| <= c: how many different reachable sets of interface states are there per summary
-(sigma, last letter)?  Explores all valid prefixes of length <= N (no slack bound).
+(sigma, last letter)?  Explores all prefixes of length <= N with no tight cut (no slack bound).  A prefix that
+returns to slack 0 is dropped: its interface is empty again, so its extensions repeat the sets of shorter prefixes.
+The per-length counts therefore do not include prefixes with a tight cut.
 Usage: python3 letters_dfa.py c N"""
 import sys
 from collections import defaultdict
