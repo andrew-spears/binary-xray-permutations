@@ -41,20 +41,21 @@ a tree.  So any proof in diagonal order needs lookahead.
 
 ## 4. NOTHING: short summaries of the prefix do not carry an invariant (`invariant.py`, `invariant_other.py`)
 Greatest family I(summary) with I(s.e) inside step_e(I(s)).  Summary (sigma, last L letters) suffices
-inside slack <= B only for L >= 0 (B=2), 2 (B=3,4), 3 (B=5,6): memory grows with B.
+inside slack <= B only for B <= 2 (L = 0, 1), B <= 4 (L = 2), B <= 8 (L = 3), B <= 13 (L = 4)
+(`invariant.cpp`): thresholds fit L(L+1)/2 + L - 1, the window must hold a whole rise of the slack.
 (sigma, e_last, capped length / max slack / sum of slacks / max letter / steps since last rise): all fail from B = 4.
 What the DFA shows (`structure.py`, `inspect_dfa.py`): the reachable set becomes ALL pairs of partitions
 of sigma after a few flat letters, and the DFA state is the suffix since the last "everything reachable" point.
 
 ## 5. LEAD: repeated diagonals, at most twice (`nonstrict.py`, `twice.cpp`, `slack_dfa2.cpp`)
 b nondecreasing, majorized by (2,4,...,2n) (same Landau sums), every value used at most M times.
-- **M = 2: always a sum of two permutations.**  Exhaustive n <= 14 (34,293,959 multisets at n = 14, 0 failures;
+- **M = 2: always a sum of two permutations.**  Exhaustive n <= 15 (174,292,169 multisets at n = 15, 0 failures, 7 min;
   `./twice n 2`), and for ALL n when max slack <= 12 (`./slack_dfa2 12 2`, 207,436 DFA states).
 - M = 3 fails at n = 6: b = (5,5,5,9,9,9), i.e. diagonals {-2,-2,-2,2,2,2}.  Failures by max multiplicity
   for n = 6..10: 1, 6, 32, 145, 634, none with max multiplicity <= 2.
 - For arbitrary multiplicities the LP (fractional placement) is exact for n <= 11 and first fails at n = 12 on
   (5,6,10^5,14,20^3,21) and its mirror (`lp_fails.py 12`) = the known saturation gap in docs/state.md §"Saturation".
-  This answers that entry's side question "gaps with multiplicities <= 2?": none for n <= 14.
+  This answers that entry's side question "gaps with multiplicities <= 2?": none for n <= 15.
 - In words: e_{k+1} >= e_k - 2 and no three letters in a row dropping by exactly 2.
 
 ## 6. NOTHING: pair sums with mixed parity (`pairsum.cpp`)

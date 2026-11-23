@@ -107,7 +107,7 @@ Example π = 2 4 1 3: diagonals {−2,−1,1,2}, s = (1,1,2,2).
 - **Flow networks:** only give fractional solutions (§4.1).
 
 - **Online placement in diagonal order** (Devin 2026-11-23, agents/interface/online_fixed_n.py): a rule that places the k-th smallest diagonal knowing only n and the k smallest diagonals exists for n ≤ 7 and for no n = 8…11 (exhaustive game search; the adversary needs a branching strategy, no two D suffice for n ≤ 8). On the automaton: exists for B ≤ 2 only.
-- **Invariant from (σ, last L letters)** (agents/interface/invariant.cpp): the largest inductive family of reachable interface states is nonempty inside slack ≤ B only for B ≤ 2 (L = 0, 1), B ≤ 4 (L = 2), B ≤ 8 (L = 3). Last letter plus a capped counter (length, max slack, sum of slacks, max letter, steps since last rise): fails from B = 4.
+- **Invariant from (σ, last L letters)** (agents/interface/invariant.cpp): the largest inductive family of reachable interface states is nonempty inside slack ≤ B only for B ≤ 2 (L = 0, 1), B ≤ 4 (L = 2), B ≤ 8 (L = 3), B ≤ 13 (L = 4); thresholds fit L(L+1)/2 + L − 1, i.e. the window must hold a whole rise of the slack. Last letter plus a capped counter (length, max slack, sum of slacks, max letter, steps since last rise): fails from B = 4.
 - **Pair sums with any parity** (agents/interface/pairsum.cpp): '{1…2m} splits into pairs with prescribed distinct sums whenever the j smallest sum to ≥ j(2j+1)' is the conjecture for odd sums; with even sums it fails at m = 4, sums (4, 8, 10, 14); 1026 of 50944 fail at m = 8.
 
 ## 6. Labs
