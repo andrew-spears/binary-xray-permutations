@@ -31,12 +31,14 @@ def gram(P):
     return G
 if __name__ == "__main__":
     K, B = int(sys.argv[1]), int(sys.argv[2]); out = prefixes(K, B)
+    found = None                                       # smallest explicit violation of Cauchy-Schwarz, at the lowest slack that has one
     for s in sorted(out):
         P = out[s]; G = gram(P); ev = np.linalg.eigvalsh(G)
         print(f"slack {s}: {len(P)} prefixes, rank {np.linalg.matrix_rank(G)}, least eigenvalue {ev[0]:.4f}, largest {ev[-1]:.1f}, symmetric {np.allclose(G, G.T)}")
-    s0 = min(s for s in out if np.linalg.eigvalsh(gram(out[s]))[0] < -1e-9); P = out[s0]; G = gram(P); best = None                    # smallest explicit violation of Cauchy-Schwarz
-    for i in range(len(P)):
-        for j in range(len(P)):
-            if G[i, j] ** 2 > G[i, i] * G[j, j] and (best is None or len(P[i][0]) + len(P[j][0]) < best[0]):
-                best = (len(P[i][0]) + len(P[j][0]), P[i][0], P[j][0], G[i, i], G[j, j], G[i, j])
-    print(f"slack {s0}, N(x mirror y)^2 > N(x mirror x) N(y mirror y):", best)
+        if found is not None: continue
+        for i in range(len(P)):
+            for j in range(len(P)):
+                if G[i, j] ** 2 > G[i, i] * G[j, j] and (found is None or len(P[i][0]) + len(P[j][0]) < found[1]):
+                    found = (s, len(P[i][0]) + len(P[j][0]), P[i][0], P[j][0], int(G[i, i]), int(G[j, j]), int(G[i, j]))
+    if found is None: print("no pair with N(x mirror y)^2 > N(x mirror x) N(y mirror y) in this range")
+    else: print(f"slack {found[0]}, N(x mirror y)^2 > N(x mirror x) N(y mirror y): x = {found[2]}, y = {found[3]}, N(xx) = {found[4]}, N(yy) = {found[5]}, N(xy) = {found[6]}")
