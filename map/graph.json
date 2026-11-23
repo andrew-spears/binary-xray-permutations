@@ -996,26 +996,175 @@
   {
    "id": "qn",
    "area": "families",
-   "title": "The second family Q_n is solvable",
-   "status": "open",
-   "intuition": "P_n is stones on every other mark with each end pair squeezed together. Q_n is the same with one more squeeze in the middle. Like P_n, these arrangements keep turning up as the hard cases: they have few solutions and none of them is built from small or symmetric frames. One of Q₈'s solutions, 7 4 8 5 2 6 1 3, is P₄'s solution 3142 in the top four rows and 2413 in the bottom four, with their columns interleaved. Claim: every Q_n has a solution; ideally by an explicit formula, as for P_n.",
+   "title": "One move past P_n: two P pieces and a slide",
+   "status": "empirical",
+   "intuition": "Start from two solved pieces stacked corner to corner: one in the top rows, one in the bottom rows, the bottom one entirely to the left. That is a skew sum and always has a tight cut. Now slide the bottom piece's rightmost column two places to the right. Only three stones move: the bottom piece's point goes up two diagonals, and the two top points it passes each go down one. That is exactly one inward move on the stones, across the cut. Example: 3142 over 2413 with the slide gives 7 4 8 5 2 6 1 3, a solution of Q₈. Claim: every arrangement one move past P_n is built this way from two P pieces, with the cut where the move is.",
    "pics": [
     {
-     "t": "stones",
-     "lo": -7,
-     "hi": 7,
-     "D": [
-      -6,
-      -5,
-      -3,
-      0,
-      1,
-      2,
-      5,
-      6
-     ],
-     "cap": "Q₈: P₈ with −1, +3 moved to 0, +2"
-    },
+     "t": "pair",
+     "a": {
+      "t": "board",
+      "rows": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8
+      ],
+      "cols": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8
+      ],
+      "D": [
+       -6,
+       -5,
+       -3,
+       -2,
+       2,
+       3,
+       5,
+       6
+      ],
+      "pts": [
+       [
+        1,
+        8
+       ],
+       [
+        2,
+        6
+       ],
+       [
+        3,
+        7
+       ],
+       [
+        4,
+        5
+       ],
+       [
+        5,
+        2
+       ],
+       [
+        6,
+        4
+       ],
+       [
+        7,
+        1
+       ],
+       [
+        8,
+        3
+       ]
+      ]
+     },
+     "b": {
+      "t": "board",
+      "rows": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8
+      ],
+      "cols": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8
+      ],
+      "D": [
+       -6,
+       -5,
+       -3,
+       0,
+       1,
+       2,
+       5,
+       6
+      ],
+      "pts": [
+       [
+        1,
+        7
+       ],
+       [
+        2,
+        4
+       ],
+       [
+        3,
+        8
+       ],
+       [
+        4,
+        5
+       ],
+       [
+        5,
+        2
+       ],
+       [
+        6,
+        6
+       ],
+       [
+        7,
+        1
+       ],
+       [
+        8,
+        3
+       ]
+      ],
+      "cand": [
+       [
+        2,
+        4
+       ],
+       [
+        4,
+        5
+       ],
+       [
+        6,
+        6
+       ]
+      ]
+     },
+     "mid": "slide →",
+     "cap": "3142 over 2413: skew sum (tight cut), then the slide gives Q₈"
+    }
+   ],
+   "statement": "Let D be valid with no tight cut and one minimal move past P_n (so D has n − 1 three-cycles; Q_n, the central move, is one of them). Then D has a witness of this form: a solution of P_a (or 21, 132/213 for a = 2, 3) in the top a rows, a solution of P_b in the bottom b = n − a rows, columns as in a skew sum except that the bottom piece's rightmost column slides two places right, past the top piece's two leftmost columns.",
+   "evidence": "Holds for every such D at n = 8, 9, 10 (2, 3, 3 arrangements up to mirror), and for Q_n for n = 7–12 (exactly one such splice each). All have exactly 4 witnesses (P_n has 2).",
+   "refs": "Basket agent 2026-11-23, splice.py, nearP.py"
+  },
+  {
+   "id": "ptwo",
+   "area": "families",
+   "title": "Two moves past P_n: a chain of three P pieces",
+   "status": "disproved",
+   "intuition": "The next layer out from P_n. If one move past P_n is two P pieces and one slide, two moves might be three P pieces and two slides. Claim: that always works.",
+   "pics": [
     {
      "t": "board",
      "rows": [
@@ -1040,12 +1189,12 @@
      ],
      "D": [
       -6,
-      -5,
+      -4,
       -3,
-      0,
-      1,
+      -2,
       2,
-      5,
+      3,
+      4,
       6
      ],
      "pts": [
@@ -1055,23 +1204,23 @@
       ],
       [
        2,
-       4
+       6
       ],
       [
        3,
-       8
-      ],
-      [
-       4,
        5
       ],
       [
-       5,
+       4,
        2
       ],
       [
+       5,
+       8
+      ],
+      [
        6,
-       6
+       3
       ],
       [
        7,
@@ -1079,15 +1228,15 @@
       ],
       [
        8,
-       3
+       4
       ]
      ],
-     "cap": "7 4 8 5 2 6 1 3: 3142 on top, 2413 below, columns interleaved"
+     "cap": "21, 213, 213 stacked, with slides at both cuts"
     }
    ],
-   "statement": "For n ≥ 7, let Q_n be P_n after the minimal move of its two stones nearest the middle (n odd: ±2 → ±1; n even: −1, +3 → 0, +2, or its mirror). Then Q_n has a witness for every n ≥ 7.",
-   "evidence": "Q₇, Q₈, Q₉ have 4 witnesses each (P_n has 2). Every frame that fixes them in the frame searches repeats a diagonal and is not symmetric.",
-   "refs": "Basket agent 2026-11-23"
+   "statement": "Every valid no-tight-cut D two minimal moves past P_n has a witness that is a chain of P pieces (solutions of P_k, or 1, 21, 132, 213), skew-stacked, with one slide of length at most 4 (either direction) at each cut.",
+   "evidence": "Works for every such D at n = 8 and 10 and all but one at n = 9 (all have exactly 8 witnesses). Fails for D = {−7, −5, −4, −3, 0, 3, 4, 5, 7} at n = 9 (chains of up to 6 pieces, slides up to 4); its witnesses use pieces like 321 instead (e.g. 8 7 6 4 9 3 2 1 5).",
+   "refs": "Basket agent 2026-11-23, chain.py"
   },
   {
    "id": "sym",
@@ -3173,7 +3322,14 @@
    "to": "symframes",
    "kind": "related",
    "status": "unchecked",
-   "why": "The Q_n are exactly where the symmetric family first fails."
+   "why": "Q_n, the central case, is where the symmetric family first fails."
+  },
+  {
+   "from": "ptwo",
+   "to": "qn",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The next layer out; the same construction with one more cut."
   },
   {
    "from": "twoblock",

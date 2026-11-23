@@ -135,14 +135,19 @@ nodes = [
       [board(6, D=[-4, -2, -1, 1, 2, 4], pts=perm([3, 6, 2, 5, 1, 4]), cap="A half-turn-symmetric block-free solution, usable as a frame")],
       evidence="With only frames that are themselves solutions (no repeated diagonal): builds everything for n ≤ 7, misses 4 arrangements at n = 8 and 26 at n = 9 (no tight cut, mirrors counted). Allowing symmetric frames that repeat a diagonal (e.g. 4 6 3 1 5 2): misses 2 at n = 8 (the Q₈ pair) and 18 at n = 9. The remaining misses need asymmetric frames such as 5 2 6 4 1 3, 3 1 5 2 4, 5 7 4 2 6 1 3; adding frames greedily, 12 more (10 of them repeating a diagonal) fix everything to n = 9.",
       refs="Basket agent 2026-11-23, symfam.py, symall.py, symfix.py; Block-building experiments page"),
-    N("qn", "families", "The second family Q_n is solvable", "open",
-      "For n ≥ 7, let Q_n be P_n after the minimal move of its two stones nearest the middle (n odd: ±2 → ±1; n even: −1, +3 → 0, +2, or its mirror). Then Q_n has a witness for every n ≥ 7.",
-      "P_n is stones on every other mark with each end pair squeezed together. Q_n is the same with one more squeeze in the middle. Like P_n, these arrangements keep turning up as the hard cases: they have few solutions and none of them is built from small or symmetric frames. One of Q₈'s solutions, 7 4 8 5 2 6 1 3, is P₄'s solution 3142 in the top four rows and 2413 in the bottom four, with their columns interleaved. Claim: every Q_n has a solution; ideally by an explicit formula, as for P_n.",
-      [stones([-6, -5, -3, 0, 1, 2, 5, 6], -7, 7, cap="Q₈: P₈ with −1, +3 moved to 0, +2"),
-       board(8, D=[-6, -5, -3, 0, 1, 2, 5, 6], pts=perm([7, 4, 8, 5, 2, 6, 1, 3]), cap="7 4 8 5 2 6 1 3: 3142 on top, 2413 below, columns interleaved")],
-      evidence="Q₇, Q₈, Q₉ have 4 witnesses each (P_n has 2). Every frame that fixes them in the frame searches repeats a diagonal and is not symmetric.",
-      refs="Basket agent 2026-11-23"),
-    # ================= symmetric / non-symmetric split =================
+    N("qn", "families", "One move past P_n: two P pieces and a slide", "empirical",
+      "Let D be valid with no tight cut and one minimal move past P_n (so D has n − 1 three-cycles; Q_n, the central move, is one of them). Then D has a witness of this form: a solution of P_a (or 21, 132/213 for a = 2, 3) in the top a rows, a solution of P_b in the bottom b = n − a rows, columns as in a skew sum except that the bottom piece's rightmost column slides two places right, past the top piece's two leftmost columns.",
+      "Start from two solved pieces stacked corner to corner: one in the top rows, one in the bottom rows, the bottom one entirely to the left. That is a skew sum and always has a tight cut. Now slide the bottom piece's rightmost column two places to the right. Only three stones move: the bottom piece's point goes up two diagonals, and the two top points it passes each go down one. That is exactly one inward move on the stones, across the cut. Example: 3142 over 2413 with the slide gives 7 4 8 5 2 6 1 3, a solution of Q₈. Claim: every arrangement one move past P_n is built this way from two P pieces, with the cut where the move is.",
+      [pair(board(8, D=[-6, -5, -3, -2, 2, 3, 5, 6], pts=perm([8, 6, 7, 5, 2, 4, 1, 3])), board(8, D=[-6, -5, -3, 0, 1, 2, 5, 6], pts=perm([7, 4, 8, 5, 2, 6, 1, 3]), cand=[[2, 4], [4, 5], [6, 6]]), "slide →",
+            cap="3142 over 2413: skew sum (tight cut), then the slide gives Q₈")],
+      evidence="Holds for every such D at n = 8, 9, 10 (2, 3, 3 arrangements up to mirror), and for Q_n for n = 7–12 (exactly one such splice each). All have exactly 4 witnesses (P_n has 2).",
+      refs="Basket agent 2026-11-23, splice.py, nearP.py"),
+    N("ptwo", "families", "Two moves past P_n: a chain of three P pieces", "disproved",
+      "Every valid no-tight-cut D two minimal moves past P_n has a witness that is a chain of P pieces (solutions of P_k, or 1, 21, 132, 213), skew-stacked, with one slide of length at most 4 (either direction) at each cut.",
+      "The next layer out from P_n. If one move past P_n is two P pieces and one slide, two moves might be three P pieces and two slides. Claim: that always works.",
+      [board(8, D=[-6, -4, -3, -2, 2, 3, 4, 6], pts=perm([7, 6, 5, 2, 8, 3, 1, 4]), cap="21, 213, 213 stacked, with slides at both cuts")],
+      evidence="Works for every such D at n = 8 and 10 and all but one at n = 9 (all have exactly 8 witnesses). Fails for D = {−7, −5, −4, −3, 0, 3, 4, 5, 7} at n = 9 (chains of up to 6 pieces, slides up to 4); its witnesses use pieces like 321 instead (e.g. 8 7 6 4 9 3 2 1 5).",
+      refs="Basket agent 2026-11-23, chain.py"),
     N("sym", "families", "Symmetric arrangements are solvable", "open",
       "Let 𝒩 be the valid arrangements with no tight cut and 𝒮 ⊂ 𝒩 the symmetric ones (D = −D). Every D ∈ 𝒮 has a witness.",
       "Symmetric means the plank looks the same in a mirror held at the middle mark: every stone at +d has a partner at −d, so the x-ray reads the same forwards and backwards. Claim: every symmetric arrangement with no tight cut has a solution.",
@@ -386,7 +391,8 @@ e("directsum", "fixedpoint", "implies", "The fixed point is the direct sum with 
 e("boundedframes", "decomp", "implies", "For n > K and D ≠ P_n, such a witness's top frame is smaller than the board, so its blocks give a split with a realizable layout.")
 e("pkframes", "boundedframes", "implies", "The case K = 2.")
 e("symframes", "conj", "implies", "A witness built this way is a witness.")
-e("qn", "symframes", "related", "The Q_n are exactly where the symmetric family first fails.", "unchecked")
+e("qn", "symframes", "related", "Q_n, the central case, is where the symmetric family first fails.", "unchecked")
+e("ptwo", "qn", "related", "The next layer out; the same construction with one more cut.", "unchecked")
 e("twoblock", "decomp", "implies", "A 2×2 block plus single stones is such a split.")
 e("closestpair", "twoblock", "implies", "Names a pair that works.")
 e("mergepair", "twoblock", "related", "Merging would be the simplest way to produce the block; it fails already on the stone sum.", "unchecked")
