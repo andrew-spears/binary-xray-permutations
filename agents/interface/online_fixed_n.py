@@ -11,7 +11,6 @@ def play(n):
         if m == 0: return sig == 0
         lo = -10**9 if e is None else e - 1
         for e2 in range(max(lo, -sig), n):
-            if sig + e2 > m * m: break
             if feas(m - 1, e2, sig + e2): return True
         return False
     @lru_cache(None)
