@@ -156,3 +156,9 @@ This explains every loop seen: e.g. (+0-)(++0--) loops iff both blocks have the 
 - RED: 'a loop is cured by replacing one block witness by its sibling (same inside, other first move)': true for
   n <= 14, false at n = 15, M = (+0-)(++0--)(++0--), all rows-first, for one of the two insides of the second block
   (letters_flip.py 16: 138 of 42,052 loops).
+- Tried: 'F(sigma) = interface states that recur under the letter 0' (plateau patterns).  Useless: every pair of
+  partitions of total size sigma is reachable and recurs under 0-steps (sigma <= 7, one-off script, not kept),
+  while some states have no + predecessor at all; so recurrence does not single out F.
+NEXT: describe what a block does to an entering mark when h marks have already passed (the plateau of height h is
+h + 1 interleaved staircases and the mark visits every (h+2)-th stone - seen for h = 1 only); the reflections happen
+at the ends of plateaus.  A proof of the passing claim has to control those ends.
