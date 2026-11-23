@@ -237,3 +237,6 @@ in the set, so then 'x u y solvable' implies 'x v y solvable'.
   block of a+b+1 neighbouring diagonals (below the block up 1, above down 1).
 - To prove: F(xu) inside F(xv).  Board form: a placement of the prefix x u on rows R, columns C must be turned into a
   placement of x v on the same hole pattern (R, C shifted by |v| - |u| with the bottom filled).
+- count_rule.py 6 8: with multiplicity PEAK holds (2,812 tests), ZERO fails (43), RUN(2,1) fails (288), other RUN hold.
+- agents/transfer/transfer.py: NOTHING. Fset(S) inside Fset(S') for S' = S with two sums moved by one step: fails
+  more often than it holds in every class (together / apart, any gap), K = 4, 5.
