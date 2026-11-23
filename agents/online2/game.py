@@ -1,8 +1,9 @@
 """Online game on the interface machine: the letters arrive one at a time, each stone is placed for good.
 A position is (hole pattern, last letter).  Safe = the placer can answer every legal continuation with slacks <= B
 (letters in [lo, hi], next letter >= last - 1, slack >= 0).  Prints whether the empty board is safe, and how many
-positions are safe at each slack.     python3 game.py B lo hi [look]
-look = 1: the placer sees one letter ahead (answers the pair (current, next))."""
+positions are safe at each slack.     python3 game.py B lo hi [trace]
+The placer never sees ahead.  With any fourth argument, when the adversary wins, the number of letters it needs and
+one line of play are printed."""
 import sys
 sys.path.insert(0, "../weights")
 from maya import Maya
