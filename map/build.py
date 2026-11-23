@@ -423,6 +423,11 @@ nodes = [
       "An induction over the slack bound needs a description of which hole states are still alive after a prefix. The simplest hope is an order-theoretic shape, like Landau's own condition: if a state is alive, so is every 'more spread out' one. Claim: alive sets have that shape.",
       evidence="False in every version. With slack ≤ 6, 100 distinct alive sets occur: all are symmetric under swapping rows and columns, but only 14 are closed downward and 14 upward under dominance, and only 20 are intervals in the interleaved form. Example at slack 5: with no row holes, the column diagrams 41, 32, 311, 221 are alive and 5, 2111, 11111 are dead — the middle of the order survives, both extremes die.",
       refs="2026-11-23, agents/basket/alive.py, shape.py, shape2.py"),
+    N("simorder", "ideas", "One hole pattern is at least as good as another", "disproved",
+      "There is a pair of different interface states t, t′ of the same slack, not mirror images, such that t′ can answer every move of t: for every legal next letter, every successor of t is again answered by some successor of t′, and t′ is empty whenever t is.",
+      "If some hole patterns were simply better than others, a reachable set could be replaced by its best members, and comparing two words would come down to comparing single patterns. That would give alive sets a shape (everything below the best ones) and a way to prove that one word is easier than another. Claim: some hole pattern is at least as good as a different one, move by move.",
+      evidence="False for every state of slack ≤ 7: among the 434 states with slack ≤ 8 the only comparable pairs are a state and its mirror image. Every hole pattern has continuations that no other single pattern can follow, so a comparison of reachable sets has to use several states together. Recheck: python3 sim.py 8 (3 seconds).",
+      refs="agents/simorder/sim.py, REPORT.md"),
     N("alivebox", "ideas", "Alive sets are boxes", "disproved",
       "For every valid prefix, an interface state (λ, μ) of the current slack is alive exactly when its four dimensions (longest row and number of rows of λ and of μ) are at most the largest values of those dimensions among alive states.",
       "Alive sets are not closed in either direction under moving boxes, because both very deep and very spread-out hole patterns die. The next simplest hope is a two-sided rule: alive means fitting inside a box, not too wide and not too tall. Claim: the alive set is always exactly the states that fit in its bounding box.",
@@ -626,6 +631,7 @@ e(["interface", "slackB"], T, "implies", "A valid D of size n has all slacks ≤
 e("slack16", "slackB", "related", "The bounds B ≤ 16.", "unchecked")
 e("alivedom", "slackB", "related", "A shape like this would be the natural induction hypothesis for every slack bound.", "unchecked")
 e("alivebox", "slackB", "related", "A two-sided version of the same hope.", "unchecked")
+e("simorder", "slackB", "related", "An order on single hole patterns would give reachable sets a shape; there is none.", "unchecked")
 e("online", "slackB", "implies", "An online rule traces an accepted walk for every word.")
 e("summary", "slackB", "implies", "Induction along the word with invariant 'every state of I is reachable'; nonempty at the end means a witness.")
 e("meet", T, "implies", "Two sets with more elements than their universe intersect; a common state joins a left half-walk to a right half-walk.")

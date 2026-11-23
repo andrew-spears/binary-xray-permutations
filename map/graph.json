@@ -3659,6 +3659,16 @@
    "refs": "2026-11-23, agents/basket/alive.py, shape.py, shape2.py"
   },
   {
+   "id": "simorder",
+   "area": "ideas",
+   "title": "One hole pattern is at least as good as another",
+   "status": "disproved",
+   "intuition": "If some hole patterns were simply better than others, a reachable set could be replaced by its best members, and comparing two words would come down to comparing single patterns. That would give alive sets a shape (everything below the best ones) and a way to prove that one word is easier than another. Claim: some hole pattern is at least as good as a different one, move by move.",
+   "statement": "There is a pair of different interface states t, t′ of the same slack, not mirror images, such that t′ can answer every move of t: for every legal next letter, every successor of t is again answered by some successor of t′, and t′ is empty whenever t is.",
+   "evidence": "False for every state of slack ≤ 7: among the 434 states with slack ≤ 8 the only comparable pairs are a state and its mirror image. Every hole pattern has continuations that no other single pattern can follow, so a comparison of reachable sets has to use several states together. Recheck: python3 sim.py 8 (3 seconds).",
+   "refs": "agents/simorder/sim.py, REPORT.md"
+  },
+  {
    "id": "alivebox",
    "area": "ideas",
    "title": "Alive sets are boxes",
@@ -4346,6 +4356,13 @@
    "kind": "related",
    "status": "unchecked",
    "why": "A two-sided version of the same hope."
+  },
+  {
+   "from": "simorder",
+   "to": "slackB",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "An order on single hole patterns would give reachable sets a shape; there is none."
   },
   {
    "from": "online",
