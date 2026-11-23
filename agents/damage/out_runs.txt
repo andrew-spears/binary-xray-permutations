@@ -1,0 +1,84 @@
+== cores.py
+Proposition C checked for a <= 6
+1 1 1 1 1 1 1 2 0 0 0 : slack 9 G(s) - F: 2 21|321 321|21
+1 1 1 1 1 1 1 2 0 0 2 0 0 0 : slack 11 G(s) - F: 8 2111|321 21|32111 21|521 32111|21 321|2111 321|41 41|321 521|21
+1 1 1 1 1 1 1 1 1 2 0 0 0 : slack 11 G(s) - F: 0 
+1 1 1 1 1 1 1 1 1 2 0 0 0 0 0 0 : slack 11 G(s) - F: 0 
+1 1 1 1 1 1 1 2 0 0 2 0 0 0 0 0 0 : slack 11 G(s) - F: 8 2111|321 21|32111 21|521 32111|21 321|2111 321|41 41|321 521|21
+0-predecessors of 2|1: ['3|-', '-|21']  in G(3): True  2|1 in F(2 1 0 0): True  3|- in F(2 1 0): False  -|21 in F(2 1 0): True  -|21 central: False
+0-predecessors of 10|1: [('11|-', 'central'), ('-|2111111111', 'level 2')]
+== small.py 9 10 -3
+exact F from the empty word, length <= 9, slack <= 10, letters -3..2;  states of V reached (must be 0): 0
+slack of previous cut: #prefixes ending in a letter <= 0, #with D != V, max |D - V|, example
+0 867 169 12 | 2 1 2 2 2 1 0 : -|541 -|622 11111|311 11111|32 111|43 22|6 311|11111 32|11111
+1 998 65 8 | 1 0 1 2 1 2 2 1 0 : -|55 1|6111 1|63 21111|4 4|21111 55|- 6111|1 63|1
+2 1066 5 2 | 1 1 0 2 2 2 1 0 : 21|321 321|21
+3 1044 16 3 | 2 1 0 2 1 0 : 111|111 11|22 22|11
+4 913 4 2 | 1 1 1 1 0 2 1 0 : 1111|3 3|1111
+5 764 5 2 | 2 2 1 0 2 1 0 : 11|222 222|11
+6 595 4 2 | 1 1 2 1 1 0 2 1 0 : 111|33 33|111
+7 433 0 0 | 
+8 284 6 2 | 2 2 1 2 1 0 0 : -|521 521|-
+9 170 14 2 | 2 2 2 2 1 0 0 : 21|321 321|21
+10 80 1 2 | 1 1 2 2 1 2 1 0 0 : -|721 721|-
+== small.py 11 11 -3 2
+exact F from the empty word, length <= 11, slack <= 11, letters -3..2;  states of V reached (must be 0): 0
+slack of previous cut: #prefixes ending in a letter <= 0, #with D != V, max |D - V|, example
+0 10452 938 14 | 1 1 2 2 2 2 1 0 : -|722 1|4321 2111|321 21|32111 21|521 22|7 32111|21 321|2111
+1 9771 344 14 | 1 0 1 0 2 2 2 2 1 0 : -|722 1|4321 2111|321 21|32111 21|521 22|7 32111|21 321|2111
+2 9960 58 14 | 2 1 0 -1 2 2 2 2 1 0 : -|722 1|4321 2111|321 21|32111 21|521 22|7 32111|21 321|2111
+3 9480 0 0 | 
+4 8127 0 0 | 
+5 6688 0 0 | 
+6 5214 0 0 | 
+7 3816 0 0 | 
+8 2614 0 0 | 
+9 1602 27 2 | 2 2 2 2 1 0 0 0 : 21|321 321|21
+10 909 0 0 | 
+11 232 11 10 | 2 2 2 2 2 1 0 0 0 : 1|4321 2111|321 21|32111 21|521 32111|21 321|2111 321|41 41|321
+== lev.py 6 7 12 2 2 -3
+s0 = 6, length <= 7, slack <= 12, letters -3..2, start levels <= 2, target levels <= 2, CUT = 0;  states of V reached (must be 0): 0
+(yhat, y, last [-2 = any letter <= -2]): #words, |D| range, |V| range, #words with D != V, max |D - V|, example
+(0, 0, -2) 61 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, -1) 162 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, 0) 206 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(1, 0, -1) 18 |D| 2..2 |V| 2..2 differ 0 max 0 | 
+(1, 0, 0) 196 |D| 2..2 |V| 2..2 differ 0 max 0 | 
+(2, 0, -1) 1 |D| 6..6 |V| 6..6 differ 0 max 0 | 
+(2, 1, 0) 57 |D| 8..8 |V| 8..8 differ 0 max 0 | 
+(3, 2, 0) 5 |D| 22..22 |V| 22..22 differ 0 max 0 | 
+== CUT=1 lev.py 6 7 12 2 2 -3
+s0 = 6, length <= 7, slack <= 12, letters -3..2, start levels <= 2, target levels <= 2, CUT = 1;  states of V reached (must be 0): 0
+(yhat, y, last [-2 = any letter <= -2]): #words, |D| range, |V| range, #words with D != V, max |D - V|, example
+(0, 0, -2) 61 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, -1) 162 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, 0) 206 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(1, 0, -1) 18 |D| 2..2 |V| 2..2 differ 0 max 0 | 
+(1, 0, 0) 196 |D| 2..2 |V| 2..2 differ 0 max 0 | 
+(2, 0, -1) 1 |D| 6..6 |V| 6..6 differ 0 max 0 | 
+(2, 1, 0) 57 |D| 8..8 |V| 8..8 differ 0 max 0 | 
+(3, 2, 0) 5 |D| 22..22 |V| 22..22 differ 0 max 0 | 
+== CUT=1 lev.py 5 8 11 2 2 -3
+s0 = 5, length <= 8, slack <= 11, letters -3..2, start levels <= 2, target levels <= 2, CUT = 1;  states of V reached (must be 0): 0
+(yhat, y, last [-2 = any letter <= -2]): #words, |D| range, |V| range, #words with D != V, max |D - V|, example
+(0, 0, -2) 268 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, -1) 628 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, 0) 821 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(1, 0, -1) 56 |D| 2..2 |V| 2..2 differ 0 max 0 | 
+(1, 0, 0) 536 |D| 2..4 |V| 2..2 differ 4 max 2 | -1 -1 -2 1 2 1 1 0 : -|33 33|-
+(2, 0, -1) 5 |D| 6..6 |V| 6..6 differ 0 max 0 | 
+(2, 1, 0) 167 |D| 8..10 |V| 8..8 differ 3 max 2 | -1 -1 -2 2 1 2 1 0 : 21|4 4|21
+(3, 2, 0) 24 |D| 22..26 |V| 22..22 differ 6 max 4 | -1 -1 -2 2 2 2 1 0 : 1111|22 211|22 22|1111 22|211
+(4, 3, 0) 1 |D| 66..66 |V| 52..52 differ 1 max 14 | -1 -2 2 2 2 2 1 0 : -|722 1|4321 2111|321 21|32111 21|521 22|7 32111|21 321|2111 321|41 41|321
+== landau.py 4 7 12 -3
+s0 = 4, length <= 7, slack <= 12, letters -3..2;  Theorem D violated (a state of V reached): 0 []
+(yhat, y, letter before the last [9 = not shown], last [-2 = any letter <= -2]): #words, |D| range, |V| range, #words with D != V, max |D - V|, example
+(0, 0, 9, -2) 57 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, 9, -1) 159 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, 9, 0) 204 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(1, 0, 9, -1) 25 |D| 2..2 |V| 2..2 differ 0 max 0 | 
+(1, 0, 9, 0) 195 |D| 2..4 |V| 2..2 differ 15 max 2 | 2 1 1 0 : 2|411 411|2
+(2, 0, 9, -1) 7 |D| 4..4 |V| 4..4 differ 0 max 0 | 
+(2, 1, 9, 0) 89 |D| 6..8 |V| 6..6 differ 9 max 2 | 2 2 1 0 : 11111|4 4|11111
+(3, 2, 9, 0) 21 |D| 18..22 |V| 18..18 differ 11 max 4 | 2 2 2 1 0 : 111111|5 11|522 522|11 5|111111
+(4, 3, 9, 0) 1 |D| 42..42 |V| 38..38 differ 1 max 4 | -1 2 2 2 2 1 0 : -|822 22|8 822|- 8|22
