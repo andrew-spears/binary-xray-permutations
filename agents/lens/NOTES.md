@@ -67,3 +67,11 @@
    both sides, by the mirror), unless it is (positive letters) 0 (negative letters).
    The 8 states of G(11) missing after 1^7 2 0 0 2 0 0 0 (Proposition C there) have imbalances (2, −1), difference 3, so
    they are outside J*(11, 0 0) of REPORT3: no conflict with OLD.
+
+8. **Theorem D explains most of the two-line damage of REPORT4 §1c, not all** (`../damage/dword.py`).
+   1^5 3 2 1 0 (slack 11): 40 of 752 unreached, 34 violate D, rest 1^8|3, 1^6|5, 1^4|7 and swaps; next zero: 12 unreached,
+   8 violate D, rest −|65, −|83 and swaps. 1^5 4 3 2 1 0 0 0 (slack 15): unreached 468, 194, 64; not violating D 46, 40, 12
+   (the 12: −|10.5, −|87, 10.1|4, 10|41, 61|8, 6|81 and swaps = the 12 "outside N_y" of REPORT4).
+   1^8 3 3 3 2 1 0 0 (slack 20): not violating D 200, 56. The residue has two long lines with a parity pattern
+   (65, 83, 87, 10.5: both rows odd/even mixed); candidate: a mod-2 refinement of Theorem D (count stones by the parity
+   of their bead, as in the card "Counting rows, columns and sums modulo m"). Not tried.
