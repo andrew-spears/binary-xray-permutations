@@ -4,7 +4,8 @@
 using namespace std;
 int n; int p[16];
 int main(int argc, char** argv) {
-    n = atoi(argv[1]); iota(p, p + n, 0); unordered_map<uint32_t, vector<array<uint8_t, 12>>> W;
+    n = atoi(argv[1]); if (n < 2 || n > 12) { fprintf(stderr, "need 2 <= n <= 12 (a row set must be nonempty and proper)\n"); return 1; }
+    iota(p, p + n, 0); unordered_map<uint32_t, vector<array<uint8_t, 12>>> W;
     do {
         uint32_t D = 0; bool ok = true;
         for (int r = 0; r < n; r++) { int d = r + p[r]; if (D >> d & 1) { ok = false; break; } D |= 1u << d; }
