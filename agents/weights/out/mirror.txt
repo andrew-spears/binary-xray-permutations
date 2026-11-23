@@ -1,0 +1,4 @@
+conjugate both True
+swap False
+identity False
+conjugate + swap True

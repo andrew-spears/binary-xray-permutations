@@ -1,0 +1,16 @@
+last letter -1, next letter -1: min ratio 0.976, 4 of 36 sets lose weight; worst: slack 7, x = 1 1 1 1 1 1 1 1 0 -1, w(F(x)) = 0.966
+last letter -1, next letter  0: min ratio 1.001, 0 of 36 sets lose weight; worst: slack 13, x = 2 3 3 2 2 1 1 0 0 -1, w(F(x)) = 0.996
+last letter -1, next letter  1: min ratio 0.925, 12 of 36 sets lose weight; worst: slack 7, x = 1 1 1 1 1 1 1 1 0 -1, w(F(x)) = 0.966
+last letter  0, next letter -1: min ratio 0.976, 5 of 266 sets lose weight; worst: slack 7, x = 1 1 1 1 1 1 1 0, w(F(x)) = 0.966
+last letter  0, next letter  0: min ratio 1.001, 0 of 266 sets lose weight; worst: slack 16, x = 1 1 1 1 3 2 3 2 1 1 0, w(F(x)) = 0.999
+last letter  0, next letter  1: min ratio 0.925, 46 of 207 sets lose weight; worst: slack 7, x = 1 1 1 1 1 1 1 0, w(F(x)) = 0.966
+last letter  1, next letter  0: min ratio 1.002, 0 of 828 sets lose weight; worst: slack 15, x = 3 2 1 2 3 2 1 1, w(F(x)) = 0.996
+last letter  1, next letter  1: min ratio 0.892, 61 of 624 sets lose weight; worst: slack 6, x = 1 1 1 1 1 1, w(F(x)) = 0.705
+last letter -1, next letter -1: min ratio 1.000, 0 of 36 sets lose weight; worst: slack 13, x = 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 -1, w(F(x)) = 1.000
+last letter -1, next letter  0: min ratio 1.000, 0 of 36 sets lose weight; worst: slack 6, x = 1 1 1 1 1 1 1 0 -1, w(F(x)) = 1.000
+last letter -1, next letter  1: min ratio 0.797, 12 of 36 sets lose weight; worst: slack 7, x = 1 1 1 1 1 1 1 1 0 -1, w(F(x)) = 1.000
+last letter  0, next letter -1: min ratio 1.000, 0 of 266 sets lose weight; worst: slack 13, x = 1 1 1 1 1 1 1 1 1 1 1 1 1 0, w(F(x)) = 1.000
+last letter  0, next letter  0: min ratio 0.977, 4 of 266 sets lose weight; worst: slack 14, x = 2 3 3 2 2 1 1 0, w(F(x)) = 0.964
+last letter  0, next letter  1: min ratio 0.797, 75 of 207 sets lose weight; worst: slack 7, x = 1 1 1 1 1 1 1 0, w(F(x)) = 1.000
+last letter  1, next letter  0: min ratio 0.982, 1 of 828 sets lose weight; worst: slack 6, x = 2 1 1 1 1, w(F(x)) = 0.998
+last letter  1, next letter  1: min ratio 0.728, 185 of 624 sets lose weight; worst: slack 7, x = 1 1 2 2 1, w(F(x)) = 0.806
