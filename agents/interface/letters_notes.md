@@ -64,8 +64,10 @@ TODO: find the n = 10 exception (which witness, why), and the class of witnesses
 ## Follow-up on the zigzag chain (same session)
 - The n = 10 exception: M = + 0 - + + 0 - -, 4 of its 8 witnesses. From them the chain returns to its start (a true cycle of
   28 moves, leapfrog.py); it never gets stuck at the border.
-- Closed class K (direct sums + chain results only, letters_closed.py 13): empty for 2 words at n = 11
-  (first: + + 0 + 0 + 0 - - - -), 8 at n = 12, 52 at n = 13. So 'take the witness the induction built' is not enough.
+- Closed class K (direct sums + chain results only, letters_closed.py 13): NON-EMPTY for every word with n <= 13
+  (41,835 words at n = 13); the chain closes into a cycle in 1,096 of about 200,000 runs, never for all members of K.
+  (A first run reported K empty at n = 11; that run stopped the chain as soon as a stone was marked twice in the same
+  mode, which is not a cycle. Corrected.)  So 'use the witnesses the induction built' survives as an induction.
 - Static version (letters_static.py 11): in the picture of one witness, follow row-neighbour / column-neighbour edges
   alternately from stone 1; this walk always ends at stone n, and if it visits no stone twice it gives a witness of + M -.
   For every M with n <= 11 SOME witness of M has such a simple walk; no extremal witness (least displacement, fewest

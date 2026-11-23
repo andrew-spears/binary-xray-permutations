@@ -8,10 +8,12 @@ from itertools import product
 from functools import lru_cache
 def chain(n, cells, first):
     pos = list(cells); byrow = {p[0]: k for k, p in enumerate(pos)}; bycol = {p[1]: k for k, p in enumerate(pos)}
-    cur = 0; mode = first; seen = set()
+    cur = 0; mode = first; start = None
     while True:
-        if (cur, mode) in seen: return None, "cycle"
-        seen.add((cur, mode)); r, c = pos[cur]
+        st = (tuple(pos), cur, mode)
+        if st == start: return None, "cycle"      # the walk is reversible, so a repeat is a return to the start
+        if start is None: start = st
+        r, c = pos[cur]
         if mode == 0:
             if r == n: return None, "row n"
             o = byrow[r + 1]; pos[cur] = (r + 1, c); pos[o] = (r, pos[o][1]); byrow[r + 1] = cur; byrow[r] = o

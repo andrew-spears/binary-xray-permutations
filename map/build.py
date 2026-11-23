@@ -454,6 +454,30 @@ nodes = [
       example="m = 4, sums (4, 8, 10, 14): no pairing of {1, …, 8}. Even sums pair odd with odd and even with even; the odd numbers can make {4,12}, {6,10} or {8,8} and the even ones {6,14}, {8,12} or {10,10}.",
       evidence="With all sums odd this is the conjecture (no failure, m ≤ 8). With even sums allowed: 1 of 37 fails at m = 4, 1026 of 50944 at m = 8.",
       refs="agents/interface/pairsum.cpp"),
+    N("l1", "ideas", "Every stone within one mark of evenly spaced", "empirical",
+      "Let e_1, …, e_n ∈ {−1, 0, +1} have all partial sums ≥ 0 and total 0, in any order. Then some permutation has the diagonals d_k = 2k − n − 1 + e_k (as a multiset; a value occurs twice exactly where a + is followed by a −).",
+      "The evenly spaced arrangement −(n−1), −(n−3), …, n−1 is solved by the anti-diagonal. Move each stone at most one mark, keeping Landau: this is the smallest family of arrangements in which the Landau slack is unbounded, so it is not covered by the bounded-slack machine, yet every letter of the word is −1, 0 or +1. It is a test case for any induction along the word: here the set of interface states that every prefix is guaranteed to reach depends on the slack alone. Claim: all these arrangements are solvable.",
+      example="n = 5, word + + 0 − −: diagonals {−3, −1, 0, 1, 3}. Witness 2 5 3 1 4.",
+      evidence="All 5,798 words at n = 11 and all shorter ones have a witness. Inside slack ≤ 10 there is a family F(σ) of interface states, depending on the slack σ only, with F(σ+e) ⊆ step_e(F(σ)) for each letter e; its sizes are 2, 4, 8, 12, 24, 48, 80 for σ = 1…7, and it needs states with 3 advanced lines from slack 7 on. No description of F was found; the smallest such family (integer program, slack ≤ 7) is forced up to slack 3 and shows no pattern. For letters in {−2, …, 2} the slack plus the last two letters already fails at slack 5. Witnesses must move stones far: the least displacement max |row − k| is ≤ 1 for exactly 2^(n−1) words and reaches 3 at n = 8.",
+      refs="agents/interface/letters_notes.md, letters_ansatz.py (n ≤ 11), letters_sigma.py, letters_Fclass.py, letters_min.py, letters.py"),
+    N("zigzag", "ideas", "Zigzag chain from every solution", "disproved",
+      "Let M be a word as in the parent card, W any witness of M, and add corner stones to get a witness of 0 M 0. Move stone 1 up one row; the stone it displaces is then one short and is moved one column right; continue, alternating rows and columns (or columns first). For every M and W the chain reaches the last stone, giving a witness of + M −.",
+      "Every word of the parent card is built from single zeros and blocks + M − with M shorter, so one lemma would finish the induction: a solution of M can be turned into a solution of + M −. The natural repair passes a one-unit shortage from stone to stone. Claim: this chain always ends at the last stone.",
+      example="n = 10, M = + 0 − + + 0 − −: from 4 of the 8 witnesses of M the chain returns to its starting position after 28 moves without ever touching the last stone.",
+      evidence="True for every witness of every M up to n = 9. At n = 10 it fails for 4 witnesses of one word; the other 4 work. What survives: start only from witnesses that this induction built (direct sums and chain results). That class is non-empty for every word with n ≤ 13 (41,835 words at n = 13; the chain loops in 1,096 of about 200,000 runs, never for all witnesses of a word). No simple choice of witness (least displacement, fewest inversions, lexicographic) always works. The chain never gets stuck at the border: by the leapfrog card its only failure is a closed loop.",
+      refs="agents/interface/letters_zigzag.py, letters_zigzag_exc.py, letters_closed.py, letters_static.py, leapfrog.py"),
+    N("leapfrog", "ideas", "Solutions are the ends of leapfrog paths", "proved",
+      "Let D be valid of size n+1 with distinct diagonals and largest diagonal n−1 (last letter −1), and let b_1, …, b_n be the targets r′ + c of its other stones. Let X be the set of permutation matrices on [n]² with one marked stone whose sums r′ + c, with the marked one raised by 1, are b_1, …, b_n. Let R swap the marked stone's row with the next row and leave the mark in its row; C the same for columns. Then R and C are involutions on X, undefined only when the mark is in the last row (R) or last column (C); the components of X are alternating paths and cycles; and the number of witnesses of D is twice the number of paths.",
+      "Take a solution, remove the top stone, and pull the stone in the last row (or column) back by one: the result is a smaller board with all stones right except one that is one short. Such near-solutions can be changed in exactly two ways that keep 'one stone is one short': swap that stone's row with the next row, or its column with the next column; the shortage passes to the other stone. Each change undoes itself, so alternating them traces a path that never branches. A path can only stop when the short stone sits in the last row or column, and those positions are exactly the solutions. Claim: solutions are the ends of these paths, two per path.",
+      example="D = {−1, 0, 1}, n = 2, targets 3 and 4. X has three states: stones (1,1), (2,2) with (1,1) marked; stones (1,2), (2,1) with either one marked. R and C join the first to the other two, so X is one path, and D has two witnesses, 1 3 2 and 2 1 3.",
+      evidence="Proof: R swaps rows r, r+1 where the marked stone is in row r; the marked stone gains 1 and is now exact, the other loses 1 and is now the marked one, in row r; applying R again swaps back. A witness of D has its top stone at (n, n+1) or (n+1, n), since its sum is 2n+1; the stone in row n+1 (or column n+1) moved back by one gives a state with the mark in the last row (column), and conversely. With distinct diagonals the mark is never at (n, n), so these states are exactly the vertices with one edge. Checked against direct counts for n+1 ≤ 8. X is the union over j of the witnesses of 'D without its top stone, stone j one diagonal lower', so X is non-empty whenever one of those smaller arrangements is solvable.",
+      refs="agents/interface/leapfrog_check.py, leapfrog_cycles.py, letters_notes.md"),
+    N("nocycle", "ideas", "Leapfrog paths never close up", "disproved",
+      "For D as in the parent card, X has no cycle component.",
+      "If near-solutions could never run in a closed loop, any near-solution would lead to a solution, and near-solutions exist by induction on the size. Claim: there are no cycles.",
+      example="n + 1 = 10, word + + 0 − + + 0 − − −: 8 paths and 2 cycles.",
+      evidence="No cycle for n+1 ≤ 9 (2,031 paths at 9). At n+1 = 10: 8 cycles against 12,216 paths, in 4 words. Every word still has a path.",
+      refs="agents/interface/leapfrog_cycles.py"),
 ]
 
 E = []
@@ -530,6 +554,10 @@ e("twice", "conj", "implies", "The case with no repeated diagonal.")
 e("thrice", "twice", "implies", "At most twice is a special case.")
 e("twice", "sat", "related", "Answers the side question there: no gap with multiplicities ≤ 2 for n ≤ 15.", "unchecked")
 e("pairsum", "conj", "implies", "The case where every sum is odd.")
+e("twice", "l1", "implies", "These words use each diagonal at most twice and satisfy Landau.")
+e("zigzag", "l1", "implies", "Induction on the length: a word is a concatenation of zeros and blocks + M −; direct sums handle concatenation and the chain handles + M −.")
+e("leapfrog", "zigzag", "related", "The chain is the leapfrog walk started from 0 M 0 with the mark on stone 1.", "unchecked")
+e(["leapfrog", "nocycle"], "l1", "implies", "Lower the last + of the word without its final −: that word is shorter and solvable by induction, so X is non-empty; without cycles X has a path, whose ends are witnesses.")
 
 PROOFS = json.load(open(os.path.join(HERE, "proofs.json")))
 for n in nodes:
