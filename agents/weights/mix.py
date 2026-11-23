@@ -16,13 +16,13 @@ if __name__ == "__main__":
         n0 = 2 * s + 6
         K = [np.array([dval(Mo, t, n0 + p)[1] for t in L]) for p in (0, 1)]
         D = [np.array([dval(Mo, t, n0 + p)[0] for t in L]) for p in (0, 1)]
-        P = np.eye(m, dtype=np.float32); first = np.zeros(m, dtype=int); ok = np.ones(m, dtype=bool); triv = 0
+        P = np.eye(m, dtype=np.float32); first = np.full(m, -1); ok = (P == (K[0][:, None] == K[0][None, :])).all(axis=1); first[ok] = 0; triv = 0   # b = 0: singleton classes
         for b in range(1, B + 1):
             P = (P @ T > 0).astype(np.float32)
             Cl = (K[0][:, None] == K[b % 2][None, :])
             assert not (P > Cl).any()
             eq = (P == Cl).all(axis=1)
-            first = np.where(eq & ~ok, b, first); first = np.where(eq & (first == 0), b, first); ok = eq
+            first = np.where(eq & ~ok, b, first); ok = eq
             if (np.abs(D[0][:, None] - D[b % 2][None, :]) > b)[Cl].any(): triv = b + 1
         if not ok.all(): print(f"s {s}: {int((~ok).sum())} of {m} states not mixed at b = {B}: {' '.join(Mo.name(L[i]) for i in np.where(~ok)[0][:8])}", flush=True); continue
         bs = int(first.max()); w = [Mo.name(L[i]) for i in np.where(first == bs)[0]]

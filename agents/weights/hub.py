@@ -8,8 +8,8 @@ for s in range(2, int(sys.argv[1]) + 1):
     for t in L:
         for u in Mo.succ(t, 0): T[ix[t], ix[u]] = 1
     K = np.array([dval(Mo, t, 2 * s + 6)[1] for t in L]); P = np.eye(m, dtype=np.float32); done = set()
-    for b in range(1, 3 * s + 4):
-        P = (P @ T > 0).astype(np.float32)
+    for b in range(0, 3 * s + 4):                        # b = 0: a class with one state is its own common successor
+        if b: P = (P @ T > 0).astype(np.float32)
         for k in sorted(set(K)):
             if k in done or k < 0: continue
             rows = np.where(K == k)[0]; common = np.where(P[rows].all(axis=0))[0]

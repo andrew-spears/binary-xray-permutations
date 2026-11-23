@@ -1,6 +1,6 @@
 s 2 class K =  0 (5 states): common successor first at b = 5: 3 states: -|11 1|1 11|-
 s 3 class K =  1 (5 states): common successor first at b = 5: 3 states: -|111 2|1 21|-
-s 4 class K =  2 (1 states): common successor first at b = 1: 1 states: 21|1
+s 4 class K =  2 (1 states): common successor first at b = 0: 1 states: 1|21
 s 4 class K =  0 (18 states): common successor first at b = 6: 1 states: 2|2
 s 5 class K =  1 (18 states): common successor first at b = 6: 1 states: 3|11
 s 6 class K =  2 (5 states): common successor first at b = 5: 3 states: -|321 21|3 2111|1
@@ -8,7 +8,7 @@ s 6 class K =  0 (55 states): common successor first at b = 8: 3 states: 2|4 3|3
 s 7 class K =  1 (55 states): common successor first at b = 8: 3 states: 2|41 3|31 5|11
 s 8 class K =  2 (18 states): common successor first at b = 6: 1 states: 111|41
 s 8 class K =  0 (149 states): common successor first at b = 10: 5 states: 2|6 3|5 4|4 5|3 6|2
-s 9 class K =  3 (1 states): common successor first at b = 1: 1 states: 21|321
+s 9 class K =  3 (1 states): common successor first at b = 0: 1 states: 321|21
 s 9 class K =  1 (149 states): common successor first at b = 10: 5 states: 2|61 3|51 4|41 5|31 7|11
 s 10 class K =  2 (55 states): common successor first at b = 8: 3 states: 111|61 221|41 521|11
 s 10 class K =  0 (371 states): common successor first at b = 12: 7 states: 2|8 3|7 4|6 5|5 6|4 7|3 8|2
