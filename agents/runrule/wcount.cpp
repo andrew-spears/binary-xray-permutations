@@ -65,7 +65,9 @@ int main(int argc, char** argv) {
         Vec V = A; int su = s, sv = s; for (int e : u) { A = step(A, e, tmp); su += e; } for (int e : v) { V = step(V, e, tmp); sv += e; }
         set<int> inV; for (auto& p : V) inV.insert(p.first); int missing = 0; for (auto& p : A) missing += !inV.count(p.first);
         tested = viol = 0; minratio = 1e300; worst.clear(); cur.clear();
-        dfs(A, V, su, u.empty() ? x.back() : u.back(), 0, tmp);
+        int lx = x.empty() ? 1 : x.back();           // empty word: the first letter only has to be >= 0
+        int lu = u.empty() ? lx : u.back(), lv = v.empty() ? lx : v.back();
+        dfs(A, V, su, max(lu, lv), 0, tmp);          // y must be legal after both x u and x v
         printf("%s x =", line.substr(0, c).c_str()); for (int e : x) printf(" %d", e);
         printf(": live states of F(xu) missing from F(xv): %d; continuations y tested %ld; N(xuy) > N(xvy): %ld; least N(xvy)/N(xuy) = %.3f at y =", missing, tested, viol, minratio);
         for (int e : worst) printf(" %d", e); printf("\n"); fflush(stdout);
