@@ -57,3 +57,13 @@
 6. **No residue tower: NOTHING** (`tower.py`). The damaged part of a cell is not a union of finer cells (stones per residue
    class of rows and of columns mod 4 or 8): after `1 1 1 0 1 0 1 4 3 2` (slack 14, 1864 of 2665 reached) 2292 states lie in
    mod-4 cells that are partly reached; mod 8 the cells are too small to say anything (1690 cells).
+
+7. **Theorem D of `../damage/REPORT.md` against exact reachable sets, every level, every letter** (`../damage/dall.py 9 9 -3 4`).
+   A(x) = states not violating Theorem D for x; F(x) ⊆ A(x). Summed over all legal prefixes from the empty word with
+   length ≤ 9, slack ≤ 9, letters −3..4: after a letter ≤ 0 (8,629 prefixes) 1,555 of 507,103 states of A are not reached
+   (last letter ≤ −2: none; −1: 17 of 94,726; 0: 1,538 of 403,051); after a positive letter 512,133 of 2,579,257.
+   So after a letter ≤ 0 Theorem D is close to exact in every class, not only in levels 1–2; after a positive letter the
+   odd-even classes matter. Every word without a tight cut has a letter ≤ 0 followed by a letter ≥ 0 (a cut that is clean on
+   both sides, by the mirror), unless it is (positive letters) 0 (negative letters).
+   The 8 states of G(11) missing after 1^7 2 0 0 2 0 0 0 (Proposition C there) have imbalances (2, −1), difference 3, so
+   they are outside J*(11, 0 0) of REPORT3: no conflict with OLD.
