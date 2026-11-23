@@ -1,0 +1,12 @@
+bound 10: 34 distinct (F, slack) for 0/1 words, 37 for L1 prefixes
+s 0: 1 states; |G| = 1  |I| = 1  |P| = 1  |P n conj P| = 1  G = I: True  G = P n conj P: True  G conj-closed: True
+s 1: 2 states; |G| = 2  |I| = 2  |P| = 2  |P n conj P| = 2  G = I: True  G = P n conj P: True  G conj-closed: True
+s 2: 5 states; |G| = 4  |I| = 4  |P| = 4  |P n conj P| = 4  G = I: True  G = P n conj P: True  G conj-closed: True
+s 3: 10 states; |G| = 8  |I| = 8  |P| = 8  |P n conj P| = 8  G = I: True  G = P n conj P: True  G conj-closed: True
+s 4: 20 states; |G| = 12  |I| = 12  |P| = 12  |P n conj P| = 12  G = I: True  G = P n conj P: True  G conj-closed: True
+s 5: 36 states; |G| = 24  |I| = 24  |P| = 24  |P n conj P| = 24  G = I: True  G = P n conj P: True  G conj-closed: True
+s 6: 65 states; |G| = 48  |I| = 48  |P| = 48  |P n conj P| = 48  G = I: True  G = P n conj P: True  G conj-closed: True
+s 7: 110 states; |G| = 80  |I| = 80  |P| = 80  |P n conj P| = 80  G = I: True  G = P n conj P: True  G conj-closed: True
+s 8: 185 states; |G| = 126  |I| = 126  |P| = 126  |P n conj P| = 124  G = I: True  G = P n conj P: False  G conj-closed: False
+s 9: 300 states; |G| = 212  |I| = 212  |P| = 212  |P n conj P| = 212  G = I: True  G = P n conj P: True  G conj-closed: True
+s 10: 481 states; |G| = 332  |I| = 332  |P| = 332  |P n conj P| = 332  G = I: True  G = P n conj P: True  G conj-closed: True
