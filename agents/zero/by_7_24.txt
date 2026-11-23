@@ -1,0 +1,19 @@
+(0,0,-1) -> (0,0,0,-1)                   tested 2654 fails 1   first: x = (2,6,5,4,3,2,1) slack 23
+(0) -> (1,0,0,-1)                        tested 2748 fails 0
+(1,1,0) -> (2,1,0,0,-1)                  tested 5530 fails 0
+(0,-1,-1) -> (1,0,0,-1,-2)               tested 2496 fails 0
+(1,0,0,-1) -> (2,1,0,0,-1,-2)            tested 5530 fails 0
+(2,2,1,0) -> (3,2,1,0,0,-1)              tested 8545 fails 4   first: x = (3,4,3,4,3) slack 17
+(0,-1,-2,-2) -> (1,0,0,-1,-2,-3)         tested 1911 fails 0
+(2,1,1,0,-1) -> (3,2,1,0,0,-1,-2)        tested 8545 fails 0
+(1,0,-1,-1,-2) -> (2,1,0,0,-1,-2,-3)     tested 5063 fails 0
+(0,-1,-1) -> (1,0,-1,-2)                 tested 2496 fails 1   first: x = (5,4,3,2,1,2,1) slack 18
+(1,0,0,-1) -> (2,1,0,-1,-2)              tested 5530 fails 13   first: x = (5,4,3,2,2) slack 16
+(0,-1,-2,-2) -> (1,0,-1,-2,-3)           tested 1911 fails 0
+(1,0,-1,-1,-2) -> (2,1,0,-1,-2,-3)       tested 5063 fails 0
+(2,1,0,0,-1,-2) -> (3,2,1,0,-1,-2,-3)    tested 8545 fails 0
+(0,0) -> (0,1,0,-1)                      tested 2748 fails 2   first: x = (3,2,4,3,3,2,1) slack 18
+(0,-1) -> (1,0,-1,-1)                    tested 2649 fails 0
+(0,0) -> (1,0,-1,0)                      tested 2748 fails 0
+799.71user 12.78system 14:27.62elapsed 93%CPU (0avgtext+0avgdata 78596maxresident)k
+0inputs+8outputs (0major+6660393minor)pagefaults 0swaps
