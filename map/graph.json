@@ -4027,11 +4027,55 @@
    "area": "ideas",
    "title": "A gentle beginning absorbs depth: one chosen stone and a free end",
    "status": "proved",
-   "intuition": "Two proved tools are combined. The parity theorem gives 'chains': a set of stones with a set of rows and columns on which they fit in an odd number of ways, by plain arithmetic on their letters. The card 'No stone more than one mark above' gives 'free parts': a beginning with no high stone can leave behind any hole pattern of a large explicit family. A mixed split cuts the stones, rows and columns into parts of these two kinds; the parts do not interact, so each one only has to be solvable on its own (Theorem M). In an RR-split a letter −h needs about h/2 chosen stones before it. With a free beginning it needs none: it uses h − 2 units of the slack that the beginning has stored. So the stored slack of a gentle beginning pays for depth later, and one chosen stone κ on an explicit cell is enough when the middle has letters between −2 and 2. These are the first proved words with a high stone before a low stone that are not rising-then-falling. Claim: with the beginning in the pattern 'a hook in the rows' or 'one column and one row' (named by z₀ and s), κ on the cell (p − s + z₀ + 1, p + z₀ + z₁ + 1) with p the length of x and z₁ the number of letters 1 before κ and −1 after it, the other stones of m fit in an odd number of ways.",
+   "intuition": "Two proved tools are combined. The parity theorem gives 'chains': a set of stones with a set of rows and columns on which they fit in an odd number of ways, by plain arithmetic on their letters. The card 'No stone more than one mark above' gives 'free parts': a beginning with no high stone can leave behind any hole pattern of a large explicit family. A mixed split cuts the stones, rows and columns into parts of these two kinds; the parts do not interact, so each one only has to be solvable on its own (Theorem M). In an RR-split a letter −h needs about h/2 chosen stones before it. With a free beginning it needs none: it uses h − 2 units of the slack that the beginning has stored. So the stored slack of a gentle beginning pays for depth later, and one chosen stone κ on an explicit cell is enough when the middle has letters between −2 and 2. These were the first proved words with a high stone before a low stone that are not rising-then-falling; the family is now inside the card 'A gentle beginning, one hill, a gentle end', which is larger but does not name the hole pattern. Claim: with the beginning in the pattern 'a hook in the rows' or 'one column and one row' (named by z₀ and s), κ on the cell (p − s + z₀ + 1, p + z₀ + z₁ + 1) with p the length of x and z₁ the number of letters 1 before κ and −1 after it, the other stones of m fit in an odd number of ways.",
    "statement": "Let w = x m be valid, where x has no letter above 1 and has slack s ≥ 1, and let κ be a stone of m such that the letters of m before κ are 0, 1 or 2 and the letters after κ are 0, −1 or −2. Put z₀ = (number of 0 before κ) + (number of −2 after κ). If z₀ ≤ s and (s, z₀) ≠ (5, 3), then w has a solution (and so does its mirror).",
    "example": "x = 1 1 1 1, m = 2 1 0 −1 −1 −1 −2 −2 with κ the letter 1 of m: z₀ = 2 ≤ s = 4. A 2 comes before a −2, and x could be replaced by any beginning of slack 4 with no high stone.",
    "evidence": "Hand proof in agents/oddsplit/REPORT3.md §1 and §4 (Theorem M, Theorem D), by a sub-session; not read by anyone else. One step (the pattern is not in the thin exceptional family at slack 4m² + 1) was machine-checked to slack 80 by the sub-session and closed by a short argument added in the report. Checked by brute force for n ≤ 10: 6,816 pairs (x, κ) in 755 words at n = 10, no failure. Not a route to everything: 2 2 2 2 2 2 2 1 0 −1 −2 −3 −4 −5 has no gentle end at all. Tested only: every valid word with a high stone before a low stone, n ≤ 9, has a mixed split with at most 2 chosen stones in the middle. No rule for two stones.",
    "refs": "agents/oddsplit/REPORT3.md, thm_d.py (10: a few minutes), rel.py"
+  },
+  {
+   "id": "transfer",
+   "area": "ideas",
+   "title": "One padded word decides every word with the same middle",
+   "status": "proved",
+   "intuition": "After 'No high stone before a low stone', what is open is the middle m of a word, between the first high stone and the last low one. The beginning x and the end y matter only through two numbers, the slacks s₁ and s₂: by the card 'No stone more than one mark above' every hole pattern of a large explicit family can be left behind by x, and the same from the other side for y. So x and y can be swapped for the simplest beginning and end with the same slacks, a run of 1s and a run of −1s. What makes the swap safe for a parity argument is Lemma O: every hole pattern that the run of 1s reaches in an odd number of ways belongs to the explicit family. Cut the solutions of the padded word at the two ends of m. An odd total forces one term with all three factors odd, so its two hole patterns are in the families and m joins them. The chosen stones must lie in m, because only m is common to w and w₀. Claim: an odd count for the padded word, with the fixed stones inside the middle, gives a solution of every word with that middle and those two slacks.",
+   "statement": "Let w = x m y be valid, with m running from the first letter ≥ 2 to the last letter ≤ −2, and let s₁, s₂ be the slacks before and after m. Let w₀ = 1 … 1 m −1 … −1 with s₁ ones and s₂ minus-ones (the padded word; it is valid). If for some stones of m and some choice of rows and columns for them the number of solutions of w₀ with those stones in those rows and columns is odd, then w has a solution, whatever x and y are.",
+   "example": "m = 2 1 0 −1 −2 with s₁ = 1, s₂ = 1: the padded word is 1 2 1 0 −1 −2 −1. An odd count for it with one stone of m fixed solves 1 2 1 0 −1 −2 −1, 0 1 2 1 0 −1 −2 0 −1, 1 0 2 1 0 −1 −2 −1 0, and every other word x 2 1 0 −1 −2 y with those slacks.",
+   "evidence": "Hand proof in agents/hybrid/REPORT.md §3 (Lemma O, Theorem T), by a sub-session; not read by anyone else. Lemma O checked for slack ≤ 24. How far it reaches (tested): with the two parts required to fit in exactly one way up to parity, it covers 13,263 of the 13,387 words of length ≤ 12 left by 'No high stone before a low stone', and 34,297 of 34,677 at length 13. Other paddings (a single letter 3, 5 or 7 instead of the ones) cover 85 of the 124 missed words; 39 words remain, all with a letter ≥ 3 or ≤ −3 in the middle. For those only that restricted kind of odd count was tried.",
+   "refs": "agents/hybrid/REPORT.md §3, §5, §7; lemmao.py, normal.py, normal2.py; sh runs.sh (40 s)"
+  },
+  {
+   "id": "hill2",
+   "area": "ideas",
+   "title": "A gentle beginning, one hill with letters between −2 and 2, a gentle end: solvable",
+   "status": "proved",
+   "intuition": "This is the first large proved family with a high stone before a low stone. The middle a b is a single hill: it rises with letters up to 2 and falls with letters down to −2. For the padded word 1 … 1 a b −1 … −1 the card 'Rising then falling words with letters between −2 and 2' gives an odd count with one stone on an explicit cell: the last stone before the first negative letter. That stone is in the middle, so the card 'One padded word decides every word with the same middle' carries the result to every beginning x and every end y. A second result of the same kind (Theorem H2) allows the fall to go down to −4, with two fixed stones, when the slack on entering the middle is smaller than a number T computed from the letters below −2. Claim: with κ the last stone of the middle before its first negative letter on the cell given in the report, some pair of hole patterns from the two explicit families is joined by the other stones of the middle.",
+   "statement": "Every valid word x a b y has a solution, where x has no letter above 1, a has letters 0, 1, 2 only, b has letters 0, −1, −2 only, and y has no letter below −1. There is no bound on the slack, on how deep x goes or on how high y goes.",
+   "example": "1 1 1 1 0 −1 −2 2 1 0 −1 −2 −1: x = 1 1 1 1 0 −1 −2 has a deep letter, the hill is 2 1 0 −1 −2, y = −1. Also 1 1 2 1 0 −1 −2 3 2 1 0 followed by eight −1: the end y contains a 3.",
+   "evidence": "Hand proof in agents/hybrid/REPORT.md §4 (Theorems H and H2), by a sub-session, on top of three other sub-session proofs (the explicit families, the padded-word transfer, the one-stone rising-then-falling theorem); the first of these has been refereed, the others not. Checked through the proof for all 535 middles with their slacks in the 2,084 words of the family of length ≤ 11: the count is always odd. Not covered: two hills in the middle (2 1 0 −1 −2 2 1 0 −1 −2 with slack before it), and middles with a letter ≥ 3 or ≤ −3 beyond Theorem H2.",
+   "refs": "agents/hybrid/REPORT.md §4; thmh.py, thmh2.py"
+  },
+  {
+   "id": "hybridplain",
+   "area": "ideas",
+   "title": "The whole middle fits between two explicit hole patterns in an odd number of ways",
+   "status": "disproved",
+   "intuition": "This was the first way tried to prove the BRIDGE statement by parity: the two ends are explicit, so only the stones of the middle need an odd count. It fails at once, for the reason seen on the card 'Odd or even': the number of placements of a whole self-contained piece of board is almost always even. Parity says something only after a few stones are fixed, which is what the card 'One padded word decides every word with the same middle' does. Claim (false): some pair of patterns has an odd number of placements of the whole middle.",
+   "statement": "For every valid word x m y with a high stone before a low stone there are hole patterns u before m and v after m, both in the explicit families, such that the number of ways to place all stones of m between u and v is odd.",
+   "example": "2 1 0 −1 −2: the middle is the whole word, the only pair of patterns is (empty, empty), and the number of ways is the number of solutions, 6.",
+   "evidence": "Counterexample by hand. Fails for 13,377 of the 13,387 words of length ≤ 12 that have a high stone before a low stone; the 10 exceptions all have slack 3 on both sides of 2 1 0 −1 −2 or 2 1 0 0 −1 −2.",
+   "refs": "agents/hybrid/REPORT.md §2; hybrid.py 12"
+  },
+  {
+   "id": "padextreme",
+   "area": "ideas",
+   "title": "The padded word always has a uniquely fitting split with its chosen stones in the middle",
+   "status": "disproved",
+   "intuition": "An RR-split of the padded word would finish the proof through the transfer card, and RR-splits exist for every word tested. But the transfer needs the chosen stones inside the middle, and the rule that names them in the proved cases picks its first stone where the running total of the letters reaches a target T. A long run of 1s in front carries the running total past T before the middle starts, so the first chosen stone falls in the padding. Claim (false): the chosen stones can always be taken in the middle.",
+   "statement": "For every middle m and slacks s₁, s₂, the padded word 1 … 1 m −1 … −1 has an RR-split (or one of the other three extreme kinds) whose chosen stones all lie in m.",
+   "example": "1 1 1 2 1 0 −1 −2 −3 (slack 3 before the middle 2 1 0 −1 −2 −3, target T = 1): no split of the extreme kinds has its stones inside the middle. The word itself is solvable.",
+   "evidence": "Exhaustive over all four extreme kinds and all sets of stones of m: 124 of 13,387 words of length ≤ 12 fail, 380 of 34,677 at length 13. Not tested: odd counts that are not of the extreme kinds.",
+   "refs": "agents/hybrid/REPORT.md §5, §7; normal.py 13 (3 minutes)"
   },
   {
    "id": "signedcount",
@@ -5027,6 +5071,61 @@
    "kind": "related",
    "status": "unchecked",
    "why": "An RR-split is the case of two chains and no free part."
+  },
+  {
+   "from": [
+    "upone",
+    "paritycount"
+   ],
+   "to": "transfer",
+   "kind": "implies",
+   "status": "proved",
+   "why": "The explicit families give x and y; the parity formula for a run of 1s shows its odd patterns lie in the family (Lemma O)."
+  },
+  {
+   "from": [
+    "transfer",
+    "uni2"
+   ],
+   "to": "hill2",
+   "kind": "implies",
+   "status": "proved",
+   "why": "The padded word of a one-hill middle is rising-then-falling with letters between −2 and 2, and its fixed stone lies in the middle."
+  },
+  {
+   "from": "hill2",
+   "to": "bridge",
+   "kind": "implies",
+   "status": "proved",
+   "why": "BRIDGE for the middles with one hill and letters between −2 and 2."
+  },
+  {
+   "from": "transfer",
+   "to": "bridge",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Reduces BRIDGE for a middle and two slacks to an odd count for one word."
+  },
+  {
+   "from": "hybridplain",
+   "to": "bridge",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The first parity form tried: no stone fixed. False at 2 1 0 −1 −2."
+  },
+  {
+   "from": "padextreme",
+   "to": "transfer",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The simplest way to feed the transfer; fails when the slack before the middle is large against the depth."
+  },
+  {
+   "from": "freeend",
+   "to": "hill2",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The family of 'A gentle beginning absorbs depth' is inside this one; that card names the hole pattern and the cell, this one does not."
   },
   {
    "from": "paritylr",

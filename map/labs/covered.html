@@ -51,7 +51,7 @@
   <div class="dset" id="dset" style="text-align:center"></div>
   <div class="verdict" id="verdict"></div>
   <p class="tally" id="tally"></p>
-  <p class="legend"><b>What is proved.</b> A piece has a proof, for every size and every slack, if no <span class="k1">high</span> stone comes before a <span class="k2">low</span> stone; or if it rises and then falls with at most 2 above and 4 below (or 4 above and 2 below). The board shows one solution; for the pieces without a proof it comes from a search, and all arrangements this small were checked by computer.</p>
+  <p class="legend"><b>What is proved.</b> A piece has a proof, for every size and every slack, if no <span class="k1">high</span> stone comes before a <span class="k2">low</span> stone; or if it rises and then falls with at most 2 above and 4 below (or 4 above and 2 below); or if it is a gentle beginning (nothing high), then one hill with letters between −2 and 2, then a gentle end (nothing low). The board shows one solution; for the pieces without a proof it comes from a search, and all arrangements this small were checked by computer.</p>
   <p class="legend"><b>What is left.</b> A high stone before a low stone. The proof for the first family walks along the word with a set of hole patterns that depends only on the slack; a high stone breaks that set, and how to carry it across the stretch from the first high stone to the last low one (shaded) is the open question.</p>
 </main>
 <script>
@@ -80,6 +80,10 @@ function classify(q){ const mx=Math.max(...q), mn=Math.min(...q);
   if (ll<fh) return {ok:true, why:"every low stone comes before every high stone"};
   let uni=true, neg=false; for (const e of q){ if (e<0) neg=true; else if (e>0 && neg) uni=false; }
   if (uni && ((mx<=2 && mn>=-4) || (mx<=4 && mn>=-2))) return {ok:true, why:"rises then falls, at most "+mx+" above and "+(-mn)+" below (two chosen stones)"};
+  { let i=0; while (i<q.length && q[i]<=1) i++;
+    let j=i; while (j<q.length && q[j]>=0 && q[j]<=2) j++;
+    let k=j; while (k<q.length && q[k]<=0 && q[k]>=-2) k++;
+    if (q.slice(k).every(e=>e>=-1)) return {ok:true, why:"a gentle beginning, one hill with letters between −2 and 2, a gentle end (one chosen stone)"}; }
   return {ok:false, why:"a high stone comes before a low stone", lo:fh, hi:ll}; }
 const fmt = e => (e<0?"−":"")+Math.abs(e);
 function barsSVG(w, P, C){ const n=w.length, H=Math.max(2,...w.map(Math.abs)), bw=100/n, u=42/H, mid=50; let s=`<svg viewBox="0 0 100 100">`;
