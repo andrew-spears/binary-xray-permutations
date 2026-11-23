@@ -24,3 +24,14 @@ NEXT: (1) grep agents/prime, agents/blocks, docs/state.md for families already p
 fixed points and O(1) long stones; print the 'step type' sequence of each solution and look for a pattern uniform in (a,j);
 (3) alternatively items 1-2 of the task (F(x) for nonnegative prefixes, U+(s)) with ../interface machine (cstep / rewrite.machine);
 (4) REPORT.md + PR.
+
+## KEY FINDINGS (session 2)
+- uplus.cpp (B [L]): U+(s) for nonneg prefixes: sizes 2,4,4,6,6,2,6,12,8,14,12,22,26,40,40,78,136,184,270,348 (s=1..20), almost same as unrestricted -> no closed form expected.
+- L=1 (letters 0/1 then 0/-1): single minimal F set per (s,l) (= F(1^s), F(1^s 0)) except s=5,17; U+ huge; states (-|s) and (-|1^s) in U+ for all s<=20.
+  => THEOREM TARGET: every valid word x y, x in {0,1}*, y in {0,-1}* is solvable.  Needs:
+  A2: x 0/1 word, m letters, s ones: bijection [m] -> [m+1] minus {m+1-s} with sums {2k+x_k}   (state (-|1^s))
+  A1: same with columns [m-1] + {m+s}   (state (-|s)); glue A2 for x with half-turned A1 for x' = -reverse(y).
+- A2: x = 0 x1 (fixed point) and x = x1 1 (stone (m,m+1)) reduce trivially; A2 is self-dual under reverse+complement. Hard case x = 1...0.
+- c(x) = #A2 solutions is ODD for every 0/1 word, m <= 13 (a2count.py)  -> parity proof?
+  involution: reverse a cycle not through m+1 => c(x) = #solutions pi of [m+1] (pi(m+1)=h=m+1-s) that are ONE cycle + fixed points (mod 2).
+  (equivalently Desnanot-Jacobi in char 2 for the symmetric Hankel matrix: adj_{h,m+1}^2 = A_hh A_{m+1,m+1} + det * det^{h,m+1}.)
