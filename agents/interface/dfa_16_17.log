@@ -1,0 +1,21 @@
+B=16 dfa_states=22358 max_set=5822 ALL ACCEPTED
+  sigma=0: dfa states 1, set sizes 1..1
+  sigma=1: dfa states 7, set sizes 2..2
+  sigma=2: dfa states 7, set sizes 3..5
+  sigma=3: dfa states 11, set sizes 4..10
+  sigma=4: dfa states 20, set sizes 5..20
+  sigma=5: dfa states 32, set sizes 6..36
+  sigma=6: dfa states 59, set sizes 7..65
+  sigma=7: dfa states 107, set sizes 8..110
+  sigma=8: dfa states 187, set sizes 9..185
+  sigma=9: dfa states 310, set sizes 10..300
+  sigma=10: dfa states 506, set sizes 11..481
+  sigma=11: dfa states 845, set sizes 12..752
+  sigma=12: dfa states 1393, set sizes 13..1165
+  sigma=13: dfa states 2228, set sizes 14..1770
+  sigma=14: dfa states 3417, set sizes 15..2665
+  sigma=15: dfa states 5206, set sizes 16..3956
+  sigma=16: dfa states 8022, set sizes 17..5822
+11.12s 941772KB
+Command terminated by signal 9
+81.92s 7312388KB
