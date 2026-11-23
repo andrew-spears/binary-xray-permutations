@@ -1,0 +1,15 @@
+PEAK FAILS: x = 3 4 3 3 2 1  (length 6, slack 16)  |F(x 0)| = 3426, |F(x 1 0 -1)| = 4657, lost 3
+      rows 1 2 3 4 5 7 11  cols 1 3 4 5 7 8 11
+      rows 1 2 3 4 7 8 11  cols 1 2 3 4 7 8 11
+      rows 1 3 4 5 7 8 11  cols 1 2 3 4 5 7 11
+      lookahead fails for y = 1
+      lookahead fails for y = 1 2
+      lookahead fails for y = 1 2 1
+      lookahead fails for y = 1 3
+      lookahead fails for y = 2
+      lookahead fails for y = 3
+      lookahead fails for y = 4
+B=17 letters in [-1000, 1000]: situations=34572 max_set=8470
+PEAK tested 5959 fails 1
+lookahead <= 3: (failing x, y) pairs tested 13, fails 7
+40.07s 192956KB

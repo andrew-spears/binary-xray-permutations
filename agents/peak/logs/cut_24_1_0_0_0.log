@@ -1,0 +1,152 @@
+B = 24: 326774 states, 8972776 transitions, 94235 states at slack B
+nonnegative prefixes: 77825 sets kept, 77811 minimal, 0 not extended, 0 empty
+all prefixes: 78111 sets kept, 78083 minimal, 1 not extended, 0 EMPTY
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 2  (length 10, end slack 17, last letter 2, |F(x)| = 7842 of 8470 states)
+      393 minimal nonnegative sets at (17, 2); closest:
+      x' = 2 1 5 4 3 2: |F(x')| = 2500, 6 states not in F(x), e.g. 1111|7222
+      x' = 3 2 1 4 3 2 2: |F(x')| = 4796, 6 states not in F(x), e.g. 11111|711111
+      x' = 3 2 4 3 2 1 2: |F(x')| = 5138, 6 states not in F(x), e.g. 11111|711111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 3  (length 10, end slack 18, last letter 3, |F(x)| = 10779 of 12230 states)
+      566 minimal nonnegative sets at (18, 3); closest:
+      x' = 6 5 4 3: |F(x')| = 913, 5 states not in F(x), e.g. 2222|4222
+      x' = 2 1 3 5 4 3: |F(x')| = 3110, 8 states not in F(x), e.g. 7|74
+      x' = 3 2 1 4 3 2 3: |F(x')| = 6237, 8 states not in F(x), e.g. 11111|811111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 4  (length 10, end slack 19, last letter 4, |F(x)| = 14244 of 17490 states)
+      687 minimal nonnegative sets at (19, 4); closest:
+      x' = 3 2 1 4 3 2 4: |F(x')| = 7684, 10 states not in F(x), e.g. 11111|911111
+      x' = 3 2 4 3 2 1 4: |F(x')| = 8502, 10 states not in F(x), e.g. 11111|911111
+      x' = 2 2 1 4 3 2 1 4: |F(x')| = 11412, 10 states not in F(x), e.g. 11111|911111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 5  (length 10, end slack 20, last letter 5, |F(x)| = 18016 of 24842 states)
+      778 minimal nonnegative sets at (20, 5); closest:
+      x' = 3 2 1 4 3 2 5: |F(x')| = 9182, 12 states not in F(x), e.g. 11111|(10)11111
+      x' = 3 2 4 3 2 1 5: |F(x')| = 10434, 12 states not in F(x), e.g. 11111|(10)11111
+      x' = 2 2 1 4 3 2 1 5: |F(x')| = 14017, 12 states not in F(x), e.g. 11111|(10)11111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 6  (length 10, end slack 21, last letter 6, |F(x)| = 21866 of 35002 states)
+      824 minimal nonnegative sets at (21, 6); closest:
+      x' = 3 2 1 4 3 2 6: |F(x')| = 10758, 14 states not in F(x), e.g. 11111|(11)11111
+      x' = 3 2 4 3 2 1 6: |F(x')| = 12380, 14 states not in F(x), e.g. 11111|(11)11111
+      x' = 2 2 1 4 3 2 1 6: |F(x')| = 16768, 14 states not in F(x), e.g. 11111|(11)11111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 7  (length 10, end slack 22, last letter 7, |F(x)| = 25550 of 49010 states)
+      859 minimal nonnegative sets at (22, 7); closest:
+      x' = 3 2 1 4 3 2 7: |F(x')| = 12523, 16 states not in F(x), e.g. 11111|(12)11111
+      x' = 3 2 4 3 2 1 7: |F(x')| = 14268, 16 states not in F(x), e.g. 11111|(12)11111
+      x' = 2 2 1 4 3 2 1 7: |F(x')| = 19552, 16 states not in F(x), e.g. 11111|(12)11111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 8  (length 10, end slack 23, last letter 8, |F(x)| = 29070 of 68150 states)
+      876 minimal nonnegative sets at (23, 8); closest:
+      x' = 3 2 1 4 3 2 8: |F(x')| = 14198, 18 states not in F(x), e.g. 11111|(13)11111
+      x' = 3 2 4 3 2 1 8: |F(x')| = 16106, 18 states not in F(x), e.g. 11111|(13)11111
+      x' = 2 2 1 4 3 2 1 8: |F(x')| = 22256, 18 states not in F(x), e.g. 11111|(13)11111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 9  (length 10, end slack 24, last letter 9, |F(x)| = 32440 of 94235 states)
+      887 minimal nonnegative sets at (24, 9); closest:
+      x' = 3 2 1 4 3 2 9: |F(x')| = 15843, 20 states not in F(x), e.g. 11111|(14)11111
+      x' = 3 2 4 3 2 1 9: |F(x')| = 17893, 20 states not in F(x), e.g. 11111|(14)11111
+      x' = 2 2 1 4 3 2 1 9: |F(x')| = 24828, 20 states not in F(x), e.g. 11111|(14)11111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 4 4  (length 11, end slack 23, last letter 4, |F(x)| = 55924 of 68150 states)
+      2433 minimal nonnegative sets at (23, 4); closest:
+      x' = 2 6 6 5 4: |F(x')| = 4908, 18 states not in F(x), e.g. 63|77
+      x' = 1 1 6 6 5 4: |F(x')| = 6310, 18 states not in F(x), e.g. 63|77
+      x' = 1 3 6 5 4 4: |F(x')| = 9492, 18 states not in F(x), e.g. 63|77
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 5 4  (length 11, end slack 24, last letter 4, |F(x)| = 72343 of 94235 states)
+      3313 minimal nonnegative sets at (24, 4); closest:
+      x' = 2 7 6 5 4: |F(x')| = 5560, 41 states not in F(x), e.g. 64|77
+      x' = 3 2 1 4 3 2 5 4: |F(x')| = 39530, 50 states not in F(x), e.g. 9|(10)11111
+      x' = 3 2 4 3 2 1 5 4: |F(x')| = 45405, 50 states not in F(x), e.g. 9|(10)11111
+(A) NONNEG: 77820 sets tested, 10 failures  [slack 17: 1]  [slack 18: 1]  [slack 19: 1]  [slack 20: 1]  [slack 21: 1]  [slack 22: 1]  [slack 23: 2]  [slack 24: 2]
+    failures by last letter:  [2: 1]  [3: 1]  [4: 3]  [5: 1]  [6: 1]  [7: 1]  [8: 1]  [9: 1]
+    relaxed form (x' nonnegative, same end slack, last letter <= l): 10 failures
+all suffixes: 78177 sets kept, 78083 minimal, 9 not extended, 0 empty (dropped)
+(B) slack  1 last -1:     1 F,     8 A, in all F     2, A sets missing them 0, universal    2:  -|1 1|-
+(B) slack  1 last  0:     1 F,     8 A, in all F     2, A sets missing them 0, universal    2:  -|1 1|-
+(B) slack  1 last  1:     1 F,     7 A, in all F     2, A sets missing them 0, universal    2:  -|1 1|-
+(B) slack  2 last -1:     1 F,     9 A, in all F     5, A sets missing them 0, universal    2:  -|11 11|-
+(B) slack  2 last  0:     1 F,     8 A, in all F     5, A sets missing them 0, universal    4:  -|2 2|- -|11 11|-
+(B) slack  2 last  1:     1 F,     7 A, in all F     4, A sets missing them 0, universal    4:  -|2 2|- -|11 11|-
+(B) slack  2 last  2:     1 F,     6 A, in all F     3, A sets missing them 0, universal    3:  -|2 1|1 2|-
+(B) slack  3 last -1:     1 F,    10 A, in all F    10, A sets missing them 0, universal    2:  1|2 2|1
+(B) slack  3 last  0:     1 F,     9 A, in all F     8, A sets missing them 0, universal    4:  1|2 2|1 1|11 11|1
+(B) slack  3 last  1:     2 F,     7 A, in all F     4, A sets missing them 0, universal    4:  1|2 2|1 1|11 11|1
+(B) slack  3 last  2:     1 F,     6 A, in all F     6, A sets missing them 0, universal    6:  -|3 3|- -|21 1|11 11|1 21|-
+(B) slack  4 last -1:     1 F,    12 A, in all F    18, A sets missing them 0, universal    0: 
+(B) slack  4 last  0:     2 F,    10 A, in all F    15, A sets missing them 0, universal    6:  -|31 1|21 21|1 31|- -|211 211|-
+(B) slack  4 last  1:     3 F,     7 A, in all F     8, A sets missing them 0, universal    6:  -|31 1|21 21|1 31|- -|211 211|-
+(B) slack  4 last  2:     2 F,     5 A, in all F     6, A sets missing them 0, universal    6:  1|3 3|1 2|11 11|2 -|22 22|-
+(B) slack  5 last -1:     1 F,    16 A, in all F    30, A sets missing them 0, universal    0: 
+(B) slack  5 last  0:     2 F,    13 A, in all F    26, A sets missing them 0, universal    6:  2|3 3|2 1|31 31|1 11|111 111|11
+(B) slack  5 last  1:     6 F,     7 A, in all F     6, A sets missing them 0, universal    6:  2|3 3|2 1|211 11|111 211|1 111|11
+(B) slack  5 last  2:     3 F,     5 A, in all F     0, A sets missing them 5, universal    0: 
+(B) slack  6 last -1:     2 F,    23 A, in all F    58, A sets missing them 0, universal    0: 
+(B) slack  6 last  0:     5 F,    17 A, in all F    30, A sets missing them 0, universal    2:  21|111 111|21
+(B) slack  6 last  1:     6 F,    11 A, in all F     2, A sets missing them 0, universal    2:  3|21 21|3
+(B) slack  6 last  2:     6 F,     6 A, in all F     4, A sets missing them 0, universal    4:  2|31 31|2 -|33 33|-
+(B) slack  7 last -1:     2 F,    34 A, in all F    90, A sets missing them 0, universal    0: 
+(B) slack  7 last  0:     7 F,    25 A, in all F    70, A sets missing them 0, universal    4:  11|32 32|11 -|331 331|-
+(B) slack  7 last  1:    12 F,    13 A, in all F     8, A sets missing them 0, universal    6:  2|221 221|2 -|322 1|222 222|1 322|-
+(B) slack  7 last  2:     9 F,     6 A, in all F     0, A sets missing them 6, universal    0: 
+(B) slack  8 last -1:     3 F,    52 A, in all F   134, A sets missing them 0, universal    0: 
+(B) slack  8 last  0:    12 F,    38 A, in all F    95, A sets missing them 0, universal   12:  4|31 31|4 11|42 21|32 32|21 42|11
+(B) slack  8 last  1:    19 F,    19 A, in all F    18, A sets missing them 0, universal   12:  3|41 41|3 21|32 32|21 41|111 21|221
+(B) slack  8 last  2:    14 F,     7 A, in all F     0, A sets missing them 7, universal    0: 
+(B) slack  9 last -1:     2 F,    66 A, in all F   196, A sets missing them 0, universal    0: 
+(B) slack  9 last  0:    10 F,    44 A, in all F   136, A sets missing them 0, universal    8:  22|311 311|22 211|221 221|211 -|333 333|-
+(B) slack  9 last  1:    28 F,    16 A, in all F    12, A sets missing them 0, universal    8:  31|32 32|31 4|221 22|311 221|4 311|22
+(B) slack  9 last  2:    22 F,     6 A, in all F     0, A sets missing them 6, universal    0: 
+(B) slack 10 last -1:     2 F,    91 A, in all F   362, A sets missing them 0, universal    0: 
+(B) slack 10 last  0:    16 F,    54 A, in all F   190, A sets missing them 0, universal   14:  21|421 421|21 1|432 432|1 211|222 222|211
+(B) slack 10 last  1:    33 F,    21 A, in all F    18, A sets missing them 0, universal   14:  31|42 42|31 31|33 33|31 2|431 431|2
+(B) slack 10 last  2:    37 F,     5 A, in all F     0, A sets missing them 5, universal    0: 
+(B) slack 11 last -1:     4 F,   136 A, in all F   532, A sets missing them 0, universal    0: 
+(B) slack 11 last  0:    19 F,    83 A, in all F   340, A sets missing them 0, universal   12:  32|411 53|111 411|32 111|53 411|221 221|411
+(B) slack 11 last  1:    57 F,    26 A, in all F    22, A sets missing them 0, universal   12:  32|411 411|32 411|221 221|411 32|3111 221|3111
+(B) slack 11 last  2:    53 F,     7 A, in all F     0, A sets missing them 7, universal    0: 
+(B) slack 12 last -1:     5 F,   196 A, in all F   751, A sets missing them 0, universal    0: 
+(B) slack 12 last  0:    29 F,   114 A, in all F   518, A sets missing them 0, universal   22:  42|411 33|411 411|42 411|33 11|532 532|11
+(B) slack 12 last  1:    75 F,    39 A, in all F    32, A sets missing them 0, universal   22:  41|331 43|311 311|43 331|41 41|322 322|41
+(B) slack 12 last  2:    82 F,    10 A, in all F     0, A sets missing them 10, universal    0: 
+(B) slack 13 last -1:     5 F,   253 A, in all F  1020, A sets missing them 0, universal    0: 
+(B) slack 13 last  0:    28 F,   136 A, in all F   738, A sets missing them 0, universal   26:  33|511 33|421 511|33 421|33 52|222 222|52
+(B) slack 13 last  1:    98 F,    38 A, in all F    40, A sets missing them 0, universal   26:  42|322 322|42 411|322 322|411 52|3111 222|3211
+(B) slack 13 last  2:   117 F,    10 A, in all F     0, A sets missing them 10, universal    0: 
+(B) slack 14 last -1:     6 F,   345 A, in all F  1368, A sets missing them 0, universal    0: 
+(B) slack 14 last  0:    37 F,   183 A, in all F   981, A sets missing them 0, universal   36:  53|411 411|53 4|442 32|432 442|4 432|32
+(B) slack 14 last  1:   134 F,    49 A, in all F    62, A sets missing them 0, universal   40:  53|411 411|53 42|332 332|42 51|3311 53|3111
+(B) slack 14 last  2:   162 F,    12 A, in all F     0, A sets missing them 12, universal    0: 
+(B) slack 15 last -1:     5 F,   447 A, in all F  2414, A sets missing them 0, universal    0: 
+(B) slack 15 last  0:    44 F,   216 A, in all F  1138, A sets missing them 0, universal   36:  221|532 532|221 211|533 533|211 32|5221 52|3221
+(B) slack 15 last  1:   162 F,    54 A, in all F    60, A sets missing them 0, universal   40:  52|332 332|52 31|443 421|332 332|421 443|31
+(B) slack 15 last  2:   231 F,    10 A, in all F     0, A sets missing them 10, universal    0: 
+(B) slack 16 last -1:    11 F,   606 A, in all F  3463, A sets missing them 0, universal    0: 
+(B) slack 16 last  0:    59 F,   280 A, in all F  2278, A sets missing them 0, universal   78:  43|621 621|43 42|622 62|422 32|632 611|431
+(B) slack 16 last  1:   204 F,    76 A, in all F   126, A sets missing them 0, universal   78:  411|622 421|432 622|411 432|421 411|433 433|411
+(B) slack 16 last  2:   326 F,    17 A, in all F     0, A sets missing them 17, universal    0: 
+(B) slack 17 last -1:     6 F,   718 A, in all F  4728, A sets missing them 0, universal    0: 
+(B) slack 17 last  0:    55 F,   324 A, in all F  3248, A sets missing them 0, universal  128:  53|621 44|531 621|53 531|44 52|622 511|631
+(B) slack 17 last  1:   257 F,    67 A, in all F   190, A sets missing them 0, universal  136:  431|441 441|431 421|442 441|422 422|441 442|421
+(B) slack 17 last  2:   394 F,    12 A, in all F     2, A sets missing them 0, universal    2:  -|44441 44441|-
+(B) slack 18 last -1:    12 F,   959 A, in all F  6130, A sets missing them 0, universal    0: 
+(B) slack 18 last  0:    71 F,   402 A, in all F  4570, A sets missing them 0, universal  182:  61|542 52|632 632|52 542|61 51|633 61|533
+(B) slack 18 last  1:   311 F,    91 A, in all F   248, A sets missing them 0, universal  184:  221|652 441|432 432|441 652|221 52|4421 54|3321
+(B) slack 18 last  2:   557 F,    20 A, in all F     0, A sets missing them 20, universal    0: 
+(B) slack 19 last -1:    10 F,  1212 A, in all F  7996, A sets missing them 0, universal    0: 
+(B) slack 19 last  0:    69 F,   487 A, in all F  5678, A sets missing them 0, universal  270:  53|551 551|53 52|642 642|52 421|642 642|421
+(B) slack 19 last  1:   405 F,    82 A, in all F   356, A sets missing them 0, universal  270:  421|552 552|421 511|444 444|511 331|5511 542|4211
+(B) slack 19 last  2:   725 F,    13 A, in all F     0, A sets missing them 13, universal    0: 
+(B) slack 20 last -1:    15 F,  1506 A, in all F  9865, A sets missing them 0, universal    0: 
+(B) slack 20 last  0:    99 F,   582 A, in all F  7050, A sets missing them 0, universal  344:  421|652 652|421 522|632 632|522 411|644 644|411
+(B) slack 20 last  1:   461 F,   121 A, in all F   460, A sets missing them 0, universal  348:  421|652 652|421 411|554 554|411 63|5411 52|6421
+(B) slack 20 last  2:   924 F,    22 A, in all F     0, A sets missing them 22, universal    0: 
+(B) slack 21 last -1:    14 F,  1781 A, in all F 17440, A sets missing them 0, universal    0: 
+(B) slack 21 last  0:    98 F,   648 A, in all F  8024, A sets missing them 0, universal  358:  631|542 641|532 532|641 542|631 522|642 642|522
+(B) slack 21 last  1:   530 F,   118 A, in all F   542, A sets missing them 0, universal  366:  431|643 522|642 642|522 643|431 422|643 643|422
+(B) slack 21 last  2:  1133 F,    20 A, in all F     2, A sets missing them 1, universal    0: 
+(B) slack 22 last -1:    23 F,  2208 A, in all F 24255, A sets missing them 0, universal    0: 
+(B) slack 22 last  0:   136 F,   765 A, in all F 16268, A sets missing them 0, universal  916:  631|552 751|432 432|751 552|631 551|6311 531|7321
+(B) slack 22 last  1:   606 F,   159 A, in all F  1330, A sets missing them 0, universal  924:  651|532 651|442 532|651 442|651 522|652 652|522
+(B) slack 22 last  2:  1443 F,    23 A, in all F     0, A sets missing them 23, universal    0: 
+(B) slack 23 last -1:    22 F,  2765 A, in all F 31182, A sets missing them 0, universal    0: 
+(B) slack 23 last  0:   158 F,   977 A, in all F 21654, A sets missing them 0, universal 1730:  731|642 531|752 731|552 641|552 651|542 642|731
+(B) slack 23 last  1:   797 F,   180 A, in all F  2078, A sets missing them 0, universal 1740:  641|552 552|641 421|754 621|554 554|621 754|421
+(B) slack 23 last  2:  1788 F,    22 A, in all F     0, A sets missing them 22, universal    0: 
+(B) slack 24 last  0:   153 F,  1042 A, in all F 29340, A sets missing them 0, universal 2460:  731|652 631|662 661|632 652|731 632|661 662|631
+(B) slack 24 last  1:   889 F,   153 A, in all F  2972, A sets missing them 0, universal 2476:  632|553 553|632 641|6331 431|6631 752|5221 542|6421
+(B) slack 24 last  2:  2244 F,     0 A, in all F     0, A sets missing them 0, universal    0: 
+119.46s 1693576KB

@@ -1,0 +1,17 @@
+PEAK FAILS: x = 3 4 3 3 2 1  (length 6, slack 16)  |F(x 0)| = 3426, |F(x 1 0 -1)| = 4657, lost 3
+      rows 1 2 3 4 5 7 11  cols 1 3 4 5 7 8 11
+      rows 1 2 3 4 7 8 11  cols 1 2 3 4 7 8 11
+      rows 1 3 4 5 7 8 11  cols 1 2 3 4 5 7 11
+PEAK FAILS: x = 3 4 3 2 3 2 1  (length 7, slack 18)  |F(x 0)| = 8281, |F(x 1 0 -1)| = 10245, lost 1
+      rows 1 2 3 4 5 8 9 13  cols 1 2 3 4 5 8 9 13
+PEAK FAILS: x = 2 1 3 4 3 3 2 1  (length 8, slack 19)  |F(x 0)| = 13300, |F(x 1 0 -1)| = 15486, lost 2
+      rows 1 2 3 4 5 7 8 11 12  cols 1 2 3 4 5 7 8 11 15
+      rows 1 2 3 4 5 7 8 11 15  cols 1 2 3 4 5 7 8 11 12
+PEAK FAILS: x = 3 2 4 3 3 2 1 0  (length 8, slack 18)  |F(x 0)| = 9795, |F(x 1 0 -1)| = 11080, lost 1
+      rows 1 2 3 4 5 6 9 10 14  cols 1 2 3 4 5 6 9 10 14
+PEAK FAILS: x = 3 4 3 3 2 1 2 1  (length 8, slack 19)  |F(x 0)| = 13564, |F(x 1 0 -1)| = 15516, lost 2
+      rows 1 2 3 4 5 7 8 11 12  cols 1 2 3 4 5 7 8 11 15
+      rows 1 2 3 4 5 7 8 11 15  cols 1 2 3 4 5 7 8 11 12
+B=20 letters in [-1000, 1000]: situations=119512 max_set=24842
+PEAK tested 16477 fails 5
+435.07s 1696796KB

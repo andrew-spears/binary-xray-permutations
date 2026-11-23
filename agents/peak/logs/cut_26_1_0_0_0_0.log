@@ -1,0 +1,72 @@
+B = 26: 633373 states, 18727778 transitions, 177087 states at slack B
+nonnegative prefixes: 142986 sets kept, 142957 minimal, 0 not extended, 0 empty
+all prefixes: 143368 sets kept, 143318 minimal, 1 not extended, 0 EMPTY
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 2  (length 10, end slack 17, last letter 2, |F(x)| = 7842 of 8470 states)
+      393 minimal nonnegative sets at (17, 2); closest:
+      x' = 2 1 5 4 3 2: |F(x')| = 2500, 6 states not in F(x), e.g. 1111|7222
+      x' = 3 2 1 4 3 2 2: |F(x')| = 4796, 6 states not in F(x), e.g. 11111|711111
+      x' = 3 2 4 3 2 1 2: |F(x')| = 5138, 6 states not in F(x), e.g. 11111|711111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 3  (length 10, end slack 18, last letter 3, |F(x)| = 10779 of 12230 states)
+      566 minimal nonnegative sets at (18, 3); closest:
+      x' = 6 5 4 3: |F(x')| = 913, 5 states not in F(x), e.g. 2222|4222
+      x' = 2 1 3 5 4 3: |F(x')| = 3110, 8 states not in F(x), e.g. 7|74
+      x' = 3 2 1 4 3 2 3: |F(x')| = 6237, 8 states not in F(x), e.g. 11111|811111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 4  (length 10, end slack 19, last letter 4, |F(x)| = 14244 of 17490 states)
+      687 minimal nonnegative sets at (19, 4); closest:
+      x' = 3 2 1 4 3 2 4: |F(x')| = 7684, 10 states not in F(x), e.g. 11111|911111
+      x' = 3 2 4 3 2 1 4: |F(x')| = 8502, 10 states not in F(x), e.g. 11111|911111
+      x' = 2 2 1 4 3 2 1 4: |F(x')| = 11412, 10 states not in F(x), e.g. 11111|911111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 5  (length 10, end slack 20, last letter 5, |F(x)| = 18016 of 24842 states)
+      778 minimal nonnegative sets at (20, 5); closest:
+      x' = 3 2 1 4 3 2 5: |F(x')| = 9182, 12 states not in F(x), e.g. 11111|(10)11111
+      x' = 3 2 4 3 2 1 5: |F(x')| = 10434, 12 states not in F(x), e.g. 11111|(10)11111
+      x' = 2 2 1 4 3 2 1 5: |F(x')| = 14017, 12 states not in F(x), e.g. 11111|(10)11111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 6  (length 10, end slack 21, last letter 6, |F(x)| = 21866 of 35002 states)
+      824 minimal nonnegative sets at (21, 6); closest:
+      x' = 3 2 1 4 3 2 6: |F(x')| = 10758, 14 states not in F(x), e.g. 11111|(11)11111
+      x' = 3 2 4 3 2 1 6: |F(x')| = 12380, 14 states not in F(x), e.g. 11111|(11)11111
+      x' = 2 2 1 4 3 2 1 6: |F(x')| = 16768, 14 states not in F(x), e.g. 11111|(11)11111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 7  (length 10, end slack 22, last letter 7, |F(x)| = 25550 of 49010 states)
+      859 minimal nonnegative sets at (22, 7); closest:
+      x' = 3 2 1 4 3 2 7: |F(x')| = 12523, 16 states not in F(x), e.g. 11111|(12)11111
+      x' = 3 2 4 3 2 1 7: |F(x')| = 14268, 16 states not in F(x), e.g. 11111|(12)11111
+      x' = 2 2 1 4 3 2 1 7: |F(x')| = 19552, 16 states not in F(x), e.g. 11111|(12)11111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 8  (length 10, end slack 23, last letter 8, |F(x)| = 29070 of 68150 states)
+      876 minimal nonnegative sets at (23, 8); closest:
+      x' = 3 2 1 4 3 2 8: |F(x')| = 14198, 18 states not in F(x), e.g. 11111|(13)11111
+      x' = 3 2 4 3 2 1 8: |F(x')| = 16106, 18 states not in F(x), e.g. 11111|(13)11111
+      x' = 2 2 1 4 3 2 1 8: |F(x')| = 22256, 18 states not in F(x), e.g. 11111|(13)11111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 9  (length 10, end slack 24, last letter 9, |F(x)| = 32440 of 94235 states)
+      887 minimal nonnegative sets at (24, 9); closest:
+      x' = 3 2 1 4 3 2 9: |F(x')| = 15843, 20 states not in F(x), e.g. 11111|(14)11111
+      x' = 3 2 4 3 2 1 9: |F(x')| = 17893, 20 states not in F(x), e.g. 11111|(14)11111
+      x' = 2 2 1 4 3 2 1 9: |F(x')| = 24828, 20 states not in F(x), e.g. 11111|(14)11111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 10  (length 10, end slack 25, last letter 10, |F(x)| = 35728 of 129512 states)
+      894 minimal nonnegative sets at (25, 10); closest:
+      x' = 3 2 1 4 3 2 10: |F(x')| = 17448, 22 states not in F(x), e.g. 11111|(15)11111
+      x' = 3 2 4 3 2 1 10: |F(x')| = 19668, 22 states not in F(x), e.g. 11111|(15)11111
+      x' = 2 2 1 4 3 2 1 10: |F(x')| = 27346, 22 states not in F(x), e.g. 11111|(15)11111
+(A) FAILS: x = 4 3 2 1 3 2 1 0 -1 11  (length 10, end slack 26, last letter 11, |F(x)| = 38981 of 177087 states)
+      897 minimal nonnegative sets at (26, 11); closest:
+      x' = 3 2 1 4 3 2 11: |F(x')| = 19035, 24 states not in F(x), e.g. 11111|(16)11111
+      x' = 3 2 4 3 2 1 11: |F(x')| = 21456, 24 states not in F(x), e.g. 11111|(16)11111
+      x' = 2 2 1 4 3 2 1 11: |F(x')| = 29832, 24 states not in F(x), e.g. 11111|(16)11111
+(A) FAILS: x = 1 1 6 5 4 3 2 1 0 -1 3  (length 11, end slack 25, last letter 3, |F(x)| = 105210 of 129512 states)
+      4017 minimal nonnegative sets at (25, 3); closest:
+      x' = 6 5 4 3 2 2 3: |F(x')| = 39396, 8 states not in F(x), e.g. 551|7322
+      x' = 1 1 6 5 4 3 2 3: |F(x')| = 45774, 8 states not in F(x), e.g. 551|7322
+      x' = 1 6 5 4 3 2 1 3: |F(x')| = 54154, 8 states not in F(x), e.g. 551|7322
+(A) FAILS: x = 1 1 6 5 4 3 2 1 0 -1 4  (length 11, end slack 26, last letter 4, |F(x)| = 135889 of 177087 states)
+      5748 minimal nonnegative sets at (26, 4); closest:
+      x' = 6 5 4 3 2 2 4: |F(x')| = 48662, 8 states not in F(x), e.g. 551|8322
+      x' = 1 1 6 5 4 3 2 4: |F(x')| = 56974, 8 states not in F(x), e.g. 551|8322
+      x' = 1 6 5 4 3 2 1 4: |F(x')| = 67259, 8 states not in F(x), e.g. 551|8322
+(A) FAILS: x = 5 4 3 2 4 3 2 1 0 -1 2 1  (length 12, end slack 26, last letter 1, |F(x)| = 157093 of 177087 states)
+      1193 minimal nonnegative sets at (26, 1); closest:
+      x' = 3 3 2 5 4 3 2 1 2 1: |F(x')| = 130740, 34 states not in F(x), e.g. 6|762221
+      x' = 4 3 2 4 4 3 2 1 2 1: |F(x')| = 130845, 40 states not in F(x), e.g. 6|762221
+      x' = 4 3 2 5 4 3 2 2 1: |F(x')| = 106919, 42 states not in F(x), e.g. 6|762221
+(A) NONNEG: 142978 sets tested, 22 failures  [slack 17: 1]  [slack 18: 1]  [slack 19: 1]  [slack 20: 1]  [slack 21: 1]  [slack 22: 1]  [slack 23: 2]  [slack 24: 2]  [slack 25: 4]  [slack 26: 8]
+    failures by last letter:  [1: 1]  [2: 3]  [3: 4]  [4: 4]  [5: 3]  [6: 2]  [7: 1]  [8: 1]  [9: 1]  [10: 1]  [11: 1]
+    relaxed form (x' nonnegative, same end slack, last letter <= l): 22 failures
+201.93s 3810764KB
