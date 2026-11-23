@@ -1,0 +1,13 @@
+n=9 #D=107
+ min best-order gurv ratio: 0.5040207849170906
+ #D with no working order: 71
+ min worst-edge gurv: 0.029109172141282724
+ min best-order plain ratio: 0.22400923774092912
+ max over D of best-order alpha (ratio>=g(k)^alpha): 1.8448788294546377 [-7, -6, -4, -2, 0, 2, 4, 6, 7] [4, -2, 2, -6, -7, -4, 0, 6, 7]
+ min worst-edge plain: 0.01455458607063557
+  rule outer_first: min gurv 0.0291  #fail 103  min plain 0.0146
+  rule inner_first: min gurv 0.2598  #fail 103  min plain 0.1064
+  rule left_to_right: min gurv 0.0291  #fail 106  min plain 0.0146
+  rule min_deg_first: min gurv 0.0291  #fail 100  min plain 0.0146
+  rule max_deg_first: min gurv 0.2562  #fail 107  min plain 0.1139
+  rule greedy_best_gurv: min gurv 0.4480  #fail 81  min plain 0.2240

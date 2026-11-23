@@ -1,0 +1,10 @@
+sympair results (2026-11-22). Scripts: sym.py (odd pairing, n<=15), oddholes.py (hole-position rules),
+even.py (even: involution/centro/folded-involution, n<=14), quad.py (pairing+one parallelogram 4-cycle),
+holeconj.py / holeconj2.py (parity+density sufficiency for fixed hole).
+Odd n=2m+1: Landau <=> top-K(L) <= K(2m+1-K); witness <=> {1..2m+1}\{f} pairs with differences L, some f
+  (= L is an f-extended Skolem set). All valid L pair, n<=15 (1971 at 15). No fixed hole rule works.
+  "parity+density for P_f => pairing" fails at f=m+1 (smallest L={1,3},N=5) and off-centre at N=13: L={1,4,5,7,9,11}, f=6,8.
+Even n=2m: Landau <=> top-K(L) <= K(2m-K) (= Nordh Cor 7 density). Involution witness exists iff #even(L) even, n<=14
+  (= Nordh Conj 8 on these L). Otherwise need centrosymmetric; half-board puzzle: sigma in S_m, cell (i,sigma(i)) labelled
+  |sigma(i)-i| or 2m+1-i-sigma(i); always solvable n<=14. Folded-involution and pairing+one-quad refinements fail (n=6, L={1,2,3}).
+Correction to state.md 3: paritydata n=12 numbers are 114 WITH involution (109 missing), n=13: 277 WITH centrosymmetric (280 missing).

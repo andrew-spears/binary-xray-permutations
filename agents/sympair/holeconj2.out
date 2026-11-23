@@ -1,0 +1,7 @@
+N=3: tested=3 centre-failures=0 off-centre failures=0 [] | no-tight-cut L not covered=0
+N=5: tested=10 centre-failures=1 off-centre failures=0 [] | no-tight-cut L not covered=0
+N=7: tested=40 centre-failures=4 off-centre failures=0 [] | no-tight-cut L not covered=0
+N=9: tested=166 centre-failures=9 off-centre failures=0 [] | no-tight-cut L not covered=0
+N=11: tested=685 centre-failures=18 off-centre failures=0 [] | no-tight-cut L not covered=0
+N=13: tested=2823 centre-failures=43 off-centre failures=2 [((1, 4, 5, 7, 9, 11), 6), ((1, 4, 5, 7, 9, 11), 8)] | no-tight-cut L not covered=0
+N=15: tested=11644 centre-failures=114 off-centre failures=4 [((1, 4, 5, 7, 9, 11, 14), 7), ((1, 4, 5, 7, 9, 11, 14), 9), ((1, 4, 5, 7, 9, 12, 13), 7), ((1, 4, 5, 7, 9, 12, 13), 9)] | no-tight-cut L not covered=0

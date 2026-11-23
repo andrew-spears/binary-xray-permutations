@@ -1,0 +1,7 @@
+m=6 h=1 {'boards': 87, 'cells': 271, 'bad': 43} time=0s
+  L: 33  ex=((2, 3, 4, 5, 6, 7), (-3, -2, 0, 2, 4, 5), 2)
+  LP-R+- C+- D+- W: 4  ex=((1, 2, 4, 5, 6, 7), (-3, -2, 0, 2, 3, 4), 3, {('R', 2): Fraction(-2, 1), ('R', 3): Fraction(2, 1), ('R', 4): Fraction(1, 1), ('R', 6): Fraction(-6, 1), ('C', 1): Fraction(-1, 1), ('C', 5): Fraction(-2, 1), ('C', 6): Fraction(4, 1), ('D', -2): Fraction(-1, 1), ('D', 0): Fraction(2, 1), ('D', 4): Fraction(-2, 1)})
+  LP-R- C+: 2  ex=((1, 3, 4, 5, 6, 7), (-4, -2, 0, 2, 4, 5), 5, {('R', 2): Fraction(-1, 1), ('R', 4): Fraction(-1, 1), ('R', 6): Fraction(-1, 1), ('C', 4): Fraction(1, 1)})
+  LP-R- C+ D-: 2  ex=((1, 3, 4, 5, 6, 7), (-4, -2, 1, 2, 3, 5), 3, {('R', 6): Fraction(-1, 1), ('C', 7): Fraction(1, 1), ('D', 5): Fraction(-1, 1)})
+  LP-R-: 1  ex=((1, 2, 4, 5, 6, 7), (-4, -3, 0, 2, 4, 5), 4, {('R', 3): Fraction(-1, 1)})
+  LP-R+- C+- D-: 1  ex=((1, 2, 3, 4, 6, 7), (-4, -3, 0, 2, 3, 4), 2, {('R', 2): Fraction(-1, 1), ('R', 4): Fraction(1, 1), ('R', 6): Fraction(-1, 1), ('C', 2): Fraction(1, 1), ('C', 4): Fraction(-1, 1), ('C', 6): Fraction(1, 1), ('D', -3): Fraction(-1, 1), ('D', 3): Fraction(-1, 1)})

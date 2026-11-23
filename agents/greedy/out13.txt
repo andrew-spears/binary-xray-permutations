@@ -1,0 +1,105 @@
+N 1 1
+N 2 0
+N 3 1
+N 4 1
+N 5 3
+N 6 7
+N 7 21
+N 8 61
+N 9 184
+N 10 573
+N 11 1835
+N 12 5969
+N 13 19715
+A diag=|d|desc(+first) cell=minrow                                     first fail n=4 D={-2,-1,1,2} fails: n4=1 n5=0 n6=5 n7=7 n8=34 n9=91 n10=369 n11=1212 n12=4265 n13=14584
+A diag=|d|desc(+first) cell=maxrow                                     first fail n=4 D={-2,-1,1,2} fails: n4=1 n5=0 n6=5 n7=7 n8=34 n9=91 n10=369 n11=1212 n12=4265 n13=14584
+A diag=|d|desc(+first) cell=center                                     first fail n=4 D={-2,-1,1,2} fails: n4=1 n5=1 n6=5 n7=9 n8=41 n9=114 n10=402 n11=1312 n12=4539 n13=15574
+A diag=|d|desc(+first) cell=far                                        first fail n=4 D={-2,-1,1,2} fails: n4=1 n5=0 n6=3 n7=7 n8=23 n9=88 n10=331 n11=1078 n12=3699 n13=12876
+A diag=|d|desc(+first) cell=leastdamage                                first fail n=8 D={-6,-5,-3,-1,2,3,4,6} fails: n8=9 n9=24 n10=78 n11=309 n12=1116 n13=4081
+A diag=|d|desc(+first) cell=leastweighteddamage                        first fail n=8 D={-6,-5,-3,-1,2,3,4,6} fails: n8=2 n9=10 n10=40 n11=208 n12=798 n13=2990
+A diag=|d|desc(-first) cell=minrow                                     first fail n=4 D={-2,-1,1,2} fails: n4=1 n5=0 n6=5 n7=7 n8=34 n9=91 n10=369 n11=1212 n12=4265 n13=14584
+A diag=|d|desc(-first) cell=maxrow                                     first fail n=4 D={-2,-1,1,2} fails: n4=1 n5=0 n6=5 n7=7 n8=34 n9=91 n10=369 n11=1212 n12=4265 n13=14584
+A diag=|d|desc(-first) cell=center                                     first fail n=4 D={-2,-1,1,2} fails: n4=1 n5=1 n6=5 n7=9 n8=41 n9=114 n10=402 n11=1312 n12=4539 n13=15574
+A diag=|d|desc(-first) cell=far                                        first fail n=4 D={-2,-1,1,2} fails: n4=1 n5=0 n6=3 n7=7 n8=23 n9=88 n10=331 n11=1078 n12=3699 n13=12876
+A diag=|d|desc(-first) cell=leastdamage                                first fail n=8 D={-6,-5,-3,-1,2,3,4,6} fails: n8=9 n9=24 n10=78 n11=309 n12=1116 n13=4081
+A diag=|d|desc(-first) cell=leastweighteddamage                        first fail n=8 D={-6,-5,-3,-1,2,3,4,6} fails: n8=2 n9=10 n10=40 n11=208 n12=798 n13=2990
+A diag=d desc cell=minrow                                              first fail n=5 D={-2,-1,0,1,2} fails: n5=1 n6=3 n7=9 n8=29 n9=98 n10=323 n11=1163 n12=3894 n13=13983
+A diag=d desc cell=maxrow                                              first fail n=5 D={-2,-1,0,1,2} fails: n5=1 n6=3 n7=9 n8=29 n9=98 n10=323 n11=1163 n12=3894 n13=13983
+A diag=d desc cell=center                                              first fail n=5 D={-2,-1,0,1,2} fails: n5=1 n6=2 n7=8 n8=29 n9=104 n10=321 n11=1200 n12=3951 n13=14150
+A diag=d desc cell=far                                                 first fail n=5 D={-3,-1,0,1,3} fails: n5=1 n6=2 n7=7 n8=21 n9=68 n10=249 n11=856 n12=2990 n13=10390
+A diag=d desc cell=leastdamage                                         first fail n=7 D={-5,-4,-2,1,2,3,5} fails: n7=1 n8=1 n9=7 n10=34 n11=163 n12=673 n13=2629
+A diag=d desc cell=leastweighteddamage                                 first fail n=7 D={-5,-4,-1,1,2,3,4} fails: n7=1 n8=1 n9=9 n10=35 n11=130 n12=562 n13=2123
+A diag=d asc cell=minrow                                               first fail n=5 D={-2,-1,0,1,2} fails: n5=1 n6=3 n7=9 n8=29 n9=98 n10=323 n11=1163 n12=3894 n13=13983
+A diag=d asc cell=maxrow                                               first fail n=5 D={-2,-1,0,1,2} fails: n5=1 n6=3 n7=9 n8=29 n9=98 n10=323 n11=1163 n12=3894 n13=13983
+A diag=d asc cell=center                                               first fail n=5 D={-2,-1,0,1,2} fails: n5=1 n6=2 n7=8 n8=29 n9=104 n10=321 n11=1200 n12=3951 n13=14150
+A diag=d asc cell=far                                                  first fail n=5 D={-3,-1,0,1,3} fails: n5=1 n6=2 n7=7 n8=21 n9=68 n10=249 n11=856 n12=2990 n13=10390
+A diag=d asc cell=leastdamage                                          first fail n=7 D={-5,-3,-2,-1,2,4,5} fails: n7=1 n8=1 n9=7 n10=34 n11=163 n12=673 n13=2629
+A diag=d asc cell=leastweighteddamage                                  first fail n=7 D={-4,-3,-2,-1,1,4,5} fails: n7=1 n8=1 n9=9 n10=35 n11=130 n12=562 n13=2123
+A diag=fewest-cells(MRV) cell=minrow                                   first fail n=6 D={-4,-2,-1,1,2,4} fails: n6=1 n7=0 n8=15 n9=36 n10=190 n11=619 n12=2501 n13=8821
+A diag=fewest-cells(MRV) cell=maxrow                                   first fail n=6 D={-4,-2,-1,1,2,4} fails: n6=1 n7=0 n8=15 n9=36 n10=190 n11=619 n12=2501 n13=8821
+A diag=fewest-cells(MRV) cell=center                                   first fail n=6 D={-4,-2,-1,1,2,4} fails: n6=2 n7=0 n8=20 n9=38 n10=223 n11=624 n12=2790 n13=9469
+A diag=fewest-cells(MRV) cell=far                                      first fail n=8 D={-6,-4,-3,-2,2,3,4,6} fails: n8=6 n9=26 n10=114 n11=425 n12=1519 n13=5346
+A diag=fewest-cells(MRV) cell=leastdamage                              first fail n=10 D={-8,-6,-5,-4,-1,2,4,5,6,7} fails: n10=6 n11=41 n12=162 n13=675
+A diag=fewest-cells(MRV) cell=leastweighteddamage                      first fail n=10 D={-8,-6,-3,-2,0,1,2,4,5,7} fails: n10=10 n11=39 n12=199 n13=798
+B HH [top-max,bot-min]                                                 first fail n=3 D={-1,0,1} fails: n3=1 n4=1 n5=3 n6=7 n7=21 n8=61 n9=184 n10=573 n11=1835 n12=5969 n13=19715
+B HH [bot-min,top-max]                                                 first fail n=3 D={-1,0,1} fails: n3=1 n4=1 n5=3 n6=7 n7=21 n8=61 n9=184 n10=573 n11=1835 n12=5969 n13=19715
+B HH [top-max,bot-min,rcol-max,lcol-min]                               first fail n=5 D={-3,-2,0,2,3} fails: n5=2 n6=4 n7=14 n8=41 n9=137 n10=429 n11=1429 n12=4820 n13=16264
+B HH [top-max,rcol-max,bot-min,lcol-min]                               first fail n=6 D={-4,-2,-1,1,2,4} fails: n6=3 n7=5 n8=28 n9=85 n10=304 n11=1050 n12=3700 n13=12919
+C row-by-row fewest-cells tie=large-d                                  first fail n=6 D={-4,-2,-1,1,2,4} fails: n6=3 n7=7 n8=29 n9=82 n10=301 n11=1022 n12=3552 n13=12625
+C row-by-row fewest-cells tie=small-d                                  first fail n=6 D={-4,-2,-1,1,2,4} fails: n6=1 n7=2 n8=13 n9=49 n10=161 n11=675 n12=2433 n13=9052
+C row-by-row earliest-deadline tie=large-d                             first fail n=6 D={-4,-2,-1,1,2,4} fails: n6=2 n7=4 n8=24 n9=69 n10=291 n11=1074 n12=3875 n13=13913
+C row-by-row earliest-deadline tie=small-d                             first fail n=6 D={-4,-3,-1,1,3,4} fails: n6=2 n7=5 n8=26 n9=81 n10=327 n11=1220 n12=4361 n13=15660
+C row-by-row largest-d tie=large-d                                     first fail n=5 D={-2,-1,0,1,2} fails: n5=1 n6=3 n7=9 n8=29 n9=98 n10=323 n11=1163 n12=3894 n13=13983
+C row-by-row largest-d tie=small-d                                     first fail n=5 D={-2,-1,0,1,2} fails: n5=1 n6=3 n7=9 n8=29 n9=98 n10=323 n11=1163 n12=3894 n13=13983
+C row-by-row smallest-d tie=large-d                                    first fail n=4 D={-2,-1,1,2} fails: n4=1 n5=3 n6=7 n7=21 n8=61 n9=184 n10=573 n11=1835 n12=5969 n13=19715
+C row-by-row smallest-d tie=small-d                                    first fail n=4 D={-2,-1,1,2} fails: n4=1 n5=3 n6=7 n7=21 n8=61 n9=184 n10=573 n11=1835 n12=5969 n13=19715
+C row-by-row leastdamage tie=large-d                                   first fail n=6 D={-4,-3,0,1,2,4} fails: n6=2 n7=2 n8=18 n9=55 n10=236 n11=810 n12=3147 n13=11020
+C row-by-row leastdamage tie=small-d                                   first fail n=5 D={-3,-2,0,2,3} fails: n5=2 n6=5 n7=18 n8=54 n9=167 n10=531 n11=1742 n12=5734 n13=19183
+D global-MRV(rows/cols/diags) cell=leastdamage                         first fail n=7 D={-5,-3,-2,-1,2,4,5} fails: n7=1 n8=1 n9=4 n10=7 n11=30 n12=97 n13=388
+D global-MRV(rows/cols/diags) cell=leastweighteddamage                 first fail n=9 D={-7,-5,-3,-2,-1,1,4,6,7} fails: n9=2 n10=2 n11=6 n12=33 n13=124
+A diag=|d|desc(+first) cell=minrow +test                               first fail n=6 D={-4,-3,-1,1,3,4} fails: n6=2 n7=0 n8=20 n9=43 n10=184 n11=686 n12=2617 n13=9343
+A diag=|d|desc(+first) cell=maxrow +test                               first fail n=6 D={-4,-3,-1,1,3,4} fails: n6=2 n7=0 n8=20 n9=43 n10=184 n11=686 n12=2617 n13=9343
+A diag=|d|desc(+first) cell=center +test                               first fail n=6 D={-4,-3,-1,1,3,4} fails: n6=2 n7=3 n8=21 n9=54 n10=238 n11=804 n12=2921 n13=10489
+A diag=|d|desc(+first) cell=far +test                                  first fail n=6 D={-4,-3,-1,1,3,4} fails: n6=2 n7=2 n8=12 n9=40 n10=161 n11=606 n12=2168 n13=7788
+A diag=|d|desc(+first) cell=leastdamage +test                          first fail n=8 D={-6,-5,-3,-1,2,3,4,6} fails: n8=5 n9=6 n10=39 n11=144 n12=575 n13=2184
+A diag=|d|desc(+first) cell=leastweighteddamage +test                  first fail n=8 D={-6,-5,-3,-1,2,3,4,6} fails: n8=2 n9=8 n10=29 n11=175 n12=669 n13=2564
+A diag=|d|desc(-first) cell=minrow +test                               first fail n=6 D={-4,-3,-1,1,3,4} fails: n6=2 n7=0 n8=20 n9=43 n10=184 n11=686 n12=2617 n13=9343
+A diag=|d|desc(-first) cell=maxrow +test                               first fail n=6 D={-4,-3,-1,1,3,4} fails: n6=2 n7=0 n8=20 n9=43 n10=184 n11=686 n12=2617 n13=9343
+A diag=|d|desc(-first) cell=center +test                               first fail n=6 D={-4,-3,-1,1,3,4} fails: n6=2 n7=3 n8=21 n9=54 n10=238 n11=804 n12=2921 n13=10489
+A diag=|d|desc(-first) cell=far +test                                  first fail n=6 D={-4,-3,-1,1,3,4} fails: n6=2 n7=2 n8=12 n9=40 n10=161 n11=606 n12=2168 n13=7788
+A diag=|d|desc(-first) cell=leastdamage +test                          first fail n=8 D={-6,-5,-3,-1,2,3,4,6} fails: n8=5 n9=6 n10=39 n11=144 n12=575 n13=2184
+A diag=|d|desc(-first) cell=leastweighteddamage +test                  first fail n=8 D={-6,-5,-3,-1,2,3,4,6} fails: n8=2 n9=8 n10=29 n11=175 n12=669 n13=2564
+A diag=d desc cell=minrow +test                                        first fail n=7 D={-3,-2,-1,0,1,2,3} fails: n7=1 n8=8 n9=33 n10=162 n11=547 n12=2255 n13=8050
+A diag=d desc cell=maxrow +test                                        first fail n=7 D={-3,-2,-1,0,1,2,3} fails: n7=1 n8=8 n9=33 n10=162 n11=547 n12=2255 n13=8050
+A diag=d desc cell=center +test                                        first fail n=7 D={-3,-2,-1,0,1,2,3} fails: n7=1 n8=10 n9=38 n10=169 n11=594 n12=2431 n13=8671
+A diag=d desc cell=far +test                                           first fail n=7 D={-5,-3,-1,0,2,3,4} fails: n7=2 n8=7 n9=26 n10=96 n11=365 n12=1335 n13=4889
+A diag=d desc cell=leastdamage +test                                   first fail n=9 D={-7,-6,-4,-1,1,2,3,5,7} fails: n9=3 n10=15 n11=88 n12=367 n13=1499
+A diag=d desc cell=leastweighteddamage +test                           first fail n=7 D={-5,-4,-1,1,2,3,4} fails: n7=1 n8=1 n9=8 n10=24 n11=108 n12=457 n13=1790
+A diag=d asc cell=minrow +test                                         first fail n=7 D={-3,-2,-1,0,1,2,3} fails: n7=1 n8=8 n9=33 n10=162 n11=547 n12=2255 n13=8050
+A diag=d asc cell=maxrow +test                                         first fail n=7 D={-3,-2,-1,0,1,2,3} fails: n7=1 n8=8 n9=33 n10=162 n11=547 n12=2255 n13=8050
+A diag=d asc cell=center +test                                         first fail n=7 D={-3,-2,-1,0,1,2,3} fails: n7=1 n8=10 n9=38 n10=169 n11=594 n12=2431 n13=8671
+A diag=d asc cell=far +test                                            first fail n=7 D={-5,-2,-1,0,1,3,4} fails: n7=2 n8=7 n9=26 n10=96 n11=365 n12=1335 n13=4889
+A diag=d asc cell=leastdamage +test                                    first fail n=9 D={-7,-6,-2,-1,0,1,3,5,7} fails: n9=3 n10=15 n11=88 n12=367 n13=1499
+A diag=d asc cell=leastweighteddamage +test                            first fail n=7 D={-4,-3,-2,-1,1,4,5} fails: n7=1 n8=1 n9=8 n10=24 n11=108 n12=457 n13=1790
+A diag=fewest-cells(MRV) cell=minrow +test                             first fail n=8 D={-6,-4,-3,0,1,2,4,6} fails: n8=8 n9=21 n10=114 n11=409 n12=1782 n13=6631
+A diag=fewest-cells(MRV) cell=maxrow +test                             first fail n=8 D={-6,-4,-3,0,1,2,4,6} fails: n8=8 n9=21 n10=114 n11=409 n12=1782 n13=6631
+A diag=fewest-cells(MRV) cell=center +test                             first fail n=8 D={-6,-4,-3,0,1,2,4,6} fails: n8=10 n9=21 n10=136 n11=445 n12=2010 n13=7382
+A diag=fewest-cells(MRV) cell=far +test                                first fail n=8 D={-6,-4,-3,-2,2,3,4,6} fails: n8=3 n9=9 n10=53 n11=222 n12=870 n13=3192
+A diag=fewest-cells(MRV) cell=leastdamage +test                        first fail n=10 D={-8,-6,-4,-3,-1,1,3,4,6,8} fails: n10=3 n11=20 n12=78 n13=376
+A diag=fewest-cells(MRV) cell=leastweighteddamage +test                first fail n=10 D={-8,-6,-3,-2,0,1,2,4,5,7} fails: n10=7 n11=28 n12=148 n13=624
+B HH [top-max,bot-min] +test                                           first fail n=3 D={-1,0,1} fails: n3=1 n4=1 n5=3 n6=7 n7=21 n8=61 n9=184 n10=573 n11=1835 n12=5969 n13=19715
+B HH [bot-min,top-max] +test                                           first fail n=3 D={-1,0,1} fails: n3=1 n4=1 n5=3 n6=7 n7=21 n8=61 n9=184 n10=573 n11=1835 n12=5969 n13=19715
+B HH [top-max,bot-min,rcol-max,lcol-min] +test                         first fail n=5 D={-3,-2,0,2,3} fails: n5=1 n6=1 n7=8 n8=22 n9=92 n10=283 n11=1004 n12=3495 n13=12259
+B HH [top-max,rcol-max,bot-min,lcol-min] +test                         first fail n=8 D={-5,-4,-2,-1,0,1,5,6} fails: n8=3 n9=33 n10=108 n11=499 n12=1894 n13=7444
+C row-by-row fewest-cells tie=large-d +test                            first fail n=6 D={-4,-2,-1,1,2,4} fails: n6=1 n7=5 n8=14 n9=57 n10=197 n11=776 n12=2592 n13=9988
+C row-by-row fewest-cells tie=small-d +test                            first fail n=6 D={-4,-2,-1,1,2,4} fails: n6=1 n7=1 n8=13 n9=44 n10=148 n11=618 n12=2225 n13=8405
+C row-by-row earliest-deadline tie=large-d +test                       first fail n=6 D={-4,-2,-1,1,2,4} fails: n6=1 n7=3 n8=15 n9=46 n10=215 n11=804 n12=3039 n13=11047
+C row-by-row earliest-deadline tie=small-d +test                       first fail n=6 D={-4,-2,-1,1,2,4} fails: n6=1 n7=3 n8=18 n9=44 n10=227 n11=836 n12=3236 n13=11990
+C row-by-row largest-d tie=large-d +test                               first fail n=6 D={-4,-2,-1,1,2,4} fails: n6=1 n7=5 n8=14 n9=57 n10=194 n11=778 n12=2592 n13=10051
+C row-by-row largest-d tie=small-d +test                               first fail n=6 D={-4,-2,-1,1,2,4} fails: n6=1 n7=5 n8=14 n9=57 n10=194 n11=778 n12=2592 n13=10051
+C row-by-row smallest-d tie=large-d +test                              first fail n=8 D={-6,-4,-2,-1,0,3,4,6} fails: n8=2 n9=9 n10=32 n11=124 n12=504 n13=1971
+C row-by-row smallest-d tie=small-d +test                              first fail n=8 D={-6,-4,-2,-1,0,3,4,6} fails: n8=2 n9=9 n10=32 n11=124 n12=504 n13=1971
+C row-by-row leastdamage tie=large-d +test                             first fail n=7 D={-5,-4,-2,1,2,3,5} fails: n7=1 n8=5 n9=14 n10=59 n11=236 n12=906 n13=3517
+C row-by-row leastdamage tie=small-d +test                             first fail n=8 D={-6,-4,-2,-1,0,3,4,6} fails: n8=2 n9=7 n10=37 n11=118 n12=540 n13=2110
+D global-MRV(rows/cols/diags) cell=leastdamage +test                   first fail n=9 D={-7,-5,-3,-2,-1,1,4,6,7} fails: n9=1 n10=0 n11=9 n12=36 n13=184
+D global-MRV(rows/cols/diags) cell=leastweighteddamage +test           first fail n=9 D={-7,-5,-3,-2,-1,1,4,6,7} fails: n9=2 n10=1 n11=6 n12=26 n13=102

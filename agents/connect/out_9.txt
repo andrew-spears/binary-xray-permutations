@@ -1,0 +1,20 @@
+n=9 witnesses=12657 validD=490
+noTightCut canonical D=107 maxW=244
+C(single cycle<=k) k=3: #disconnected D=107 maxComponents=57 firstEx={-4,-3,-2,-1,0,1,2,3,4} comps=7
+C(single cycle<=k) k=4: #disconnected D=93 maxComponents=19 firstEx={-5,-4,-2,-1,0,1,2,4,5} comps=3
+C(single cycle<=k) k=5: #disconnected D=34 maxComponents=5 firstEx={-5,-4,-3,-2,0,2,3,4,5} comps=5
+C(single cycle<=k) k=6: #disconnected D=9 maxComponents=4 firstEx={-7,-5,-4,-3,0,3,4,5,7} comps=2
+C(single cycle<=k) k=7: #disconnected D=3 maxComponents=4 firstEx={-7,-6,-3,-2,-1,2,4,6,7} comps=4
+C(single cycle<=k) k=8: #disconnected D=2 maxComponents=4 firstEx={-7,-6,-3,-2,-1,2,4,6,7} comps=4
+C(single cycle<=k) k=9: #disconnected D=1 maxComponents=3 firstEx={-7,-6,-3,-2,-1,2,4,6,7} comps=3
+R(any<=k rows) k=3: #disconnected D=107 maxComponents=57 firstEx={-4,-3,-2,-1,0,1,2,3,4} comps=7
+R(any<=k rows) k=4: #disconnected D=53 maxComponents=10 firstEx={-5,-4,-2,-1,0,1,2,4,5} comps=3
+R(any<=k rows) k=5: #disconnected D=12 maxComponents=4 firstEx={-6,-5,-4,-3,0,3,4,5,6} comps=3
+R(any<=k rows) k=6: #disconnected D=5 maxComponents=2 firstEx={-7,-5,-4,-3,0,3,4,5,7} comps=2
+R(any<=k rows) k=7: #disconnected D=2 maxComponents=2 firstEx={-7,-5,-4,-3,0,2,4,6,7} comps=2
+R(any<=k rows) k=8: #disconnected D=1 maxComponents=2 firstEx={-7,-6,-4,-2,0,2,4,6,7} comps=2
+R(any<=k rows) k=9: #disconnected D=0 maxComponents=1
+moves: max over moves of min_witness r = 2 (both ends no-tight-cut: 2); max over witnesses (arbitrary) = 5
+  hist of min r: r=2:588
+  worst move: D={-6,-3,-2,-1,0,1,2,4,5} stones at -6,-3 -> -5,-4
+  per-component (C_k graph of D) worst min-r: k=3:5 k=4:5 k=5:4 k=6:3 k=7:3 k=8:3 k=9:3

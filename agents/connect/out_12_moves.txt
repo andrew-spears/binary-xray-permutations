@@ -1,0 +1,8 @@
+n=12 witnesses=4698655 validD=14805
+noTightCut canonical D=0 maxW=0
+C(single cycle<=k) k=3: #disconnected D=0 maxComponents=0
+R(any<=k rows) k=3: #disconnected D=0 maxComponents=0
+moves: max over moves of min_witness r = 2 (both ends no-tight-cut: 2); max over witnesses (arbitrary) = 7
+  hist of min r: r=2:23460
+  worst move: D={-8,-5,-4,-3,-1,0,1,2,3,4,5,6} stones at -8,-5 -> -7,-6
+  per-component (C_k graph of D) worst min-r: k=3:0 k=4:0 k=5:0 k=6:0 k=7:0 k=8:0 k=9:0 k=10:0 k=11:0 k=12:0

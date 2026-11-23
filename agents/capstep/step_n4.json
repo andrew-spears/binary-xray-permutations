@@ -1,0 +1,75 @@
+[
+ {
+  "D": [
+   -2,
+   -1,
+   1,
+   2
+  ],
+  "W": 2.0,
+  "cap": 4.0,
+  "slack": 5.333333333333333,
+  "best_order_gurv": 1.0,
+  "best_order": [
+   -2,
+   -1,
+   1,
+   2
+  ],
+  "best_order_plain": 0.5,
+  "best_plain_order": [
+   -2,
+   -1,
+   1,
+   2
+  ],
+  "best_alpha": 1.0,
+  "best_alpha_order": [
+   -2,
+   -1,
+   1,
+   2
+  ],
+  "worst_edge_gurv": 1.0,
+  "worst_edge": {
+   "S": [],
+   "d": -2,
+   "k": 2,
+   "ratio": 0.5
+  },
+  "worst_edge_plain": 0.5,
+  "worst_plain": {
+   "S": [],
+   "d": -2,
+   "k": 2
+  },
+  "rules": {
+   "outer_first": [
+    1.0,
+    0.5
+   ],
+   "inner_first": [
+    1.0,
+    0.5
+   ],
+   "left_to_right": [
+    1.0,
+    0.5
+   ],
+   "min_deg_first": [
+    1.0,
+    0.5
+   ],
+   "max_deg_first": [
+    1.0,
+    0.5
+   ],
+   "greedy_best_gurv": [
+    1.0,
+    0.5
+   ]
+  },
+  "n_bad_edges": 0,
+  "n_edges": 32
+ }
+]

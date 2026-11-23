@@ -1,0 +1,4 @@
+(1, 1, 2, 3, 3) #staircase 1 #accepted 1 [(1, 2, 3, 4, 4)]
+(1, 2, 2, 2, 3) #staircase 1 #accepted 1 [(1, 3, 3, 4, 4)]
+(2, 2, 2, 2, 2) #staircase 1 #accepted 1 [(2, 3, 4, 4, 4)]
+n 5 seqs 3 with an accepted staircase 3 all staircases accepted 3 failures []

@@ -1,0 +1,12 @@
+n=8 #D=36
+ min best-order gurv ratio: 0.5877087186682554
+ #D with no working order: 21
+ min worst-edge gurv: 0.0584444049053966
+ min best-order plain ratio: 0.2612038749637414
+ min worst-edge plain: 0.029222202451651087
+  rule outer_first: min gurv 0.0584  #fail 35  min plain 0.0292
+  rule inner_first: min gurv 0.2211  #fail 36  min plain 0.0889
+  rule left_to_right: min gurv 0.0584  #fail 36  min plain 0.0292
+  rule min_deg_first: min gurv 0.0584  #fail 35  min plain 0.0292
+  rule max_deg_first: min gurv 0.2211  #fail 36  min plain 0.0889
+  rule greedy_best_gurv: min gurv 0.5224  #fail 28  min plain 0.2612

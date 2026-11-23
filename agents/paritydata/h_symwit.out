@@ -1,0 +1,13 @@
+n=1 symmetric D=1 with involution witness=1 with centrosymmetric witness=1
+n=2 symmetric D=1 with involution witness=1 with centrosymmetric witness=1
+n=3 symmetric D=2 with involution witness=2 with centrosymmetric witness=1
+n=4 symmetric D=2 with involution witness=1 with centrosymmetric witness=2
+n=5 symmetric D=5 with involution witness=5 with centrosymmetric witness=2
+n=6 symmetric D=6 with involution witness=3 with centrosymmetric witness=6
+n=7 symmetric D=15 with involution witness=15 with centrosymmetric witness=8
+n=8 symmetric D=19 with involution witness=11 with centrosymmetric witness=19
+n=9 symmetric D=48 with involution witness=48 with centrosymmetric witness=26
+n=10 symmetric D=64 with involution witness=35 with centrosymmetric witness=64
+n=11 symmetric D=161 with involution witness=161 with centrosymmetric witness=81
+n=12 symmetric D=223 with involution witness=114 with centrosymmetric witness=223
+13 557 557 277

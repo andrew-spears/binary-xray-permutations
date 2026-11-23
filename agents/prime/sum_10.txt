@@ -1,0 +1,2 @@
+n=10 valid=1486 nowitness=0 noTight(mirror)=306 decomposable=305 prime=1
+minskel histogram: [0]=1 [2]=96 [4]=46 [5]=50 [6]=48 [7]=36 [8]=21 [9]=8

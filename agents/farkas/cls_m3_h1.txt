@@ -1,0 +1,1 @@
+m=3 h=1 {'boards': 4, 'cells': 6, 'good': 6} time=0s

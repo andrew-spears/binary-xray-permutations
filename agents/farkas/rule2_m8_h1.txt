@@ -1,0 +1,1 @@
+m=8 h=1 {'boards': 956, 'cells': 3917, 'bad': 673, 'R:caught': 655, 'R*:caught(parity needed)': 18, '  of which plainLP feasible': 11, '  of which plainLP infeasible': 7} ex={} time=3s

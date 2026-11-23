@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Binary x-rays: equivalent views</title>
+<style>
+  :root { --bg:#fbfaf7; --ink:#1d1d1f; --ink2:#6b6b70; --grid:#d9d6cf; --chip:#efece6; --bad:#d23c3c; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#17171a; --ink:#ececee; --ink2:#9a9aa2; --grid:#3a3a40; --chip:#26262b; --bad:#ff6b6b; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font:15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+  main { max-width:460px; margin:0 auto; padding:18px 12px 28px; }
+  .row { display:flex; align-items:center; justify-content:center; gap:10px; margin:7px 0; }
+  .lbl { color:var(--ink2); font-size:13px; width:58px; text-align:right; }
+  .val { min-width:150px; line-height:1.25; text-align:center; font-variant-numeric:tabular-nums; font-weight:600; letter-spacing:.04em; font-size:14px; }
+  button.arrow, button.dice { border:0; background:var(--chip); color:var(--ink); width:32px; height:32px;
+                 border-radius:50%; font-size:16px; cursor:pointer; flex:none; }
+  button.dice { font-size:15px; }
+  .spacer { width:32px; flex:none; }
+  #xray { display:flex; justify-content:center; gap:3px; margin:4px 0 6px; }
+  .xc { text-align:center; cursor:pointer; }
+  .xb { border-radius:5px; display:flex; align-items:center; justify-content:center;
+        font-weight:600; border:1.5px solid var(--grid); color:var(--ink2); transition:opacity .2s, transform .2s; }
+  .xd { color:var(--ink2); margin-top:2px; font-variant-numeric:tabular-nums; }
+  .seg { display:flex; background:var(--chip); border-radius:10px; padding:3px; margin:12px auto 4px; max-width:390px; }
+  .seg button { flex:1; border:0; background:transparent; color:var(--ink2); padding:7px 0;
+                border-radius:8px; font-size:14px; cursor:pointer; }
+  .seg button.on { background:var(--bg); color:var(--ink); font-weight:600; box-shadow:0 1px 3px rgba(0,0,0,.12); }
+  svg { display:block; width:100%; height:auto; touch-action:manipulation; }
+  #cap { color:var(--ink2); font-size:14px; text-align:center; min-height:64px; margin:0 6px; }
+  [hidden] { display:none !important; }
+  .top { display:flex; justify-content:space-between; align-items:center; min-height:22px; }
+  .link { border:0; background:none; color:var(--ink2); font-size:13px; cursor:pointer; padding:2px 0; }
+  #itext { font-size:16px; line-height:1.5; text-align:center; min-height:100px; margin:6px 8px 0; }
+  #itext b { font-weight:600; }
+  .nav { display:flex; align-items:center; justify-content:center; gap:14px; margin-top:10px; }
+  .dots { display:flex; gap:7px; }
+  .dot { width:7px; height:7px; border-radius:50%; background:var(--grid); transition:background .2s, transform .2s; }
+  .dot.on { background:var(--ink); transform:scale(1.25); }
+  button.go { border:0; background:var(--ink); color:var(--bg); border-radius:18px; height:34px; padding:0 16px;
+              font-size:14px; font-weight:600; cursor:pointer; }
+  #isvg { cursor:pointer; }
+</style>
+</head>
+<body>
+<main id="intro">
+  <div class="top"><span></span><button class="link" id="skip">skip intro ›</button></div>
+  <svg id="isvg" viewBox="0 0 360 360">
+    <defs>
+      <radialGradient id="stone" cx="35%" cy="30%" r="75%">
+        <stop offset="0" stop-color="#b9bcc2"/><stop offset=".55" stop-color="#7d828b"/><stop offset="1" stop-color="#4c5058"/>
+      </radialGradient>
+    </defs>
+    <g id="ig"></g>
+  </svg>
+  <div id="itext"></div>
+  <div class="nav">
+    <button class="arrow" id="ip">‹</button>
+    <div class="dots" id="idots"></div>
+    <button class="arrow" id="in">›</button>
+    <button class="go" id="igo" hidden>Explore →</button>
+  </div>
+</main>
+<main id="explore" hidden>
+  <div class="top"><button class="link" id="back">‹ intro</button><span></span></div>
+  <div class="row"><span class="lbl">n</span><button class="arrow" id="np">‹</button><span class="val" id="nv"></span><button class="arrow" id="nn">›</button><span class="spacer"></span></div>
+  <div class="row"><span class="lbl">scores</span><button class="arrow" id="sp">‹</button><span class="val" id="sv"></span><button class="arrow" id="sn">›</button><button class="dice" id="sr" title="random irreducible sequence">⚄</button></div>
+  <div class="row"><span class="lbl">witness</span><button class="arrow" id="wp">‹</button><span class="val" id="wv"></span><button class="arrow" id="wn">›</button><button class="dice" id="wr" title="random witness">⚄</button></div>
+  <div id="xray"></div>
+  <div id="mvnote" style="text-align:center;color:var(--ink2);font-size:12px;min-height:16px;margin:2px 0 4px"></div>
+  <div class="seg" id="seg">
+    <button data-t="0">Tournament</button><button data-t="1">Grid</button><button data-t="2">Matching</button><button data-t="3">Skolem</button>
+  </div>
+  <svg id="v" viewBox="0 0 360 360">
+    <defs>
+      <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,1 L10,5 L0,9 z" style="fill:var(--ink2)"/>
+      </marker>
+    </defs>
+    <g id="g"></g>
+  </svg>
+  <div id="cap"></div>
+</main>
+<script>
+// Ten well-separated hues, ordered so neighbouring ranks never share a hue family.
+const PAL = ["#3b6fd8","#f08a24","#3aa655","#d93f4c","#9457c9","#e0b616","#17a2b8","#ef7fb0","#8d6142","#2f3e57"];
+const CAPS = [
+  "Each point is a player; arrows go winner → loser. Every arrow points steeply down or shallowly up. A player’s height is its diagonal, so the scores fix the levels.",
+  "Put one point on each colored diagonal, no two in a row or column. Each point is the corner of a hook joining its row to its column. Tap a cell to move that diagonal’s point.",
+  "Straighten the hooks: match rows to columns using exactly one edge of each drop j − i (one per color). Tap a faint edge to use it.",
+  "Lay rows on positions 1…n and columns on n+1…2n. Each point becomes an arc of length n + d, so a witness splits 1…2n into pairs with distinct lengths n + D: an extremal Skolem set (Nordh 2008). Every arc crosses the middle because the lengths sum to n²."
+];
+const W = 360;
+let N, U, SEQS, IRRED, si, D, WIT, pts, focus = null;
+
+// ---- score sequences (Landau) ----
+function scoreSeqs(n){
+  const out = [], s = [], tot = n*(n-1)/2;
+  (function rec(k, min, sum){
+    if (k===n) { if (sum===tot) out.push([...s]); return; }
+    for (let v=min; v<n; v++) {
+      const ns = sum+v; if (ns < (k+1)*k/2) continue;
+      if (ns + v*(n-k-1) > tot) break;
+      s.push(v); rec(k+1, v, ns); s.pop();
+    }
+  })(0, 0, 0);
+  return out;
+}
+const irreducible = s => { let sum=0; for (let k=1;k<s.length;k++){ sum+=s[k-1]; if (sum===k*(k-1)/2) return false; } return true; };
+
+// ---- witnesses: permutations using each diagonal in D exactly once ----
+function witnesses(D, cap=20000){
+  const out=[], usedD=new Set(), usedC=new Set(), p=[];
+  (function rec(i){
+    if (out.length>=cap) return;
+    if (i>N) { out.push([...p]); return; }
+    for (const d of D) { const j=i+d;
+      if (j<1||j>N||usedD.has(d)||usedC.has(j)) continue;
+      usedD.add(d); usedC.add(j); p.push(j); rec(i+1); p.pop(); usedD.delete(d); usedC.delete(j);
+    }
+  })(1);
+  return out;
+}
+
+function setN(n){
+  N=n; U=W/(N+2.2); SEQS=scoreSeqs(N); IRRED=SEQS.map((s,k)=>irreducible(s)?k:-1).filter(k=>k>=0);
+  const pref = {3:"1,1,1",4:"1,1,2,2"}[N];
+  setSeq(pref ? SEQS.findIndex(s=>s.join()===pref) : IRRED[Math.floor(IRRED.length/2)]);
+}
+function setSeq(k){
+  si=k; const s=SEQS[si]; D=s.map((v,k)=>v+(k+1)-N); WIT=witnesses(D); focus=null;
+  const w = N===4 && s.join()==="1,1,2,2" ? WIT.findIndex(p=>p.join()==="2,4,1,3") : 0;
+  loadWitness(Math.max(0,w));
+}
+function loadWitness(w){ pts = WIT[w].map((j,k)=>({ i:k+1, j, d:j-(k+1) })); }
+
+const rank = d => D.indexOf(d);
+const color = d => PAL[rank(d)];
+const scoreOf = d => d - (rank(d)+1) + N;
+const valid = () => new Set(pts.map(p=>p.i)).size===N && new Set(pts.map(p=>p.j)).size===N;
+const witnessIdx = () => WIT.findIndex(w => pts.every(p => w[p.i-1]===p.j));
+function beats(p,q){ const dr=q.i-p.i, dc=q.j-p.j;
+  if (dr>0 && dc<0) return true; if (dr<0 && dc>0) return false;
+  return dr<0 ? -dr > -dc : dc > dr; }
+const sgn = d => (d>0?"+":d<0?"−":"") + Math.abs(d);
+
+// ---- geometry: t in [0,2]; 0 = tournament (rotated), 1 = grid, 2 = matching ----
+const lerp=(a,b,u)=>[a[0]+(b[0]-a[0])*u, a[1]+(b[1]-a[1])*u];
+function G(x,y,t){ if(t>=1) return [x,y]; const c0=(N+1)/2, s1=(N+1.1)/(N*Math.SQRT2);
+  const th=-Math.PI/4*(1-t), s=1-(1-s1)*(1-t), dx=x-c0, dy=y-c0, c=Math.cos(th), n=Math.sin(th);
+  return [c0+s*(dx*c-dy*n), c0+s*(dx*n+dy*c)]; }
+const S = ([x,y]) => [(x+0.75)*U, (y+0.75)*U];
+const RX = () => 0.15, CX = () => N+0.75;
+// t in (2,3]: rows and columns slide onto one line (positions 1..2N); edges become arcs
+const SP = () => (N+1.2)/(2*N-1), LX = k => -0.25 + (k-1)*SP(), LY = () => N+0.6;
+const rowNode=(i,t)=> t<=1 ? G(0,i,t) : t<=2 ? lerp([0,i],[RX(),i],t-1) : lerp([RX(),i],[LX(i),LY()],t-2);
+const colNode=(j,t)=> t<=1 ? G(j,0,t) : t<=2 ? lerp([j,0],[CX(),j],t-1) : lerp([CX(),j],[LX(N+j),LY()],t-2);
+const corner=(i,j,t)=> { if (t<=1) return G(j,i,t); if (t<=2) return lerp([j,i], lerp(rowNode(i,t),colNode(j,t),.5), t-1);
+  const a=rowNode(i,t), c=colNode(j,t), u=t-2; return [(a[0]+c[0])/2, (a[1]+c[1])/2 - u*0.7*Math.abs(c[0]-a[0])]; };
+const curve = (a,b,c) => { const q=[2*b[0]-(a[0]+c[0])/2, 2*b[1]-(a[1]+c[1])/2]; return `M${f(a[0])},${f(a[1])} Q${f(q[0])},${f(q[1])} ${f(c[0])},${f(c[1])}`; };
+const f = v => v.toFixed(1);
+const clamp = v => Math.max(0, Math.min(1, v));
+const dim = d => focus===null || focus===d ? 1 : 0.13;
+
+function render(t){
+  const m = clamp(t-1), k3 = clamp(t-2), ok = valid(); let h = "";
+  const edge = (a,b,c,attrs) => t>2 ? `<path d="${curve(a,b,c)}" ${attrs}/>` : `<polyline points="${f(a[0])},${f(a[1])} ${f(b[0])},${f(b[1])} ${f(c[0])},${f(c[1])}" ${attrs}/>`;
+  const rP = Math.min(14, U*0.3), rN = Math.min(12, U*0.25), fs = Math.min(13, U*0.27);
+  // cells
+  for (let i=1;i<=N;i++) for (let j=1;j<=N;j++) {
+    const d=j-i, on=D.includes(d);
+    const P=[[j-.5,i-.5],[j+.5,i-.5],[j+.5,i+.5],[j-.5,i+.5]].map(q=>S(G(q[0],q[1],Math.min(t,1)))).map(q=>q.map(f).join(",")).join(" ");
+    h += `<polygon points="${P}" data-i="${i}" data-j="${j}" style="fill:${on?color(d):"transparent"};fill-opacity:${on?.2*dim(d):0};stroke:var(--grid);opacity:${1-m};cursor:${on?"pointer":"default"}"/>`;
+  }
+  // candidate edges (matching view)
+  if (m>0) for (const d of D) for (let i=1;i<=N;i++) { const j=i+d; if(j<1||j>N) continue;
+    const a=S(rowNode(i,t)), b=S(corner(i,j,t)), c=S(colNode(j,t));
+    h += edge(a,b,c,`fill="none" stroke="${color(d)}" stroke-width="1.5" opacity="${(focus===d?.6:.28)*m*dim(d)*(1-k3)}"`);
+    if (m>.5 && k3<.5) h += edge(a,b,c,`fill="none" stroke="transparent" stroke-width="10" data-i="${i}" data-j="${j}" style="cursor:pointer"`);
+  }
+  // hooks
+  const ho = clamp(t), sw = Math.max(2, Math.min(3.2, U*0.06));
+  if (ho>0) for (const p of pts) {
+    const a=S(rowNode(p.i,t)), b=S(corner(p.i,p.j,t)), c=S(colNode(p.j,t));
+    h += edge(a,b,c,`fill="none" stroke="${color(p.d)}" stroke-width="${focus===p.d?sw*1.5:sw}" stroke-linejoin="round" stroke-linecap="round" opacity="${ho*dim(p.d)}" style="pointer-events:none"`);
+  }
+  // tournament arrows
+  const ao = ok ? clamp(1-t*1.6) : 0;
+  if (ao>0) for (const p of pts) for (const q of pts) if (p!==q && beats(p,q)) {
+    const a=S(corner(p.i,p.j,t)), b=S(corner(q.i,q.j,t)), dx=b[0]-a[0], dy=b[1]-a[1], L=Math.hypot(dx,dy), k=(rP+2)/L;
+    const o = focus===null ? 1 : (focus===p.d||focus===q.d ? 1 : 0.08);
+    h += `<line x1="${f(a[0]+dx*k)}" y1="${f(a[1]+dy*k)}" x2="${f(b[0]-dx*k)}" y2="${f(b[1]-dy*k)}" style="stroke:var(--ink2)" stroke-width="${N>6?1.1:1.5}" marker-end="url(#ah)" opacity="${ao*o}"/>`;
+  }
+  // row / column nodes
+  const no = clamp(t*1.4-.4);
+  if (no>0) for (let k=1;k<=N;k++) for (const [pos,key] of [[S(rowNode(k,t)),"i"],[S(colNode(k,t)),"j"]]) {
+    const bad = pts.filter(p=>p[key]===k).length !== 1;
+    h += `<circle cx="${f(pos[0])}" cy="${f(pos[1])}" r="${f(rN)}" style="fill:var(--bg);stroke:${bad?"var(--bad)":"var(--ink2)"}" stroke-width="${bad?2:1.1}" opacity="${no}"/>`
+       + `<text x="${f(pos[0])}" y="${f(pos[1]+fs*0.36)}" text-anchor="middle" font-size="${f(fs*0.9)}" style="fill:var(--ink2);pointer-events:none" opacity="${no}">${k3>.5 ? (key==="i"?k:N+k) : (key==="i"?"r":"c")+k}</text>`;
+  }
+  // drop labels beside row nodes (matching view): a second, non-color cue
+  if (m>0) for (const p of pts) { const a=S(rowNode(p.i,t));
+    h += `<text x="${f(a[0]-rN-4)}" y="${f(a[1]+fs*0.36)}" text-anchor="end" font-size="${f(fs)}" font-weight="700" fill="${color(p.d)}" opacity="${m*(1-k3)*dim(p.d)}">${sgn(p.d)}</text>`;
+  }
+  // arc lengths n + d at each apex (Skolem view)
+  if (k3>0) for (const p of pts) { const b=S(corner(p.i,p.j,t));
+    h += `<text x="${f(b[0])}" y="${f(b[1]-5)}" text-anchor="middle" font-size="${f(fs+1)}" font-weight="700" fill="${color(p.d)}" opacity="${k3*dim(p.d)}">${N+p.d}</text>`;
+  }
+  // points (players)
+  const r = rP*(1-m);
+  if (r>.5) for (const p of pts) { const c=S(corner(p.i,p.j,t));
+    h += `<g opacity="${dim(p.d)}" style="pointer-events:none"><circle cx="${f(c[0])}" cy="${f(c[1])}" r="${f(r)}" fill="${color(p.d)}"/>`
+       + `<text x="${f(c[0])}" y="${f(c[1]+r*0.36)}" text-anchor="middle" font-size="${f(r*1.0)}" font-weight="700" fill="#fff">${scoreOf(p.d)}</text></g>`;
+  }
+  document.getElementById("g").innerHTML = h;
+}
+
+// ---- header ----
+function header(){
+  const s = SEQS[si], cw = Math.min(34, ((document.getElementById("xray").clientWidth||396)-3*(2*N-2))/(2*N-1)), xfs = Math.max(9, Math.min(12, cw*0.42));
+  document.getElementById("nv").textContent = N;
+  document.title = `Binary x-rays: equivalent views (n = ${N})`;
+  let x = "";
+  const pr = focus===null ? [] : partners(focus);
+  for (let d=-(N-1); d<=N-1; d++) { const on=D.includes(d), isP=pr.includes(d), dm = on ? (isP ? 1 : dim(d)) : (focus===null?1:.4);
+    x += `<div class="xc" data-d="${on?d:""}" style="width:${cw}px"><div class="xb" style="height:${Math.max(22,cw*0.85)}px;font-size:${xfs+2}px;opacity:${dm};${on?`background:${color(d)};border-color:${color(d)};color:#fff;`:""}${focus===d?"transform:translateY(-3px);box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink);":""}${isP?"outline:2px dashed var(--ink);outline-offset:2px;":""}">${on?1:0}</div><div class="xd" style="font-size:${xfs-1}px">${sgn(d)}</div></div>`; }
+  document.getElementById("mvnote").textContent = focus===null ? "Tap a stone, then a partner, for a minimal move."
+    : pr.length ? "Tap a dashed partner to slide the pair inward." : "This stone has no minimal move. Tap another stone.";
+  document.getElementById("xray").innerHTML = x;
+  document.getElementById("sv").innerHTML = `${s.join(" ")}<br><span style="font-size:11px;font-weight:400;color:var(--ink2)">${si+1} of ${SEQS.length}</span>`;
+  const w = witnessIdx();
+  document.getElementById("wv").textContent = `${w<0?"–":w+1} / ${WIT.length}${WIT.length>=20000?"+":""}`;
+}
+
+// ---- animation & controls ----
+let tCur = 0, anim = null;
+function go(T){
+  document.querySelectorAll("#seg button").forEach(b=>b.classList.toggle("on", +b.dataset.t===T));
+  tGoal = T; document.getElementById("cap").textContent = capText();
+  const from = tCur, dur = 650*Math.max(1,Math.abs(T-from)), t0 = performance.now();
+  cancelAnimationFrame(anim);
+  const step = now => { const u = Math.min(1,(now-t0)/dur), e = u<.5 ? 4*u*u*u : 1-Math.pow(-2*u+2,3)/2;
+    tCur = from + (T-from)*e; render(tCur); if (u<1) anim = requestAnimationFrame(step); };
+  anim = requestAnimationFrame(step);
+}
+let tGoal = 0;
+function capText(){ if (tGoal<3) return CAPS[tGoal];
+  if (!valid()) return "Fix the clashes first: each position needs exactly one arc.";
+  const seq = Array(2*N); pts.forEach(p => { seq[p.i-1] = seq[N+p.j-1] = N+p.d; });
+  return CAPS[3] + " Sequence: " + seq.join(" "); }
+const refresh = () => { header(); render(tCur); document.getElementById("cap").textContent = capText(); };
+const cyc = (k,n) => ((k%n)+n)%n;
+const $ = id => document.getElementById(id);
+$("seg").onclick = e => { if (e.target.dataset.t) go(+e.target.dataset.t); };
+$("np").onclick = () => { if (N>3) { setN(N-1); refresh(); } };
+$("nn").onclick = () => { if (N<10) { setN(N+1); refresh(); } };
+$("sp").onclick = () => { setSeq(cyc(si-1,SEQS.length)); refresh(); };
+$("sn").onclick = () => { setSeq(cyc(si+1,SEQS.length)); refresh(); };
+$("sr").onclick = () => { const pool = IRRED.length>1 ? IRRED.filter(k=>k!==si) : IRRED; setSeq(pool[Math.floor(Math.random()*pool.length)]); refresh(); };
+const stepW = s => { const w=witnessIdx(); loadWitness(cyc((w<0?0:w)+s,WIT.length)); refresh(); };
+$("wp").onclick = () => stepW(-1);
+$("wn").onclick = () => stepW(1);
+$("wr").onclick = () => { loadWitness(Math.floor(Math.random()*WIT.length)); refresh(); };
+$("xray").onclick = e => { const c = e.target.closest(".xc"); if (!c || c.dataset.d==="") return;
+  const d=+c.dataset.d;
+  if (focus!==null && d!==focus && partners(focus).includes(d)) { doMove(focus, d); return; }
+  focus = focus===d ? null : d; refresh(); };
+// minimal move: two stones with exactly two empty marks between them, both landing marks empty
+function partners(a){ const S=new Set(D);
+  return D.filter(b => { if (b===a) return false; const lo=Math.min(a,b), hi=Math.max(a,b);
+    let e=0; for (let m=lo+1;m<hi;m++) if (!S.has(m)) e++; return e===2 && !S.has(lo+1) && !S.has(hi-1); }); }
+function doMove(a, b){
+  const lo=Math.min(a,b), hi=Math.max(a,b), nd=D.filter(d=>d!==lo&&d!==hi).concat([lo+1,hi-1]).sort((x,y)=>x-y);
+  const key=nd.map((d,k)=>d-(k+1)+N).join(), old=pts.map(p=>[p.i,p.j]);
+  setSeq(SEQS.findIndex(q=>q.join()===key));
+  // keep as many of the old points as possible
+  let best=0, bs=-1; WIT.forEach((w,k)=>{ const sc=old.filter(([i,j])=>w[i-1]===j).length; if (sc>bs) { bs=sc; best=k; } });
+  loadWitness(best); refresh();
+}
+$("v").addEventListener("click", e => {
+  const ds = e.target.dataset; if (!ds || !ds.i) { if (focus!==null && e.target.tagName==="svg") { focus=null; refresh(); } return; }
+  const i=+ds.i, j=+ds.j, d=j-i; if (!D.includes(d)) return;
+  const p = pts.find(p=>p.d===d);
+  if (p.i===i && p.j===j) focus = focus===d ? null : d; else { p.i=i; p.j=j; }
+  refresh();
+});
+addEventListener("resize", header);
+window.startExplorer = () => {
+  setN(7); const k = SEQS.findIndex(s=>s.join()===window.INTRO_SCORES); if (k>=0) setSeq(k);
+  tCur = 1; header(); go(1);
+};
+setN(4);
+
+// ================= INTRO: stones on a balanced plank =================
+(() => {
+  const n = 7, R = 0.42, T = 0.45, U = 360/15.4, LIFT = 0.55;
+  const ODD = [-6,-4,-2,0,2,4,6];
+  const PACK_MOVES = [[2,4],[1,5],[1,5],[0,6],[0,6],[0,6]];
+  const RAND_MOVES = [[0,3],[4,6],[1,4]];
+  const apply = (xs, mv) => { xs=[...xs]; for (const [a,b] of mv) { const s=Math.sign(xs[b]-xs[a]); xs[a]+=s; xs[b]-=s; } return xs; };
+  const AFTER1 = apply(ODD, PACK_MOVES.slice(0,1)), PACK = apply(ODD, PACK_MOVES), RAND = apply(ODD, RAND_MOVES);
+  // a witness for RAND: row i gets diagonal d, column i+d (same search order as the explorer)
+  const WITZ = (() => { const used=new Set(), cols=new Set(), rowOf={};
+    (function rec(i){ if (i>n) return true;
+      for (const d of RAND) { const j=i+d; if (j<1||j>n||used.has(d)||cols.has(j)) continue;
+        used.add(d); cols.add(j); rowOf[d]=i; if (rec(i+1)) return true; used.delete(d); cols.delete(j); }
+      return false; })(1);
+    return RAND.map(d => ({ i:rowOf[d], j:rowOf[d]+d }));
+  })();
+  window.INTRO_SCORES = RAND.map((d,k)=>d-(k+1)+n).join();
+
+  const TEXT = [
+    "A plank balances on a fulcrum. <b>Seven identical stones</b> sit on every other mark, perfectly symmetric.",
+    "A <b>move</b>: pick any two stones and slide each one mark <b>toward the other</b>. No two stones may share a mark. The plank stays balanced.",
+    "Keep making moves, and the stones always end up <b>packed together</b> in the middle.",
+    "Any arrangement along the way is <b>reachable</b>. Here’s one that looks random.",
+    "Now look down from above. The plank is a square grid turned 45°, and each mark is a <b>diagonal</b>. A stone may only slide <b>along its own diagonal</b>.",
+    "Can every stone get <b>its own row and its own column</b>? Here, yes. The conjecture: <b>for every reachable arrangement, it’s always possible.</b>"
+  ];
+
+  let S, tok = 0, step = 0;
+  const fresh = (xs, phi=0, zs=null) => ({ xs:[...xs], ys:xs.map(()=>0), zs: zs ? [...zs] : xs.map(()=>0), phi, rook:0, hl:[] });
+  const START = [ () => fresh(ODD), () => fresh(ODD), () => fresh(AFTER1), () => fresh(PACK), () => fresh(RAND), () => fresh(RAND, Math.PI/2) ];
+
+  const ease = u => u<.5 ? 4*u*u*u : 1-Math.pow(-2*u+2,3)/2;
+  const tween = (dur, fn, my) => new Promise((res, rej) => { const t0=performance.now();
+    const f = now => { if (my!==tok) return rej("x"); const u=Math.min(1,(now-t0)/dur); fn(u); draw(); u<1 ? requestAnimationFrame(f) : res(); };
+    requestAnimationFrame(f); });
+  const wait = (ms, my) => new Promise((res, rej) => setTimeout(() => my===tok ? res() : rej("x"), ms));
+
+  async function move([a,b], my){
+    const xa=S.xs[a], xb=S.xs[b], sg=Math.sign(xb-xa); S.hl=[a,b];
+    await tween(620, u => { const e=ease(u); S.xs[a]=xa+sg*e; S.xs[b]=xb-sg*e; S.ys[a]=S.ys[b]=LIFT*Math.sin(Math.PI*u); }, my);
+    S.hl=[]; draw(); await wait(170, my);
+  }
+  const PLAY = [
+    async my => {},
+    async my => { await wait(350,my); await move(PACK_MOVES[0], my); },
+    async my => { await wait(250,my); for (const mv of PACK_MOVES.slice(1)) await move(mv, my); },
+    async my => { await wait(300,my); const from=[...S.xs];
+      await tween(900, u => { const e=ease(u); S.xs=from.map((x,k)=>x+(ODD[k]-x)*e); S.ys=S.xs.map(()=>0.35*Math.sin(Math.PI*u)); }, my);
+      await wait(350,my); for (const mv of RAND_MOVES) await move(mv, my); },
+    async my => { await wait(250,my); await tween(1800, u => { S.phi = Math.PI/2*ease(u); }, my); },
+    async my => { await wait(300,my); const tz = WITZ.map(c=>c.i+c.j-n-1);
+      await tween(1500, u => { S.zs = tz.map((z,k)=>z*ease(Math.min(1,Math.max(0,(u*1.3-k*0.05))))); }, my);
+      await tween(1100, u => { S.rook = ease(u); }, my); }
+  ];
+
+  // ---- drawing (orthographic camera, elevation phi: 0 = side view, π/2 = overhead) ----
+  const f = v => v.toFixed(1);
+  function draw(){
+    const c=Math.cos(S.phi), s=Math.sin(S.phi), cy = 180 - 0.9*U*c;
+    const P = (x,y,z) => [180 + x*U, cy + (-y*c + z*s)*U];
+    const poly = pts => pts.map(p=>P(...p)).map(q=>q.map(f).join(",")).join(" ");
+    let h = "";
+    // ground + fulcrum
+    if (c>0.02) {
+      const gy = -T-1.7;
+      h += `<g opacity="${f(c)}"><line x1="${f(P(-7.4,gy,0)[0])}" y1="${f(P(-7.4,gy,0)[1])}" x2="${f(P(7.4,gy,0)[0])}" y2="${f(P(7.4,gy,0)[1])}" style="stroke:var(--grid)" stroke-width="2"/>`
+         + `<polygon points="${poly([[0,-T,0],[1.0,gy,0],[-1.0,gy,0]])}" fill="#55595f"/></g>`;
+    }
+    // plank: two front faces of a diamond board, then the top face
+    h += `<polygon points="${poly([[-n,0,0],[0,0,n],[0,-T,n],[-n,-T,0]])}" fill="#b48a58"/>`
+       + `<polygon points="${poly([[0,0,n],[n,0,0],[n,-T,0],[0,-T,n]])}" fill="#a07a4c"/>`
+       + `<polygon points="${poly([[-n,0,0],[0,0,n],[n,0,0],[0,0,-n]])}" fill="#dcbf92"/>`;
+    // marks on the front edge (side view)
+    if (c>0.05) for (let d=-(n-1); d<=n-1; d++) { const z=n-Math.abs(d), a=P(d,0,z), b=P(d,-0.22,z);
+      h += `<line x1="${f(a[0])}" y1="${f(a[1])}" x2="${f(b[0])}" y2="${f(b[1])}" stroke="#6e4f2c" stroke-width="1.4" opacity="${f(c)}"/>`; }
+    // grid on the top face (overhead)
+    const W = (i,j) => [j-i, 0, i+j-n-1];
+    if (s>0.05) { let g="";
+      for (let k=0.5; k<=n+0.5; k++) { g += `<polyline points="${poly([W(k,0.5),W(k,n+0.5)])}"/><polyline points="${poly([W(0.5,k),W(n+0.5,k)])}"/>`; }
+      h += `<g stroke="#8b6a42" stroke-width="1" fill="none" opacity="${f(0.75*s)}">${g}</g>`;
+    }
+    // each stone casts a ray along its row (to the upper-left edge) and its column (to the upper-right edge)
+    if (S.rook>0) { let g="", e="";
+      WITZ.forEach(({i,j}) => {
+        const a=W(i,j), r=W(i, j-(j-0.5)*S.rook), q=W(i-(i-0.5)*S.rook, j);
+        g += `<polyline points="${poly([a,r])}"/><polyline points="${poly([a,q])}"/>`;
+        if (S.rook>0.97) for (const t of [W(i,0.5), W(0.5,j)]) { const [x,y]=P(...t); e += `<circle cx="${f(x)}" cy="${f(y)}" r="3.6"/>`; }
+      });
+      h += `<g stroke="#3d4148" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.7">${g}</g><g fill="#3d4148">${e}</g>`;
+    }
+    // stones (spheres sitting on the plank)
+    const order = S.xs.map((_,k)=>k).sort((a,b)=>S.zs[a]-S.zs[b]);
+    for (const k of order) { const [x,y] = P(S.xs[k], R+S.ys[k], S.zs[k]);
+      if (S.hl.includes(k)) h += `<circle cx="${f(x)}" cy="${f(y)}" r="${f(R*U+3.5)}" fill="none" stroke="#e0743a" stroke-width="2"/>`;
+      h += `<circle cx="${f(x)}" cy="${f(y)}" r="${f(R*U)}" fill="url(#stone)"/>`;
+    }
+    document.getElementById("ig").innerHTML = h;
+  }
+
+  const $ = id => document.getElementById(id);
+  $("idots").innerHTML = TEXT.map(()=>`<span class="dot"></span>`).join("");
+  function show(k){
+    step = k; const my = ++tok; S = START[k](); draw();
+    $("itext").innerHTML = TEXT[k];
+    document.querySelectorAll(".dot").forEach((d,i)=>d.classList.toggle("on", i===k));
+    $("ip").style.visibility = k===0 ? "hidden" : "visible";
+    $("in").hidden = k===TEXT.length-1; $("igo").hidden = k!==TEXT.length-1;
+    PLAY[k](my).catch(()=>{});
+  }
+  $("ip").onclick = () => step>0 && show(step-1);
+  $("in").onclick = () => step<TEXT.length-1 && show(step+1);
+  $("isvg").onclick = () => show(step);   // tap the picture to replay this step
+  const enter = () => { tok++; $("intro").hidden = true; $("explore").hidden = false; window.startExplorer(); };
+  $("igo").onclick = enter; $("skip").onclick = enter;
+  $("back").onclick = () => { $("explore").hidden = true; $("intro").hidden = false; show(0); };
+  show(0);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+m=6 h=4 {'boards': 8845, 'cells': 23156, 'bad': 7390, 'R:caught': 7390} ex={} time=3s

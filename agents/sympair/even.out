@@ -1,0 +1,7 @@
+n=2: valid=1 no-involution=0 (of which parity OK: 0 []) no-centro=0 no-folded-involution=0
+n=4: valid=2 no-involution=1 (of which parity OK: 0 []) no-centro=0 no-folded-involution=0
+n=6: valid=6 no-involution=3 (of which parity OK: 0 []) no-centro=0 no-folded-involution=4
+n=8: valid=19 no-involution=8 (of which parity OK: 0 []) no-centro=0 no-folded-involution=17
+n=10: valid=64 no-involution=29 (of which parity OK: 0 []) no-centro=0 no-folded-involution=60
+n=12: valid=223 no-involution=109 (of which parity OK: 0 []) no-centro=0 no-folded-involution=214
+n=14: valid=796 no-involution=389 (of which parity OK: 0 []) no-centro=0 no-folded-involution=776

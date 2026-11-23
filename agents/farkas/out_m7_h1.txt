@@ -1,0 +1,10 @@
+m=7 h=1 {'boards': 286, 'cells': 1028, 'bad': 168} time=0s
+  L: 144  ex=((2, 3, 4, 5, 6, 7, 8), (-4, -3, -1, 1, 3, 5, 6), 1)
+  LP-R+- C+- D+- W: 13  ex=((1, 3, 4, 5, 6, 7, 8), (-5, -3, 0, 2, 3, 4, 5), 3, {('R', 3): Fraction(1, 1), ('R', 5): Fraction(-1, 1), ('R', 6): Fraction(3, 1), ('R', 7): Fraction(-3, 1), ('C', 3): Fraction(-3, 1), ('C', 5): Fraction(-1, 1), ('C', 7): Fraction(1, 1), ('D', -5): Fraction(-3, 1), ('D', 0): Fraction(2, 1), ('D', 5): Fraction(-1, 1)})
+  LP-R+- C- D+- W: 3  ex=((1, 3, 4, 5, 6, 7, 8), (-5, -3, -1, 2, 3, 4, 6), 3, {('R', 5): Fraction(-2, 1), ('R', 6): Fraction(1, 1), ('R', 7): Fraction(-1, 1), ('C', 3): Fraction(-1, 1), ('C', 5): Fraction(-2, 1), ('D', -5): Fraction(-1, 1), ('D', -1): Fraction(1, 1), ('D', 2): Fraction(2, 1)})
+  LP-R- C+ D-: 2  ex=((1, 3, 4, 5, 6, 7, 8), (-5, -3, -1, 1, 3, 5, 6), 5, {('R', 3): Fraction(-1, 1), ('R', 5): Fraction(-1, 1), ('R', 7): Fraction(-1, 1), ('C', 4): Fraction(1, 1), ('C', 8): Fraction(1, 1), ('D', 6): Fraction(-1, 1)})
+  PAR:C-+R-+R- C++R- C+ D-+R- C- D++cnt: 2  ex=((1, 2, 4, 5, 6, 7, 8), (-4, -3, -1, 1, 3, 4, 5), 3, {'cnt': 52, 'R- C+': 1, 'R-': 6, 'C-': 3, 'R- C- D+': 1, 'R- C+ D-': 1}, None)
+  LP-R+- C- D+-: 1  ex=((1, 3, 4, 5, 6, 7, 8), (-5, -3, 0, 1, 3, 4, 6), 3, {('R', 2): Fraction(1, 1), ('R', 6): Fraction(1, 1), ('R', 7): Fraction(-1, 1), ('C', 3): Fraction(-1, 1), ('C', 5): Fraction(-1, 1), ('C', 6): Fraction(-1, 1), ('D', -5): Fraction(-1, 1), ('D', 0): Fraction(1, 1), ('D', 1): Fraction(1, 1), ('D', 6): Fraction(-1, 1)})
+  LP-R- C- D+: 1  ex=((1, 2, 3, 5, 6, 7, 8), (-4, -3, -1, 1, 2, 3, 6), 2, {('R', 3): Fraction(-1, 1), ('R', 7): Fraction(-1, 1), ('C', 5): Fraction(-1, 1), ('C', 7): Fraction(-1, 1), ('D', -1): Fraction(1, 1), ('D', 1): Fraction(1, 1), ('D', 3): Fraction(1, 1)})
+  PAR:C-+R+ C- D-+R-+R- C+ D-+R- D++cnt: 1  ex=((1, 2, 3, 4, 6, 7, 8), (-5, -4, -1, 1, 3, 4, 5), 5, {'cnt': 52, 'R- D+': 1, 'R-': 6, 'C-': 3, 'R- C+ D-': 1, 'R+ C- D-': 1}, None)
+  PAR:C-+R-+R- C++R- C+ D-+cnt: 1  ex=((1, 2, 3, 4, 5, 7, 8), (-5, -4, -2, 1, 3, 4, 5), 3, {'cnt': 55, 'R- C+': 2, 'R-': 1, 'C-': 5, 'R- C+ D-': 1}, None)

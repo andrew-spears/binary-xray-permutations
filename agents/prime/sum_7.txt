@@ -1,0 +1,2 @@
+n=7 valid=59 nowitness=0 noTight(mirror)=15 decomposable=14 prime=1
+minskel histogram: [0]=1 [2]=8 [4]=2 [5]=2 [6]=2

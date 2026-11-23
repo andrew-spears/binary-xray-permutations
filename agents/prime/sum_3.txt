@@ -1,0 +1,2 @@
+n=3 valid=2 nowitness=0 noTight(mirror)=1 decomposable=1 prime=0
+minskel histogram: [2]=1

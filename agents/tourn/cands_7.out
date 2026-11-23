@@ -1,0 +1,22 @@
+(1, 1, 2, 3, 4, 5, 5) hhal:1 hhas:0 hhil:1 hhis:0 round 1/0
+(1, 1, 2, 4, 4, 4, 5) hhal:1 hhas:- hhil:1 hhis:- round 0/0
+(1, 1, 3, 3, 3, 5, 5) hhal:1 hhas:- hhil:1 hhis:- round 0/0
+(1, 1, 3, 3, 4, 4, 5) hhal:1 hhas:- hhil:1 hhis:- round 0/0
+(1, 1, 3, 4, 4, 4, 4) hhal:1 hhas:- hhil:1 hhis:- round 0/0
+(1, 2, 2, 2, 4, 5, 5) hhal:1 hhas:- hhil:1 hhis:- round 0/0
+(1, 2, 2, 3, 3, 5, 5) hhal:1 hhas:- hhil:1 hhis:- round 0/0
+(1, 2, 2, 3, 4, 4, 5) hhal:0 hhas:- hhil:0 hhis:- round 2/0
+(1, 2, 2, 4, 4, 4, 4) hhal:1 hhas:- hhil:1 hhis:- round 0/0
+(1, 2, 3, 3, 3, 4, 5) hhal:1 hhas:- hhil:1 hhis:- round 1/1
+(1, 2, 3, 3, 4, 4, 4) hhal:0 hhas:- hhil:1 hhis:- round 0/0
+(1, 3, 3, 3, 3, 3, 5) hhal:1 hhas:- hhil:1 hhis:- round 0/0
+(1, 3, 3, 3, 3, 4, 4) hhal:1 hhas:- hhil:1 hhis:- round 0/0
+(2, 2, 2, 2, 3, 5, 5) hhal:1 hhas:- hhil:1 hhis:- round 0/0
+(2, 2, 2, 2, 4, 4, 5) hhal:1 hhas:- hhil:1 hhis:- round 0/0
+(2, 2, 2, 3, 3, 4, 5) hhal:1 hhas:- hhil:0 hhis:- round 0/0
+(2, 2, 2, 3, 4, 4, 4) hhal:0 hhas:0 hhil:0 hhis:0 round 1/0
+(2, 2, 3, 3, 3, 3, 5) hhal:1 hhas:- hhil:1 hhis:- round 0/0
+(2, 2, 3, 3, 3, 4, 4) hhal:1 hhas:- hhil:1 hhis:- round 2/0
+(2, 3, 3, 3, 3, 3, 4) hhal:0 hhas:- hhil:0 hhis:- round 1/1
+(3, 3, 3, 3, 3, 3, 3) hhal:1 hhas:1 hhil:1 hhis:1 round 1/1
+n 7 seqs 21 {('max', 'largest'): 17, ('max', 'smallest'): 1, ('min', 'largest'): 17, ('min', 'smallest'): 1, 'round_exists': 7, 'round_acc': 3}

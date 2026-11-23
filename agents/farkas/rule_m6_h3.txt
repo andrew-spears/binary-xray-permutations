@@ -1,0 +1,1 @@
+m=6 h=3 {'bad:dead': 1785, 'bad:forced_steps=0': 798, 'bad:forced_steps=1': 828, 'bad:forced_steps=2': 159, 'boards': 2487, 'cells': 6853, 'good': 5068, 'good:complete': 3271, 'good:stuck': 1797} ex={} time=2s

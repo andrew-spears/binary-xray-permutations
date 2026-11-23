@@ -1,0 +1,2 @@
+m=3 h=3 {'boards': 28, 'cells': 38, 'bad': 6} time=0s
+  DEAD: 6  ex=((2, 5, 6), (1, 2, 4), 4)

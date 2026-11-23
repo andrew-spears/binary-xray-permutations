@@ -1,0 +1,24 @@
+4 C 3 #disc 1 maxcomp 2
+4 R 3 #disc 1 maxcomp 2
+4 C 4 #disc 1 maxcomp 2
+4 R 4 #disc 0 maxcomp 1
+4 all moves have min r = 2: OK
+5 C 3 #disc 3 maxcomp 6
+5 R 3 #disc 3 maxcomp 6
+5 C 4 #disc 1 maxcomp 2
+5 R 4 #disc 1 maxcomp 2
+5 all moves have min r = 2: OK
+6 C 3 #disc 4 maxcomp 6
+6 R 3 #disc 4 maxcomp 6
+6 C 4 #disc 3 maxcomp 6
+6 R 4 #disc 3 maxcomp 4
+  n 6 k 3 D [-4, -3, 0, 1, 2, 4] move -3 0 component ['364152'] best r in comp 3
+  n 6 k 3 D [-4, -3, 0, 1, 2, 4] move -3 0 component ['524613'] best r in comp 3
+  n 6 k 3 D [-4, -2, -1, 0, 3, 4] move 0 3 component ['461352'] best r in comp 3
+  n 6 k 3 D [-4, -2, -1, 0, 3, 4] move 0 3 component ['526314'] best r in comp 3
+6 all moves have min r = 2: OK
+7 C 3 #disc 15 maxcomp 13
+7 R 3 #disc 15 maxcomp 13
+7 C 4 #disc 12 maxcomp 13
+7 R 4 #disc 9 maxcomp 7
+7 all moves have min r = 2: OK

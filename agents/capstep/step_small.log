@@ -1,0 +1,60 @@
+n=3 #D=1
+ min best-order gurv ratio: 1.0
+ #D with no working order: 0
+ min worst-edge gurv: 0.9999999999957295
+ min best-order plain ratio: 0.9999999999957295
+ min worst-edge plain: 0.9999999999957295
+  rule outer_first: min gurv 1.0000  #fail 0  min plain 1.0000
+  rule inner_first: min gurv 1.0000  #fail 0  min plain 1.0000
+  rule left_to_right: min gurv 1.0000  #fail 0  min plain 1.0000
+  rule min_deg_first: min gurv 1.0000  #fail 0  min plain 1.0000
+  rule max_deg_first: min gurv 1.0000  #fail 0  min plain 1.0000
+  rule greedy_best_gurv: min gurv 1.0000  #fail 0  min plain 1.0000
+n=4 #D=1
+ min best-order gurv ratio: 1.0
+ #D with no working order: 0
+ min worst-edge gurv: 1.0
+ min best-order plain ratio: 0.5
+ min worst-edge plain: 0.5
+  rule outer_first: min gurv 1.0000  #fail 0  min plain 0.5000
+  rule inner_first: min gurv 1.0000  #fail 0  min plain 0.5000
+  rule left_to_right: min gurv 1.0000  #fail 0  min plain 0.5000
+  rule min_deg_first: min gurv 1.0000  #fail 0  min plain 0.5000
+  rule max_deg_first: min gurv 1.0000  #fail 0  min plain 0.5000
+  rule greedy_best_gurv: min gurv 1.0000  #fail 0  min plain 0.5000
+n=5 #D=3
+ min best-order gurv ratio: 0.8284271247461903
+ #D with no working order: 2
+ min worst-edge gurv: 0.4154611285717754
+ min best-order plain ratio: 0.3910190759218211
+ min worst-edge plain: 0.2077305642858877
+  rule outer_first: min gurv 0.4155  #fail 3  min plain 0.2077
+  rule inner_first: min gurv 0.8284  #fail 2  min plain 0.3910
+  rule left_to_right: min gurv 0.4155  #fail 3  min plain 0.2077
+  rule min_deg_first: min gurv 0.4155  #fail 3  min plain 0.2077
+  rule max_deg_first: min gurv 0.8284  #fail 2  min plain 0.3910
+  rule greedy_best_gurv: min gurv 0.8284  #fail 2  min plain 0.3910
+n=6 #D=5
+ min best-order gurv ratio: 0.7499999999977166
+ #D with no working order: 2
+ min worst-edge gurv: 0.2370153370396599
+ min best-order plain ratio: 0.33333333333337706
+ min worst-edge plain: 0.1185076685187988
+  rule outer_first: min gurv 0.2370  #fail 4  min plain 0.1185
+  rule inner_first: min gurv 0.6667  #fail 5  min plain 0.3333
+  rule left_to_right: min gurv 0.2370  #fail 4  min plain 0.1185
+  rule min_deg_first: min gurv 0.2370  #fail 4  min plain 0.1185
+  rule max_deg_first: min gurv 0.6667  #fail 5  min plain 0.3333
+  rule greedy_best_gurv: min gurv 0.6667  #fail 3  min plain 0.3333
+n=7 #D=15
+ min best-order gurv ratio: 0.7499999999982682
+ #D with no working order: 9
+ min worst-edge gurv: 0.12039370320806707
+ min best-order plain ratio: 0.33333333333333337
+ min worst-edge plain: 0.06019685160358201
+  rule outer_first: min gurv 0.1204  #fail 14  min plain 0.0602
+  rule inner_first: min gurv 0.6667  #fail 13  min plain 0.3023
+  rule left_to_right: min gurv 0.1204  #fail 14  min plain 0.0602
+  rule min_deg_first: min gurv 0.1204  #fail 14  min plain 0.0602
+  rule max_deg_first: min gurv 0.4644  #fail 15  min plain 0.1959
+  rule greedy_best_gurv: min gurv 0.6667  #fail 10  min plain 0.3333

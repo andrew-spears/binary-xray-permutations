@@ -1,0 +1,4 @@
+m=3 h=3 {'boards': 28, 'cells': 38, 'bad': 6} time=0s
+  H2:RD,CD,RC: 6  first=((2, 5, 6), (1, 2, 4), 4, None)
+ subkinds:
+  ('H2:RD,CD,RC', ''): 6  first=((2, 5, 6), (1, 2, 4), 4, None)

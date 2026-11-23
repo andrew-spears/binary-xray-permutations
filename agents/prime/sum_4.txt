@@ -1,0 +1,2 @@
+n=4 valid=4 nowitness=0 noTight(mirror)=1 decomposable=0 prime=1
+minskel histogram: [0]=1

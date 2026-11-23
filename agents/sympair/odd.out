@@ -1,0 +1,7 @@
+odd n=3: valid symmetric L=2, no pairing=0 []
+odd n=5: valid symmetric L=5, no pairing=0 []
+odd n=7: valid symmetric L=15, no pairing=0 []
+odd n=9: valid symmetric L=48, no pairing=0 []
+odd n=11: valid symmetric L=161, no pairing=0 []
+odd n=13: valid symmetric L=557, no pairing=0 []
+odd n=15: valid symmetric L=1971, no pairing=0 []

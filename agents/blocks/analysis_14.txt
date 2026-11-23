@@ -1,0 +1,115 @@
+== Q1 counts (valid no-tight-cut D, mirror-reduced) ==
+n  #D  has2 two_disj2 has3 has132/213 has321 c2_direct c2_tight c2_distinct c3_dir|tight cany_dir|tight c2_dir|tight wit_directsum  Wmerge Woneside Wfar Wcorner
+3 1 1 0 1 1 0 1 0 0 0 1 1 1 1 1 1 1 Wext 1
+4 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 Wext 0
+5 3 2 2 2 0 2 2 0 0 2 2 2 2 1 2 2 1 Wext 2
+6 5 4 1 2 1 1 1 0 1 1 1 1 1 0 4 3 0 Wext 4
+7 15 14 8 9 5 6 5 0 5 5 8 5 8 2 12 12 2 Wext 12
+8 36 35 26 28 17 21 11 0 17 11 11 11 11 1 31 29 1 Wext 31
+9 107 106 93 91 64 79 39 0 50 28 43 39 43 8 90 83 8 Wext 90
+10 306 305 284 272 214 240 94 0 193 83 96 94 96 10 266 217 10 Wext 265
+11 969 968 934 907 781 814 322 0 659 270 330 322 330 45 842 663 45 Wext 841
+12 3055 3054 3008 2933 2637 2722 930 0 2311 848 936 930 936 98 2676 1979 98 Wext 2675
+13 10039 10038 9979 9810 9102 9349 3115 0 8102 2863 3128 3115 3128 359 8814 6300 359 Wext 8812
+14 33284 33283 33209 32773 31039 31579 9865 0 28459 9394 9873 9865 9873 1023 29330 20097 1023 Wext 29325
+D with no 2-block in any witness:
+  3 [] 0
+  4 [(-2, -1, 1, 2)] 1
+  5 [(-3, -2, 0, 2, 3)] 1
+  6 [(-4, -3, -1, 1, 3, 4)] 1
+  7 [(-5, -4, -2, 0, 2, 4, 5)] 1
+  8 [(-6, -5, -3, -1, 1, 3, 5, 6)] 1
+  9 [(-7, -6, -4, -2, 0, 2, 4, 6, 7)] 1
+  10 [(-8, -7, -5, -3, -1, 1, 3, 5, 7, 8)] 1
+  11 [(-9, -8, -6, -4, -2, 0, 2, 4, 6, 8, 9)] 1
+  12 [(-10, -9, -7, -5, -3, -1, 1, 3, 5, 7, 9, 10)] 1
+  13 [(-11, -10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10, 11)] 1
+  14 [(-12, -11, -9, -7, -5, -3, -1, 1, 3, 5, 7, 9, 11, 12)] 1
+
+== Q2 rule tests (all no-tight-cut D with a 2-block, both mirrors) ==
+-- target set = W2
+  empty_mid[any]               92294/94413 (97.8%) first fail: (3, (-1, 0, 1), [], [-1])
+  adj_empty_outer[any]         78607/94413 (83.3%) first fail: (5, (-2, -1, 0, 1, 2), [], [-2, -1, 0])
+  adj_empty_each[any]          93395/94413 (98.9%) first fail: (5, (-2, -1, 0, 1, 2), [], [-2, -1, 0])
+  merge_valid[any]             7275/94413 (7.7%) first fail: (3, (-1, 0, 1), [], [-1])
+  merge_valid_notight[any]     2805/94413 (3.0%) first fail: (3, (-1, 0, 1), [], [-1])
+  empty_mid[all]               83301/94413 (88.2%) first fail: (3, (-1, 0, 1), [], [-1])
+  adj_empty_outer[all]         76257/94413 (80.8%) first fail: (5, (-2, -1, 0, 1, 2), [], [-2, -1, 0])
+  adj_empty_each[all]          84054/94413 (89.0%) first fail: (5, (-2, -1, 0, 1, 2), [], [-2, -1, 0])
+  merge_valid[all]             7275/94413 (7.7%) first fail: (3, (-1, 0, 1), [], [-1])
+  merge_valid_notight[all]     2805/94413 (3.0%) first fail: (3, (-1, 0, 1), [], [-1])
+  empty_mid[left]              87820/94413 (93.0%) first fail: (3, (-1, 0, 1), [], [-1])
+  adj_empty_outer[left]        77537/94413 (82.1%) first fail: (5, (-2, -1, 0, 1, 2), [], [-2, -1, 0])
+  adj_empty_each[left]         88757/94413 (94.0%) first fail: (5, (-2, -1, 0, 1, 2), [], [-2, -1, 0])
+  merge_valid[left]            7275/94413 (7.7%) first fail: (3, (-1, 0, 1), [], [-1])
+  merge_valid_notight[left]    2805/94413 (3.0%) first fail: (3, (-1, 0, 1), [], [-1])
+  empty_mid[right]             87820/94413 (93.0%) first fail: (3, (-1, 0, 1), [], [-1])
+  adj_empty_outer[right]       77537/94413 (82.1%) first fail: (5, (-2, -1, 0, 1, 2), [], [-2, -1, 0])
+  adj_empty_each[right]        88757/94413 (94.0%) first fail: (5, (-2, -1, 0, 1, 2), [], [-2, -1, 0])
+  merge_valid[right]           7275/94413 (7.7%) first fail: (3, (-1, 0, 1), [], [-1])
+  merge_valid_notight[right]   2805/94413 (3.0%) first fail: (3, (-1, 0, 1), [], [-1])
+  closest_mid[any]             93743/94413 (99.3%) first fail: (6, (-3, -2, -1, 1, 2, 3), [-1], [-3, 1])
+  closest_mid[all]             93651/94413 (99.2%) first fail: (6, (-4, -2, 0, 1, 2, 3), [-2, 0], [-4, 0, 1])
+  leftmost                     90067/94413 (95.4%) first fail: (7, (-5, -4, -2, 1, 2, 3, 5), [-4], [1, 3])
+  rightmost                    90067/94413 (95.4%) first fail: (7, (-5, -3, -2, -1, 2, 4, 5), [2], [-5, -3])
+  any_pair                     94413/94413 (100.0%) first fail: None
+  all_pairs                    84411/94413 (89.4%) first fail: (6, (-4, -2, 0, 1, 2, 3), [-4, -2, 0, 1], [-4, 0, 1])
+-- target set = Wok
+  empty_mid[any]               78745/94413 (83.4%) first fail: (3, (-1, 0, 1), [], [])
+  adj_empty_outer[any]         32103/94413 (34.0%) first fail: (3, (-1, 0, 1), [-1], [])
+  adj_empty_each[any]          78745/94413 (83.4%) first fail: (3, (-1, 0, 1), [-1], [])
+  merge_valid[any]             5799/94413 (6.1%) first fail: (3, (-1, 0, 1), [], [])
+  merge_valid_notight[any]     2271/94413 (2.4%) first fail: (3, (-1, 0, 1), [], [])
+  empty_mid[all]               35945/94413 (38.1%) first fail: (3, (-1, 0, 1), [], [])
+  adj_empty_outer[all]         8871/94413 (9.4%) first fail: (3, (-1, 0, 1), [-1], [])
+  adj_empty_each[all]          9428/94413 (10.0%) first fail: (3, (-1, 0, 1), [-1], [])
+  merge_valid[all]             5799/94413 (6.1%) first fail: (3, (-1, 0, 1), [], [])
+  merge_valid_notight[all]     2271/94413 (2.4%) first fail: (3, (-1, 0, 1), [], [])
+  empty_mid[left]              61697/94413 (65.3%) first fail: (3, (-1, 0, 1), [], [])
+  adj_empty_outer[left]        20441/94413 (21.7%) first fail: (3, (-1, 0, 1), [-1], [])
+  adj_empty_each[left]         50923/94413 (53.9%) first fail: (3, (-1, 0, 1), [-1], [])
+  merge_valid[left]            5799/94413 (6.1%) first fail: (3, (-1, 0, 1), [], [])
+  merge_valid_notight[left]    2271/94413 (2.4%) first fail: (3, (-1, 0, 1), [], [])
+  empty_mid[right]             61697/94413 (65.3%) first fail: (3, (-1, 0, 1), [], [])
+  adj_empty_outer[right]       20441/94413 (21.7%) first fail: (3, (-1, 0, 1), [-1], [])
+  adj_empty_each[right]        50923/94413 (53.9%) first fail: (3, (-1, 0, 1), [-1], [])
+  merge_valid[right]           5799/94413 (6.1%) first fail: (3, (-1, 0, 1), [], [])
+  merge_valid_notight[right]   2271/94413 (2.4%) first fail: (3, (-1, 0, 1), [], [])
+  closest_mid[any]             39245/94413 (41.6%) first fail: (3, (-1, 0, 1), [-1], [])
+  closest_mid[all]             28481/94413 (30.2%) first fail: (3, (-1, 0, 1), [-1], [])
+  leftmost                     43446/94413 (46.0%) first fail: (3, (-1, 0, 1), [-1], [])
+  rightmost                    43446/94413 (46.0%) first fail: (3, (-1, 0, 1), [-1], [])
+  any_pair                     78745/94413 (83.4%) first fail: (3, (-1, 0, 1), [-1], [])
+  all_pairs                    1596/94413 (1.7%) first fail: (3, (-1, 0, 1), [-1], [])
+-- target set = We
+  empty_mid[any]               71949/94413 (76.2%) first fail: (3, (-1, 0, 1), [], [-1])
+  adj_empty_outer[any]         49578/94413 (52.5%) first fail: (5, (-3, -1, 0, 1, 3), [-1], [-3, 1])
+  adj_empty_each[any]          77802/94413 (82.4%) first fail: (5, (-2, -1, 0, 1, 2), [], [-2, -1, 0])
+  merge_valid[any]             791/94413 (0.8%) first fail: (3, (-1, 0, 1), [], [-1])
+  merge_valid_notight[any]     791/94413 (0.8%) first fail: (3, (-1, 0, 1), [], [-1])
+  empty_mid[all]               13234/94413 (14.0%) first fail: (3, (-1, 0, 1), [], [-1])
+  adj_empty_outer[all]         20774/94413 (22.0%) first fail: (5, (-3, -1, 0, 1, 3), [-1], [-3, 1])
+  adj_empty_each[all]          10924/94413 (11.6%) first fail: (5, (-3, -1, 0, 1, 3), [-3, -1, 1], [-3, 1])
+  merge_valid[all]             791/94413 (0.8%) first fail: (3, (-1, 0, 1), [], [-1])
+  merge_valid_notight[all]     791/94413 (0.8%) first fail: (3, (-1, 0, 1), [], [-1])
+  empty_mid[left]              51738/94413 (54.8%) first fail: (3, (-1, 0, 1), [], [-1])
+  adj_empty_outer[left]        37733/94413 (40.0%) first fail: (5, (-3, -1, 0, 1, 3), [-1], [-3, 1])
+  adj_empty_each[left]         57022/94413 (60.4%) first fail: (5, (-2, -1, 0, 1, 2), [], [-2, -1, 0])
+  merge_valid[left]            791/94413 (0.8%) first fail: (3, (-1, 0, 1), [], [-1])
+  merge_valid_notight[left]    791/94413 (0.8%) first fail: (3, (-1, 0, 1), [], [-1])
+  empty_mid[right]             51738/94413 (54.8%) first fail: (3, (-1, 0, 1), [], [-1])
+  adj_empty_outer[right]       37733/94413 (40.0%) first fail: (5, (-3, -1, 0, 1, 3), [-1], [-3, 1])
+  adj_empty_each[right]        57022/94413 (60.4%) first fail: (5, (-2, -1, 0, 1, 2), [], [-2, -1, 0])
+  merge_valid[right]           791/94413 (0.8%) first fail: (3, (-1, 0, 1), [], [-1])
+  merge_valid_notight[right]   791/94413 (0.8%) first fail: (3, (-1, 0, 1), [], [-1])
+  closest_mid[any]             9923/94413 (10.5%) first fail: (5, (-3, -1, 0, 1, 3), [-1], [-3, 1])
+  closest_mid[all]             7637/94413 (8.1%) first fail: (5, (-3, -1, 0, 1, 3), [-1], [-3, 1])
+  leftmost                     62074/94413 (65.7%) first fail: (6, (-4, -3, 0, 1, 2, 4), [0], [2])
+  rightmost                    62074/94413 (65.7%) first fail: (6, (-4, -2, -1, 0, 3, 4), [-2], [-4])
+  any_pair                     83293/94413 (88.2%) first fail: (7, (-5, -4, -1, 0, 1, 4, 5), [-1], [])
+  all_pairs                    6510/94413 (6.9%) first fail: (5, (-3, -1, 0, 1, 3), [-3, -1, 1], [-3, 1])
+
+== merge D' = D\{x,x+2} u {x+1} facts (pairs with x+1 empty), no-tight-cut D with 2-block ==
+{'pairs': 332887, 'valid': 7279, 'inW': 318291, 'valid_inW': 7275, 'valid_notW': 4, 'inW_notvalid': 311016, 'inWm': 791, 'Wm_notvalid': 0, 'valid_notight': 2807}
+{'valid_notW': (4, (-2, -1, 1, 2), -1), 'inW_notvalid': (5, (-3, -1, 0, 1, 3), -3)}
+2-block pairs (D,x) with centre x+1 occupied: 294568/612859
