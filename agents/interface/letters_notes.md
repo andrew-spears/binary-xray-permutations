@@ -199,11 +199,12 @@ in the set, so then 'x u y solvable' implies 'x v y solvable'.
 - (A) and (B) are NOT true state by state, even allowing the transpose: for a single state a and b in 0.a, b need
   not be in 00.{a, a^T} (fails from slack 2).  They are properties of the sets F(x).
 - The smallest reachable set at slack s is F(+^s) (sizes 1, 2, 4, 8, 14, 28, 48, 80, 128, 212, 332, 512, 774, 1176,
-  1744, 2560 for s = 0..15); the intersection of all reachable sets at slack s equals it except at s = 4, 5, 8, 12
-  (12, 24, 126, 770).  This intersection is the slack-only family F(sigma) of letters_sigma.py.
+  1744, 2560 for s = 0..15; equality with F(+^s) checked for s <= 13); it is contained in every other reachable set
+  at slack s except at s = 4, 5, 8, 12, where the intersection of all of them is smaller (12, 24, 126, 770).
 - For general words (any letters) almost nothing is monotone.  'Two more zeros never lose a state' (empty -> 0 0,
   0 -> 0 0) holds for slack <= 7 and fails at slack 8 (15 of 1,236 sets at B = 12, one state lost each).
-  Only (-1) -> (0, -1) survives every set with slack <= 12 (441 sets): python3 rewrite.py 10 2.
+  Rewrites of <= 2 letters that survive every situation with slack <= 12: (-1) -> (0,-1), (-2) -> (-2,0),
+  (-1,-1) -> (-2,0), (-1,-2) -> (-2,-1)  (441, 91, 91, 87 situations).  python3 rewrite.py 10 2.
 - Lookahead (lookahead_game.py B L): Placer knows L letters (the current one and L - 1 ahead).  Wins exactly for
-  L = 1, 2: B <= 2;  L = 3: B <= 4;  L = 4: B <= 8;  L = 5: B <= 13 at least (B = 14 not run: memory).
-  Same thresholds 4, 8, 13 as the window of L - 1 past letters (invariant.py).  So lookahead grows with B as well.
+  L = 1, 2: B <= 2;  L = 3: B <= 4;  L = 4: B <= 8;  L = 5: wins at B = 9, 11, 13 (B = 10, 12, 14 not run).
+  Same thresholds 2, 4, 8 as the window of L - 1 past letters (invariant.py; window 4 stops at 13).  So lookahead grows with B as well.
