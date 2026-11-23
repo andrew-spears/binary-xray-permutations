@@ -377,6 +377,24 @@ nodes = [
       "Polynomial-method proofs (Alon–Tarsi) show existence by showing a coefficient is nonzero; here the natural coefficient is the signed count of solutions. Claim: it never vanishes.",
       evidence="Vanishes for some valid no-tight-cut D at n = 4–6."),
 
+    N("lieview", "algebra", "In Lie-algebra language: every regular weight below 2ρ is ρ + wρ", "proved",
+      "Let ρ = (n−1, …, 1, 0) and, for a valid D with scores s_1 ≤ … ≤ s_n, λ = (s_n, …, s_1). Then D is valid ⇔ λ is a dominant weight of sl_n with λ ≤ ρ, and D is solvable ⇔ λ + ρ = wρ + w′ρ for two permutations w, w′. Hence the conjecture ⇔ every regular dominant weight μ ≤ 2ρ of sl_n is conjugate to ρ + wρ for some w.",
+      "A permutation matrix is two orderings of 0…n−1 (the rows and the columns of its stones), and the stone sums are the entries of their sum. The staircase ρ is the basic vector of the symmetric group in Lie theory, Landau's inequalities say exactly that the score vector lies below ρ, and 'distinct diagonals' says the vector of sums is a regular weight. So the conjecture is a statement about which weights are sums of two rearrangements of ρ. In representation theory these are the extremal ('PRV') weights of the tensor square of the representation V(ρ). A theorem (Kostant's conjecture, proved for sl_n by Berenstein and Zelevinsky) says every dominant weight below 2ρ occurs in that tensor square; the x-ray conjecture is the sharper statement that for regular weights an extremal weight already does it.",
+      example="n = 3, D = {−1, 0, 1}: scores (1, 1, 1), so λ + ρ = (1, 1, 1) + (2, 1, 0) = (3, 2, 1).\nAs a sum of two rearrangements of ρ: (3, 2, 1) = (2, 0, 1) + (1, 2, 0).",
+      evidence="A restatement; the proof is two lines (agents/lie/REPORT.md). The literature statements are paraphrased from abstracts and the question itself was not found in a quick search.",
+      refs="agents/lie/REPORT.md; Berenstein–Zelevinsky, J. Algebraic Combin. 1 (1992); Chirivì–Kumar–Maffei, Components of V(ρ) ⊗ V(ρ); arXiv:2309.06890"),
+    N("lietypes", "algebra", "The same statement holds in types B, C, D and E", "empirical",
+      "For the root systems B_n, C_n, D_n, E_6, E_7 (and E_8), every regular dominant weight μ ≤ 2ρ is conjugate under the Weyl group to ρ + wρ for some w.",
+      "The Lie-algebra form of the conjecture makes sense for every root system, with the symmetric group replaced by another reflection group. For type C it is again a board problem: choose a permutation σ of 1…n and, for each row i, read either the sum i + σ(i) or the distance |i − σ(i)|; which sets of n distinct numbers can be read? If the same statement is true there, a proof might be found in a family with more freedom, and any proposed mechanism can be tested on a second family. Claim: it holds in all classical types and in type E.",
+      evidence="No exception for B_2…B_6, C_2…C_6, D_4…D_6, E_6, E_7 (E_8 not run). Recheck: python3 agents/lie/prv.py C 5; python3 agents/lie/prv_gen.py E 6 (each under 20 seconds).",
+      refs="agents/lie/REPORT.md"),
+    N("lieall", "algebra", "The same statement holds in every root system", "disproved",
+      "For every finite root system, every regular dominant weight μ ≤ 2ρ is conjugate to ρ + wρ for some w in the Weyl group.",
+      "If the statement held for every reflection group of Lie type, one would look for a proof that uses only general properties of such groups. Claim: it holds for all of them.",
+      example="G_2: 5 regular dominant weights lie below 2ρ; ρ + ω_1 and ρ + ω_2 are not of the form ρ + wρ (the other 3 are).",
+      evidence="Fails in G_2 (2 of 5) and F_4 (2 of 58). Recheck: python3 agents/lie/prv_gen.py G 2; python3 agents/lie/prv_gen.py F 4 (seconds).",
+      refs="agents/lie/REPORT.md"),
+
     N("countglobal", "ideas", "Global counting forces every arrangement to be hit", "disproved",
       "For every n, (Σ_D W(D))² / Σ_D W(D)² > A_n − 1, where the sums run over valid D of size n and A_n is the number of valid D.",
       "A counting proof would build many objects (here: all permutations with distinct diagonals), count them, count the repeats, and conclude there are too many for any arrangement to be left out. Cauchy–Schwarz says the number of arrangements that get at least one witness is at least (total)² / (sum of squared counts), so if that exceeded A_n − 1, every arrangement would be hit. Claim: the counts are spread evenly enough for this to work.",
@@ -664,6 +682,9 @@ e("at", T, "implies", "A nonzero signed count means some witness exists.")
 # other routes
 e("delta", T, "implies", "δ of the accepted tournament is a witness.")
 e("maxupset", "delta", "implies", "Names an accepted tournament.")
+e("lieview", "conj", "related", "The same statement in other words: solvable ⇔ λ + ρ is a sum of two rearrangements of ρ.")
+e("lietypes", "lieview", "related", "The analogue for the other classical and E-type reflection groups; type A is the conjecture.", "unchecked")
+e("lieall", "lietypes", "related", "The uniform version over all root systems; fails in G_2 and F_4.", "unchecked")
 e("countglobal", "conj", "implies", "If more than A_n − 1 arrangements must be hit, all A_n are.")
 e("greedy", T, "implies", "A rule that never gets stuck produces a witness.")
 # interface walks
