@@ -3779,6 +3779,39 @@
    "refs": "agents/interface/letters_pass.py (15: 25 seconds), letters_scatter.py"
   },
   {
+   "id": "l1red",
+   "area": "ideas",
+   "title": "Two shortening rules would settle 'within one mark'",
+   "status": "empirical",
+   "intuition": "The interface machine reads the word letter by letter and keeps the set of hole patterns that can be reached. If replacing a piece of the word by a longer piece never loses a reachable pattern, then the longer word is solvable whenever the shorter one is. Two such rules are enough for the family where every stone is within one mark of evenly spaced: (A) a zero may be doubled, (B) a zero may be replaced by + 0 −. Any word of the family with a + in it contains + 0 … 0 −; rule (A) backwards shortens the zeros to one, rule (B) backwards turns + 0 − into 0, and the word left at the end is all zeros, which is the anti-diagonal. Neither rule is true for a single hole pattern, only for the whole reachable set, and neither is true for general words. Claim: both rules hold after every prefix of the family.",
+   "statement": "For a prefix x with letters in {−1, 0, +1} let F(x) be the set of interface states (pairs of diagrams) reachable after x. (A) F(x 0) ⊆ F(x 0 0). (B) F(x 0) ⊆ F(x + 0 −). Both hold for every legal prefix x.",
+   "example": "P_n is + 0 … 0 −: rule (A) shortens it to + 0 −, rule (B) to 0.",
+   "evidence": "Both hold for every prefix with slack ≤ 23 (205 distinct reachable sets), so every word of the family with slack ≤ 23 is solvable for every n. No proof for all slacks: that needs a description of the reachable sets. The smallest one at slack s is the set reached by s plus letters (sizes 1, 2, 4, 8, 14, 28, 48, 80, 128, 212, …). Recheck: python3 l1_reduce.py 24 (45 seconds).",
+   "refs": "agents/interface/l1_reduce.py, rewrite_l1.py, letters_notes.md"
+  },
+  {
+   "id": "zeros",
+   "area": "ideas",
+   "title": "Two more zeros never lose a hole pattern",
+   "status": "disproved",
+   "intuition": "After a few stones with letter 0 the machine reaches every hole pattern (card 'Bounded slack'). The simplest reason would be that zeros only ever add patterns. One zero can swap patterns around, so the claim is for two. Claim: adding two zeros to a prefix keeps every reachable pattern.",
+   "statement": "For every legal prefix x (any letters) after which a letter 0 is allowed, F(x) ⊆ F(x 0 0).",
+   "example": "Fails first at slack 8, after a prefix ending in +1: 131 patterns are reachable and one of them is lost.",
+   "evidence": "True for slack ≤ 7. With slack ≤ 12 it fails for 15 of 1,236 reachable sets, one pattern lost each time. Among all rewrites of at most 2 letters only (−1) → (0, −1) loses nothing for slack ≤ 12. Inside the family with letters −1, 0, +1 the rule does hold (card 'Two shortening rules').",
+   "refs": "agents/interface/rewrite.py (10 2: 11 seconds), letters_notes.md"
+  },
+  {
+   "id": "lookahead",
+   "area": "ideas",
+   "title": "A rule that sees a fixed number of diagonals ahead",
+   "status": "disproved",
+   "intuition": "With no lookahead there is no rule (card 'Online rule'). The next hope is a rule that looks a fixed number of stones ahead. Claim: some fixed lookahead works for every slack bound.",
+   "statement": "There is L such that for every slack bound B a rule exists that places the k-th stone knowing only the diagonals of stones 1 … k+L−1.",
+   "example": "Knowing 3 letters (the current one and 2 ahead) is enough for slack ≤ 4 and not for slack 5.",
+   "evidence": "Exact game search: knowing L letters wins exactly for B ≤ 2 (L = 1, 2), B ≤ 4 (L = 3), B ≤ 8 (L = 4), and for B ≤ 13 at least with L = 5 (B = 14 not run). These are the same thresholds as for an invariant that remembers L − 1 past letters (card 'Invariant from the slack and the last few diagonals'). L ≥ 6 was not run, so the claim is refuted only for L ≤ 4.",
+   "refs": "agents/interface/lookahead_game.py (13 5: 3 minutes)"
+  },
+  {
    "id": "twoends",
    "area": "ideas",
    "title": "Repairing from both ends works from every solution",
@@ -4359,6 +4392,41 @@
    "kind": "related",
    "status": "unchecked",
    "why": "What replaced it: choose every block for the move that reaches it, instead of repairing a loop afterwards."
+  },
+  {
+   "from": "l1red",
+   "to": "l1",
+   "kind": "implies",
+   "status": "proved",
+   "why": "Induction on the length: a word with a + contains + 0…0 −; (A) and (B) reduce it to a shorter word of the family; the all-zero word is the anti-diagonal."
+  },
+  {
+   "from": "zeros",
+   "to": "slackB",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "A monotonicity that would explain why zeros fill up the reachable set; false in general."
+  },
+  {
+   "from": "zeros",
+   "to": "l1red",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The same rule restricted to letters −1, 0, +1 is rule (A)."
+  },
+  {
+   "from": "lookahead",
+   "to": "slackB",
+   "kind": "implies",
+   "status": "proved",
+   "why": "A rule with lookahead traces an accepted walk for every word."
+  },
+  {
+   "from": "online",
+   "to": "lookahead",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The case L = 1."
   },
   {
    "from": "twoends",

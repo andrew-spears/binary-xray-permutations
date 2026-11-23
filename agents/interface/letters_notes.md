@@ -184,3 +184,26 @@ plateaus; a proof of the passing claim has to control those ends.
   offsets and +/- need odd ones, so it does not lower the height of a mixed word, and P_4 is not of this form;
   (iii) 0-cycles of interface states: at slack h the staircase cycle ((1^j),(h-j)), j = 0..h, lies in F(h) for
   h = 1, 3 only, the hook cycle for h = 2, 4 only, neither for h = 5.
+
+## Shortening rules on the interface machine (rewrite.py, rewrite_l1.py, l1_reduce.py)
+F(x) = set of interface states (pairs of diagrams) reachable after the prefix x.  A rewrite u -> v (same letter sum)
+is MONOTONE if F(xu) is a subset of F(xv) for every prefix x after which both are legal.  The step map is monotone
+in the set, so then 'x u y solvable' implies 'x v y solvable'.
+- Inside l1 (letters -1, 0, +1) there are only a handful of distinct reachable sets per slack (205 triples
+  (set, slack, last letter) for slack <= 24), and 246 rules with |u| < |v| <= 4 are monotone (slack <= 12).  Two suffice:
+     (A)  F(x 0) is a subset of F(x 0 0)          (B)  F(x 0) is a subset of F(x + 0 -)
+  Every valid word with a + contains + 0^j -, j >= 1 (+ - adjacent would repeat a diagonal).  (A) shortens it to
+  + 0 -, (B) replaces that by 0, and the all-zero word is the anti-diagonal.  So (A) and (B) for all x imply l1.
+  Checked for every l1 prefix with slack <= 24 (A) / 23 (B): python3 l1_reduce.py 24, 45 seconds.
+  Hence every l1 word with all slacks <= 23 is solvable, for every n.
+- (A) and (B) are NOT true state by state, even allowing the transpose: for a single state a and b in 0.a, b need
+  not be in 00.{a, a^T} (fails from slack 2).  They are properties of the sets F(x).
+- The smallest reachable set at slack s is F(+^s) (sizes 1, 2, 4, 8, 14, 28, 48, 80, 128, 212, 332, 512, 774, 1176,
+  1744, 2560 for s = 0..15); the intersection of all reachable sets at slack s equals it except at s = 4, 5, 8, 12
+  (12, 24, 126, 770).  This intersection is the slack-only family F(sigma) of letters_sigma.py.
+- For general words (any letters) almost nothing is monotone.  'Two more zeros never lose a state' (empty -> 0 0,
+  0 -> 0 0) holds for slack <= 7 and fails at slack 8 (15 of 1,236 sets at B = 12, one state lost each).
+  Only (-1) -> (0, -1) survives every set with slack <= 12 (441 sets): python3 rewrite.py 10 2.
+- Lookahead (lookahead_game.py B L): Placer knows L letters (the current one and L - 1 ahead).  Wins exactly for
+  L = 1, 2: B <= 2;  L = 3: B <= 4;  L = 4: B <= 8;  L = 5: B <= 13 at least (B = 14 not run: memory).
+  Same thresholds 4, 8, 13 as the window of L - 1 past letters (invariant.py).  So lookahead grows with B as well.
