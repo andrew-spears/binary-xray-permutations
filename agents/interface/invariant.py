@@ -46,8 +46,9 @@ def analyse(B, L, verbose=False, upd=None, cap=None, keep=None):
             if s2 == 0:
                 if sig == 0: continue
                 out.append((e, None)); continue
-            if s2 + max(e, 0) * max(e - 1, 0) // 2 > B: continue      # cannot finish inside bound
             t = (s2, upd(hist, e, s2))
+            l = last(t[1])      # the letter the summary remembers; later letters are >= l-1, l-2, ...
+            if s2 + max(l, 0) * max(l - 1, 0) // 2 > B: continue      # cannot finish inside bound
             out.append((e, t))
             if t not in nodes: nodes.add(t); stack.append(t)
         edges[s] = out
