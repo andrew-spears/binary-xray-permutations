@@ -148,6 +148,17 @@ nodes = [
       [board(8, D=[-6, -4, -3, -2, 2, 3, 4, 6], pts=perm([7, 6, 5, 2, 8, 3, 1, 4]), cap="21, 213, 213 stacked, with slides at both cuts")],
       evidence="Works for every such D at n = 8 and 10 and all but one at n = 9 (all have exactly 8 witnesses). Fails for D = {−7, −5, −4, −3, 0, 3, 4, 5, 7} at n = 9 (chains of up to 6 pieces, slides up to 4); its witnesses use pieces like 321 instead (e.g. 8 7 6 4 9 3 2 1 5).",
       refs="Basket agent 2026-11-23, chain.py"),
+    N("movecount", "families", "A minimal move adds exactly one 3-cycle", "proved",
+      "If E is obtained from D by one minimal move, then t(E) = t(D) + 1, where t(D) = C(n,3) − Σ C(s_i, 2) is the number of 3-cycles of any tournament with D's scores. So every sequence of minimal moves from D to E has length t(E) − t(D).",
+      "A minimal move takes two stones whose scores are s and s + 2 and makes them both s + 1 (everything between them is full, so nothing else changes rank). That lowers the sum of squared scores by exactly 2, which is one more 3-cycle. So 'k moves past P_n' is a property of the arrangement, not of the route: it means k more 3-cycles than P_n.",
+      [pair(stones([-4, -3, -1, 1, 3, 4], -5, 5), stones([-4, -3, 0, 1, 2, 4], -5, 5), "move −1, 3 → 0, 2", cap="P_6 (scores 1 1 2 3 4 4, 4 three-cycles) → Q_6 (scores 1 1 3 3 3 4, 5 three-cycles)")],
+      evidence="Direct computation."),
+    N("grammar", "families", "Short-slide grammar builds a witness for every arrangement", "disproved",
+      "Let G be the smallest set of permutations with distinct diagonals that contains every P_k solution, 1, 21, 132, 213 and every anti-diagonal, and is closed under (a) skew-stacking two members with one column slid across the cut by at most 2, and (b) widening each point of a member into a member. Claim: every valid no-tight-cut D has a witness in G.",
+      "This is the pattern from the layers past P_n made into a rule: pieces stacked with short slides, and points widened into blocks. It is a strengthening of the conjecture, not a reduction. The slide limit matters: with unlimited slides the rule covers everything for a trivial reason, because a one-row top piece with any slide just means 'add a new top row anywhere', which is peeling the top row.",
+      [board(6, D=[-3, -2, -1, 1, 2, 3], pts=perm([2, 4, 6, 1, 3, 5]), cap="Counterexample {±1, ±2, ±3}: a solution, 2 4 6 1 3 5, two interleaved staircases; none of its 6 solutions is in G")],
+      evidence="Covers every D at n ≤ 9 up to 12 moves past P_n, including the n = 9 exception to the three-piece chain. Fails for {±1, ±2, ±3} at n = 6 (4 moves past P_6, the most central arrangement), 1 at n = 7, 2 at n = 8, 6 at n = 9, all 13 or more moves past P_n at n = 9.",
+      refs="2026-11-23, /home/claude/agents/basket/short.py, minimal.py"),
     N("sym", "families", "Symmetric arrangements are solvable", "open",
       "Let 𝒩 be the valid arrangements with no tight cut and 𝒮 ⊂ 𝒩 the symmetric ones (D = −D). Every D ∈ 𝒮 has a witness.",
       "Symmetric means the plank looks the same in a mirror held at the middle mark: every stone at +d has a partner at −d, so the x-ray reads the same forwards and backwards. Claim: every symmetric arrangement with no tight cut has a solution.",
@@ -392,6 +403,8 @@ e("boundedframes", "decomp", "implies", "For n > K and D ≠ P_n, such a witness
 e("pkframes", "boundedframes", "implies", "The case K = 2.")
 e("symframes", "conj", "implies", "A witness built this way is a witness.")
 e("qn", "symframes", "related", "Q_n, the central case, is where the symmetric family first fails.", "unchecked")
+e("grammar", "ptwo", "related", "Generalises the chain: allows widening, which handles the n = 9 exception.", "unchecked")
+e("movecount", "qn", "related", "Makes the layer of an arrangement well defined.", "unchecked")
 e("ptwo", "qn", "related", "The next layer out; the same construction with one more cut.", "unchecked")
 e("twoblock", "decomp", "implies", "A 2×2 block plus single stones is such a split.")
 e("closestpair", "twoblock", "implies", "Names a pair that works.")

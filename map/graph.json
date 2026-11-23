@@ -1239,6 +1239,114 @@
    "refs": "Basket agent 2026-11-23, chain.py"
   },
   {
+   "id": "movecount",
+   "area": "families",
+   "title": "A minimal move adds exactly one 3-cycle",
+   "status": "proved",
+   "intuition": "A minimal move takes two stones whose scores are s and s + 2 and makes them both s + 1 (everything between them is full, so nothing else changes rank). That lowers the sum of squared scores by exactly 2, which is one more 3-cycle. So 'k moves past P_n' is a property of the arrangement, not of the route: it means k more 3-cycles than P_n.",
+   "pics": [
+    {
+     "t": "pair",
+     "a": {
+      "t": "stones",
+      "lo": -5,
+      "hi": 5,
+      "D": [
+       -4,
+       -3,
+       -1,
+       1,
+       3,
+       4
+      ]
+     },
+     "b": {
+      "t": "stones",
+      "lo": -5,
+      "hi": 5,
+      "D": [
+       -4,
+       -3,
+       0,
+       1,
+       2,
+       4
+      ]
+     },
+     "mid": "move −1, 3 → 0, 2",
+     "cap": "P_6 (scores 1 1 2 3 4 4, 4 three-cycles) → Q_6 (scores 1 1 3 3 3 4, 5 three-cycles)"
+    }
+   ],
+   "statement": "If E is obtained from D by one minimal move, then t(E) = t(D) + 1, where t(D) = C(n,3) − Σ C(s_i, 2) is the number of 3-cycles of any tournament with D's scores. So every sequence of minimal moves from D to E has length t(E) − t(D).",
+   "evidence": "Direct computation."
+  },
+  {
+   "id": "grammar",
+   "area": "families",
+   "title": "Short-slide grammar builds a witness for every arrangement",
+   "status": "disproved",
+   "intuition": "This is the pattern from the layers past P_n made into a rule: pieces stacked with short slides, and points widened into blocks. It is a strengthening of the conjecture, not a reduction. The slide limit matters: with unlimited slides the rule covers everything for a trivial reason, because a one-row top piece with any slide just means 'add a new top row anywhere', which is peeling the top row.",
+   "pics": [
+    {
+     "t": "board",
+     "rows": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "cols": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "D": [
+      -3,
+      -2,
+      -1,
+      1,
+      2,
+      3
+     ],
+     "pts": [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       4
+      ],
+      [
+       3,
+       6
+      ],
+      [
+       4,
+       1
+      ],
+      [
+       5,
+       3
+      ],
+      [
+       6,
+       5
+      ]
+     ],
+     "cap": "Counterexample {±1, ±2, ±3}: a solution, 2 4 6 1 3 5, two interleaved staircases; none of its 6 solutions is in G"
+    }
+   ],
+   "statement": "Let G be the smallest set of permutations with distinct diagonals that contains every P_k solution, 1, 21, 132, 213 and every anti-diagonal, and is closed under (a) skew-stacking two members with one column slid across the cut by at most 2, and (b) widening each point of a member into a member. Claim: every valid no-tight-cut D has a witness in G.",
+   "evidence": "Covers every D at n ≤ 9 up to 12 moves past P_n, including the n = 9 exception to the three-piece chain. Fails for {±1, ±2, ±3} at n = 6 (4 moves past P_6, the most central arrangement), 1 at n = 7, 2 at n = 8, 6 at n = 9, all 13 or more moves past P_n at n = 9.",
+   "refs": "2026-11-23, /home/claude/agents/basket/short.py, minimal.py"
+  },
+  {
    "id": "sym",
    "area": "families",
    "title": "Symmetric arrangements are solvable",
@@ -3323,6 +3431,20 @@
    "kind": "related",
    "status": "unchecked",
    "why": "Q_n, the central case, is where the symmetric family first fails."
+  },
+  {
+   "from": "grammar",
+   "to": "ptwo",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Generalises the chain: allows widening, which handles the n = 9 exception."
+  },
+  {
+   "from": "movecount",
+   "to": "qn",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Makes the layer of an arrangement well defined."
   },
   {
    "from": "ptwo",
