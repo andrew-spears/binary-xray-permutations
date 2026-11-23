@@ -375,7 +375,8 @@ nodes = [
     N("at", "algebra", "Signed solution counts are nonzero", "disproved",
       "For every valid no-tight-cut D, Σ_{witnesses π of D} sign(π) ≠ 0.",
       "Polynomial-method proofs (Alon–Tarsi) show existence by showing a coefficient is nonzero; here the natural coefficient is the signed count of solutions. Claim: it never vanishes.",
-      evidence="Vanishes for some valid no-tight-cut D at n = 4–6."),
+      evidence="Vanishes for some valid no-tight-cut D at n = 4–6. A second natural sign, the sign of the column order alone when the stones are listed by diagonal, gives the inverse Kostka number K⁻¹(ρ, λ) (coefficient of z^(λ+ρ) in permanent × determinant of the Vandermonde matrix); it also vanishes, first for D = {1, 2, 4, 5} in rows and columns 0…3, because a solution with an odd permutation cancels against its transpose (25 of 167 solvable D at n = 8; python3 agents/invkostka/ik.py 8).",
+      refs="agents/invkostka/ik.py"),
 
     N("lieview", "algebra", "In Lie-algebra language: every regular weight below 2ρ is ρ + wρ", "proved",
       "Let ρ = (n−1, …, 1, 0) and, for a valid D with scores s_1 ≤ … ≤ s_n, λ = (s_n, …, s_1). Then D is valid ⇔ λ is a dominant weight of sl_n with λ ≤ ρ, and D is solvable ⇔ λ + ρ = wρ + w′ρ for two permutations w, w′. Hence the conjecture ⇔ every regular dominant weight μ ≤ 2ρ of sl_n is conjugate to ρ + wρ for some w.",

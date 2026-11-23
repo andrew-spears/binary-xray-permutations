@@ -3523,7 +3523,8 @@
    "status": "disproved",
    "intuition": "Polynomial-method proofs (Alon–Tarsi) show existence by showing a coefficient is nonzero; here the natural coefficient is the signed count of solutions. Claim: it never vanishes.",
    "statement": "For every valid no-tight-cut D, Σ_{witnesses π of D} sign(π) ≠ 0.",
-   "evidence": "Vanishes for some valid no-tight-cut D at n = 4–6."
+   "evidence": "Vanishes for some valid no-tight-cut D at n = 4–6. A second natural sign, the sign of the column order alone when the stones are listed by diagonal, gives the inverse Kostka number K⁻¹(ρ, λ) (coefficient of z^(λ+ρ) in permanent × determinant of the Vandermonde matrix); it also vanishes, first for D = {1, 2, 4, 5} in rows and columns 0…3, because a solution with an odd permutation cancels against its transpose (25 of 167 solvable D at n = 8; python3 agents/invkostka/ik.py 8).",
+   "refs": "agents/invkostka/ik.py"
   },
   {
    "id": "lieview",
