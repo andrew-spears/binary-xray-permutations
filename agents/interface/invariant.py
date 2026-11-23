@@ -5,7 +5,7 @@ Then every prefix with summary s reaches all of I(s).  The summary SUFFICES (wit
 if every closing letter (e = -sigma) from every summary can be played from I(s).
 Usage: python3 invariant.py B L [-v]"""
 import sys
-def analyse(B, L, verbose=False, upd=None):
+def analyse(B, L, verbose=False, upd=None, cap=None, keep=None):
     if upd is None:
         # the last letter is always needed: it decides which letters are legal next
         assert L >= 1, "L must be >= 1"
@@ -41,12 +41,14 @@ def analyse(B, L, verbose=False, upd=None):
         lo = last(hist) - 1 if hist else 0
         out = []
         for e in range(max(lo, -sig), B - sig + 1):
+            if cap is not None and abs(e) > cap: continue      # restricted alphabet
             s2 = sig + e
             if s2 == 0:
                 if sig == 0: continue
                 out.append((e, None)); continue
-            if s2 + max(e, 0) * max(e - 1, 0) // 2 > B: continue      # cannot finish inside bound
             t = (s2, upd(hist, e, s2))
+            l = last(t[1])      # the letter the summary remembers; later letters are >= l-1, l-2, ...
+            if s2 + max(l, 0) * max(l - 1, 0) // 2 > B: continue      # cannot finish inside bound
             out.append((e, t))
             if t not in nodes: nodes.add(t); stack.append(t)
         edges[s] = out
@@ -63,7 +65,8 @@ def analyse(B, L, verbose=False, upd=None):
         m = sum(1 << j for j in comb); ex = excess(m)
         if ex <= B: masks.setdefault(ex, []).append(m)
     def allstates(sig):
-        return frozenset((r, c) for a in range(sig + 1) for r in masks.get(a, []) for c in masks.get(sig - a, []))
+        return frozenset((r, c) for a in range(sig + 1) for r in masks.get(a, []) for c in masks.get(sig - a, [])
+                         if keep is None or keep(r, c))      # keep: restrict the family to a class of states
     I = {s: allstates(s[0]) for s in nodes}
     I[start] = frozenset([(base, base)])
     preds = {}
