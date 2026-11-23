@@ -1,12 +1,14 @@
 """Reflection positivity test.  For prefixes x, y ending at the same slack s, G[x, y] = N(x mirror(y)) =
 number of solutions of the word x followed by the mirror (reversed, negated) of y.  Is G positive semidefinite?
+Only prefixes with last letter <= 0 are used: the join x mirror(y) is legal iff last(x) + last(y) <= 1, and an illegal
+join can repeat a diagonal, which this count would count once per ordering of the tied stones.
 Usage: python3 rp.py K B    (prefixes of length <= K, slacks <= B, legal: first letter >= 0, e >= last - 1)"""
 import sys, numpy as np
 from collections import defaultdict
 def prefixes(K, B):
     out = defaultdict(list)                       # slack -> list of (word, {(R, C): count})
     def go(w, s, last, L):
-        if w: out[s].append((tuple(w), L))
+        if w and last <= 0: out[s].append((tuple(w), L))       # last letters <= 0: then x mirror(y) is a legal word for every pair
         if len(w) == K: return
         k = len(w) + 1
         for e in range(0 if last is None else max(-s, last - 1), B - s + 1):
@@ -32,9 +34,9 @@ if __name__ == "__main__":
     for s in sorted(out):
         P = out[s]; G = gram(P); ev = np.linalg.eigvalsh(G)
         print(f"slack {s}: {len(P)} prefixes, rank {np.linalg.matrix_rank(G)}, least eigenvalue {ev[0]:.4f}, largest {ev[-1]:.1f}, symmetric {np.allclose(G, G.T)}")
-    P = out[2]; G = gram(P); best = None                    # smallest explicit violation of Cauchy-Schwarz
+    s0 = min(s for s in out if np.linalg.eigvalsh(gram(out[s]))[0] < -1e-9); P = out[s0]; G = gram(P); best = None                    # smallest explicit violation of Cauchy-Schwarz
     for i in range(len(P)):
         for j in range(len(P)):
             if G[i, j] ** 2 > G[i, i] * G[j, j] and (best is None or len(P[i][0]) + len(P[j][0]) < best[0]):
                 best = (len(P[i][0]) + len(P[j][0]), P[i][0], P[j][0], G[i, i], G[j, j], G[i, j])
-    print("slack 2, N(x mirror y)^2 > N(x mirror x) N(y mirror y):", best)
+    print(f"slack {s0}, N(x mirror y)^2 > N(x mirror x) N(y mirror y):", best)
