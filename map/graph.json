@@ -928,6 +928,168 @@
    "refs": "Basket agent 2026-11-23, framesets.py"
   },
   {
+   "id": "symframes",
+   "area": "families",
+   "title": "Rule: symmetric block-free frames",
+   "status": "disproved",
+   "intuition": "Instead of a fixed list of frames, allow a whole describable family: every block-free frame that folds onto itself across the main diagonal or looks the same after a half turn. P_k's solutions are of this kind. Claim: these frames build a solution of every arrangement.",
+   "pics": [
+    {
+     "t": "board",
+     "rows": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "cols": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ],
+     "D": [
+      -4,
+      -2,
+      -1,
+      1,
+      2,
+      4
+     ],
+     "pts": [
+      [
+       1,
+       3
+      ],
+      [
+       2,
+       6
+      ],
+      [
+       3,
+       2
+      ],
+      [
+       4,
+       5
+      ],
+      [
+       5,
+       1
+      ],
+      [
+       6,
+       4
+      ]
+     ],
+     "cap": "A half-turn-symmetric block-free solution, usable as a frame"
+    }
+   ],
+   "statement": "Every valid D has a witness whose substitution tree uses only 12, 21 and block-free permutations that are involutions or centrosymmetric (survive a half turn).",
+   "evidence": "With only frames that are themselves solutions (no repeated diagonal): builds everything for n ≤ 7, misses 4 arrangements at n = 8 and 26 at n = 9 (no tight cut, mirrors counted). Allowing symmetric frames that repeat a diagonal (e.g. 4 6 3 1 5 2): misses 2 at n = 8 (the Q₈ pair) and 18 at n = 9. The remaining misses need asymmetric frames such as 5 2 6 4 1 3, 3 1 5 2 4, 5 7 4 2 6 1 3; adding frames greedily, 12 more (10 of them repeating a diagonal) fix everything to n = 9.",
+   "refs": "Basket agent 2026-11-23, symfam.py, symall.py, symfix.py; Block-building experiments page"
+  },
+  {
+   "id": "qn",
+   "area": "families",
+   "title": "The second family Q_n is solvable",
+   "status": "open",
+   "intuition": "P_n is stones on every other mark with each end pair squeezed together. Q_n is the same with one more squeeze in the middle. Like P_n, these arrangements keep turning up as the hard cases: they have few solutions and none of them is built from small or symmetric frames. One of Q₈'s solutions, 7 4 8 5 2 6 1 3, is P₄'s solution 3142 in the top four rows and 2413 in the bottom four, with their columns interleaved. Claim: every Q_n has a solution; ideally by an explicit formula, as for P_n.",
+   "pics": [
+    {
+     "t": "stones",
+     "lo": -7,
+     "hi": 7,
+     "D": [
+      -6,
+      -5,
+      -3,
+      0,
+      1,
+      2,
+      5,
+      6
+     ],
+     "cap": "Q₈: P₈ with −1, +3 moved to 0, +2"
+    },
+    {
+     "t": "board",
+     "rows": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "cols": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ],
+     "D": [
+      -6,
+      -5,
+      -3,
+      0,
+      1,
+      2,
+      5,
+      6
+     ],
+     "pts": [
+      [
+       1,
+       7
+      ],
+      [
+       2,
+       4
+      ],
+      [
+       3,
+       8
+      ],
+      [
+       4,
+       5
+      ],
+      [
+       5,
+       2
+      ],
+      [
+       6,
+       6
+      ],
+      [
+       7,
+       1
+      ],
+      [
+       8,
+       3
+      ]
+     ],
+     "cap": "7 4 8 5 2 6 1 3: 3142 on top, 2413 below, columns interleaved"
+    }
+   ],
+   "statement": "For n ≥ 7, let Q_n be P_n after the minimal move of its two stones nearest the middle (n odd: ±2 → ±1; n even: −1, +3 → 0, +2, or its mirror). Then Q_n has a witness for every n ≥ 7.",
+   "evidence": "Q₇, Q₈, Q₉ have 4 witnesses each (P_n has 2). Every frame that fixes them in the frame searches repeats a diagonal and is not symmetric.",
+   "refs": "Basket agent 2026-11-23"
+  },
+  {
    "id": "sym",
    "area": "families",
    "title": "Symmetric arrangements are solvable",
@@ -2998,6 +3160,20 @@
    "kind": "implies",
    "status": "proved",
    "why": "The case K = 2."
+  },
+  {
+   "from": "symframes",
+   "to": "conj",
+   "kind": "implies",
+   "status": "proved",
+   "why": "A witness built this way is a witness."
+  },
+  {
+   "from": "qn",
+   "to": "symframes",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The Q_n are exactly where the symmetric family first fails."
   },
   {
    "from": "twoblock",

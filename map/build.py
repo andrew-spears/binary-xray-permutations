@@ -129,6 +129,19 @@ nodes = [
       [stones([-3, -2, -1, 1, 2, 3], -5, 5, cap="±{1, 2, 3}: each of its 6 solutions needs another frame")],
       evidence="False at n = 6 for ±{1, 2, 3}: two of its solutions are block-free themselves, and the others have frames like 3 1 5 2 4 or 2 5 1 6 4 3. Misses 1, 3, 17, 79 arrangements at n = 6–9.",
       refs="Basket agent 2026-11-23, framesets.py"),
+    N("symframes", "families", "Rule: symmetric block-free frames", "disproved",
+      "Every valid D has a witness whose substitution tree uses only 12, 21 and block-free permutations that are involutions or centrosymmetric (survive a half turn).",
+      "Instead of a fixed list of frames, allow a whole describable family: every block-free frame that folds onto itself across the main diagonal or looks the same after a half turn. P_k's solutions are of this kind. Claim: these frames build a solution of every arrangement.",
+      [board(6, D=[-4, -2, -1, 1, 2, 4], pts=perm([3, 6, 2, 5, 1, 4]), cap="A half-turn-symmetric block-free solution, usable as a frame")],
+      evidence="With only frames that are themselves solutions (no repeated diagonal): builds everything for n ≤ 7, misses 4 arrangements at n = 8 and 26 at n = 9 (no tight cut, mirrors counted). Allowing symmetric frames that repeat a diagonal (e.g. 4 6 3 1 5 2): misses 2 at n = 8 (the Q₈ pair) and 18 at n = 9. The remaining misses need asymmetric frames such as 5 2 6 4 1 3, 3 1 5 2 4, 5 7 4 2 6 1 3; adding frames greedily, 12 more (10 of them repeating a diagonal) fix everything to n = 9.",
+      refs="Basket agent 2026-11-23, symfam.py, symall.py, symfix.py; Block-building experiments page"),
+    N("qn", "families", "The second family Q_n is solvable", "open",
+      "For n ≥ 7, let Q_n be P_n after the minimal move of its two stones nearest the middle (n odd: ±2 → ±1; n even: −1, +3 → 0, +2, or its mirror). Then Q_n has a witness for every n ≥ 7.",
+      "P_n is stones on every other mark with each end pair squeezed together. Q_n is the same with one more squeeze in the middle. Like P_n, these arrangements keep turning up as the hard cases: they have few solutions and none of them is built from small or symmetric frames. One of Q₈'s solutions, 7 4 8 5 2 6 1 3, is P₄'s solution 3142 in the top four rows and 2413 in the bottom four, with their columns interleaved. Claim: every Q_n has a solution; ideally by an explicit formula, as for P_n.",
+      [stones([-6, -5, -3, 0, 1, 2, 5, 6], -7, 7, cap="Q₈: P₈ with −1, +3 moved to 0, +2"),
+       board(8, D=[-6, -5, -3, 0, 1, 2, 5, 6], pts=perm([7, 4, 8, 5, 2, 6, 1, 3]), cap="7 4 8 5 2 6 1 3: 3142 on top, 2413 below, columns interleaved")],
+      evidence="Q₇, Q₈, Q₉ have 4 witnesses each (P_n has 2). Every frame that fixes them in the frame searches repeats a diagonal and is not symmetric.",
+      refs="Basket agent 2026-11-23"),
     # ================= symmetric / non-symmetric split =================
     N("sym", "families", "Symmetric arrangements are solvable", "open",
       "Let 𝒩 be the valid arrangements with no tight cut and 𝒮 ⊂ 𝒩 the symmetric ones (D = −D). Every D ∈ 𝒮 has a witness.",
@@ -372,6 +385,8 @@ e("inflation", "directsum", "implies", "The direct sum is the layout σ = 12.")
 e("directsum", "fixedpoint", "implies", "The fixed point is the direct sum with the 1×1 block {0}.")
 e("boundedframes", "decomp", "implies", "For n > K and D ≠ P_n, such a witness's top frame is smaller than the board, so its blocks give a split with a realizable layout.")
 e("pkframes", "boundedframes", "implies", "The case K = 2.")
+e("symframes", "conj", "implies", "A witness built this way is a witness.")
+e("qn", "symframes", "related", "The Q_n are exactly where the symmetric family first fails.", "unchecked")
 e("twoblock", "decomp", "implies", "A 2×2 block plus single stones is such a split.")
 e("closestpair", "twoblock", "implies", "Names a pair that works.")
 e("mergepair", "twoblock", "related", "Merging would be the simplest way to produce the block; it fails already on the stone sum.", "unchecked")
