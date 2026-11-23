@@ -3769,6 +3769,28 @@
    "refs": "agents/oddsplit/NOTES.md, agents/unimodal/REPORT.md"
   },
   {
+   "id": "thirds",
+   "area": "ideas",
+   "title": "Fix every third row: some set of stones fills exactly those rows in an odd number of solutions",
+   "status": "empirical",
+   "intuition": "An odd number is not zero, so this would prove the conjecture, and it is an odd split in which half of the data (the rows) is fixed in advance. Only the choice of stones S is left. Every other row does not work, and neither does the top block of rows; among all row sets, the ones that work for every arrangement of a given size are the evenly spread ones with gaps of 2 or 3. A reason to expect 3: over the field with 4 elements, weight a solution by ω^(row of stone k) for each stone k in a chosen set, ω a cube root of 1. The weighted count is the coefficient of x^d in ∏_{i<j} (u_i x_i² + (u_i + u_j) x_i x_j + u_j x_j²): a sum over tournaments in which two stones with different weights u may tie. With all weights equal the ties vanish and only the evenly spaced arrangement survives; three weights keep them. Claim: for every valid D some S makes the count for R = {1, 4, 7, …} odd.",
+   "statement": "Let R be the rows r ≡ 1 (mod 3) of the n × n board. For every valid D there is a set S of stones such that the number of solutions in which the stones in the rows of R are exactly S is odd.",
+   "example": "n = 4, D = {−2, −1, 1, 2}: R = {1, 4}. The two solutions 2 4 1 3 and 3 1 4 2 put different stones in rows 1 and 4, so each of the two sets S occurs once.",
+   "evidence": "Every valid D with n ≤ 14 (158,808 arrangements at n = 14). Also rows ≡ 2 (n ≤ 13), rows ≡ 0 and the complement pattern (n ≤ 12). Some arrangements have exactly one such S. No rule for S or for the weights from a stone's letter, position or slack modulo 3 works (n ≤ 8). No proof idea beyond the tournament formula.",
+   "refs": "agents/rowcut/NOTES.md, fixedR.cpp (./fixedR 12 100, 2 s), f4.py"
+  },
+  {
+   "id": "rowhalf",
+   "area": "ideas",
+   "title": "Every other row, or the top rows, in place of every third row",
+   "status": "disproved",
+   "intuition": "The same statement with the two simplest fixed row sets.",
+   "statement": "For R = the odd rows, or R = the top a rows for any a, every valid D has a set S of stones that fills exactly R in an odd number of solutions.",
+   "example": "Odd rows, n = 9: the words 1 1 2 1 0 −1 −2 −1 −1 and 1 1 0 1 0 −1 0 −1 −1 have no such S. Top rows, n = 9: 2 1 0 −1 0 1 0 −1 −2 has none for any a.",
+   "evidence": "Odd rows: holds for n ≤ 8, 2 failures at n = 9, 483 at n = 13. Top rows: holds for arrangements without a tight cut for n ≤ 8, 4 failures at n = 9.",
+   "refs": "agents/rowcut/NOTES.md, fixedR.cpp (./fixedR 9 10), rowcut.cpp"
+  },
+  {
    "id": "oddprefix",
    "area": "ideas",
    "title": "Cutting after the last nonnegative letter always gives two odd parts",
@@ -3932,13 +3954,13 @@
   {
    "id": "l1",
    "area": "ideas",
-   "title": "Every stone within one mark of evenly spaced",
-   "status": "empirical",
-   "intuition": "The evenly spaced arrangement −(n−1), −(n−3), …, n−1 is solved by the anti-diagonal. Move each stone at most one mark, keeping Landau: this is the smallest family of arrangements in which the Landau slack is unbounded, so it is not covered by the bounded-slack machine, yet every letter of the word is −1, 0 or +1. It is a test case for any induction along the word: here the set of interface states that every prefix is guaranteed to reach depends on the slack alone. Claim: all these arrangements are solvable.",
-   "statement": "Let e_1, …, e_n ∈ {−1, 0, +1} have all partial sums ≥ 0 and total 0, in any order. Then some permutation has the diagonals d_k = 2k − n − 1 + e_k (as a multiset; a value occurs twice exactly where a + is followed by a −).",
-   "example": "n = 5, word + + 0 − −: diagonals {−3, −1, 0, 1, 3}. Witness 2 5 3 1 4.",
-   "evidence": "All 5,798 words at n = 11 and all shorter ones have a witness. Inside slack ≤ 10 there is a family F(σ) of interface states, depending on the slack σ only, with F(σ+e) ⊆ step_e(F(σ)) for each letter e; its sizes are 2, 4, 8, 12, 24, 48, 80 for σ = 1…7, and it needs states with 3 advanced lines from slack 7 on. No description of F was found; the smallest such family (integer program, slack ≤ 7) is forced up to slack 3 and shows no pattern. For letters in {−2, …, 2} the slack plus the last two letters already fails at slack 5. Witnesses must move stones far: the least displacement max |row − k| is ≤ 1 for exactly 2^(n−1) words and reaches 3 at n = 8.",
-   "refs": "agents/interface/letters_notes.md, letters_ansatz.py (n ≤ 11), letters_sigma.py, letters_Fclass.py, letters_min.py, letters.py"
+   "title": "Every stone within one mark of evenly spaced is solvable",
+   "status": "proved",
+   "intuition": "The evenly spaced arrangement −(n−1), −(n−3), …, n−1 is solved by the anti-diagonal. Move each stone at most one mark, keeping Landau: this is the smallest family of arrangements in which the Landau slack is unbounded, so the bounded-slack machine does not cover it. The proof is an induction along the word with a set of hole patterns that depends only on the current slack. A hole pattern is a pair of Young diagrams (used rows, used columns). Give each diagram its 2-core charge (the staircase left after removing dominoes); the sum of the two charges is the class of the pattern. Central(s) is the patterns of slack s whose class is s mod 2. Counting odd and even beads shows that under each letter −1, 0, +1 a central pattern has a central pattern one step earlier, except that a pattern (λ, λ′) has no predecessor under +1. Removing a thin exceptional set T(s) repairs this: T(s) is the patterns (λ, λ′) and one more explicit family when 4 divides s, four patterns when s = 4m² + 1, and nothing otherwise. The exceptions form one closed chain, (λ, λ′) → (letter 0) the second family → (letter +) the four patterns → (letter −) the second family, which is why T stays small. Claim: with G(s) = Central(s) ∖ T(s), every prefix of slack s reaches all of G(s), so every valid word in {−1, 0, +1} has a solution, for any slack.",
+   "statement": "Let e_1, …, e_n ∈ {−1, 0, +1} have all partial sums ≥ 0 and total 0, in any order. Then some permutation has the diagonals d_k = 2k − n − 1 + e_k (as a multiset; a value occurs twice exactly where a + is followed by a −). Invariant: after a prefix of slack s, every hole pattern of the family G(s) is reachable, where G(s) = Central(s) ∖ T(s). Start: G(0) is the empty pattern. Step: for each letter e ∈ {−1, 0, +1}, every pattern of G(s + e) is one stone away from a pattern of G(s).",
+   "example": "n = 8, word + + 0 − 0 + − −. The proof run backwards from the empty pattern gives the witness 5 1 2 3 8 4 6 7 (python3 agents/l1sets/solve.py + + 0 - 0 + - -).",
+   "evidence": "Hand proof in agents/l1sets/REPORT.md §2 (five lemmas on Maya diagrams), written by a sub-session and not read line by line by anyone else. Two finite sub-cases (the four patterns at slack 4m² + 1, for m ≤ 3 and m ≤ 5) are done by a script, run to m = 8. Checks: the lemmas on all 3,131 patterns of slack ≤ 12; G(s) equals the largest slack-only family for s ≤ 17 (sizes 1, 2, 4, 8, 12, 24, 48, 80, 126, 212, …); the proof run as an algorithm solves all 41,835 valid words of length 13 and all shorter ones, and 300 random words with slack up to 193. Not proved: the exact reachable sets (tested, slack ≤ 16: only 70 distinct sets, each 'all patterns whose class is allowed', with 6 exceptions). For letters in {−2, …, 2} no family depending on the slack, or on the slack and the last letter, exists (slack ≤ 9): a central pattern can have no predecessor under the letter 2.",
+   "refs": "agents/l1sets/REPORT.md, runs.sh (1 minute), solve.py, check.py, local.py; agents/interface/letters_notes.md"
   },
   {
    "id": "zigzag",
@@ -4651,6 +4673,20 @@
    "kind": "related",
    "status": "unchecked",
    "why": "Uses the parity theorem on two complementary sets of stones."
+  },
+  {
+   "from": "thirds",
+   "to": "oddsplit",
+   "kind": "implies",
+   "status": "proved",
+   "why": "If the count for (R, S) is odd, then for some set of columns the stones of S have an odd number of placements in R and those columns, and the other stones an odd number in the rest."
+  },
+  {
+   "from": "rowhalf",
+   "to": "thirds",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Other fixed row sets; they fail."
   },
   {
    "from": "oddprefix",
