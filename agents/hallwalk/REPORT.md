@@ -80,8 +80,8 @@ Limits of Claim 5, all computed:
 - It needs all four repairs. With mirror lines next to the middle only, every one of the eight rules leaves some
   arrangement empty by n = 7 or 8 (tree.py N near).
 - The sets are not thin and have no description yet. For the rule "first run", A(D′) is a median half of all
-  solutions of D′ (smallest share 1/8 at n = 9), and as little as a quarter of A(parent) can be repaired for a
-  single move. The sets for the eight rules have no solution in common for 118 of the 490 arrangements at n = 9
+  solutions of D′ (smallest share 1/8 at n = 9), and for a single move as little as half of A(parent) can be
+  repaired (a quarter for the rule "shortest run"), n = 9. The sets for the eight rules have no solution in common for 118 of the 490 arrangements at n = 9
   (treeshape.py). The sign of the permutation is not constant on A(D′).
 - It needs sets. Keeping one solution per arrangement, namely the first repair that works in a fixed order of the
   four, fails by n = 10 for all 8 × 24 combinations of rule and order; the best five (all with the rule "run
