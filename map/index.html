@@ -9,11 +9,13 @@
    LAYOUT: one column; tabs Overview / Families / Routes / Cards / Graph; a card opens as a sheet (full screen on phones).
    COLOUR: green proved, amber tested or computer-checked, grey open, red ruled out, blue active; same tokens as graph.html. */
 :root{color-scheme:light dark;
-  --bg:light-dark(#fbfbfa,#121417);--ink:light-dark(#16191d,#e8eaed);--ink2:light-dark(#5b626b,#9ca3ab);
-  --line:light-dark(#cfd4da,#3a4048);--card:light-dark(#ffffff,#1b1f24);--chip:light-dark(#f0f1f2,#23282e);
-  --pr:light-dark(#23804a,#4cbb76);--em:light-dark(#b07a06,#e0aa3a);--op:light-dark(#6a717a,#9ca3ab);--no:light-dark(#c0392f,#ef6b61);
-  --idea:light-dark(#7442c8,#b493ff);--run:light-dark(#2563c9,#6ea2ff);--wood:light-dark(#c9a272,#8a6a44);
-  --hi:light-dark(#c2410c,#fb923c);--lo:light-dark(#0f766e,#2dd4bf)}
+  --bg:#fbfbfa;--ink:#16191d;--ink2:#5b626b;
+  --line:#cfd4da;--card:#ffffff;--chip:#f0f1f2;
+  --pr:#23804a;--em:#b07a06;--op:#6a717a;--no:#c0392f;
+  --idea:#7442c8;--run:#2563c9;--wood:#c9a272;
+  --hi:#c2410c;--lo:#0f766e}
+/* older phone browsers have no light-dark(), so the dark palette is a media query */
+@media (prefers-color-scheme:dark){:root{--bg:#121417;--ink:#e8eaed;--ink2:#9ca3ab;--line:#3a4048;--card:#1b1f24;--chip:#23282e;--pr:#4cbb76;--em:#e0aa3a;--op:#9ca3ab;--no:#ef6b61;--idea:#b493ff;--run:#6ea2ff;--wood:#8a6a44;--hi:#fb923c;--lo:#2dd4bf}}
 *{box-sizing:border-box;min-width:0}
 html{-webkit-text-size-adjust:100%;scroll-padding-top:110px}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
@@ -90,7 +92,7 @@ details.grp{margin-top:14px;border-top:1px solid var(--line);padding-top:8px}
 details.grp>summary{cursor:pointer;font-weight:600;font-size:15px;padding:4px 0}
 .day{font-size:13px;color:var(--ink2);font-weight:600;margin:14px 0 0;padding-bottom:4px;border-bottom:1px solid var(--line)}
 /* graph view */
-body.graph{height:100dvh;overflow:hidden;display:flex;flex-direction:column}
+body.graph{height:100vh;height:100dvh;overflow:hidden;display:flex;flex-direction:column}
 body.graph main{flex:1;max-width:none;width:100%;padding:0;min-height:0}
 body.graph main iframe{width:100%;height:100%;border:0;display:block}
 /* sheet */
@@ -232,7 +234,7 @@ function verdict(w) { const P = pieces(w), ok = P.every(T1.proved), D = diag(w),
 const claimOf = n => { const t = n.intuition || "", i = t.lastIndexOf(" Claim: "); return i < 0 ? { body: t, claim: "" } : { body: t.slice(0, i), claim: t[i + 8].toUpperCase() + t.slice(i + 9) }; };
 // Card texts are single long strings: break them into paragraphs of a few sentences for reading on a phone.
 function paras(t, cls = "") { const out = []; let cur = "";
-  for (const x of String(t).split(/(?<=[.!?])\s+(?=[A-Z('‘])/)) { if (cur && cur.length + x.length > 420) { out.push(cur); cur = x; } else cur += (cur ? " " : "") + x; }
+  for (const x of String(t).replace(/([.!?])\s+(?=[A-Z('‘])/g, "$1\n").split("\n")) { if (cur && cur.length + x.length > 420) { out.push(cur); cur = x; } else cur += (cur ? " " : "") + x; }
   if (cur) out.push(cur); return out.map(x => `<p${cls}>${esc(x)}</p>`).join(""); }
 const clip = (t, k) => t.length <= k ? t : t.slice(0, t.lastIndexOf(" ", k)) + " …";
 const dated = n => n.since > T0 ? day(n.since) : "";
