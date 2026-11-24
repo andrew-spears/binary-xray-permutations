@@ -5501,36 +5501,29 @@
    "why": "The attempt to extend that table to prefixes with y > 0."
   },
   {
-   "from": "interface",
-   "to": "posetview",
+   "from": "posetview",
+   "to": "interface",
    "kind": "related",
    "status": "unchecked",
    "why": "The same walk seen without rows and columns: the slack counts incomparable pairs across the cut."
   },
   {
-   "from": "posetview",
-   "to": "anyposet",
+   "from": "anyposet",
+   "to": "posetview",
    "kind": "related",
    "status": "unchecked",
    "why": "The same question with every partial order allowed: solved."
   },
   {
-   "from": "anyposet",
-   "to": "intervalorder",
+   "from": "intervalorder",
+   "to": "anyposet",
    "kind": "related",
    "status": "unchecked",
    "why": "Between any order and an order from points in the plane: intervals on a line."
   },
   {
-   "from": "posetview",
+   "from": "vexillary",
    "to": "intervalorder",
-   "kind": "related",
-   "status": "unchecked",
-   "why": "The same question for another class of orders."
-  },
-  {
-   "from": "intervalorder",
-   "to": "vexillary",
    "kind": "related",
    "status": "unchecked",
    "why": "The attempt to use the one-partition machine for real solutions."
