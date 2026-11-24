@@ -35,7 +35,9 @@ On the board (σ(row) = column) a solution's order is 2 + 2-free exactly when σ
 - `iv2.py 9 2`, `pat4.py 9`, `pat4b.py 9`: for n ≤ 9 every valid arrangement has a solution avoiding 2143. The same holds
   for each of 1234 1243 1324 1342 1423 1432 2134 2314 3124 3214 separately (1234 = width ≤ 3 must fail later; 123 fails
   at n = 6), but for no pair of these patterns other than pairs with 1234. So these classes work because they are
-  large, not because they are canonical. `vex.py n` tests 2143 for larger n (see out_vex.txt).
+  large, not because they are canonical.
+- `vex.py n` (complete search): avoiding 2143 FAILS at n = 10 for 3 2 1 0 0 0 0 −1 −2 −3 and 3 3 2 1 0 0 −1 −2 −3 −3;
+  10 of 4,639 at n = 11, 29 of 14,805 at n = 12 (out_vex.txt).
 - Width 2 (avoid 123): 21 of 22 at n = 6, 1003 of 1486 at n = 10 (`classes.py`).
 
 ## Ideas not yet tried
@@ -44,3 +46,16 @@ On the board (σ(row) = column) a solution's order is 2 + 2-free exactly when σ
 2. A local condition on the partition machine that forces dimension 2; then the pair machine could be replaced by a
    one-partition machine with a little memory.
 3. Necessary condition seen so far: the j largest labels sum to at least the sum of the last j letters.
+
+## Cuts: a Gale–Ryser shape (`cut.py n`)
+At a cut x | z, a left interval i overlaps a right interval j iff j starts before i ends, so the overlap pattern is a
+Ferrers (nested) bipartite graph: the labels of the left intervals and the labels of the right intervals are CONJUGATE
+partitions. Hence  x z has an interval order ⟺ F(x) ∩ conj F(z̄) ≠ ∅,  z̄ = z reversed and negated.
+TESTED n ≤ 10 (11,567 cuts with slack > 0): F(x) and conj F(z̄) each have a least and a greatest element in dominance
+order, in every case. The meet of the two greatest elements lies in both sets except in 32 cases, and so does the join
+of the two least (32 exceptions). Exceptions are staircase-like: 3 2 1 | 0 0 −1 −2 −3 has the single common state (3, 2, 1),
+while the join of the bottoms is (2, 2, 2) and the meet of the tops (after 3 2 1 0 0 | −1 −2 −3) is (3, 3).
+F(x) is not always the whole dominance interval: after 2 2 2 it is {222, 321, 411, 42}, and 33 is missing.
+Greatest element of F(x) = the run with m = ℓ(λ) always, when that run exists; least = m as small as possible (to check).
+Plan for a proof of the interval-order version: (1) formulas for least and greatest element of F(x) from the word;
+(2) F(x) ⊇ dominance interval minus a named thin family; (3) least(x) ⊴ conj least(z̄)-type inequalities from Landau.
