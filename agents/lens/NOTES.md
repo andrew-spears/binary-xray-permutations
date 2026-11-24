@@ -57,3 +57,31 @@
 6. **No residue tower: NOTHING** (`tower.py`). The damaged part of a cell is not a union of finer cells (stones per residue
    class of rows and of columns mod 4 or 8): after `1 1 1 0 1 0 1 4 3 2` (slack 14, 1864 of 2665 reached) 2292 states lie in
    mod-4 cells that are partly reached; mod 8 the cells are too small to say anything (1690 cells).
+
+7. **Theorem D of `../damage/REPORT.md` against exact reachable sets, every level, every letter** (`../damage/dall.py 9 9 -3 4`).
+   A(x) = states not violating Theorem D for x; F(x) ⊆ A(x). Summed over all legal prefixes from the empty word with
+   length ≤ 9, slack ≤ 9, letters −3..4: after a letter ≤ 0 (8,629 prefixes) 1,555 of 507,103 states of A are not reached
+   (last letter ≤ −2: none; −1: 17 of 94,726; 0: 1,538 of 403,051); after a positive letter 512,133 of 2,579,257.
+   So after a letter ≤ 0 Theorem D is close to exact in every class, not only in levels 1–2; after a positive letter the
+   odd-even classes matter. Every word without a tight cut has a letter ≤ 0 followed by a letter ≥ 0 (a cut that is clean on
+   both sides, by the mirror), unless it is (positive letters) 0 (negative letters).
+   The 8 states of G(11) missing after 1^7 2 0 0 2 0 0 0 (Proposition C there) have imbalances (2, −1), difference 3, so
+   they are outside J*(11, 0 0) of REPORT3: no conflict with OLD.
+
+8. **Theorem D explains most of the two-line damage of REPORT4 §1c, not all** (`../damage/dword.py`).
+   1^5 3 2 1 0 (slack 11): 40 of 752 unreached, 34 violate D, rest 1^8|3, 1^6|5, 1^4|7 and swaps; next zero: 12 unreached,
+   8 violate D, rest −|65, −|83 and swaps. 1^5 4 3 2 1 0 0 0 (slack 15): unreached 468, 194, 64; not violating D 46, 40, 12
+   (the 12: −|10.5, −|87, 10.1|4, 10|41, 61|8, 6|81 and swaps = the 12 "outside N_y" of REPORT4).
+   1^8 3 3 3 2 1 0 0 (slack 20): not violating D 200, 56. The residue has two long lines with a parity pattern
+   (65, 83, 87, 10.5: both rows odd/even mixed); candidate: a mod-2 refinement of Theorem D (count stones by the parity
+   of their bead, as in the card "Counting rows, columns and sums modulo m"). Not tried.
+
+9. **Statement S of `../damage/REPORT.md` is false: NOTHING for 'Theorem D is exact after a letter ≤ 0'** (`../damage/sword.py s0 "word"`;
+   found by the automatic review of PR #19). Letters ≤ 2, start Lev₂(s₀). After 2 2 2 2 1 0 (ŷ = 4): missing 56, violators 52;
+   the other four are (−|R 2 2), (R|2 2) and swaps with R = s − ŷ (s₀ = 5, 6, 7, 9), back after one more 0, not after a −1 instead of the 0.
+   After 2^5 1 0: (R 2 1|2 1), R = s − 6. Staircase pairs (Prop. C of damage and neighbours: 321|4321; 21|54321, 4321|521,
+   321|6321, 32111|4321, 321|432111 and swaps at slack 18 from s₀ = 7) stay missing through four zeros and are back after a −1.
+   Shape of the first kind = one row of the largest length Theorem D allows + a small state that is exceptional at small slack
+   (the 2 × 2 square; 21|21). Same shape as the residue for letters ≥ 3 in item 8. Reading: take away the stone that made the long row
+   (rows above a new bead lose one box per later stone, so a row of length s − r was made r' steps ago with r' fixed by r); what is left is a
+   reachability question at slack about ŷ for a shorter word, and there the small-slack exceptions (T, squares) bite. Not checked further.

@@ -4208,6 +4208,123 @@
    "refs": "agents/universal/REPORT3.md §2"
   },
   {
+   "id": "landauholes",
+   "area": "ideas",
+   "title": "The last stones forbid long rows and columns: a Landau condition for hole patterns",
+   "status": "proved",
+   "intuition": "Undo the last L stones of a prefix. In the picture with two Young diagrams this is again a stone problem: each undone stone takes one bead of the first diagram and one hole of the second, and the distances bead-to-hole are forced by the letters and increase from stone to stone. So the last k stones need k beads and k holes that are far enough apart in total. Counting this the way Landau's condition is counted gives an inequality between the letters and the rows of the two diagrams. It is the first explicit, proved description of what a stretch of big stones destroys, and it depends on the whole stretch, not on a fixed number of last letters. A letter 0 relaxes both bounds by one, a letter −k relaxes the column bound by k + 1, which is why a −1 repairs faster than a 0. Claim: every reachable hole pattern satisfies these inequalities.",
+   "statement": "Let u = (λ | μ) be reachable after a legal prefix x (or after x from any set of states). Then for all p, q ≥ 0 and k ≥ 1, with t = p + q: (sum of the k letters of x that come just before its last t letters) ≤ k t + Σ_{i ≤ k} (λ_{p+i} + μ_{q+i}). In particular, with y the counter of the card 'Once the big stones are far enough back…' for x and ŷ the same counter for x without its last letter, u has no row longer than s − ŷ and no column longer than s − y (s = slack). If all letters are ≤ 2 and the last one is ≤ 0, these two bounds are the whole condition.",
+   "example": "After 2 2 2 1 from any start, the next three zeros have (ŷ, y) = (3, 2), (2, 1), (1, 0): rows longer than s − 3, s − 2, s − 1 and columns longer than s − 2, s − 1, s are excluded. Inside the family of the card 'Every stone within one mark…' that is 22, 6 and 2 patterns, the counts seen in the tests.",
+   "evidence": "Proof (agents/damage/REPORT.md §1, a sub-session's; I checked the proof of the inequality line by line, not the 'whole condition' part): undoing L stones from (M, B) is a choice of distinct beads m_i ∈ M and distinct holes n_i ∉ B with n_i − m_i = 2i − 1 − e_i, increasing in i. Among the first t + k stones at most p use the p largest beads and at most q the q smallest holes; the other k have beads ≤ the (p+1)-st and holes ≥ the (q+1)-st, which bounds the sum of their distances from below, and the k largest distances bound it from above. Checked on all states for 7,214 prefixes (length ≤ 9, slack ≤ 10, letters −3..2). Recheck (3 minutes): cd agents/damage && sh runs.sh.",
+   "refs": "agents/damage/REPORT.md"
+  },
+  {
+   "id": "landauexact",
+   "area": "ideas",
+   "title": "After a stone at or below its evenly spaced place, the Landau condition is the only obstruction",
+   "status": "disproved",
+   "intuition": "The card above gives a condition every reachable hole pattern must satisfy. Right after a big stone it is far from enough: about a fifth of the patterns that satisfy it are still unreachable. After a stone at or below its evenly spaced place (a letter ≤ 0) almost nothing else is missing, and up to slack 12 nothing at all, which suggested a formula: everything in a few middle classes except the patterns with a too long row or column. The start family was taken to be the four middle classes, because with one class the statement fails (red sibling), and the blocks were closed at a letter ≤ 0 with the pair (ŷ, y) carried along. It is false, and the test range was again too small: four 2s in a row are needed, which do not fit under slack 12. What is missing beyond the Landau condition has two shapes. One is a row of exactly the largest allowed length next to a 2 × 2 square; it comes back after one more zero. The other is the pairs of staircases that zeros never repair. Claim: inside the four middle classes, after a letter ≤ 0, a hole pattern is reachable exactly when it satisfies the Landau condition.",
+   "statement": "Statement S: let Lev₂(s) be the states of slack s whose odd-even count is in one of the four middle classes (level ≤ 2). For every s₀ ≥ 5 and every legal word w with letters ≤ 2 whose last letter is ≤ 0, the states of Lev₂(s) that are not reachable by w from Lev₂(s₀) are exactly those that violate the inequalities of the card 'The last stones forbid long rows and columns' for w (a row longer than s − ŷ or a column longer than s − y).",
+   "example": "From all 4-class patterns of slack 6, after 2 2 2 2 1 0 (slack 15, ŷ = 4, y = 3): 56 patterns are unreachable, 52 violate the Landau condition. The other four are − | 11 2 2, 11 | 2 2 and their swaps: a row of length s − ŷ = 11 and a 2 × 2 square.",
+   "evidence": "Counterexamples (computed; found by the automatic review of PR #19, confirmed with agents/damage/sword.py). (1) Start Lev₂(s₀), word 2 2 2 2 1 0: for s₀ = 5, 6, 7, 9 the four patterns (− | R 2 2), (R | 2 2) and swaps with R = s − 4 satisfy the condition and are unreached; they are reached after one more 0, but not after 2 2 2 2 1 −1. After 2 2 2 2 2 1 0 the same happens with (R 2 1 | 2 1), R = s − 6. (2) Staircase pairs: 3 2 1 | 4 3 2 1 and its swap (slack 16) after 2 2 2 2 2 1 0 0 from s₀ = 5 and after 2 2 2 2 1 0 0 from s₀ = 7; ten patterns such as 2 1 | 5 4 3 2 1 and 4 3 2 1 | 5 2 1 (slack 18) after 2 2 2 2 2 1 from s₀ = 7, still missing after four zeros, gone after a −1. Also, the search in the sub-session's report dropped words that pass through slack 0; with them, −1 −2 −3 2 1 1 0 from s₀ = 6 misses 1 1 | 1 1. What stays true: the Landau condition is necessary (proved, card above), and for words with at most three 2s in a row S held in every test (s₀ = 6, 706 words, length ≤ 7, slack ≤ 12). Any letters, every class (agents/damage/dall.py, length ≤ 9, slack ≤ 9, letters −3..4, 8,629 prefixes ending in a letter ≤ 0): 1,555 of 507,103 patterns that satisfy the condition are unreachable; after a positive letter 512,133 of 2,579,257. Steep words from the empty word (agents/damage/dword.py): after 1^5 4 3 2 1 and one, two, three zeros (slack 15) 46, 40, 12 allowed patterns are unreached, all with two long lines. Recheck (1 minute): cd agents/damage && python3 sword.py 6 '2 2 2 2 1 0 0' && python3 sword.py 7 '2 2 2 2 2 1 0 0'.",
+   "refs": "agents/damage/REPORT.md §2, §3 (correction at the top); agents/lens/NOTES.md items 5, 7, 8"
+  },
+  {
+   "id": "nygraded",
+   "area": "ideas",
+   "title": "After a 0, what is missing lies within y of a one-line pattern, for letters of any size",
+   "status": "disproved",
+   "intuition": "After blocks of letters 1 and 2 the patterns still missing at the following zeros are the ones with a very long row or column, and the allowed length shrinks by one per zero. The hope was that the same one-parameter family describes the damage after stones of any size. Claim: after a 0, exactly the patterns within y of a one-line pattern are missing.",
+   "statement": "For every prefix x ending in 0 with counter y, J*(s, τ) ∖ F(x) = N_y(s) ∩ J*(s, τ), where J* is the set of the card 'Once the big stones are far enough back…' and N_y(s) is the set of states with a row of length ≥ s − y or a column of length > s − y.",
+   "example": "x = 1 1 1 1 1 3 2 1 0 0 (slack 11, y = 1): besides the 6 patterns of N_1, the patterns − | 6 5, − | 8 3 and their swaps are missing. One zero earlier 38 are missing against 20 in N_2; the extra ones are two-line patterns such as 3 | 8, 4 | 7, 5 | 6.",
+   "evidence": "False for letters ≥ 3 (agents/universal/REPORT4.md §1c): the extra patterns have two long lines, about s/2 from a one-line pattern, and go away only after about c zeros, c the largest letter (after 1^7 5 4 3 2 1 the first six zeros leave 3737, 1645, 412, 64, 5, 0 extra). Most of them are explained by the proved Landau condition with two or more lines (card 'The last stones forbid long rows and columns'): after 1^5 4 3 2 1 0 there are 468 unreached patterns of 3,956 and 422 of them violate it; the other 46 (then 40, 12 after the next zeros) do not (python3 agents/damage/dword.py \"1 1 1 1 1 4 3 2 1 0 0 0\"). For letters ≤ 2 the claim holds in tests up to a small unfitted set: exactly N_y after a negative letter (y ≤ 4) and after 0 0 (y = 2, 3), otherwise N_y plus at most about 30 patterns once s ≥ 2y + 6 (all words, slack ≤ 18). Sets on every prefix ending in a letter ≤ 0 exist with the exact y as type but not with y capped. Recheck (1 minute): cd agents/universal && g++ -O2 -std=c++17 -o types types.cpp && g++ -O2 -std=c++17 -o fw fw.cpp && python3 young.py 16 14 && python3 zero.py \"1 1 1 1 1 3 2 1 0 0\".",
+   "refs": "agents/universal/REPORT4.md"
+  },
+  {
+   "id": "posetview",
+   "area": "ideas",
+   "title": "A solution is an order of dimension two: each diagonal is 'stones below minus stones above'",
+   "status": "proved",
+   "intuition": "Call two stones comparable if one of them is both higher up and further right than the other; that one is 'above', the other 'below'. Otherwise they are incomparable. In the evenly spaced arrangement all stones are comparable: they lie on one rising line, and the stone with k stones below it has n − 1 − k above it. Each incomparable pair takes one 'above' away from its stone with the smaller diagonal and one 'below' away from the other, and the letters record exactly that. This puts the conjecture in a family of questions: for a given kind of partial order, which sets D are the values 'below minus above'? For orders that come from points in the plane it is the conjecture. For another kind it is a different question, possibly an easier one (next card). One fact keeps this clean: in any partial order, 'below minus above' goes up by at least 2 from a stone to a stone above it, so listing the stones by diagonal never contradicts the order. Claim: the diagonals of a solution are the values 'below minus above' of its stones.",
+   "statement": "Say stone x is below stone y if y is higher up and further right on the board. Then for every solution the diagonal of a stone is d = (number of stones below it) − (number of stones above it). So D has a solution exactly when D is the set of values 'below minus above' of a partial order that comes from points in the plane (dimension ≤ 2). With the stones listed by diagonal, the letter of stone k is (later stones incomparable to k) − (earlier stones incomparable to k), and the slack after k stones is the number of incomparable pairs with one stone on each side of the cut.",
+   "example": "D = {−1, 0, 1}, solution with stones at (row 0, column 1), (row 1, column 0), (row 2, column 2). The first is above the second; the third is incomparable to both. Below minus above: 1 − 0, 0 − 1, 0 − 0.",
+   "evidence": "Proved. The column of a stone is the number of stones in smaller columns: those in lower rows (the stones below it) plus those in higher rows. Its row is the number of stones in higher rows: those in larger columns (the stones above it) plus those in smaller columns. The second parts are the same set, so column − row = below − above. For the letters: with the stones listed by diagonal, stone k has k − 1 − (earlier incomparable) below it and n − k − (later incomparable) above it. In any partial order x below y gives below(y) ≥ below(x) + 1 and above(y) ≤ above(x) − 1.",
+   "refs": "agents/intervals/NOTES.md"
+  },
+  {
+   "id": "anyposet",
+   "area": "ideas",
+   "title": "With any partial order allowed, Landau's condition is enough, even with repeated diagonals",
+   "status": "proved",
+   "intuition": "The conjecture asks for a partial order of a special kind, one that comes from points in the plane. This card answers the same question with no restriction on the order, and the answer is a short induction. Take the largest value k. Its element must have k elements below it and none above. Put it above the k smallest of the other elements, and add 1 to each of those k values, because each has lost one element above it. What is left is a smaller problem of the same kind. The chosen k elements form a set closed downward in whatever order is built later, because an element above another always has a value at least 2 larger, and after the shift no chosen value exceeds an unchosen one by more than 1. The only work is to check that the inequality survives the step. The orders built this way are often, but not always, of the special kind, so this is the conjecture with its hard part removed: what is hard is not finding an order, it is finding one of dimension two. Claim: the inequality is necessary and sufficient for some partial order.",
+   "statement": "Let d_1 ≤ … ≤ d_n be integers, repeats allowed. There is a partial order on n elements whose values (number below) − (number above) are d_1, …, d_n exactly when d_1 + … + d_j ≥ −j(n − j) for every j, with equality for j = n. For distinct values this condition is Landau's, so every valid D is 'below minus above' for some partial order.",
+   "example": "Values −2, −1, 0, 0, 3 (n = 5). The largest is 3: put that element above the three smallest, −2, −1 and one 0, which become −1, 0, 1. Left: −1, 0, 0, 1. The largest is 1: put it above the smallest, −1, which becomes 0. Left: 0, 0, 0, three elements with nothing below or above. Result: z above a, b, c; c above a; one more element d comparable to nothing. Below minus above: a: 0 − 2, b: 0 − 1, c: 1 − 1, d: 0 − 0, z: 3 − 0.",
+   "evidence": "Proved (agents/intervals/NOTES.md, section 'Any partial order'). Necessity: the j smallest values belong to a downward closed set I, and the sum of below − above over I is minus the number of comparable pairs leaving I, at least −j(n − j). Sufficiency: with f(j) = d_1 + … + d_j + j(n − j), the new sums are checked in four ranges of j; the only case that needs a computation is when the k-th and (k + 1)-th smallest values are equal, and there the two bounds on the partial sum combine to b(a² + ab + br) ≥ b(a + b), with a, b, r ≥ 1 the sizes of the pieces of the block of equal values and of what lies above it. Checked by program: the peeling succeeds and gives the right values for all 5,302 such multisets of size 8 (and all smaller sizes). For distinct values and all ways to break ties, some peeled order is of dimension two for 56 of 59 arrangements at n = 7 and 148 of 167 at n = 8. The inequality is the known condition for score sequences of tournaments in which games may be drawn (Avery, 1991; cited from memory, not looked up); whether the statement for partial orders is in the literature was not searched. Recheck (10 seconds): cd agents/intervals && python3 poset.py 8.",
+   "refs": "agents/intervals/NOTES.md",
+   "vis": {
+    "file": "labs/peel.html",
+    "title": "Peel the top stone"
+   }
+  },
+  {
+   "id": "intervalorder",
+   "area": "ideas",
+   "title": "With interval orders in place of orders from points in the plane, every valid arrangement works",
+   "status": "empirical",
+   "intuition": "The card above says a solution is a partial order of a special kind (from points in the plane) whose values 'below minus above' are D. Swap the kind of order: take intervals on a line, with 'below' meaning 'entirely to the left'. This is neither weaker nor stronger than the conjecture, because a solution need not be an interval order and an interval order need not be a solution. Its interest is that the machine becomes much smaller. For solutions, the state after some stones is a pair of Young diagrams. For intervals it is one partition of the slack: for each interval that is still open, the number of later intervals that will overlap it. A step with letter e chooses a number m, lets the new interval overlap the m open intervals that close last, and gives it the label e + m. The sets of reachable partitions are close to 'all partitions between two bounds', which the sets for solutions are not. So this version may be provable, and a proof would be the first statement of this kind for every valid D. Claim: every valid D is 'below minus above' for some family of intervals.",
+   "statement": "For every valid D there are n intervals on a line such that, calling an interval below another when it lies entirely to its left, the values (number below) − (number above) are exactly D.",
+   "example": "D = {−2, −1, 0, 1, 2}, letters 2 1 0 −1 −2. Intervals [1, 4], [2, 6], [3, 8], [5, 9], [7, 10]: every pair overlaps except the first with the last two and the second with the last. Below minus above: 0 − 2, 0 − 1, 0 − 0, 1 − 0, 2 − 0.",
+   "evidence": "Tested, not proved: every valid arrangement up to n = 13 (48,107 at n = 13) has such a family (agents/intervals/pm.py). A sub-session (agents/intervals2/REPORT.md) extended this by a finite search that covers every n: every arrangement whose slack stays at most 22 has such a family, which includes every arrangement with n ≤ 14. It also proved by hand that no rule choosing m from the letters read so far can work: after 3 2 1 0 −1 the endings −2 −3 and −2 −1 −2 need different states. Seven ways of ordering the intervals in advance fail, each with a counterexample for n ≤ 7. No simple rule for m works: smallest m, largest m, most open intervals and four others each fail from n = 5 or n = 7 (rules.py). Always overlapping every open interval fails first on 2 1 1 0 −1 −1 −2 (iv.py). Intervals of equal length (semiorders) reach 21 of 22 arrangements at n = 6 and 5,798 of 14,805 at n = 12 (semi.py). Reachable sets: for 1,731 of the 1,772 prefixes of valid words of length 9 the reachable partitions are exactly those whose partial sums of parts lie between the smallest and largest values seen; in the other 41 one or two partitions such as (2, 2) are missing (box.py). At a cut the labels of the intervals on the left and on the right are conjugate partitions, so the two halves fit together exactly when the reachable set of the left half meets the conjugate of the reachable set of the mirrored right half. For all 11,567 cuts with positive slack at n = 10, each of the two sets has a smallest and a largest partition in dominance order, and the meet of the two largest lies in both sets except in 32 cases (cut.py). This is the shape of the Gale–Ryser theorem for 0-1 matrices with given row and column sums. A form without a machine (proved equivalent): list the intervals by right endpoint; interval t lies above the first k_t of them, where 0 ≤ k_t ≤ t − 1 can be chosen freely, and its value is k_t − (number of t' with k_t' ≥ t). With repeated diagonals allowed the statement is false: −1, −1, 1, 1 satisfies the inequality and is not reached, and 1,294 of 5,302 multisets of size 8 are not (subex.py). So a proof must use that the diagonals are distinct, as for the conjecture itself. Recheck (1 minute): cd agents/intervals && python3 pm.py 12 && python3 box.py 9 && python3 cut.py 9.",
+   "refs": "agents/intervals/NOTES.md, agents/intervals2/REPORT.md"
+  },
+  {
+   "id": "vexillary",
+   "area": "ideas",
+   "title": "Every valid arrangement has a solution that is also an interval order",
+   "status": "disproved",
+   "intuition": "If the small machine of the card above could be used for real solutions, the conjecture would become a question about one partition instead of two diagrams. A solution is an interval order exactly when it avoids one pattern of four stones: two comparable pairs with every stone of one pair incomparable to every stone of the other. Such solutions exist for every arrangement up to size 9, and then stop existing for a few arrangements with a long run of consecutive diagonals at each end. Ten other four-stone patterns behave the same way up to size 9, but no two of them can be avoided together, except with the pattern 'four stones pairwise incomparable'. Nine of the eleven stop working by size 12; the two that survive are on the card 'Three chains are enough'. Claim: every valid arrangement has a solution avoiding 2143.",
+   "statement": "Every valid D has a solution σ (σ(row) = column) with no four rows i < j < k < l such that σ(j) < σ(i) < σ(l) < σ(k) (the pattern 2143).",
+   "example": "D = {−6, −5, −4, −3, −1, 1, 3, 4, 5, 6} (n = 10, letters 3 2 1 0 0 0 0 −1 −2 −3) is solvable, but every solution contains the pattern 2143.",
+   "evidence": "Computed (agents/intervals/vex.py, complete search): n ≤ 9 none missing; n = 10: 2 of 1,486 (the example and 3 3 2 1 0 0 −1 −2 −3 −3); n = 11: 10 of 4,639; n = 12: 29 of 14,805. Each single pattern 1234, 1243, 1324, 1342, 1423, 1432, 2134, 2143, 2314, 3124, 3214 can be avoided for every arrangement with n ≤ 9; of the pairs only those containing 1234 (pat4b.py 9). Avoiding three pairwise incomparable stones: 21 of 22 at n = 6, 1,003 of 1,486 at n = 10 (classes.py). Recheck (1 minute): cd agents/intervals && python3 vex.py 10.",
+   "refs": "agents/intervals/NOTES.md"
+  },
+  {
+   "id": "threechains",
+   "area": "ideas",
+   "title": "Three chains are enough: every valid arrangement has a solution with no four stones pairwise unrelated",
+   "status": "empirical",
+   "intuition": "Call two stones related if one is higher up and further right than the other. A chain is a set of stones that are pairwise related, so it runs from bottom left to top right. The evenly spaced arrangement is solved by one chain. Arrangements with every diagonal in a block, such as −2, −1, 0, 1, 2, need two. The question is how many chains a solution needs in general, and the tests say three, at every size tried. This is a strong restriction: of all permutations of size 15 only a small fraction split into three chains, yet every one of the 531,469 arrangements of that size has such a solution. A solution of this kind is easy to write down. Give every row one of three letters and every column one of three letters, with each letter used equally often for rows and columns; the t-th row with a letter gets its stone in the t-th column with that letter. The tests also show a shape: a chain mostly runs along an anti-diagonal of the board, in groups of stones on neighbouring rows and columns. Claim: three chains are always enough.",
+   "statement": "Every valid D has a solution whose stones can be split into three chains, a chain being a sequence of stones each higher up and further right than the one before. Equivalently: a solution σ (σ(row) = column, rows numbered from the top) that avoids the pattern 1234.",
+   "example": "D = {−3, −2, −1, 1, 2, 3} (letters 2 1 0 0 −1 −2) has no solution with two chains. With three: σ = 2 4 6 1 3 5, chains (row 4, column 1) – (row 1, column 2); (row 5, column 3) – (row 2, column 4); (row 6, column 5) – (row 3, column 6).",
+   "evidence": "Tested, not proved (agents/patterns/REPORT.md). Complete search over every valid arrangement for n ≤ 15, no failure (width.cpp). Random arrangements of sizes 16, 18 and 20: 2,666 tried, no failure, 2 searches at n = 20 cut off before finishing (wrand.cpp). Words k, …, 1, 0, …, 0, −1, …, −k up to k = 8 and n = 21: three chains, never two (width1.cpp). The third chain can be short: at most 1 stone for n ≤ 8 and at most 2 for n ≤ 10 (third.py). Of the 24 patterns of four stones, only two can be avoided for every arrangement with n ≤ 13: four pairwise unrelated stones (this card) and 1324; they cannot be avoided together from n = 9 (pat.cpp). For interval orders no such bound holds: width 2 fails at n = 6, width 3 at n = 8, width 4 at n = 9 (ivwidth.cpp). The third chain is short: some solution has all but 2 stones in two chains for every arrangement with n ≤ 13, and all but 1 for every arrangement with no high stone before a low stone, n ≤ 13; it is not bounded (3 stones for 6 5 4 3 2 1 0 0 0 0 −1 … −6) (agents/blocks/third.cpp). Whenever some solution needs more than three chains, at least 12 solutions do not (n ≤ 10, tight3.py). Recheck (1 minute): cd agents/patterns && g++ -O2 -o width width.cpp && ./width 13 3.",
+   "refs": "agents/patterns/REPORT.md, agents/blocks/NOTES.md",
+   "vis": {
+    "file": "labs/chains.html",
+    "title": "A solution with the fewest chains"
+   }
+  },
+  {
+   "id": "twochains",
+   "area": "ideas",
+   "title": "Two chains are enough",
+   "status": "disproved",
+   "intuition": "With two chains a solution is two partitions x and y inside a k × (n − k) box, where k is the size of the first chain: its diagonals are read off the sum x + y, and those of the second chain off the sum of the two complementary partitions. That is a rigid form: the number of permutations made of two chains grows at the same rate as the number of arrangements (about 4 to the power n), so there is little room to spare. It works for every arrangement up to size 5 and for about two thirds of them at size 10. Claim: two chains are always enough.",
+   "statement": "Every valid D has a solution whose stones split into two chains (a solution avoiding the pattern 123).",
+   "example": "D = {−3, −2, −1, 1, 2, 3} (n = 6, letters 2 1 0 0 −1 −2): all 6 of its solutions with at most three chains have exactly three.",
+   "evidence": "Computed (agents/patterns/width.cpp, complete search): no failure for n ≤ 5; 1 of 22 at n = 6; 6 of 59 at n = 7; 29 of 167 at n = 8; 123 of 490 at n = 9; 483 of 1,486 at n = 10. Recheck (seconds): ./width 6 2. Proved (agents/blocks/NOTES.md, section 2): two-chain solutions are exactly the runs of a small machine. Its state is two partitions P and Q; a stone with letter e either deletes the first row of Q, of length q, and gives P a new first column of height e + q, or does the same with P and Q exchanged; a word has a two-chain solution exactly when some run returns to the empty state. In pictures: the order of the rows, of the columns and of the diagonals are three lattice paths, and the third must run midway between the first two; a letter is twice its distance from the middle. Even words with every letter in {−1, 0, 1} can fail: 1 1 0 0 1 0 −1 0 −1 −1 at n = 10, none smaller (pm1.py).",
+   "refs": "agents/patterns/REPORT.md, agents/blocks/NOTES.md"
+  },
+  {
+   "id": "centralonly",
+   "area": "ideas",
+   "title": "One class minus the damaged patterns carries the induction through a 2",
+   "status": "disproved",
+   "intuition": "The proved induction for letters up to 1 carried one class of the odd-even count. The natural extension keeps that class and subtracts the patterns a big stone is known to destroy. Claim: the one class minus the damage is carried by a letter 0.",
+   "statement": "For every prefix x ending in 2 1^j 0 0, every state of G(s) (the family of the card 'Every stone within one mark…') outside the forbidden set of the card 'The last stones forbid long rows and columns' has a 0-predecessor in G(s) outside the forbidden set of x without its last letter.",
+   "evidence": "False (proved, agents/damage/REPORT.md Proposition E). The pattern (s − 1 | 1) is in G(s), and its only 0-predecessors are the one-row pattern (s | −), which is forbidden one letter after the block, and (− | 2 1^(s−2)), which lies in the neighbouring class. Smallest case: (2 | 1) is reached by 2 1 0 0 only through (− | 2 1). With G as start family the test of the card above also fails: 2 | 4 1 1 is missing after 2 1 1 0 from slack 4 although it satisfies the Landau condition (36 of 510 words ending in 0). Recheck: cd agents/damage && python3 cores.py && python3 landau.py 4 7 12 -3.",
+   "refs": "agents/damage/REPORT.md §1, §2"
+  },
+  {
    "id": "twotourn",
    "area": "ideas",
    "title": "Climbing to a solution through pairs of tournaments",
@@ -5359,6 +5476,111 @@
    "kind": "related",
    "status": "unchecked",
    "why": "The shortest excursion: a single 2, closed by the next 0."
+  },
+  {
+   "from": "landauholes",
+   "to": "oldprefix",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The one-row patterns removed in that table are this forbidden set at ŷ = 1, y = 0; for y > 0 it gives the proved part of the damage."
+  },
+  {
+   "from": "hooksout",
+   "to": "landauholes",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The special case of one letter 2: the one-line patterns are the ones with a row or column of full length."
+  },
+  {
+   "from": "landauholes",
+   "to": "landauexact",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The condition whose sufficiency was claimed; it is necessary only."
+  },
+  {
+   "from": "landauexact",
+   "to": "oldprefix",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The same goal with blocks closed at every letter ≤ 0 and an explicit set for y > 0."
+  },
+  {
+   "from": "onehigh",
+   "to": "landauexact",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The block 2 1^j is the smallest case; it is open there, and the general form here is false from 2 2 2 2 1."
+  },
+  {
+   "from": "nygraded",
+   "to": "landauexact",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The one-line family is the Landau condition for letters ≤ 2; for bigger letters the condition has more lines, and a small part of the damage is outside it."
+  },
+  {
+   "from": "nygraded",
+   "to": "oldprefix",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The attempt to extend that table to prefixes with y > 0."
+  },
+  {
+   "from": "posetview",
+   "to": "interface",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The same walk seen without rows and columns: the slack counts incomparable pairs across the cut."
+  },
+  {
+   "from": "anyposet",
+   "to": "posetview",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The same question with every partial order allowed: solved."
+  },
+  {
+   "from": "intervalorder",
+   "to": "anyposet",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Between any order and an order from points in the plane: intervals on a line."
+  },
+  {
+   "from": "vexillary",
+   "to": "intervalorder",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The attempt to use the one-partition machine for real solutions."
+  },
+  {
+   "from": "threechains",
+   "to": "posetview",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The width of the order: how many stones can be pairwise unrelated."
+  },
+  {
+   "from": "twochains",
+   "to": "threechains",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "The same claim with one chain fewer."
+  },
+  {
+   "from": "vexillary",
+   "to": "thincorners",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Both look for a smaller machine that still solves every arrangement; both fail."
+  },
+  {
+   "from": "centralonly",
+   "to": "landauexact",
+   "kind": "related",
+   "status": "unchecked",
+   "why": "Why the start family must be four classes and not one."
   },
   {
    "from": "twotourn",

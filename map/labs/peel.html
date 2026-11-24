@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Binary x-rays: peeling the top stone</title>
+<style>
+  :root { --bg:#fbfaf7; --ink:#1d1d1f; --ink2:#6b6b70; --grid:#d9d6cf; --chip:#efece6; --hl:#c2410c; --hl2:#0f766e; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#17171a; --ink:#ececee; --ink2:#9a9aa2; --grid:#3a3a40; --chip:#26262b; --hl:#fb923c; --hl2:#2dd4bf; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font:15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+  main { max-width:520px; margin:0 auto; padding:16px 12px 28px; }
+  p.lead { color:var(--ink2); font-size:14px; margin:0 4px 10px; }
+  .row { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:10px; margin:7px 0; }
+  .lbl { color:var(--ink2); font-size:13px; }
+  .val { min-width:36px; text-align:center; font-variant-numeric:tabular-nums; font-weight:600; }
+  button.arrow, button.dice { border:0; background:var(--chip); color:var(--ink); width:32px; height:32px;
+                 border-radius:50%; font-size:16px; cursor:pointer; flex:none; }
+  .step { border:1px solid var(--grid); border-radius:10px; padding:10px 10px 8px; margin:0 0 4px; display:grid;
+          grid-template-columns:1fr; gap:8px; align-items:center; }
+  .step h3 { margin:0 0 2px; font-size:13px; font-weight:600; color:var(--ink2); }
+  .word { font-variant-numeric:tabular-nums; font-weight:600; font-size:15px; letter-spacing:.02em; word-spacing:.12em; }
+  .word .cut { color:var(--hl); border-bottom:2px solid var(--hl); }
+  .word .new { color:var(--hl2); border-bottom:2px solid var(--hl2); }
+  .dset { color:var(--ink2); font-size:12px; font-variant-numeric:tabular-nums; margin-top:2px; }
+  .rule { text-align:center; color:var(--ink2); font-size:13px; margin:2px 0 6px; }
+  .rule b { color:var(--ink); font-weight:600; }
+  svg { display:block; width:100%; height:auto; }
+  .chips { display:flex; flex-wrap:wrap; gap:5px; margin:3px 0 2px; }
+  .chip { background:var(--chip); border-radius:7px; padding:2px 7px; font-weight:600; font-variant-numeric:tabular-nums; font-size:14px; }
+  .chip.top { background:var(--hl); color:#fff; } .chip.low { outline:2px solid var(--hl2); }
+  .legend { color:var(--ink2); font-size:13px; margin:12px 4px 0; }
+  .legend b { color:var(--ink); font-weight:600; }
+  .k1 { color:var(--hl); font-weight:600; } .k2 { color:var(--hl2); font-weight:600; }
+</style>
+</head>
+<body>
+<main>
+  <p class="lead">Pick an arrangement. Each step takes the <span class="k1">largest value k</span>, puts that element above the k <span class="k2">smallest others</span>, and adds 1 to each of those. The result is a partial order in which every element has (number below) − (number above) equal to its diagonal.</p>
+  <div class="row"><span class="lbl">size n</span><button class="arrow" id="np">‹</button><span class="val" id="nv"></span><button class="arrow" id="nn">›</button>
+    <span class="lbl" style="margin-left:10px">arrangement</span><button class="arrow" id="wp">‹</button><span class="val" id="wv" style="min-width:74px"></span><button class="arrow" id="wn">›</button><button class="dice" id="dice" title="random">⚄</button></div>
+  <div id="chain"></div>
+  <div class="step"><div><h3>The order that comes out</h3><svg id="hasse" viewBox="0 0 480 300"></svg><div class="dset" id="verdict"></div></div></div>
+  <p class="legend"><b>Reading the picture.</b> Each dot is a stone, labelled with its diagonal and drawn from left to right by diagonal. A line goes up from a stone to a stone directly above it in the order. This always works when Landau's condition holds. The conjecture asks for more: an order that comes from a board, with 'above' meaning higher and further right. The last line says whether this particular order does.</p>
+</main>
+<script>
+function words(n){const out=[];(function rec(w,s){if(w.length===n){if(s===0)out.push(w.slice());return;}
+  const lo=w.length?w[w.length-1]-1:0;for(let e=Math.max(lo,-s);e<2*(n-w.length)-1;e++){w.push(e);rec(w,s+e);w.pop();}})([],0);return out;}
+let n=6,W=words(n),wi=7;
+const $=id=>document.getElementById(id), fmt=v=>v<0?'−'+(-v):''+v;
+function peel(D){const m=D.length,cur=D.slice(),alive=D.map(()=>true),below=D.map(()=>[]),steps=[];
+  for(let t=m;t>0;t--){let z=-1;for(let i=0;i<m;i++)if(alive[i]&&(z<0||cur[i]>=cur[z]))z=i;
+    const k=cur[z],rest=[];for(let i=0;i<m;i++)if(alive[i]&&i!==z)rest.push(i);
+    rest.sort((a,b)=>cur[a]-cur[b]||a-b);const S=rest.slice(0,k);
+    steps.push({vals:cur.slice(),alive:alive.slice(),z,S});below[z]=S;alive[z]=false;for(const i of S)cur[i]++;}
+  return {steps,below};}
+function twoDim(m,below){const adj=[];for(let i=0;i<m;i++)adj.push(new Set());
+  for(let a=0;a<m;a++)for(let b=a+1;b<m;b++)if(!below[a].includes(b)&&!below[b].includes(a)){adj[a].add(b);adj[b].add(a);}
+  const par=new Map(),key=(a,b)=>a*m+b,find=x=>{if(!par.has(x))par.set(x,x);while(par.get(x)!==x){par.set(x,par.get(par.get(x)));x=par.get(x);}return x;};
+  for(let b=0;b<m;b++){const N=[...adj[b]];for(let i=0;i<N.length;i++)for(let j=i+1;j<N.length;j++){const a=N[i],c=N[j];
+    if(!adj[a].has(c)){par.set(find(key(a,b)),find(key(c,b)));par.set(find(key(b,a)),find(key(b,c)));}}}
+  for(let a=0;a<m;a++)for(const b of adj[a])if(find(key(a,b))===find(key(b,a)))return false;return true;}
+// A cover line must not run through a third dot: bend it until it clears every other dot, staying inside the picture.
+function edge(x1,y1,x2,y2,others){const len=Math.hypot(x2-x1,y2-y1),px=-(y2-y1)/len,py=(x2-x1)/len;
+  const clear=(b,f,gap)=>{const cx=x1+f*(x2-x1)+b*px,cy=y1+f*(y2-y1)+b*py;
+    for(let t=0;t<=1;t+=.02){const u=1-t,qx=u*u*x1+2*u*t*cx+t*t*x2,qy=u*u*y1+2*u*t*cy+t*t*y2;
+      if(qx<3||qx>477||qy<3||qy>297)return null;
+      for(const [ox,oy] of others)if(Math.hypot(qx-ox,qy-oy)<gap)return null;}
+    return 'M'+x1+' '+y1+' Q'+cx+' '+cy+' '+x2+' '+y2;};
+  for(const gap of [20,16])for(let k=0;k<=24;k++)for(const sg of [1,-1])for(const f of [.5,.3,.7,.15,.85,0,1]){
+    if(k===0&&(sg<0||f!==.5))continue;const d=clear(sg*k*15,f,gap);if(d)return d;}
+  return 'M'+x1+' '+y1+' L'+x2+' '+y2;}
+function draw(){const w=W[wi],D=w.map((e,k)=>e+2*(k+1)-n-1);$('nv').textContent=n;$('wv').textContent=(wi+1)+' / '+W.length;
+  const {steps,below}=peel(D);let h='';
+  steps.forEach((s,i)=>{const ids=[];for(let j=0;j<n;j++)if(s.alive[j])ids.push(j);ids.sort((a,b)=>s.vals[a]-s.vals[b]||a-b);
+    h+='<div class="step"><div><h3>Step '+(i+1)+'</h3><div class="chips">'+ids.map(j=>'<span class="chip'+(j===s.z?' top':s.S.includes(j)?' low':'')+'">'+fmt(s.vals[j])+'</span>').join('')+'</div>'+
+       '<div class="dset">stone '+fmt(D[s.z])+' has value '+s.vals[s.z]+': above '+(s.S.length?'the stones '+s.S.map(j=>fmt(D[j])).join(', '):'nothing')+'</div></div></div>';});
+  $('chain').innerHTML=h;
+  const lev=D.map(()=>0);
+  const order=[...Array(n).keys()].sort((a,b)=>below[a].length-below[b].length);
+  for(const z of order)for(const x of below[z])lev[z]=Math.max(lev[z],lev[x]+1);
+  const L=Math.max(...lev),X=i=>40+400*(n>1?i/(n-1):.5),Y=i=>255-(L?210*lev[i]/L:105);let g='';
+  for(let z=0;z<n;z++)for(const x of below[z]){if(below[z].some(y=>below[y].includes(x)))continue;
+    g+='<path d="'+edge(X(x),Y(x),X(z),Y(z),[...Array(n).keys()].filter(i=>i!==x&&i!==z).map(i=>[X(i),Y(i)]))+'" fill="none" stroke="var(--grid)" stroke-width="2"/>';}
+  for(let i=0;i<n;i++)g+='<circle cx="'+X(i)+'" cy="'+Y(i)+'" r="13" fill="var(--chip)" stroke="var(--ink2)"/><text x="'+X(i)+'" y="'+(Y(i)+4.5)+'" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">'+fmt(D[i])+'</text>';
+  $('hasse').innerHTML=g;
+  $('verdict').innerHTML='Diagonals '+D.map(fmt).join(', ')+'. '+(twoDim(n,below)?'<span class="k2">This order comes from a board, so it is a solution.</span>':'<span class="k1">This order does not come from a board.</span> A solution needs a different order.');}
+function setN(m){n=Math.max(3,Math.min(9,m));W=words(n);wi=Math.min(wi,W.length-1);draw();}
+$('np').onclick=()=>setN(n-1);$('nn').onclick=()=>setN(n+1);
+$('wp').onclick=()=>{wi=(wi+W.length-1)%W.length;draw();};$('wn').onclick=()=>{wi=(wi+1)%W.length;draw();};
+$('dice').onclick=()=>{wi=Math.floor(Math.random()*W.length);draw();};
+draw();
+</script>
+</body>
+</html>
