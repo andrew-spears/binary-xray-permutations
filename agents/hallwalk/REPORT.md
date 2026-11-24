@@ -65,6 +65,12 @@ Equivalent form of Claim 3: some solution has r_X + r_Y in {n+1−y, n+2−y, n+
   0.69, 0.53 for n = 6 … 11), lowest for the last move into the most central arrangement.
 - Loop reflections do not connect all solutions of D: 2 classes already for diagonals −3, −1, 0, 1, 3 (n = 5),
   10 classes for one set at n = 9 (cyc.py, written with lines r + c instead of diagonals).
+- Keeping one solution per arrangement, chosen by a fixed order, and using only repairs with s in {n, n+1, n+2}:
+  some arrangement is left with no solution from n = 7 for the two orders tried (smallest rows first, largest rows
+  first: 1, 3, 17 arrangements at n = 7, 8, 9) and for six random orders at n = 8 (3 to 28 arrangements). Keeping
+  three per arrangement still leaves 2 at n = 8 (one.py). So the class of Claim 4 cannot be cut down to a single
+  canonical solution this simply. "The solution nearest the middle anti-diagonal" is not a rule: the sum of
+  (r + c − n − 1)² over the stones is the same for every solution of D.
 - Starting from the one solution of the evenly spaced arrangement and using only successful repairs reaches some
   solution of every valid D for n ≤ 9 (reach.py), but I have no description of the solutions reached.
 
@@ -73,6 +79,7 @@ Equivalent form of Claim 3: some solution has r_X + r_Y in {n+1−y, n+2−y, n+
     python3 refl.py 10        # about 8 seconds; asserts Claims 1 and 2 on every solution, prints Claim 3 counts
     python3 refl.py 11        # about 40 seconds
     python3 near.py 9 1       # Claim 4, a few seconds; near.py 8 0 shows s = n + 1 alone is not enough
+    python3 one.py 8 1 rows   # one kept solution per arrangement is not enough
     python3 cyc.py 9          # loop reflections do not connect
 
 hw.py, hw2.py, reach.py are the first experiments, written with lines r + c (columns reversed).
