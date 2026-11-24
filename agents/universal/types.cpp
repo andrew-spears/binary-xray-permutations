@@ -32,6 +32,9 @@
 //         types with y = 0 ("old" prefixes: every suffix of j letters has sum <= j) carry a set; a block is an excursion
 //         of y above 0, followed exactly.  Every complete word is old, so J(0) nonempty is the conjecture (REPORT3.md).
 //         y instead of Y: y is part of the type and every type carries a set (no blocks).
+//         With CLOSE=0 (and Y in the features) the sets are instead carried by every prefix that ends in a letter 0, young or
+//         old, and a block is (nonzero letters)* 0; CLOSE=n: by every prefix ending in a letter <= 0 (all negative last letters
+//         share one set).  YCAP=c: carrying types that agree up to min(y, c) share one set.  (REPORT4.md)
 // The type always contains the slack and the last letter.   dump: print J(t) for every type with slack <= 8
 // (or <= DUMPMAX).   sizes (instead of dump): the table of |J(t)| for types ending in 0 or 1 (slack printed as 0).
 // LET=lo,hi: only words with all letters in [lo, hi] (the family and the pair test are then for that class of words).
@@ -162,7 +165,13 @@ int main(int argc, char** argv){
     }
     int T=keys.size(); vector<Bits> J(T);
     int klo=getenv("KLO")?atoi(getenv("KLO")):-1000;
-    auto carries=[&](int t){ return !blocks || (ypos>=0 ? keys[t][ypos]==0 : keys[t][1]<=1) && (keys[t][1]>=klo || keys[t][1]==NONE); };
+    const char* closeat=getenv("CLOSE"); int ycap=getenv("YCAP")?atoi(getenv("YCAP")):1000; if (closeat) blocks=true;
+    auto carries=[&](int t){ int l=keys[t][1]; if (closeat) return l==NONE || (closeat[0]=='n' ? l<=0 : l==0);
+        return !blocks || (ypos>=0 ? keys[t][ypos]==0 : l<=1) && (l>=klo || l==NONE); };
+    vector<int> jr(T); vector<vector<int>> mem(T);  // CLOSE: carrying types that agree up to min(y, YCAP) and "last letter negative" share one set, kept at jr[t]
+    { map<Key,int> canon; for (int t=0;t<T;t++){ Key k=keys[t];
+        if (closeat&&carries(t)){ if (ypos>=0) k[ypos]=min(k[ypos],ycap); if (k[1]!=NONE&&k[1]<-1) k[1]=-1; }
+        jr[t]=canon.insert({k,t}).first->second; mem[jr[t]].push_back(t); } }
     for (int t=0;t<T;t++){ int s=keys[t][0]; J[t].assign(words(s),~0ULL); size_t n=lev[s].size(); if (n%64) J[t].back()=(1ULL<<(n%64))-1; }
     J[0].assign(words(0),0); J[0][0]=1;
     deque<int> work; vector<char> inq(T,1); for (int t=0;t<T;t++) if (carries(t)) work.push_back(t);
@@ -177,22 +186,30 @@ int main(int argc, char** argv){
         if (!blocks){
             for (auto [e,t2]: out[t]){ Bits S=step(J[t],s,e); steps++; if (andin(J[t2],S)){ report(t2); if (!inq[t2]){ inq[t2]=1; work.push_back(t2); } } }
         } else {                                   // follow exact sets through types with last letter >= 2
-            vector<pair<int,Bits>> st; st.push_back({t,J[t]}); set<pair<int,Bits>> memo; vector<vector<int8_t>> pw; pw.push_back({});
+            vector<pair<int,Bits>> st; st.push_back({t,J[jr[t]]}); set<pair<int,Bits>> memo; vector<vector<int8_t>> pw; pw.push_back({});
             while (!st.empty()){ auto [a,S]=st.back(); st.pop_back(); vector<int8_t> w=pw.back(); pw.pop_back();
                 for (auto [e,t2]: out[a]){ Bits S2=step(S,keys[a][0],e); steps++; w.push_back(e);
-                    if (carries(t2)){ if (andin(J[t2],S2)){ if (!inq[t2]){ inq[t2]=1; work.push_back(t2); }
-                        if (diag&&!done&&isempty(J[t2])){ done=true; printf("first empty: %s, by the block [%s] from %s [%s], |J| = %ld, |step| = %ld\n", kstr(keys[t2]).c_str(), str(w).c_str(), kstr(keys[t]).c_str(), str(rep[t]).c_str(), cnt(J[t]), cnt(S2)); } } }
+                    if (carries(t2)){ if (andin(J[jr[t2]],S2)){ for (int m: mem[jr[t2]]) if (!inq[m]){ inq[m]=1; work.push_back(m); }
+                        if (diag&&!done&&isempty(J[jr[t2]])){ done=true; printf("first empty: %s, by the block [%s] from %s [%s], |J| = %ld, |step| = %ld\n", kstr(keys[t2]).c_str(), str(w).c_str(), kstr(keys[t]).c_str(), str(rep[t]).c_str(), cnt(J[t]), cnt(S2)); } } }
                     else if (memo.insert({t2,S2}).second){ st.push_back({t2,S2}); pw.push_back(w); }
                     w.pop_back(); } }
         }
     }
-    printf("bound %d, features '%s': %d types (%d carrying a set), %ld steps\n", B, fs.c_str(), T, (int)[&]{ int c=0; for (int t=0;t<T;t++) c+=carries(t); return c; }(), steps);
+    for (int t=0;t<T;t++) if (jr[t]!=t) J[t]=J[jr[t]];
+    printf("bound %d, features '%s': %d types (%d carrying a set), %ld steps\n", B, fs.c_str(), T, (int)[&]{ int c=0; for (int t=0;t<T;t++) c+=carries(t)&&jr[t]==t; return c; }(), steps);
+    vector<map<Bits,int>> ones(B+1);                // CLOSE: the exact images of the sets at the prefixes ending in a letter 1 inside a block (for the cut 1|0)
+    if (closeat) for (int t=0;t<T;t++){ if (!carries(t)) continue;
+        vector<pair<int,Bits>> st; st.push_back({t,J[t]}); set<pair<int,Bits>> memo;
+        while (!st.empty()){ auto [a,S]=st.back(); st.pop_back();
+            for (auto [e,t2]: out[a]){ if (carries(t2)) continue; Bits S2=step(S,keys[a][0],e);
+                if (memo.insert({t2,S2}).second){ if (e==1) ones[keys[t2][0]].insert({S2,t2}); st.push_back({t2,S2}); } } } }
     long totbad=0, totempty=0; int firstbad=-1; vector<long> badat(B+1,0);
     for (int s=1;s<=B;s++){
         vector<int> t1, t0; int ne=0, nt=0;
         for (int t=0;t<T;t++) if (keys[t][0]==s&&carries(t)){ nt++; if (isempty(J[t])) ne++; if (keys[t][1]==1) t1.push_back(t); if (keys[t][1]==0) t0.push_back(t); }
         map<Bits,int> d1, d0;                       // distinct sets, with one type each
         for (int t: t1) d1.insert({J[t],t});
+        if (closeat) d1=ones[s];
         for (int t: t0) d0.insert({conjset(J[t],s),t});
         long bad=0; int b1=-1, b0=-1;
         for (auto& a: d1) for (auto& b: d0) if (!meet(a.first,b.first)){ bad++; if (b1<0){ b1=a.second; b0=b.second; } }

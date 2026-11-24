@@ -9,6 +9,7 @@
 //     n slack tail |J*| |states| missing : the states of J*(slack, tail) that are not in F(x)
 // J* as in jstar.py (JSTAR=3: conjecture OLD of REPORT3.md; JSTAR=2: D <= 2 for every tail and k|k not removed;
 // JSTAR=1: no bound on D except D <= 2 for the tail 0 0, A(17) and k|k not removed).
+// ZERO=1 (with JSTAR, without OLD): only the prefixes ending in a letter 0, young or old; the line also has "y young" (REPORT4.md).
 #include <bits/stdc++.h>
 using namespace std;
 typedef uint64_t u64; typedef pair<u64,u64> St;
@@ -29,7 +30,7 @@ static bool isE0(u64 Mm, u64 Bm){ if (!pairs(Mm)||!pairs(Bm)) return false; u64 
 static bool jstar(u64 a, u64 b, int s, int tail, int mode){
     static u64 e=mk({}); static set<St> A17={{mk({3,3,1,1}),mk({5,2,2})},{mk({3,3,1,1,1}),mk({4,2,2})},{mk({4,2,2}),mk({3,3,1,1,1})},{mk({5,2,2}),mk({3,3,1,1})}};
     int ca=c0(a), cb=c0(b), c=ca+cb, D=abs(ca-cb); static const int dmax[5]={4,3,3,2,3}; if ((mode==2&&D>2)||(mode==3&&D>dmax[tail])) return false;
-    bool sc= a==cj[b], row= (a==e&&b==mk({s}))||(b==e&&a==mk({s})), rect= s%2==0&&((a==e&&b==mk({s/2,s/2}))||(b==e&&a==mk({s/2,s/2}))), kk= s%2==0&&a==mk({s/2})&&b==mk({s/2});
+    bool sc= a==cj[b], row= s>0&&((a==e&&b==mk({s}))||(b==e&&a==mk({s}))), rect= s%2==0&&((a==e&&b==mk({s/2,s/2}))||(b==e&&a==mk({s/2,s/2}))), kk= s%2==0&&a==mk({s/2})&&b==mk({s/2});
     switch (tail){
         case 0: return 0<=c&&c<=1&&!sc;
         case 1: return -1<=c&&c<=2&&!sc&&!(mode>=2&&s==17&&A17.count({a,b}))&&!(mode==3&&kk);
@@ -44,7 +45,7 @@ static void gen(int n, int mx, vector<int>& cur, int tot){
 }
 int main(){
     vector<int> cur; gen(30,30,cur,0);
-    bool old=getenv("OLD"), lastonly=getenv("LAST"); int LIST=getenv("LIST")?atoi(getenv("LIST")):40;
+    bool old=getenv("OLD"), lastonly=getenv("LAST"), zero=getenv("ZERO"); int LIST=getenv("LIST")?atoi(getenv("LIST")):40;
     int mode=getenv("JSTAR")?atoi(getenv("JSTAR")):0, S0=getenv("S0")?atoi(getenv("S0")):11; const char* tn[5]={"11",".1","10","00",".0"};
     string line;
     while (getline(cin,line)){
@@ -62,10 +63,11 @@ int main(){
             int young=0, sum=0; for (int j=1;j<=(int)n;j++){ sum+=w[n-j]; young=max(young,sum-j); }
             if ((old&&young>0)||(lastonly&&n<w.size())) continue;
             if (mode){
-                if (s<S0||e<0||e>1) continue;
+                if (s<S0||e<0||e>1||(zero&&e)) continue;
                 int p= n>1?w[n-2]:-1, tail= e==1 ? (p==1?0:1) : (p==1?2:p==0?3:4); long nj=0, nall=0, nmiss=0; vector<string> miss;
                 for (int k=0;k<=s;k++) for (u64 a: parts[k]) for (u64 b: parts[s-k]){ nall++; if (!jstar(a,b,s,tail,mode)) continue; nj++;
                     if (!binary_search(F.begin(),F.end(),St{a,b})){ nmiss++; if ((int)miss.size()<LIST) miss.push_back(diagram(a)+"|"+diagram(b)); } }
+                if (zero) printf("  %zu slack %d tail %s y %d %ld %ld missing %ld :", n, s, tn[tail], young, nj, nall, nmiss); else
                 printf("  %zu slack %d tail %s %ld %ld missing %ld :", n, s, tn[tail], nj, nall, nmiss); for (auto& x: miss) printf(" %s", x.c_str()); printf("\n");
                 continue;
             }
