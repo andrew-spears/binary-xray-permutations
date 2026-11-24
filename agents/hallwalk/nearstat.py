@@ -2,7 +2,7 @@ import sys, io, contextlib, importlib.util
 from collections import defaultdict, Counter
 _a = sys.argv; sys.argv = ['x', '2']
 with contextlib.redirect_stdout(io.StringIO()):
-    spec = importlib.util.spec_from_file_location('refl', 'refl.py'); R = importlib.util.module_from_spec(spec); spec.loader.exec_module(R)
+    spec = importlib.util.spec_from_file_location('refl', __import__('os').path.join(__import__('os').path.dirname(__import__('os').path.abspath(__file__)), 'refl.py')); R = importlib.util.module_from_spec(spec); spec.loader.exec_module(R)
 sys.argv = _a
 def closure(n, WIDTH=1):
     V = sorted(R.valid_sets(n), key=lambda D: sum(d * d for d in D), reverse=True)

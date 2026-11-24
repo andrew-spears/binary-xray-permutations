@@ -4,7 +4,7 @@ import sys, io, contextlib, importlib.util
 from collections import defaultdict
 _a = sys.argv; sys.argv = ['x', '2']
 with contextlib.redirect_stdout(io.StringIO()):
-    spec = importlib.util.spec_from_file_location('refl', 'refl.py'); R = importlib.util.module_from_spec(spec); spec.loader.exec_module(R)
+    spec = importlib.util.spec_from_file_location('refl', __import__('os').path.join(__import__('os').path.dirname(__import__('os').path.abspath(__file__)), 'refl.py')); R = importlib.util.module_from_spec(spec); spec.loader.exec_module(R)
 sys.argv = _a
 N = int(sys.argv[1]); K = int(sys.argv[2]); rule = sys.argv[3]
 import random

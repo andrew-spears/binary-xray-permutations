@@ -59,7 +59,7 @@ solutions (nearstat.py), so I have no description of the class yet.
 
 Equivalent form of Claim 3: some solution has r_X + r_Y in {n+1−y, n+2−y, n+3−y} or in {n−1−x, n−x, n+1−x}.
 
-## Claim 5 (tested only): one fixed path to each arrangement keeps a solution
+## Claim 5 (tested only): the path that always opens the first run keeps a solution
 
 Undoing a minimal move means opening a maximal run of two or more consecutive diagonals a+1, …, b−1 of D′: its two
 end stones go to a and b. Call the result a parent of D′ if it is valid. Fix a rule that picks one parent for each
@@ -70,7 +70,9 @@ started at X or at Y).
 For each of eight rules (first run, last run, longest, shortest, run nearest the middle, run furthest from the
 middle, run at the greatest slack, run at the least slack) A(D′) is non-empty for every valid D′ with n ≤ 12
 (14,805 arrangements at n = 12; tree.py). The sets are small: at most 2,924 solutions at n = 12. If this holds for
-every n for one rule, the conjecture follows.
+every n for one rule, the conjecture follows. The claim is stated for the rule "first run" (the lowest run whose
+opening is valid); the other seven are further evidence that many rules work. Not every rule works: a minimal move
+lowers the sum of squares, so every path of moves is the path of some rule, and one path at n = 7 fails (below).
 
 Limits of Claim 5, all computed:
 - It needs a fixed path. Following every path of moves from the start, with A defined the same way, A becomes empty
@@ -117,6 +119,7 @@ Limits of Claim 5, all computed:
     python3 cyc.py 9          # loop reflections do not connect
     python3 tree.py 10        # Claim 5 for n ≤ 10, 5 seconds (n = 12: about 4 minutes per rule); "tree.py 9 near" for the near-middle version
     python3 treesub.py 9      # which of the four repairs are needed (4 minutes); treeshape.py 9: sizes of the sets
+    (run from agents/hallwalk/ or with the path in front; the scripts find refl.py beside themselves)
     python3 allpaths.py 7     # every path instead of one: A becomes empty
     python3 tree1.py 10 "run furthest from the middle"   # one solution per arrangement fails at n = 10
 

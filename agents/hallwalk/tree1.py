@@ -4,9 +4,9 @@
 import sys, io, contextlib, importlib.util, itertools
 _a = sys.argv; sys.argv = ['x', '2']
 with contextlib.redirect_stdout(io.StringIO()):
-    spec = importlib.util.spec_from_file_location('refl', 'refl.py'); R = importlib.util.module_from_spec(spec); spec.loader.exec_module(R)
+    spec = importlib.util.spec_from_file_location('refl', __import__('os').path.join(__import__('os').path.dirname(__import__('os').path.abspath(__file__)), 'refl.py')); R = importlib.util.module_from_spec(spec); spec.loader.exec_module(R)
     sys.argv = ['x', '3']
-    spec = importlib.util.spec_from_file_location('tree', 'tree.py'); T = importlib.util.module_from_spec(spec); spec.loader.exec_module(T)
+    spec = importlib.util.spec_from_file_location('tree', __import__('os').path.join(__import__('os').path.dirname(__import__('os').path.abspath(__file__)), 'tree.py')); T = importlib.util.module_from_spec(spec); spec.loader.exec_module(T)
 sys.argv = _a
 N = int(sys.argv[1]); ONLY = sys.argv[2] if len(sys.argv) > 2 else None; OPTS = [(0, 0), (0, 1), (1, 0), (1, 1)]          # (which s, which start)
 best = []

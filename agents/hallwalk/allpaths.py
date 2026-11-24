@@ -4,7 +4,7 @@
 import sys, io, contextlib, importlib.util
 _a = sys.argv; sys.argv = ['x', '2']
 with contextlib.redirect_stdout(io.StringIO()):
-    spec = importlib.util.spec_from_file_location('refl', 'refl.py'); R = importlib.util.module_from_spec(spec); spec.loader.exec_module(R)
+    spec = importlib.util.spec_from_file_location('refl', __import__('os').path.join(__import__('os').path.dirname(__import__('os').path.abspath(__file__)), 'refl.py')); R = importlib.util.module_from_spec(spec); spec.loader.exec_module(R)
 sys.argv = _a
 for n in range(4, int(sys.argv[1]) + 1):
     D0 = tuple(range(-(n - 1), n, 2)); start = (D0, frozenset([tuple((r, n + 1 - r) for r in range(n, 0, -1))]))
