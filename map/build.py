@@ -250,7 +250,7 @@ nodes = [
     N("hallanypath", "moves", "Along every path of moves, the mirror repairs never run out of solutions", "disproved",
       "For every sequence of minimal moves from the evenly spaced arrangement, the set of solutions got by chain reflections along that sequence is non-empty.",
       "If the path did not matter, no rule for choosing it would be needed. Claim: the set carried along any path of moves is never empty.",
-      evidence="False at n = 7. After the moves (−6,−2), (−3,0), (−1,2), (1,4), (−2,2), (−4,−1), (3,6), (1,4), (−5,0), (−1,2), (1,5) the set has two solutions of −4, −3, −2, 0, 2, 3, 4, and neither can be repaired for the next move (−2, 2). It is the only such state at n = 7; the path moves stones in and out again, which a fixed rule never does.",
+      evidence="False at n = 7. After the moves (−6,−2), (−3,0), (−1,2), (1,4), (−2,2), (−4,−1), (3,6), (1,4), (−5,0), (−1,2), (1,5) the set has two solutions of −4, −3, −2, 0, 2, 3, 4, and neither can be repaired for the next move (−2, 2). It is the only such state at n = 7.",
       refs="agents/hallwalk/REPORT.md (Claim 5); recheck: python3 agents/hallwalk/allpaths.py 7."),
     N("hallevery", "moves", "Every solution can be repaired by reflecting a chain", "disproved",
       "For every minimal move of a valid D and every solution of D, one of the four chain reflections (s1 or s2, starting at X or Y) gives a solution of the moved arrangement.",
