@@ -59,6 +59,30 @@ solutions (nearstat.py), so I have no description of the class yet.
 
 Equivalent form of Claim 3: some solution has r_X + r_Y in {n+1−y, n+2−y, n+3−y} or in {n−1−x, n−x, n+1−x}.
 
+## Claim 5 (tested only): one fixed path to each arrangement keeps a solution
+
+Undoing a minimal move means opening a maximal run of two or more consecutive diagonals a+1, …, b−1 of D′: its two
+end stones go to a and b. Call the result a parent of D′ if it is valid. Fix a rule that picks one parent for each
+D′; then each D′ has one path of minimal moves from the evenly spaced arrangement. Let A(evenly spaced) be its one
+solution and A(D′) the set of solutions got from A(parent) by any of the four repairs of Claim 2 (s1 or s2, chain
+started at X or at Y).
+
+For each of eight rules (first run, last run, longest, shortest, run nearest the middle, run furthest from the
+middle, run at the greatest slack, run at the least slack) A(D′) is non-empty for every valid D′ with n ≤ 12
+(14,805 arrangements at n = 12; tree.py). The sets are small: at most 2,924 solutions at n = 12. If this holds for
+every n for one rule, the conjecture follows.
+
+Limits of Claim 5, all computed:
+- It needs a fixed path. Following every path of moves from the start, with A defined the same way, A becomes empty
+  at n = 7: after the eleven moves (−6,−2), (−3,0), (−1,2), (1,4), (−2,2), (−4,−1), (3,6), (1,4), (−5,0), (−1,2),
+  (1,5) the set A has two solutions of −4, −3, −2, 0, 2, 3, 4, and neither can be repaired for the move (−2, 2)
+  (allpaths.py). That is the only such state at n = 7.
+- It needs all four repairs. With mirror lines next to the middle only, every one of the eight rules leaves some
+  arrangement empty by n = 7 or 8 (tree.py N near).
+- It needs sets. Keeping one solution per arrangement, namely the first repair that works in a fixed order of the
+  four, fails by n = 10 for all 8 × 24 combinations of rule and order; the best five (all with the rule "run
+  furthest from the middle") work up to n = 9 (tree1.py).
+
 ## What does not work
 
 - Repair from every solution: the share of solutions of D that can be repaired falls with n (1, 0.83, 0.83, 0.69,
@@ -81,5 +105,8 @@ Equivalent form of Claim 3: some solution has r_X + r_Y in {n+1−y, n+2−y, n+
     python3 near.py 9 1       # Claim 4, a few seconds; near.py 8 0 shows s = n + 1 alone is not enough
     python3 one.py 8 1 rows   # one kept solution per arrangement is not enough
     python3 cyc.py 9          # loop reflections do not connect
+    python3 tree.py 10        # Claim 5 for n ≤ 10, 5 seconds (n = 12: about 4 minutes per rule); "tree.py 9 near" for the near-middle version
+    python3 allpaths.py 7     # every path instead of one: A becomes empty
+    python3 tree1.py 10 "run furthest from the middle"   # one solution per arrangement fails at n = 10
 
 hw.py, hw2.py, reach.py are the first experiments, written with lines r + c (columns reversed).

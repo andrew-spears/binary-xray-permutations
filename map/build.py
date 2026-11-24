@@ -242,6 +242,16 @@ nodes = [
       "The mirror repair always works when its mirror line is the middle anti-diagonal of the board or one of the two next to it. The line is fixed by the two moving stones: it passes just beside the corner of the rectangle they span. So it is enough to find, for each move, one solution in which that corner lies on one of three neighbouring anti-diagonals. Claim: such a solution exists for every minimal move of every valid arrangement.",
       evidence="Every minimal move of every valid D, n ≤ 11 (12,913 moves at n = 11): no exception. For 1,083 of those moves no solution has the middle line itself, so the plain swap of two stones is not enough there. Not every solution works: the share of solutions that any chain reflection repairs falls with n (0.83 at n = 7, 0.69 at n = 9, 0.53 at n = 11).",
       refs="agents/hallwalk/REPORT.md (Claim 3); recheck: python3 agents/hallwalk/refl.py 11 (40 seconds)."),
+    N("halltree", "moves", "Along one fixed path of moves to each arrangement, the mirror repairs never run out of solutions", "empirical",
+      "Fix a rule choosing, for each valid D′ other than the evenly spaced one, one valid D from which D′ arises by a minimal move. Let A(evenly spaced) be its solution and A(D′) the set of solutions got from A(D) by the four chain reflections (s1 or s2, started at X or Y). Then A(D′) ≠ ∅ for every valid D′.",
+      "Every arrangement can be reached from the evenly spaced one by minimal moves, usually along many paths. Pick one path for each arrangement by a fixed rule: undo a move by opening one chosen run of neighbouring diagonals, for example the first one. Carry along that path all solutions the mirror repair produces, starting from the single solution of the evenly spaced arrangement. Unlike the card about the middle anti-diagonal, this needs no solution to be found by search: it only follows repairs. Claim: for a fixed rule, the set carried along is never empty.",
+      evidence="Eight rules (first run, last run, longest, shortest, nearest the middle, furthest from the middle, greatest slack, least slack): no empty set for any valid D with n ≤ 12 (14,805 arrangements at n = 12). The sets stay small (at most 2,924 solutions at n = 12). With mirror lines next to the middle only, every rule fails by n = 7 or 8. Keeping a single solution (the first repair that works, in a fixed order) fails by n = 10 for all 192 combinations of rule and order.",
+      refs="agents/hallwalk/REPORT.md (Claim 5); recheck: python3 agents/hallwalk/tree.py 10 (5 seconds)."),
+    N("hallanypath", "moves", "Along every path of moves, the mirror repairs never run out of solutions", "disproved",
+      "For every sequence of minimal moves from the evenly spaced arrangement, the set of solutions got by chain reflections along that sequence is non-empty.",
+      "If the path did not matter, no rule for choosing it would be needed. Claim: the set carried along any path of moves is never empty.",
+      evidence="False at n = 7. After the moves (−6,−2), (−3,0), (−1,2), (1,4), (−2,2), (−4,−1), (3,6), (1,4), (−5,0), (−1,2), (1,5) the set has two solutions of −4, −3, −2, 0, 2, 3, 4, and neither can be repaired for the next move (−2, 2). It is the only such state at n = 7; the path moves stones in and out again, which a fixed rule never does.",
+      refs="agents/hallwalk/REPORT.md (Claim 5); recheck: python3 agents/hallwalk/allpaths.py 7."),
     N("hallevery", "moves", "Every solution can be repaired by reflecting a chain", "disproved",
       "For every minimal move of a valid D and every solution of D, one of the four chain reflections (s1 or s2, starting at X or Y) gives a solution of the moved arrangement.",
       "If the mirror repair worked from every solution, there would be nothing to choose and the induction over moves would close. Claim: it works from every solution.",
@@ -961,6 +971,8 @@ e("goodwitness", "move", "implies", "The fixed old solution is a new one.")
 e(["hallwalk", "hallnear"], "move", "implies", "Take the solution with the mirror line next to the middle; the chain reflection turns it into a solution of the moved arrangement.")
 e("hallwalk", "goodwitness", "related", "The repair with the middle mirror line is the plain swap after reflecting a closed loop; unlike the small fix, a chain can be long.")
 e("hallevery", "move", "implies", "Repair whichever solution you have.")
+e(["hallwalk", "halltree"], "move", "implies", "The set carried to D′ consists of solutions of D′, so a non-empty set gives one.")
+e("hallanypath", "halltree", "implies", "A fixed path is one of the paths.")
 e("repair", "move", "implies", "Fix any old solution.")
 e("fibre", "ratio", "implies", "Summing over fibres gives c = 2/3.")
 e("exchange", "goodwitness", "related", "Would let us walk from any solution to one that is easy to fix.", "unchecked")
