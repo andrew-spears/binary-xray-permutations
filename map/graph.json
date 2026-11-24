@@ -2340,6 +2340,159 @@
    "evidence": "Minimum ratio = 2/3 for n ≤ 16, attained only by this pattern; next-smallest ≈ 0.734 (n = 14–16)."
   },
   {
+   "id": "hallwalk",
+   "area": "moves",
+   "title": "Reflecting a chain of stones repairs a solution after a move",
+   "status": "proved",
+   "intuition": "Mirror a stone in a line running from bottom left to top right, an anti-diagonal of the board: it lands on its own diagonal again, but in a new row and column. If you mirror a whole chain of stones, each one taking the column the next one leaves, the rows and columns still fit together, except at the two ends of the chain. After a move, take the two moving stones off and put one back a single column over. That column is usually taken; mirror the stone there, then the stone whose column that one now needs, and so on. The chain either closes up on the two free columns, and the solution is repaired, or it runs off the edge of the board. This is M. Hall's exchange argument from 1952 for sums of two permutations, where there is no edge to run off. Which mirror line to use is fixed by the two moving stones, and the number of chains that run off the edge is the distance of that line from the middle of the board. Claim: the repair works unless the two moving stones sit on two different chains that run off the edge; in particular it always works when the mirror line is the middle anti-diagonal or one of its two neighbours.",
+   "pics": [
+    {
+     "t": "pair",
+     "a": {
+      "t": "board",
+      "rows": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ],
+      "cols": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ],
+      "D": [
+       -4,
+       -2,
+       0,
+       2,
+       4
+      ],
+      "pts": [
+       [
+        1,
+        5
+       ],
+       [
+        2,
+        4
+       ],
+       [
+        3,
+        3
+       ],
+       [
+        4,
+        2
+       ],
+       [
+        5,
+        1
+       ]
+      ],
+      "cand": [
+       [
+        5,
+        1
+       ],
+       [
+        3,
+        3
+       ]
+      ]
+     },
+     "b": {
+      "t": "board",
+      "rows": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ],
+      "cols": [
+       1,
+       2,
+       3,
+       4,
+       5
+      ],
+      "D": [
+       -3,
+       -2,
+       -1,
+       2,
+       4
+      ],
+      "pts": [
+       [
+        1,
+        5
+       ],
+       [
+        2,
+        4
+       ],
+       [
+        3,
+        2
+       ],
+       [
+        4,
+        1
+       ],
+       [
+        5,
+        3
+       ]
+      ],
+      "cand": [
+       [
+        4,
+        1
+       ],
+       [
+        3,
+        2
+       ],
+       [
+        5,
+        3
+       ]
+      ]
+     },
+     "mid": "mirror one stone →",
+     "cap": "Move −4, 0 → −3, −1 from the evenly spaced start (n = 5). The stone on 0 goes one column left; the stone on −2 is in the way and is mirrored in the line r + c = 7 to (5, 3); the stone on −4 takes the row and column left over."
+    }
+   ],
+   "statement": "In a solution, for an integer s let ψ(r) be the row of the stone in column s − r. Reflecting the stones of a closed loop of ψ in the anti-diagonal r + c = s gives another solution of the same D. For a minimal move of X (on x) and Y (on y), put s1 = r_X + c_Y − 1 and s2 = r_Y + c_X + 1. For s = s1 or s2 a repair by reflecting a chain of ψ exists unless the rows of X and Y lie on two different open paths of ψ; ψ has exactly |s − (n+1)| open paths. So if some solution of D has s1 or s2 in {n, n+1, n+2}, the moved arrangement is solvable.",
+   "evidence": "Proof in agents/hallwalk/REPORT.md (Claims 1 and 2). The repair and the criterion are also asserted on every solution of every valid D for n ≤ 11 (1,405,479 move–solution pairs at n = 11). With the mirror line through the middle (s = n+1) the repair is the plain swap of 'Some solution needs only a small fix' after reflecting one closed loop; the two neighbouring lines use the one chain that runs off the edge and are new. Loop reflections do not connect all solutions of D (2 classes for −3, −1, 0, 1, 3).",
+   "refs": "agents/hallwalk/REPORT.md; recheck: python3 agents/hallwalk/refl.py 10 (8 seconds). M. Hall, A combinatorial problem on abelian groups, Proc. AMS 3 (1952)."
+  },
+  {
+   "id": "hallnear",
+   "area": "moves",
+   "title": "Before every move, some solution has the two moving stones lined up next to the middle anti-diagonal",
+   "status": "empirical",
+   "intuition": "The mirror repair always works when its mirror line is the middle anti-diagonal of the board or one of the two next to it. The line is fixed by the two moving stones: it passes just beside the corner of the rectangle they span. So it is enough to find, for each move, one solution in which that corner lies on one of three neighbouring anti-diagonals. Claim: such a solution exists for every minimal move of every valid arrangement.",
+   "statement": "For every minimal move of a valid D, of X on x and Y on y, some solution of D has r_X + c_Y − 1 or r_Y + c_X + 1 in {n, n+1, n+2}.",
+   "evidence": "Every minimal move of every valid D, n ≤ 11 (12,913 moves at n = 11): no exception. For 1,083 of those moves no solution has the middle line itself, so the plain swap of two stones is not enough there. Not every solution works: the share of solutions that any chain reflection repairs falls with n (0.83 at n = 7, 0.69 at n = 9, 0.53 at n = 11).",
+   "refs": "agents/hallwalk/REPORT.md (Claim 3); recheck: python3 agents/hallwalk/refl.py 11 (40 seconds)."
+  },
+  {
+   "id": "hallevery",
+   "area": "moves",
+   "title": "Every solution can be repaired by reflecting a chain",
+   "status": "disproved",
+   "intuition": "If the mirror repair worked from every solution, there would be nothing to choose and the induction over moves would close. Claim: it works from every solution.",
+   "statement": "For every minimal move of a valid D and every solution of D, one of the four chain reflections (s1 or s2, starting at X or Y) gives a solution of the moved arrangement.",
+   "evidence": "False from n = 7: for D = −5, −3, −2, 1, 2, 3, 4 and the move −2, 1 → −1, 0 it fails for 2 of the 12 solutions. The share of solutions that can be repaired keeps falling: 0.69 at n = 9 and 10, 0.53 at n = 11, lowest for the last move into the most central arrangement.",
+   "refs": "agents/hallwalk/REPORT.md; python3 agents/hallwalk/refl.py 9."
+  },
+  {
    "id": "goodwitness",
    "area": "moves",
    "title": "Some solution needs only a small fix",
@@ -4834,6 +4987,30 @@
    "kind": "implies",
    "status": "proved",
    "why": "The fixed old solution is a new one."
+  },
+  {
+   "from": [
+    "hallwalk",
+    "hallnear"
+   ],
+   "to": "move",
+   "kind": "implies",
+   "status": "proved",
+   "why": "Take the solution with the mirror line next to the middle; the chain reflection turns it into a solution of the moved arrangement."
+  },
+  {
+   "from": "hallwalk",
+   "to": "goodwitness",
+   "kind": "related",
+   "status": "proved",
+   "why": "The repair with the middle mirror line is the plain swap after reflecting a closed loop; unlike the small fix, a chain can be long."
+  },
+  {
+   "from": "hallevery",
+   "to": "move",
+   "kind": "implies",
+   "status": "proved",
+   "why": "Repair whichever solution you have."
   },
   {
    "from": "repair",
