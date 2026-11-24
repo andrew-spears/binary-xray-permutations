@@ -39,46 +39,46 @@ slack of previous cut: #prefixes ending in a letter <= 0, #with D != V, max |D -
 == lev.py 6 7 12 2 2 -3
 s0 = 6, length <= 7, slack <= 12, letters -3..2, start levels <= 2, target levels <= 2, CUT = 0;  states of V reached (must be 0): 0
 (yhat, y, last [-2 = any letter <= -2]): #words, |D| range, |V| range, #words with D != V, max |D - V|, example
-(0, 0, -2) 61 |D| 0..0 |V| 0..0 differ 0 max 0 | 
-(0, 0, -1) 162 |D| 0..0 |V| 0..0 differ 0 max 0 | 
-(0, 0, 0) 206 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, -2) 62 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, -1) 163 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, 0) 207 |D| 0..0 |V| 0..0 differ 0 max 0 | 
 (1, 0, -1) 18 |D| 2..2 |V| 2..2 differ 0 max 0 | 
-(1, 0, 0) 196 |D| 2..2 |V| 2..2 differ 0 max 0 | 
+(1, 0, 0) 204 |D| 2..3 |V| 2..2 differ 1 max 1 | -1 -2 -3 2 1 1 0 : 11|11
 (2, 0, -1) 1 |D| 6..6 |V| 6..6 differ 0 max 0 | 
-(2, 1, 0) 57 |D| 8..8 |V| 8..8 differ 0 max 0 | 
+(2, 1, 0) 58 |D| 8..8 |V| 8..8 differ 0 max 0 | 
 (3, 2, 0) 5 |D| 22..22 |V| 22..22 differ 0 max 0 | 
 == CUT=1 lev.py 6 7 12 2 2 -3
 s0 = 6, length <= 7, slack <= 12, letters -3..2, start levels <= 2, target levels <= 2, CUT = 1;  states of V reached (must be 0): 0
 (yhat, y, last [-2 = any letter <= -2]): #words, |D| range, |V| range, #words with D != V, max |D - V|, example
-(0, 0, -2) 61 |D| 0..0 |V| 0..0 differ 0 max 0 | 
-(0, 0, -1) 162 |D| 0..0 |V| 0..0 differ 0 max 0 | 
-(0, 0, 0) 206 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, -2) 62 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, -1) 163 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, 0) 207 |D| 0..0 |V| 0..0 differ 0 max 0 | 
 (1, 0, -1) 18 |D| 2..2 |V| 2..2 differ 0 max 0 | 
-(1, 0, 0) 196 |D| 2..2 |V| 2..2 differ 0 max 0 | 
+(1, 0, 0) 204 |D| 2..3 |V| 2..2 differ 1 max 1 | -1 -2 -3 2 1 1 0 : 11|11
 (2, 0, -1) 1 |D| 6..6 |V| 6..6 differ 0 max 0 | 
-(2, 1, 0) 57 |D| 8..8 |V| 8..8 differ 0 max 0 | 
+(2, 1, 0) 58 |D| 8..8 |V| 8..8 differ 0 max 0 | 
 (3, 2, 0) 5 |D| 22..22 |V| 22..22 differ 0 max 0 | 
 == CUT=1 lev.py 5 8 11 2 2 -3
 s0 = 5, length <= 8, slack <= 11, letters -3..2, start levels <= 2, target levels <= 2, CUT = 1;  states of V reached (must be 0): 0
 (yhat, y, last [-2 = any letter <= -2]): #words, |D| range, |V| range, #words with D != V, max |D - V|, example
-(0, 0, -2) 268 |D| 0..0 |V| 0..0 differ 0 max 0 | 
-(0, 0, -1) 628 |D| 0..0 |V| 0..0 differ 0 max 0 | 
-(0, 0, 0) 821 |D| 0..0 |V| 0..0 differ 0 max 0 | 
-(1, 0, -1) 56 |D| 2..2 |V| 2..2 differ 0 max 0 | 
-(1, 0, 0) 536 |D| 2..4 |V| 2..2 differ 4 max 2 | -1 -1 -2 1 2 1 1 0 : -|33 33|-
+(0, 0, -2) 285 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, -1) 642 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, 0) 834 |D| 0..1 |V| 0..0 differ 1 max 1 | -1 -2 -2 2 1 0 1 0 : 11|11
+(1, 0, -1) 57 |D| 2..2 |V| 2..2 differ 0 max 0 | 
+(1, 0, 0) 576 |D| 2..4 |V| 2..2 differ 10 max 2 | -1 -1 -2 1 2 1 1 0 : -|33 33|-
 (2, 0, -1) 5 |D| 6..6 |V| 6..6 differ 0 max 0 | 
-(2, 1, 0) 167 |D| 8..10 |V| 8..8 differ 3 max 2 | -1 -1 -2 2 1 2 1 0 : 21|4 4|21
-(3, 2, 0) 24 |D| 22..26 |V| 22..22 differ 6 max 4 | -1 -1 -2 2 2 2 1 0 : 1111|22 211|22 22|1111 22|211
+(2, 1, 0) 176 |D| 8..13 |V| 8..8 differ 5 max 5 | -1 -2 -2 2 1 2 1 0 : -|321 111|111 11|22 22|11 321|-
+(3, 2, 0) 25 |D| 22..26 |V| 22..22 differ 6 max 4 | -1 -1 -2 2 2 2 1 0 : 1111|22 211|22 22|1111 22|211
 (4, 3, 0) 1 |D| 66..66 |V| 52..52 differ 1 max 14 | -1 -2 2 2 2 2 1 0 : -|722 1|4321 2111|321 21|32111 21|521 22|7 32111|21 321|2111 321|41 41|321
 == landau.py 4 7 12 -3
 s0 = 4, length <= 7, slack <= 12, letters -3..2;  Theorem D violated (a state of V reached): 0 []
 (yhat, y, letter before the last [9 = not shown], last [-2 = any letter <= -2]): #words, |D| range, |V| range, #words with D != V, max |D - V|, example
-(0, 0, 9, -2) 57 |D| 0..0 |V| 0..0 differ 0 max 0 | 
-(0, 0, 9, -1) 159 |D| 0..0 |V| 0..0 differ 0 max 0 | 
-(0, 0, 9, 0) 204 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, 9, -2) 60 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, 9, -1) 162 |D| 0..0 |V| 0..0 differ 0 max 0 | 
+(0, 0, 9, 0) 206 |D| 0..0 |V| 0..0 differ 0 max 0 | 
 (1, 0, 9, -1) 25 |D| 2..2 |V| 2..2 differ 0 max 0 | 
-(1, 0, 9, 0) 195 |D| 2..4 |V| 2..2 differ 15 max 2 | 2 1 1 0 : 2|411 411|2
+(1, 0, 9, 0) 208 |D| 2..4 |V| 2..2 differ 17 max 2 | 2 1 1 0 : 2|411 411|2
 (2, 0, 9, -1) 7 |D| 4..4 |V| 4..4 differ 0 max 0 | 
-(2, 1, 9, 0) 89 |D| 6..8 |V| 6..6 differ 9 max 2 | 2 2 1 0 : 11111|4 4|11111
+(2, 1, 9, 0) 91 |D| 6..8 |V| 6..6 differ 9 max 2 | 2 2 1 0 : 11111|4 4|11111
 (3, 2, 9, 0) 21 |D| 18..22 |V| 18..18 differ 11 max 4 | 2 2 2 1 0 : 111111|5 11|522 522|11 5|111111
 (4, 3, 9, 0) 1 |D| 42..42 |V| 38..38 differ 1 max 4 | -1 2 2 2 2 1 0 : -|822 22|8 822|- 8|22

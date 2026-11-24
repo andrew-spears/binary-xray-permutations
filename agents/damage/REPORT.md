@@ -1,5 +1,14 @@
 # damage: what a block of letters 1, 2 destroys and what the next letters repair — REPORT
 
+> **Correction (parent session, after the automatic review of PR #19).** Statement S of §2 is **false**; Item 1 is a HIT
+> only for the necessity part (Theorem D, Corollary N). The range slack ≤ 12 has no room for four 2s in a row.
+> `python3 sword.py 6 "2 2 2 2 1 0 0"`: from Lev₂(6), after 2 2 2 2 1 0 (slack 15, ŷ = 4) the states −|11.2.2, 11|22 and
+> swaps satisfy Theorem D and are not reached (they are after one more 0; also for s₀ = 5, 7, 9 with the row s − 4).
+> `python3 sword.py 7 "2 2 2 2 2 1 0 0"`: 21|54321, 4321|521, 321|6321, … (10 states, slack 18) stay missing through four
+> zeros; 321|4321 (slack 16) from s₀ = 5. `lev.py` and `landau.py` also skipped words passing through slack 0 (fixed):
+> with them s₀ = 6, length ≤ 7 has 718 words and one exception, −1 −2 −3 2 1 1 0 (11|11). §4 item 3 is therefore open
+> in a weaker form only: what replaces S is not known.
+
 **Item 1 (the exact statement): HIT.** The family is explicit and its necessity is proved for every word (Theorem D,
 Corollary N); that nothing else is missing is tested only, and only for the start family "levels 1 and 2", not for G.
 **Item 2 (proof of the block step): NOTHING.** No proof, not even for W = 2 1^j (statement (X) of onehigh).

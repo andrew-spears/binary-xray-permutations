@@ -75,3 +75,13 @@
    1^8 3 3 3 2 1 0 0 (slack 20): not violating D 200, 56. The residue has two long lines with a parity pattern
    (65, 83, 87, 10.5: both rows odd/even mixed); candidate: a mod-2 refinement of Theorem D (count stones by the parity
    of their bead, as in the card "Counting rows, columns and sums modulo m"). Not tried.
+
+9. **Statement S of `../damage/REPORT.md` is false: NOTHING for 'Theorem D is exact after a letter ≤ 0'** (`../damage/sword.py s0 "word"`;
+   found by the automatic review of PR #19). Letters ≤ 2, start Lev₂(s₀). After 2 2 2 2 1 0 (ŷ = 4): missing 56, violators 52;
+   the other four are (−|R 2 2), (R|2 2) and swaps with R = s − ŷ (s₀ = 5, 6, 7, 9), back after one more 0, not after a −1 instead of the 0.
+   After 2^5 1 0: (R 2 1|2 1), R = s − 6. Staircase pairs (Prop. C of damage and neighbours: 321|4321; 21|54321, 4321|521,
+   321|6321, 32111|4321, 321|432111 and swaps at slack 18 from s₀ = 7) stay missing through four zeros and are back after a −1.
+   Shape of the first kind = one row of the largest length Theorem D allows + a small state that is exceptional at small slack
+   (the 2 × 2 square; 21|21). Same shape as the residue for letters ≥ 3 in item 8. Reading: take away the stone that made the long row
+   (rows above a new bead lose one box per later stone, so a row of length s − r was made r' steps ago with r' fixed by r); what is left is a
+   reachability question at slack about ŷ for a shorter word, and there the small-slack exceptions (T, squares) bite. Not checked further.

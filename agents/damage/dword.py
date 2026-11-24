@@ -9,5 +9,5 @@ for word in sys.argv[1:]:
     for i, e in enumerate(w, 1):
         F = step(F, e); s += e
         if s < 6: continue
-        A = [u for u in states(s) if not viol(u, w[:i])]; d = sorted(nm(u) for u in A if u not in F); assert all(u in set(A) for u in F)
+        A = {u for u in states(s) if not viol(u, w[:i])}; d = sorted(nm(u) for u in A - F); assert F <= A
         print(f"  after letter {i} = {e}: slack {s}, y = {excess(w[:i])}, states {len(states(s))}, F {len(F)}, A {len(A)}, A - F {len(d)}", " ".join(d[:12]) if e <= 0 else "")

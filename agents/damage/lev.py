@@ -16,7 +16,7 @@ def go(w, F, s, y, yh, n2):
         rows[(yh, y, max(w[-1], -2))].append((len(D), len(V), len(D - V), w, sorted(nm(u) for u in D - V)[:10]))
     if len(w) == LEN: return
     for e in range(2, LO - 1, -1):
-        if (w and e < w[-1] - 1) or (not w and e < -1) or s + e > SM or s + e < 1: continue
+        if (w and e < w[-1] - 1) or (not w and e < -1) or s + e > SM or s + e < 0: continue
         F2 = step(F, e)
         if CUT and e <= 0: F2 = F2 & Lev(s + e, LV)          # CUT=1: forget everything above level LV at every prefix ending in a letter <= 0
         go(w + (e,), F2, s + e, max(0, y + e - 1), y, n2 + (e >= 2))
