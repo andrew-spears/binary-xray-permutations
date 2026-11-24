@@ -93,6 +93,10 @@ Limits of Claim 5, all computed:
   solutions of D′ (smallest share 1/8 at n = 9), and for a single move as little as half of A(parent) can be
   repaired (a quarter for the rule "shortest run"), n = 9. The sets for the eight rules have no solution in common for 118 of the 490 arrangements at n = 9
   (treeshape.py). The sign of the permutation is not constant on A(D′).
+- Without any rule: let U(D′) be all solutions got by a repair from U(D) over every parent D. Then U is 82% of
+  all solutions at n = 9 (10,371 of 12,657), all of them for 181 of 490 arrangements, and at least a quarter for
+  each (union.py 9). The solutions never reached include 25314 and 41352 for −3, −1, 0, 1, 3 and 2413 ⊕ 1, 3142 ⊕ 1,
+  1 ⊕ 2413, 1 ⊕ 3142 for −2, …, 2 (written as columns by row), although 2413 itself is reached at n = 4.
 - It needs sets. Keeping one solution per arrangement, namely the first repair that works in a fixed order of the
   four, fails by n = 10 for all 8 × 24 combinations of rule and order; the best five (all with the rule "run
   furthest from the middle") work up to n = 9 (tree1.py).
