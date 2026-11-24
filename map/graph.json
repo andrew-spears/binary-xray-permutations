@@ -5649,11 +5649,11 @@
    "why": "Parities of the path counts of the machine."
   },
   {
-   "from": "oddsplit",
-   "to": "paritylr",
+   "from": "paritylr",
+   "to": "oddsplit",
    "kind": "related",
    "status": "unchecked",
-   "why": "Uses the parity theorem on two complementary sets of stones."
+   "why": "Odd splits use the parity theorem on two complementary sets of stones."
   },
   {
    "from": "rrsplit",
@@ -5663,11 +5663,11 @@
    "why": "An RR-split is an odd split whose two parities are both exactly 1 (Lemma R)."
   },
   {
-   "from": "uni2",
-   "to": "rrsplit",
+   "from": "rrsplit",
+   "to": "uni2",
    "kind": "related",
    "status": "unchecked",
-   "why": "The case of a single stone, which is proved."
+   "why": "Its single-stone case is the proved card."
   },
   {
    "from": "paritylr",
