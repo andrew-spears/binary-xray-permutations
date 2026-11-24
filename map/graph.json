@@ -178,7 +178,7 @@
   {
    "kind": "result",
    "id": "nocross",
-   "text": "The largest proved family: if no high stone comes before a low stone, the arrangement has a solution, for every size. With tight cuts, rising-then-falling words and one-hill words, the proved kinds are 92% of arrangements at size 10 and 76% at size 13. Proof written and refereed by AI sessions; no person has read it."
+   "text": "The largest proved family: if no high stone comes before a low stone, the arrangement has a solution, for every size. With tight cuts, rising-then-falling words, one-hill words and the most central arrangement, the proved kinds are 93% of arrangements at size 10 and 76% at size 13. Proof written and refereed by AI sessions; no person has read it."
   },
   {
    "kind": "result",
@@ -320,7 +320,7 @@
    "parent": "notight",
    "test": "cross",
    "example": "3 2 1 0 0 0 -1 -2 -3",
-   "text": "Everything not covered by the family above. Proved only in the two shapes listed under it."
+   "text": "Everything not covered by the family above. Proved only in the two shapes listed under it and for the most central arrangement."
   },
   {
    "id": "uni",
@@ -360,13 +360,13 @@
   {
    "id": "rest",
    "group": "tree",
-   "name": "In no proved shape",
+   "name": "In no proved family",
    "status": "open",
    "card": "bridge",
    "parent": "cross",
    "test": "rest",
    "example": "3 2 1 0 -1 -2 2 1 0 -1 -2 -3",
-   "text": "A high stone before a low stone, and neither of the two proved shapes. Here the only evidence is computation."
+   "text": "A high stone before a low stone, in neither of the two proved shapes, and not the most central arrangement. Here the only evidence is computation."
   },
   {
    "id": "even",
@@ -419,8 +419,8 @@
    "status": "proved",
    "card": "centre",
    "parent": null,
-   "test": null,
-   "example": "",
+   "test": "centre",
+   "example": "3 2 1 0 -1 -2 -3",
    "text": "One arrangement of each size: the stones packed as close to the middle as Landau's condition allows. It has a solution for every size."
   },
   {

@@ -178,20 +178,22 @@ const T1 = {   // tests on a piece with no tight cut
     let k = j; while (k < q.length && q[k] <= 0 && q[k] >= -2) k++; return q.slice(k).every(e => e >= -1); },
 };
 T1.cross = q => !T1.nocross(q);
-T1.proved = q => T1.nocross(q) || T1.uni(q) || T1.hill(q);
+// the most central arrangement: every diagonal from -floor(n/2) to floor(n/2), without 0 when n is even
+T1.centre = q => { const n = q.length, h = n >> 1; let d = -h; return diag(q).every(x => { if (d === 0 && n % 2 === 0) d++; return x === d++; }); };
+T1.proved = q => T1.nocross(q) || T1.uni(q) || T1.hill(q) || T1.centre(q);
 const maxSlack = w => { let s = 0, m = 0; for (const e of w) { s += e; m = Math.max(m, s); } return m; };
 const whole = f => w => pieces(w).length === 1 && f(w);
 const FAM_TESTS = { all: w => true, tight: w => pieces(w).length > 1, notight: w => pieces(w).length === 1,
   even: T1.even, l1: whole(T1.l1), upone: whole(T1.upone), nocross: whole(T1.nocross), cross: whole(T1.cross),
   uni: whole(q => T1.cross(q) && T1.uni(q)), hill: whole(q => T1.cross(q) && T1.hill(q)),
   onehigh: whole(q => T1.cross(q) && q.filter(e => e >= 2).length === 1), rest: whole(q => !T1.proved(q)),
-  slack16: w => maxSlack(w) <= 16, sym: w => w.every((e, i) => e === -w[w.length - 1 - i]) };
+  centre: T1.centre, slack16: w => maxSlack(w) <= 16, sym: w => w.every((e, i) => e === -w[w.length - 1 - i]) };
 function why(q) { if (T1.even(q)) return q.length === 1 ? "a stone at its evenly spaced place" : "evenly spaced"; if (T1.l1(q)) return "every stone within one mark of evenly spaced";
   if (T1.upone(q)) return "no high stone, or no low stone"; if (T1.nocross(q)) return "every low stone comes before every high stone";
-  if (T1.uni(q)) return "rises then falls with small letters"; if (T1.hill(q)) return "a gentle beginning, one hill, a gentle end"; return null; }
+  if (T1.uni(q)) return "rises then falls with small letters"; if (T1.hill(q)) return "a gentle beginning, one hill, a gentle end"; if (T1.centre(q)) return "the most central arrangement"; return null; }
 const WC = {}; const W = n => WC[n] ||= words(n);
 // seg: which part of the coverage bar an arrangement belongs to
-const SEG = [["rest", "No proof yet (solvable by computer search)", "var(--em)", .85], ["shape", "Rises then falls, or one hill", "var(--pr)", .5], ["nocross", "No high stone before a low stone", "var(--pr)", 1], ["tight", "Splits at tight cuts into proved pieces", "var(--pr)", .72]];
+const SEG = [["rest", "In no proved family (solvable by computer search)", "var(--em)", .85], ["shape", "Rises then falls, one hill, or most central", "var(--pr)", .5], ["nocross", "No high stone before a low stone", "var(--pr)", 1], ["tight", "Splits at tight cuts into proved pieces", "var(--pr)", .72]];
 function seg(w) { const P = pieces(w); if (!P.every(T1.proved)) return "rest"; if (P.length > 1) return "tight"; return T1.nocross(w) ? "nocross" : "shape"; }
 const SC = {}; function stat(n) { if (SC[n]) return SC[n]; const c = { total: 0, tight: 0, nocross: 0, shape: 0, rest: 0 }; for (const w of W(n)) { c.total++; c[seg(w)]++; } return SC[n] = c; }
 function witness(D, budget = 300000) { const n = D.length, rows = Array(n + 1).fill(false), cols = Array(n + 2).fill(false), pts = [];
@@ -223,11 +225,11 @@ function solBoard(w) { const D = diag(w), n = D.length; if (n > 16) return ""; c
 const wordHTML = w => w.map(e => e >= 2 ? `<span class="hi">${fmt(e)}</span>` : e <= -2 ? `<span class="lo">${fmt(e)}</span>` : fmt(e)).join(" ");
 const parseWord = t => t.replace(/−/g, "-").trim().split(/[\s,]+/).map(Number);
 function verdict(w) { const P = pieces(w), ok = P.every(T1.proved), D = diag(w), b = solBoard(w), ms = maxSlack(w);
-  return `<div class="verdict"><p class="${ok ? "ok" : "no"}">${ok ? "Proved for this kind of arrangement" : "No proof yet for this kind of arrangement"}</p>
+  return `<div class="verdict"><p class="${ok ? "ok" : "no"}">${ok ? "Proved for this kind of arrangement" : "In none of the proved families"}</p>
    <div class="two"><div>${bigBars(w)}</div><div>${b}</div></div>
    <p class="word">${wordHTML(w)}</p><p class="sub">Size ${w.length}. Diagonals ${D.map(d => (d > 0 ? "+" : "") + fmt(d)).join(", ")}. Largest slack ${ms}.${b ? " The board shows one solution, found by search." : ""}</p>
    ${P.length > 1 ? `<p>It splits into ${P.length} pieces at its tight cuts (dashed lines):</p>` : ""}
-   ${P.map(q => `<p><span class="word">${wordHTML(q)}</span>: ${why(q) ? `<span class="ok">${why(q)}</span>` : `<span class="no">a high stone before a low stone, in no proved shape</span> (shaded: the open stretch)`}</p>`).join("")}
+   ${P.map(q => `<p><span class="word">${wordHTML(q)}</span>: ${why(q) ? `<span class="ok">${why(q)}</span>` : `<span class="no">a high stone before a low stone, in none of the proved families</span> (shaded: the open stretch)`}</p>`).join("")}
    <p class="sub">${ok ? "" : (w.length <= 22 ? "It has a solution: every arrangement up to size 22 was checked by exhaustive search. " : ms <= 16 ? "It has a solution by the complete machine search for slack at most 16. " : "")}Member of: ${G.families.filter(f => f.test && FAM_TESTS[f.test](w)).map(f => `<button class="chip s-${f.status}" data-fam="${f.id}"><span class="dot"></span>${esc(f.name)}</button>`).join(" ")}</p></div>`; }
 
 // ---------- shared pieces ----------
@@ -295,7 +297,7 @@ function families() {
   <div id="atlasout"></div>
   <h2 id="look">Look up an arrangement</h2><p class="sub">Type its letters: for each stone in order of diagonals, how many marks it sits above (+) or below (−) its evenly spaced place. Example: 2 1 0 0 -1 -2</p>
   <input type="text" id="lookup" placeholder="2 1 0 0 -1 -2" aria-label="Letters of an arrangement" autocomplete="off" autocapitalize="off"><div id="lookout"></div>
-  <h2>Smallest arrangements with no proof</h2><p class="sub">No tight cut and in none of the proved families. All of them have solutions.</p>
+  <h2>Smallest arrangements in no proved family</h2><p class="sub">No tight cut and in none of the proved families. All of them have solutions.</p>
   ${small.map(w => `<button class="row" data-word="${w.join(" ")}">${glyph(w, 6, 26)}<span class="word">${wordHTML(w)}<small>size ${w.length}</small></span></button>`).join("")}`;
 }
 function atlas() { const out = $("atlasout"); if (!out) return; $("an").textContent = AN; $("af").value = AF;
@@ -327,7 +329,8 @@ function routePage(r) { const ns = inRoute(r.id), key = (r.key || "").split(" ")
   <p style="margin-top:16px"><a class="btn" href="#/graph/${key[0] ? key[0].id : ""}">Show in the logic graph</a></p>`;
 }
 let Q = "", ST = "", RT = "", SORT = "route", LAB = false;
-function cards(arg) { if (arg === "new") { SORT = "new"; ST = ""; } else if (STATUS[arg]) ST = arg;
+function cards(arg) {   // a shortcut from another tab (#/cards/<status>, #/cards/new) starts a fresh list
+  if (arg === "new" || STATUS[arg]) { Q = RT = ""; LAB = false; ST = arg === "new" ? "" : arg; SORT = arg === "new" ? "new" : "route"; }
   const opt = (v, t, cur) => `<option value="${v}"${cur === v ? " selected" : ""}>${esc(t)}</option>`;
   return `<div class="tools"><input type="text" id="q" placeholder="Search titles, explanations and statements" value="${esc(Q)}" aria-label="Search" autocomplete="off">
    <select id="st" aria-label="Status">${opt("", "Every status", ST)}${Object.entries(STATUS).filter(([k]) => k !== "idea" || count(G.nodes, "idea")).map(([k, v]) => opt(k, v, ST)).join("")}</select>
@@ -390,7 +393,9 @@ function openFam(f) { const ex = f.example ? parseWord(f.example) : null, t = f.
 // ---------- routing: #/view[/arg][~sheet]; sheet is a card id or f.<family id> ----------
 const VIEWS = { overview, families, routes, cards, graph }, SCROLL = {};
 let cur = null, fwd = false, curSheet = "";
-function parse() { let h = location.hash.slice(1); try { h = decodeURIComponent(h); } catch (e) {} const [path, sheet = ""] = h.split("~"), [, v = "overview", arg = ""] = path.split("/"); return { v: VIEWS[v] ? v : "overview", arg, sheet }; }
+function parse() { let h = location.hash.slice(1); try { h = decodeURIComponent(h); } catch (e) {}
+  if (h.startsWith("n-") && byId[h.slice(2)]) return { v: "graph", arg: h.slice(2), sheet: "" };   // links saved when this file was the graph page
+  const [path, sheet = ""] = h.split("~"), [, v = "overview", arg = ""] = path.split("/"); return { v: VIEWS[v] ? v : "overview", arg, sheet }; }
 function route() { const { v, arg, sheet } = parse(), key = v + "/" + arg, back = !fwd; fwd = false;
   if (key !== cur) { if (cur) SCROLL[cur] = scrollY; cur = key; document.body.classList.toggle("graph", v === "graph"); $("main").innerHTML = VIEWS[v](arg);
     document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("on", a.dataset.v === v));
