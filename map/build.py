@@ -1101,7 +1101,7 @@ def _visit(u, path):
 for _u in list(_out):
     if not _state.get(_u): _visit(_u, [_u])
 # ---------- dashboard data: routes, highlights, families (map/dashboard_data.py) ----------
-import sys
+import sys, re, datetime
 sys.path.insert(0, HERE)
 from dashboard_data import ROUTES, HIGHLIGHTS, FAMILIES
 route_of = {}
@@ -1109,14 +1109,48 @@ for r in ROUTES:
     for x in r["nodes"].split():
         assert x in ids and x not in route_of, ("route", r["id"], x)
         route_of[x] = r["id"]
+    for x in r.get("key", "").split(): assert route_of.get(x) == r["id"], ("key card not in its route", r["id"], x)
+    assert r["state"] in ("active", "stalled", "open"), r["id"]
 missing = [x for x in ids if x not in route_of]
 assert not missing, "cards without a route (add them to ROUTES in dashboard_data.py): " + " ".join(missing)
 for n in nodes: n["route"] = route_of[n["id"]]
 for h in HIGHLIGHTS: assert h["id"] in ids and h["kind"] in ("lead", "result", "dead"), h
-for f in FAMILIES: assert f["card"] in ids, f
+_fam = {f["id"] for f in FAMILIES}
+for f in FAMILIES: assert (f["card"] is None or f["card"] in ids) and (f["parent"] is None or f["parent"] in _fam), f
+def _valid_word(t):   # letters of a valid arrangement: first >= 0, each at most 1 below the one before, partial sums >= 0, total 0
+    w = [int(x) for x in t.split()]; sums = [sum(w[:k + 1]) for k in range(len(w))]
+    return w[0] >= 0 and all(w[k + 1] >= w[k] - 1 for k in range(len(w) - 1)) and min(sums) >= 0 and sums[-1] == 0
+for f in FAMILIES: assert not f["example"] or _valid_word(f["example"]), ("example is not a valid arrangement", f["id"])
+
+# ---------- card dates (map/card_dates.txt): when each card appeared and when it got its present status ----------
+# One line per card: id, first seen, status, since when, previous status (or -). Times are UTC.
+# This script keeps the file: a new card or a changed status is stamped with the time of the build.
+# After a merge conflict in that file, just rerun this script: lines that are not records are dropped,
+# and of two records for one card the earlier one wins.
+_DATES = os.path.join(HERE, "card_dates.txt")
+_REC = re.compile(r"^(\w+) (\d{4}-\d\d-\d\dT\d\d:\d\dZ) (\w+) (\d{4}-\d\d-\d\dT\d\d:\d\dZ) (\w+|-)$")
+_now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
+_seen = {}
+if os.path.exists(_DATES):
+    for _line in open(_DATES, encoding="utf8"):
+        _m = _REC.match(_line.strip())
+        if _m: _seen.setdefault(_m.group(1), []).append(_m.groups()[1:])
+for n in nodes:
+    recs = _seen.get(n["id"], [])
+    added = min((r[0] for r in recs), default=_now)
+    same = sorted(r for r in recs if r[1] == n["status"])
+    if same: since, was = same[0][2], same[0][3]
+    elif recs: since, was = _now, sorted(recs, key=lambda r: r[2])[-1][1]
+    else: since, was = _now, "-"
+    n["added"], n["since"] = added, since
+    if was != "-": n["was"] = was
+open(_DATES, "w", encoding="utf8").write(
+    "# Written by build.py; see the comment there. id, first seen, status, since, previous status\n" +
+    "".join(f'{n["id"]} {n["added"]} {n["status"]} {n["since"]} {n.get("was", "-")}\n' for n in sorted(nodes, key=lambda n: n["id"])))
+
 routes = [{k: v for k, v in r.items() if k != "nodes"} for r in ROUTES]
-GRAPH = {"updated": "2026-11-24", "areas": areas, "routes": routes, "highlights": HIGHLIGHTS, "families": FAMILIES, "nodes": nodes, "edges": E}
+GRAPH = {"updated": max(n["since"] for n in nodes)[:10], "areas": areas, "routes": routes, "highlights": HIGHLIGHTS, "families": FAMILIES, "nodes": nodes, "edges": E}
 json.dump(GRAPH, open(os.path.join(HERE, "graph.json"), "w"), ensure_ascii=False, indent=1)
 # The pages read graph.js, so they open from a file or any static host with no server.
-open(os.path.join(HERE, "graph.js"), "w", encoding="utf8").write("window.GRAPH = " + json.dumps(GRAPH, ensure_ascii=False) + ";\n")
+open(os.path.join(HERE, "graph.js"), "w", encoding="utf8").write("window.GRAPH = " + json.dumps(GRAPH, ensure_ascii=False).replace("</", "<\\/") + ";\n")
 print(len(nodes), "nodes", len(E), "edges")
