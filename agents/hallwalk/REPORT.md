@@ -79,6 +79,10 @@ Limits of Claim 5, all computed:
   (allpaths.py). That is the only such state at n = 7.
 - It needs all four repairs. With mirror lines next to the middle only, every one of the eight rules leaves some
   arrangement empty by n = 7 or 8 (tree.py N near).
+- The sets are not thin and have no description yet. For the rule "first run", A(D′) is a median half of all
+  solutions of D′ (smallest share 1/8 at n = 9), and as little as a quarter of A(parent) can be repaired for a
+  single move. The sets for the eight rules have no solution in common for 118 of the 490 arrangements at n = 9
+  (treeshape.py). The sign of the permutation is not constant on A(D′).
 - It needs sets. Keeping one solution per arrangement, namely the first repair that works in a fixed order of the
   four, fails by n = 10 for all 8 × 24 combinations of rule and order; the best five (all with the rule "run
   furthest from the middle") work up to n = 9 (tree1.py).
@@ -106,6 +110,7 @@ Limits of Claim 5, all computed:
     python3 one.py 8 1 rows   # one kept solution per arrangement is not enough
     python3 cyc.py 9          # loop reflections do not connect
     python3 tree.py 10        # Claim 5 for n ≤ 10, 5 seconds (n = 12: about 4 minutes per rule); "tree.py 9 near" for the near-middle version
+    python3 treesub.py 9      # which of the four repairs are needed (4 minutes); treeshape.py 9: sizes of the sets
     python3 allpaths.py 7     # every path instead of one: A becomes empty
     python3 tree1.py 10 "run furthest from the middle"   # one solution per arrangement fails at n = 10
 
