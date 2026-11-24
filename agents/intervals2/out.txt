@@ -1,0 +1,40 @@
+bound: [(2, 0), (3, 1), (4, 1), (5, 3), (6, 3), (7, 6), (8, 6), (9, 10), (10, 10), (11, 15), (12, 15), (13, 21), (14, 21), (15, 28), (16, 28)]
+true : [(2, 0), (3, 1), (4, 1), (5, 3), (6, 3), (7, 6), (8, 6), (9, 10), (10, 10), (11, 15)]
+B = 10: 822 pairs (F, last letter), 771 distinct sets F, largest has 42 partitions; none empty.  (0 s)
+   distinct sets F by slack 0..10: [1, 1, 2, 5, 9, 17, 38, 57, 125, 189, 327]
+B = 12: 2392 pairs (F, last letter), 2321 distinct sets F, largest has 77 partitions; none empty.  (0 s)
+   distinct sets F by slack 0..12: [1, 1, 2, 5, 9, 17, 38, 57, 127, 196, 362, 565, 941]
+B = 21: 158341 pairs (F, last letter), 158116 distinct sets F, largest has 792 partitions; none empty.  (18 s)
+   distinct sets F by slack 0..21: [1, 1, 2, 5, 9, 17, 38, 57, 127, 199, 386, 626, 1168, 1672, 2923, 4619, 7188, 10419, 16835, 23977, 36902, 50945]
+prefix x = (3, 2, 1, 0, -1)
+ending z1 = (-2, -3)  states after x that can be completed: [(2, 2, 1)]
+ending z2 = (-2, -1, -2)  states after x that can be completed: [(2, 1, 1, 1), (3, 1, 1), (3, 2)]
+5 9 fail sorted-right 0 fail sorted-left 0 fail both 0
+6 22 fail sorted-right 0 fail sorted-left 0 fail both 0
+7 59 fail sorted-right 1 fail sorted-left 1 fail both 1
+8 167 fail sorted-right 7 fail sorted-left 7 fail both 6
+9 490 fail sorted-right 32 fail sorted-left 32 fail both 22
+10 1486 fail sorted-right 132 fail sorted-left 132 fail both 75
+11 4639 fail sorted-right 526 fail sorted-left 526 fail both 262
+12 14805 fail sorted-right 2030 fail sorted-left 2030 fail both 914
+5 9 [(0, 9)]
+6 22 [(0, 22)]
+7 59 [(0, 58), (1, 1)]
+8 167 [(0, 160), (1, 7)]
+9 490 [(0, 458), (1, 31), (2, 1)]
+6 max missing 1 [(-4, -2, -1, 1, 2, 4)]
+7 max missing 8 [(-6, -3, -1, 0, 2, 3, 5), (-5, -4, -1, 0, 2, 3, 5), (-5, -3, -2, 0, 1, 3, 6), (-5, -3, -2, 0, 1, 4, 5), (-5, -3, -2, 1, 2, 3, 4)]
+8 max missing 40 [(-7, -5, -2, 0, 1, 3, 4, 6), (-7, -4, -3, 0, 1, 3, 4, 6), (-7, -4, -2, -1, 1, 2, 4, 7), (-7, -4, -2, -1, 1, 2, 5, 6), (-7, -4, -2, -1, 2, 3, 4, 5)]
+7 A missing 2 [(-6, -3, -1, 0, 2, 3, 5), (-5, -4, -1, 0, 2, 3, 5)]
+8 A missing 13 [(-7, -5, -2, 0, 1, 3, 4, 6), (-7, -4, -3, 0, 1, 3, 4, 6), (-7, -4, -2, -1, 1, 2, 4, 7), (-7, -4, -2, -1, 1, 2, 5, 6), (-7, -4, -2, -1, 2, 3, 4, 5)]
+4 HD lists 3 valid 4 missing 1 [(-2, -1, 1, 2)]
+5 HD lists 6 valid 9 missing 4 [(-4, -1, 0, 2, 3), (-3, -2, 0, 1, 4), (-3, -2, 0, 2, 3), (-2, -1, 0, 1, 2)]
+6 HD lists 15 valid 22 missing 11 [(-5, -3, 0, 1, 3, 4), (-5, -2, -1, 1, 2, 5), (-5, -2, -1, 1, 3, 4), (-5, -1, 0, 1, 2, 3)]
+7 59 {('min', 'min'): (11, [(0, 0, 2, 1, 0, -1, -2)]), ('min', 'max'): (1, [(2, 1, 1, 0, -1, -1, -2)]), ('max', 'min'): (1, [(2, 1, 1, 0, -1, -1, -2)]), ('max', 'max'): (1, [(2, 1, 1, 0, -1, -1, -2)])}
+8 167 {('min', 'min'): (33, [(0, 0, 0, 2, 1, 0, -1, -2)]), ('min', 'max'): (4, [(0, 2, 1, 1, 0, -1, -1, -2)]), ('max', 'min'): (4, [(0, 2, 1, 1, 0, -1, -1, -2)]), ('max', 'max'): (6, [(0, 2, 1, 1, 0, -1, -1, -2)])}
+4 16 1
+   (-1, -1, 1, 1)
+
+real	0m25.220s
+user	0m23.532s
+sys	0m1.678s
