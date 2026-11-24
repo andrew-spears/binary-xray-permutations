@@ -4260,7 +4260,11 @@
    "statement": "Let d_1 ≤ … ≤ d_n be integers, repeats allowed. There is a partial order on n elements whose values (number below) − (number above) are d_1, …, d_n exactly when d_1 + … + d_j ≥ −j(n − j) for every j, with equality for j = n. For distinct values this condition is Landau's, so every valid D is 'below minus above' for some partial order.",
    "example": "Values −2, −1, 0, 0, 3 (n = 5). The largest is 3: put that element above the three smallest, −2, −1 and one 0, which become −1, 0, 1. Left: −1, 0, 0, 1. The largest is 1: put it above the smallest, −1, which becomes 0. Left: 0, 0, 0, three elements with nothing below or above. Result: z above a, b, c; c above a; one more element d comparable to nothing. Below minus above: a: 0 − 2, b: 0 − 1, c: 1 − 1, d: 0 − 0, z: 3 − 0.",
    "evidence": "Proved (agents/intervals/NOTES.md, section 'Any partial order'). Necessity: the j smallest values belong to a downward closed set I, and the sum of below − above over I is minus the number of comparable pairs leaving I, at least −j(n − j). Sufficiency: with f(j) = d_1 + … + d_j + j(n − j), the new sums are checked in four ranges of j; the only case that needs a computation is when the k-th and (k + 1)-th smallest values are equal, and there the two bounds on the partial sum combine to b(a² + ab + br) ≥ b(a + b), with a, b, r ≥ 1 the sizes of the pieces of the block of equal values and of what lies above it. Checked by program: the peeling succeeds and gives the right values for all 5,302 such multisets of size 8 (and all smaller sizes). For distinct values and all ways to break ties, some peeled order is of dimension two for 56 of 59 arrangements at n = 7 and 148 of 167 at n = 8. The inequality is the known condition for score sequences of tournaments in which games may be drawn (Avery, 1991; cited from memory, not looked up); whether the statement for partial orders is in the literature was not searched. Recheck (10 seconds): cd agents/intervals && python3 poset.py 8.",
-   "refs": "agents/intervals/NOTES.md"
+   "refs": "agents/intervals/NOTES.md",
+   "vis": {
+    "file": "labs/peel.html",
+    "title": "Peel the top stone"
+   }
   },
   {
    "id": "intervalorder",
