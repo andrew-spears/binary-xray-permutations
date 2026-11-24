@@ -59,3 +59,42 @@ F(x) is not always the whole dominance interval: after 2 2 2 it is {222, 321, 41
 Greatest element of F(x) = the run with m = ℓ(λ) always, when that run exists; least = m as small as possible (to check).
 Plan for a proof of the interval-order version: (1) formulas for least and greatest element of F(x) from the word;
 (2) F(x) ⊇ dominance interval minus a named thin family; (3) least(x) ⊴ conj least(z̄)-type inequalities from Landau.
+
+## Any partial order (PROVED; `poset.py n`)
+**Theorem.** Integers d_1 ≤ … ≤ d_n are the values below − above of a poset on n elements iff
+(M) Σ_{i≤j} d_i ≥ −j(n − j) for all j, with equality at j = n.  (For distinct values, M is Landau: d_i = s_i + i − n.)
+Necessity. If x < y in P then below(y) ≥ below(x) + 1 and above(y) ≤ above(x) − 1, so d(y) ≥ d(x) + 2. Hence the j
+smallest values (ties broken anyhow) form a down-set I, and Σ_I (below − above) = −#{x ∈ I, y ∉ I, x < y} ≥ −j(n − j).
+Sufficiency, induction on n. Let k = d_n; 0 ≤ k ≤ n − 1 by M. Let S = {1, …, k} and D′ = (d_1 + 1, …, d_k + 1, d_{k+1},
+…, d_{n−1}), total 0. If D′ satisfies M for n − 1, take P′ for D′ (element i has value d′_i). For x ∈ S, y ∉ S:
+d′(x) ≤ d′(y) + 1 < d′(y) + 2, so x is not above y: S is a down-set of P′. Add z above exactly S: values of S drop by 1,
+z gets k. Done.
+D′ satisfies M: write Σ_j for the partial sums of D, f(j) = Σ_j + j(n − j) ≥ 0, Σ′_j for the sum of the j smallest of
+D′; needed Σ′_j ≥ −j(n − 1 − j), i.e. Σ′_j − Σ_j ≥ j − f(j).
+(i) No tie at the cut (d_k < d_{k+1}, or k ∈ {0, n − 1}): D′ is sorted as written. j ≤ k: Σ′_j = Σ_j + j ✓.
+j ≥ k: Σ′_j = Σ_j + k, need f(j) ≥ j − k: Σ_j = −Σ_{i>j} d_i ≥ −k(n − j), so f(j) ≥ (j − k)(n − j) ≥ j − k for j ≤ n − 1 ✓.
+(ii) Tie: d_i = v exactly for p < i ≤ q, with p < k < q ≤ n − 1. Put a = k − p, b = q − k, r = n − q ≥ 1. Sorted D′:
+d_1 + 1, …, d_p + 1 (≤ v), then b copies of v, then a copies of v + 1, then d_{q+1}, … (≥ v + 1).
+ j ≤ p: Σ′_j = Σ_j + j ✓.   j ≥ q: as in (i) ✓ (the bound f(j) ≥ (j − k)(n − j) only used d_i ≤ k).
+ p ≤ j ≤ j* := p + b: Σ′_j = Σ_j + p, need f(j) ≥ j − p.   j* ≤ j ≤ q: Σ′_j = Σ_j + j − b, need f(j) ≥ b.
+ On [p, q], f(j) = f(p) + (j − p)(v + n − j − p) is concave in j, so it is enough to check the ends of both ranges:
+ f(p) ≥ 0 ✓, f(q) ≥ q − k = b ✓ (from (i)), and f(j*) ≥ b. For the last: Σ_{j*} = Σ_p + b v ≥ −p(n − p) + b v and
+ Σ_{j*} = −(a v + Σ_{i>q} d_i) ≥ −a v − r k. Multiply by a and by b and add: (a + b) Σ_{j*} ≥ −a p (r + a + b) − b r (p + a).
+ Then (a + b) f(j*) ≥ (a + b)(p + b)(r + a) − a p (r + a + b) − b r (p + a) = b(a² + ab + br) ≥ b(a + b). ∎
+Program: all M-multisets of size ≤ 8 (5,302 at n = 8) peel correctly. For distinct D and all tie-breaks some peeled
+poset is 2-dimensional for 56/59 (n = 7), 148/167 (n = 8); an interval order for 58/59, 160/167.
+M is Avery's condition for score sequences of oriented graphs (a_v = n − 1 + d⁺ − d⁻; from memory). So the theorem
+says: every such score sequence is realised by a TRANSITIVE oriented graph. Literature not searched.
+
+## Interval orders without the machine (`subex.py n`)
+Order the intervals by right endpoint, x_1, …, x_n. The down-set of x_t is a prefix {x_1, …, x_{k_t}}, 0 ≤ k_t ≤ t − 1, and
+every such sequence k is an interval order (put the left endpoint of x_t between the right endpoints of x_{k_t} and
+x_{k_t + 1}). Then d(x_t) = k_t − #{t′ : k_{t′} ≥ t}. With κ = the partition made of the k_t: the up-set sizes are the
+conjugate κ′ read in order (κ′_t at position t). So
+  **interval version ⟺ ∃ partition κ inside the staircase (n − 1, …, 1, 0) and a bijection π with κ_{π(t)} ≤ t − 1 and
+  D = {κ_{π(t)} − κ′_t}.**
+Multisets: NOT all of M is reached (−1, −1, 1, 1 is the order 2 + 2 itself); 1,294 of 5,302 missing at n = 8. Distinctness
+is needed, as in the conjecture.
+The board is the same recursion with one change: build the board row by row from the bottom; a new top stone in column c
+has value c and the c stones to its left drop by 1. So permutations = 'insert z at position k + 1 of the list',
+interval orders = 'insert z at the end of the list', in both cases above the first k.
