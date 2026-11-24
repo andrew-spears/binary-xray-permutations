@@ -4308,7 +4308,7 @@
    "area": "ideas",
    "title": "Two chains are enough",
    "status": "disproved",
-   "intuition": "With two chains a solution is two partitions x and y inside a k × (n − k) box, where k is the size of the first chain: its diagonals are read off the sum x + y, and those of the second chain off the sum of the two complementary partitions. That is a rigid form, and there are only about as many such solutions as there are arrangements, so it has no room to spare. It works for every arrangement up to size 5 and for about two thirds of them at size 10. Claim: two chains are always enough.",
+   "intuition": "With two chains a solution is two partitions x and y inside a k × (n − k) box, where k is the size of the first chain: its diagonals are read off the sum x + y, and those of the second chain off the sum of the two complementary partitions. That is a rigid form: the number of permutations made of two chains grows at the same rate as the number of arrangements (about 4 to the power n), so there is little room to spare. It works for every arrangement up to size 5 and for about two thirds of them at size 10. Claim: two chains are always enough.",
    "statement": "Every valid D has a solution whose stones split into two chains (a solution avoiding the pattern 123).",
    "example": "D = {−3, −2, −1, 1, 2, 3} (n = 6, letters 2 1 0 0 −1 −2): all 6 of its solutions with at most three chains have exactly three.",
    "evidence": "Computed (agents/patterns/width.cpp, complete search): no failure for n ≤ 5; 1 of 22 at n = 6; 6 of 59 at n = 7; 29 of 167 at n = 8; 123 of 490 at n = 9; 483 of 1,486 at n = 10. Recheck (seconds): ./width 6 2.",
