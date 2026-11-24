@@ -48,6 +48,17 @@ For every minimal move of every valid D with n ≤ 11 (12,913 moves at n = 11), 
 {n, n + 1, n + 2}. For about 8% of the moves at n = 11 (1,083) no solution has s = n + 1, so the plain swap is not
 enough and the open path is needed. If Claim 3 holds for every n, the conjecture follows.
 
+## Claim 4 (tested only): the induction closes on the solutions it builds
+
+Start from the one solution of the evenly spaced arrangement and use only repairs with s in {n, n + 1, n + 2}.
+For n ≤ 9 this reaches a solution of every valid D, and for every minimal move one of the solutions reached has
+s1 or s2 in {n, n + 1, n + 2} (near.py). With s = n + 1 alone it stops at the first move. The solutions reached are
+about two thirds of all solutions (8,465 of 12,657 at n = 9), but for single arrangements as few as 0.8%. Neither the
+largest distance of a stone from the middle anti-diagonal nor the number of chains separates reached from unreached
+solutions (nearstat.py), so I have no description of the class yet.
+
+Equivalent form of Claim 3: some solution has r_X + r_Y in {n+1−y, n+2−y, n+3−y} or in {n−1−x, n−x, n+1−x}.
+
 ## What does not work
 
 - Repair from every solution: the share of solutions of D that can be repaired falls with n (1, 0.83, 0.83, 0.69,
@@ -61,6 +72,7 @@ enough and the open path is needed. If Claim 3 holds for every n, the conjecture
 
     python3 refl.py 10        # about 8 seconds; asserts Claims 1 and 2 on every solution, prints Claim 3 counts
     python3 refl.py 11        # about 40 seconds
+    python3 near.py 9 1       # Claim 4, a few seconds; near.py 8 0 shows s = n + 1 alone is not enough
     python3 cyc.py 9          # loop reflections do not connect
 
 hw.py, hw2.py, reach.py are the first experiments, written with lines r + c (columns reversed).
