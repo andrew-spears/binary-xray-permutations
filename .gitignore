@@ -1,3 +1,6 @@
 __pycache__/
 agents/universal/types
 agents/universal/fw
+
+# single-file dashboard written by map/bundle.py
+map/dashboard-single.html

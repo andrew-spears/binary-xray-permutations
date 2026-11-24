@@ -101,6 +101,7 @@ pre{background:var(--chip);border-radius:8px;padding:9px 10px;font:12.5px/1.35 u
 .route button{border:none;background:none;padding:2px 0;color:var(--ink2);text-decoration:underline dotted;font:inherit;cursor:pointer}
 .route .here{color:var(--ink);font-weight:600}
 .note{font-size:13px;color:var(--ink2)}
+.embedded #home,.embedded #homesep{display:none}.embedded h1{font-size:15px;font-weight:600}
 @media (max-width:899px){
   #key{display:inline-block}
   #legend{display:none}#legend.open{display:block}
@@ -113,7 +114,7 @@ pre{background:var(--chip);border-radius:8px;padding:9px 10px;font:12.5px/1.35 u
 </head>
 <body>
 <header>
-  <h1><a href="index.html" style="color:inherit;text-decoration:none;font-weight:400">← Dashboard</a> &nbsp;·&nbsp; Logic graph</h1>
+  <h1><a href="index.html" id="home" style="color:inherit;text-decoration:none;font-weight:400">← Dashboard</a><span id="homesep"> &nbsp;·&nbsp; </span>Logic graph: what implies what</h1>
   <div id="legend">
   <div class="bar">
     <span class="chip s-proved"><span class="dot"></span>Proved</span>
@@ -135,6 +136,7 @@ pre{background:var(--chip);border-radius:8px;padding:9px 10px;font:12.5px/1.35 u
   </div>
   <div class="bar" style="margin-top:6px">
     <span style="flex:1"></span>
+    <button class="tb" id="fit">Fit</button>
     <button class="tb" id="key" aria-pressed="false">Key</button>
     <button class="tb" id="hide" aria-pressed="false">Hide ruled out</button>
   </div>
@@ -156,12 +158,16 @@ let G, byId, J = [], pos = {}, hideDead = false, sel = null, view = { x: 0, y: 0
 const size = { w: null, h: null };
 const froms = e => Array.isArray(e.from) ? e.from : [e.from];
 const narrow = () => innerWidth < 900;
+// Inside the dashboard (an iframe) the address is the dashboard's business: tell it which card is open.
+const EMBEDDED = window.self !== window.top;
+function setHash(h) { try { if (EMBEDDED) parent.postMessage({ graphCard: h.slice(3) }, "*"); else history.replaceState(null, "", h || location.pathname + location.search); } catch (e) {} }
+if (EMBEDDED) document.documentElement.classList.add("embedded");
 
 Promise.resolve(window.GRAPH).then(g => {
   G = g; byId = Object.fromEntries(g.nodes.map(n => [n.id, n]));
   J = g.edges.map((e, i) => Array.isArray(e.from) ? { id: "j" + i, edge: i, area: byId[e.from[0]].area } : null).filter(Boolean);
   check(); layout(); fit();
-  const h = location.hash.slice(1); if (h.startsWith("n-") && byId[h.slice(2)]) select(h.slice(2), true);
+  const h = (window.BOOT_HASH || location.hash.slice(1)); if (h.startsWith("n-") && byId[h.slice(2)]) select(h.slice(2), true);
 }).catch(() => { $("vp").innerHTML = '<p style="padding:20px">Could not load graph.json.</p>'; });
 
 function check() {
@@ -272,9 +278,12 @@ function edgesSVG() {
 // ---------- pan / zoom ----------
 const vp = $("vp");
 function apply() { $("world").style.transform = `translate(${view.x}px,${view.y}px) scale(${view.s})`; }
-function fit() {
+// On a phone the whole graph would be too small to read: start at a readable size on the conjecture; "Fit" shows everything.
+function fit(all) {
   const W = vp.clientWidth, Hh = vp.clientHeight, s = Math.min(W / (worldW + 40), Hh / (worldH + 40), 1.2);
-  view = { s, x: (W - worldW * s) / 2, y: Math.max(10, (Hh - worldH * s) / 2) }; apply();
+  if (!all && narrow() && s < .5 && pos.conj) view = { s: .5, x: W / 2 - pos.conj.cx * .5, y: 10 };
+  else view = { s, x: (W - worldW * s) / 2, y: Math.max(10, (Hh - worldH * s) / 2) };
+  apply();
 }
 function zoomAt(f, cx, cy) {
   const s = Math.max(0.15, Math.min(3, view.s * f)); f = s / view.s;
@@ -298,6 +307,7 @@ addEventListener("pointerup", up); addEventListener("pointercancel", up);
 vp.addEventListener("wheel", e => { e.preventDefault(); const r = vp.getBoundingClientRect();
   if (e.ctrlKey || e.metaKey) zoomAt(Math.exp(-e.deltaY * 0.01), e.clientX - r.left, e.clientY - r.top);
   else { view.x -= e.deltaX; view.y -= e.deltaY; apply(); } }, { passive: false });
+$("fit").onclick = () => fit(true);
 $("key").onclick = () => { const o = $("legend").classList.toggle("open"); $("key").setAttribute("aria-pressed", o); requestAnimationFrame(() => { if (!sel) fit(); }); };
 $("hide").onclick = () => { hideDead = !hideDead; $("hide").setAttribute("aria-pressed", hideDead); layout(); fit(); };
 vp.addEventListener("keydown", e => { if (e.key !== "Enter" && e.key !== " ") return; const n = e.target.closest?.(".node");
@@ -346,7 +356,7 @@ P.addEventListener("click", e => {
   const g = e.target.closest("[data-go]"); if (g) return select(g.dataset.go, true);
   const lb = e.target.closest("[data-lab]"); if (lb) { const body = $("pbody"); if (!body) return; const back = body.innerHTML, cls = body.className, wasWide = P.classList.contains("wide");
     P.classList.add("wide"); body.className = "pbody frame lab";
-    body.innerHTML = `<div class="labbar"><button data-back>← Back to card</button></div><iframe src="labs/views.html#p=${lb.dataset.lab}" title="Four equivalent views"></iframe>`;
+    body.innerHTML = `<div class="labbar"><button data-back>← Back to card</button></div>` + labFrame("labs/views.html", "Four equivalent views", "p=" + lb.dataset.lab);
     body.querySelector("[data-back]").onclick = ev => { ev.stopPropagation(); body.className = cls; body.innerHTML = back; P.classList.toggle("wide", wasWide); };
     return; }
   if (e.target.closest("[data-close]")) return closePanel();
@@ -361,7 +371,7 @@ function highlight(id) {
   document.querySelectorAll("path.e[data-stub]").forEach(p => { const b = p.dataset.stub; p.classList.toggle("dim", !(nb.has(b) || (b[0] === "j" && !byId[b] && touch.has(+b.slice(1))))); });
 }
 function clearHL() { document.querySelectorAll(".dim,.sel").forEach(el => el.classList.remove("dim", "sel")); }
-function closePanel() { sel = null; P.hidden = true; P.innerHTML = ""; clearHL(); history.replaceState(null, "", location.pathname + location.search); }
+function closePanel() { sel = null; P.hidden = true; P.innerHTML = ""; clearHL(); setHash(""); }
 function centerOn(id) { const p = pos[id]; if (!p) return; const W = vp.clientWidth, Hh = vp.clientHeight;
   view.x = W / 2 - (p.x + p.w / 2) * view.s; view.y = (narrow() ? Hh * 0.2 : Hh / 2) - (p.y + p.h / 2) * view.s; apply(); }
 function chipFor(id) { const n = byId[id]; return `<span class="chip s-${n.status}" style="padding:1px 6px;margin-right:4px"><span class="dot"></span></span>${esc(n.title)}`; }
@@ -405,11 +415,11 @@ function select(id, recenter) {
   openPanel(!!n.vis, head(chip, n.title, tabs) + `<div class="pbody" id="pbody"></div>`);
   const body = $("pbody");
   const showTab = t => { P.querySelectorAll(".tab").forEach(b => b.classList.toggle("on", b.dataset.tab === t));
-    if (t === "v") { body.className = "pbody frame"; body.innerHTML = `<iframe src="${esc(n.vis.file)}" title="${esc(n.vis.title || n.title)}"></iframe>`; }
+    if (t === "v") { body.className = "pbody frame"; body.innerHTML = labFrame(n.vis.file, n.vis.title || n.title); }
     else { body.className = "pbody"; body.innerHTML = explain(n); body.scrollTop = 0; } };
   P.querySelectorAll(".tab").forEach(b => b.onclick = () => showTab(b.dataset.tab));
   showTab(n.vis ? "v" : "d");
-  highlight(id); history.replaceState(null, "", "#n-" + id);
+  highlight(id); setHash("#n-" + id);
   if (recenter || narrow()) requestAnimationFrame(() => centerOn(id));
 }
 addEventListener("resize", () => { sizePanel(); if (!sel) fit(); });

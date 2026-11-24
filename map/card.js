@@ -52,4 +52,12 @@ function picHTML(p) {
   if (p.t === "pair") return `<figure><div class="pics"><div>${one(p.a)}${p.a.cap ? `<figcaption>${esc(p.a.cap)}</figcaption>` : ""}</div><span class="mid">${esc(p.mid || "→")}</span><div>${one(p.b)}${p.b.cap ? `<figcaption>${esc(p.b.cap)}</figcaption>` : ""}</div></div>${p.cap ? `<figcaption>${esc(p.cap)}</figcaption>` : ""}</figure>`;
   return `<figure><div class="pics">${one(p)}</div>${p.cap ? `<figcaption>${esc(p.cap)}</figcaption>` : ""}</figure>`;
 }
-
+// ---------- labs ----------
+// A lab is a file under labs/ when the page is served or opened from disk. In the single-file bundle
+// (bundle.py) the lab pages are inlined as text in window.LABS and shown with srcdoc.
+function labFrame(file, title, hash) {
+  const inl = window.LABS && window.LABS[file];
+  if (!inl) return `<iframe title="${esc(title)}" src="${esc(file)}${hash ? "#" + hash : ""}"></iframe>`;
+  const doc = hash ? inl.replace("<head>", () => `<head><script>window.LAB_HASH=${JSON.stringify("#" + hash)}<\/script>`) : inl;
+  return `<iframe title="${esc(title)}" srcdoc="${esc(doc)}"></iframe>`;
+}
