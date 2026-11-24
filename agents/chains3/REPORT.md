@@ -84,7 +84,7 @@ chains, 7,444 need exactly one extra stone, and 9 need two:
     1 1 1 1 0 −1 −2 2 1 0 −1 −1 −1 −1      1 1 1 1 0 −1 1 0 −1 1 0 −1 −2 −1     1 2 1 0 −1 −1 −1 2 1 0 −1 −1 −1 −1
     1 2 1 0 −1 1 0 −1 1 0 −1 −1 −1 −1      2 1 0 −1 0 0 −1 2 1 0 −1 −1 −1 −1    2 1 0 1 0 −1 1 0 −1 −1 0 0 −1 −1
 
-None has a tight cut. Each has at least two separate peaks of the slack (greatest values 4 and 4, or 4 and 3).
+None has a tight cut. Each has two or three separate local peaks of the slack, of heights 3 or 4.
 Independent check: `agents/blocks/third.cpp` gives "smallest third chain 2" for the first word.
 So one extra stone is not enough on G. Guess (not tested): the number needed grows with the number of peaks.
 
@@ -110,9 +110,10 @@ the next letter is ≤ 0; if t > 0 the letter before is > 0 and letters drop by 
 | a stone next to a cut of least slack (cuts 1..n−1) | no | n = 8: 1 1 1 1 0 −1 −2 −1 |
 | a stone with at most 2 incomparable stones | no | n = 8: 1 1 1 1 0 −1 −2 −1 |
 | a stone with at most 3 incomparable stones | n ≤ 10 | n = 11: 1 1 1 1 1 1 0 −1 −2 −1 −2 |
+| a stone next to a cut of greatest slack | n ≤ 12 (not run further) | |
 | Z1: the first zero between two cuts of greatest slack | n ≤ 9 | n = 10: 2 1 0 −1 1 0 −1 0 −1 −1 |
 | Z3: the last such zero | n ≤ 9 | n = 10: 1 1 0 1 0 −1 1 0 −1 −2 |
-| Z2: some zero between two cuts of greatest slack | n ≤ 12 | n = 13: 1 1 1 1 1 0 −1 −1 1 0 −1 −2 −1 (2 of 2,496; the stone is the zero at the second peak) |
+| Z2: some zero between two cuts of greatest slack | n ≤ 12 | n = 13: 1 1 1 1 1 0 −1 −1 1 0 −1 −2 −1 (2 of 2,496 fail; there the zero at the second, lower peak works) |
 | Z4: Z2 with the incomparable stones = nearest neighbours in line order | n ≤ 10 | n = 11: 1 1 0 1 0 0 1 0 −1 −2 −1 |
 | Z5: some zero at a local peak of the slack | n ≤ 13 | n = 14: 21 of 7,453 fail (9 of them have no single extra stone at all) |
 | Z6: some stone with letter 0 | n ≤ 13 | n = 14: 13 of 7,453 fail (same 9, and 4 more) |
@@ -132,13 +133,14 @@ incomparable stones before and after), and this is the best rule found; it has n
 | online colouring for two chains: the chain of a stone is a function of the letters read so far | 1 1 0 −1 −1 needs the first two stones in the same chain (runs AABAA, BBABB only); 1 1 0 0 −1 −1 needs them in different chains (ABAABA, ABABAB, BABABA, BABBAB only) |
 
 R3 (some solution with the fewest blocks has ≤ 3 chains) holds for n ≤ 9, as in blocks NOTES §5; no rule comes from it
-(for staircases the fewest-blocks solutions have 2, 5, 5, 5, 5, 7, 7 blocks for k = 2, j = 1..7).
+(for the staircases with k = 2 the fewest-blocks solutions have 2, 5, 5, 5, 5, 7 blocks for j = 1..6).
 
-**Staircases S(k, j) = k … 1 0^j −1 … −k** (`stair2.py`, k ≤ 8, j ≤ 12). Two chains exist exactly for:
+**Staircases S(k, j) = k … 1 0^j −1 … −k** (`stair2.py`, k ≤ 8, j ≤ 12; two chains decided by the machine `two.py`,
+which agrees with the complete search `sol3` on the 54 pairs with n ≤ 16). Two chains exist exactly for:
 k = 1: every j; k = 2: j = 1, 4, 5, 7..12; k = 3: j = 1, 6, 8, 10, 11; k = 4: j = 1, 8; k = 5: j = 1, 9; k = 6: j = 1, 11;
-k = 7: j = 1, 12; k = 8: j = 1. The corner rule R4 works for a few more pairs and for no pair in most of the table.
+k = 7: j = 1, 12; k = 8: j = 1. For 45 of the 96 pairs no corner size works (R4 fails).
 Correction to `agents/patterns/REPORT.md` ("j ∈ {2, 3, 5}: never two"): false for k = 1 and for (k, j) = (2, 5),
-solved with two chains by 3 4 5 | 1 | 7 8 9 | 2 | 6; true for k ≥ 3 and for (2, 2), (2, 3).
+solved with two chains by 3 4 5 | 1 | 7 8 9 | 2 | 6; true for 3 ≤ k ≤ 8 and for (2, 2), (2, 3).
 
 **Two explicit families (proved; `fam.py` checks k ≤ 25).**
 - S(k, 1): rows 0..k to columns k..2k, rows k+1..2k to columns 0..k−1. Lines k, k+2, …, 3k and k+1, k+3, …, 3k−1:

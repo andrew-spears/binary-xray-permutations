@@ -1,6 +1,7 @@
 // All solutions of one word with at most w chains (no decreasing subsequence of length w + 1).
 // Convention of agents/patterns: rows, columns 0-based, stone (i, c) on line i + c = e_j + 2j.
 // Usage: ./sol3 w cap e_1 ... e_n      prints up to cap permutations (columns, 0-based), one per line.
+// Needs w <= 9.
 #include <bits/stdc++.h>
 using namespace std;
 int n, w; bool inD[128], usedc[64]; int piv[64]; long long found, cap;
