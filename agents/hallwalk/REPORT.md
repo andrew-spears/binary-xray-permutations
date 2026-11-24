@@ -99,6 +99,12 @@ Limits of Claim 5, all computed:
   three per arrangement still leaves 2 at n = 8 (one.py). So the class of Claim 4 cannot be cut down to a single
   canonical solution this simply. "The solution nearest the middle anti-diagonal" is not a rule: the sum of
   (r + c − n − 1)² over the stones is the same for every solution of D.
+- A helper block cannot join two open paths (proved, a few lines). Put D next to another solvable arrangement B
+  across a tight cut, so that every solution is a block sum, and use a mirror line of the large board. The line has
+  the same distance k from the middle in each block. The k open paths of B's block end in its k lowest rows, and the
+  next column on each is one of the k leftmost columns of D's block, where D's open paths begin. So each open path
+  of D is only made longer by one open path of B (and likewise at its other end by a block on the other side); two
+  different open paths of D stay different, and the repair fails exactly when it failed without the helper.
 - Starting from the one solution of the evenly spaced arrangement and using only successful repairs reaches some
   solution of every valid D for n ≤ 9 (reach.py), but I have no description of the solutions reached.
 
