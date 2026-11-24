@@ -1086,6 +1086,23 @@ ids = [n["id"] for n in nodes]
 assert len(ids) == len(set(ids))
 for x in E: assert all(f in ids for f in (x["from"] if isinstance(x["from"], list) else [x["from"]])) and x["to"] in ids, x
 for n in nodes: assert n["status"] in ("proved", "empirical", "open", "disproved", "idea"), n["id"]
-json.dump({"updated": "2026-11-23", "areas": areas, "nodes": nodes, "edges": E},
-          open(os.path.join(HERE, "graph.json"), "w"), ensure_ascii=False, indent=1)
+# ---------- dashboard data: routes, highlights, families (map/dashboard_data.py) ----------
+import sys
+sys.path.insert(0, HERE)
+from dashboard_data import ROUTES, HIGHLIGHTS, FAMILIES
+route_of = {}
+for r in ROUTES:
+    for x in r["nodes"].split():
+        assert x in ids and x not in route_of, ("route", r["id"], x)
+        route_of[x] = r["id"]
+missing = [x for x in ids if x not in route_of]
+assert not missing, "cards without a route (add them to ROUTES in dashboard_data.py): " + " ".join(missing)
+for n in nodes: n["route"] = route_of[n["id"]]
+for h in HIGHLIGHTS: assert h["id"] in ids and h["kind"] in ("lead", "result", "dead"), h
+for f in FAMILIES: assert f["card"] in ids, f
+routes = [{k: v for k, v in r.items() if k != "nodes"} for r in ROUTES]
+GRAPH = {"updated": "2026-11-24", "areas": areas, "routes": routes, "highlights": HIGHLIGHTS, "families": FAMILIES, "nodes": nodes, "edges": E}
+json.dump(GRAPH, open(os.path.join(HERE, "graph.json"), "w"), ensure_ascii=False, indent=1)
+# The pages read graph.js, so they open from a file or any static host with no server.
+open(os.path.join(HERE, "graph.js"), "w", encoding="utf8").write("window.GRAPH = " + json.dumps(GRAPH, ensure_ascii=False) + ";\n")
 print(len(nodes), "nodes", len(E), "edges")
