@@ -358,7 +358,7 @@ $("estart").onclick = () => { const st=edState(); if (!st.ok) return;
   if (ED.mode==="s") { setN(ED.n); const k=SEQS.findIndex(x=>x.join()===landau(st.D).s.join()); if (k<0) return; setSeq(k); }
   else window.loadPerm(st.perm);
   $("editor").hidden=true; $("explore").hidden=false; refresh(); };
-{ const m = location.hash.match(/p=([\d,]+)/); window.HASH_PERM = m ? m[1].split(",").map(Number) : null; }
+{ const m = (window.LAB_HASH || location.hash).match(/p=([\d,]+)/); window.HASH_PERM = m ? m[1].split(",").map(Number) : null; }
 
 // ================= INTRO: stones on a balanced plank =================
 (() => {

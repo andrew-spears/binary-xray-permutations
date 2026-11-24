@@ -7,8 +7,11 @@ This repo is research notes, data and code for **Bebeacua–Mansour–Postnikov�
 | Path | For | What it is |
 |---|---|---|
 | `map/graph.json` | agents | **The claims graph.** Every node is one precise claim with a status (proved / empirical / open / disproved / idea). Edges are logical implications; an array `from` is an ∧-junction. This is the canonical machine-readable map of what is known, what was tried, and how it fits together. |
-| `map/index.html` | humans | Interactive view of the same graph. Tap a node for its card: exposition, pictures, the precise statement, proof sketch or evidence, and its route to the conjecture. Serve the folder (`python3 -m http.server` in `map/`) and open `index.html`. Hosted copy: https://claude.ai/artifact/2pe8j5i5QgKJ5ouVYGJoRY |
-| `map/build.py` | both | **Source of truth for the graph.** Edit here, then run `python3 build.py`; it writes `graph.json`. Proof sketches live in `proofs.json`. |
+| `map/index.html` | humans | **The dashboard.** Overview (leads, results, dead ends, latest changes), Families (which kinds of arrangement are proved, with an atlas and a lookup), Routes (every card grouped by method), Cards (search), Graph (what implies what). Open the file in a browser; no server is needed. On a phone: see "Opening the dashboard" below. |
+| `map/graph.html` | humans | The logic graph on its own page. The dashboard shows it under Graph. |
+| `map/build.py` | both | **Source of truth for the graph.** Edit here, then run `python3 map/build.py`; it writes `graph.json`, `graph.js` (the same data for the pages) and `card_dates.txt`. Proof sketches live in `proofs.json`. |
+| `map/dashboard_data.py` | both | Curated text for the dashboard: the routes (each card is in exactly one), the highlights on the front page, the families. |
+| `map/bundle.py` | humans | Writes the whole dashboard as one HTML file that can be sent as an attachment. |
 | `docs/claims-map-guide.md` | both | **Principles and rules for the graph. Read before adding anything.** |
 | `docs/state.md` | agents | Dense research state: every result with its range and script, the open lines, and what's ruled out and why. |
 | `docs/research-practices.md` | both | How we run and record experiments. |
@@ -36,4 +39,10 @@ The full version is in `docs/claims-map-guide.md`.
 - **Standing reductions:** only D with no tight cut matter (tight cuts split), and D ~ −D (mirror).
 - **Recording experiments:** every experiment gets a folder in `agents/` and a line in `docs/state.md`. The line gives the exact question, the range, whether the check was exhaustive, the smallest counterexample, and the script name.
 - **Reporting:** return HIT or NOTHING (see `docs/delegation-queue.md`). A rule that is right 90% of the time is not a hit.
-- **Updating the graph:** add or change nodes in `map/build.py`, run it, check that the pictures are valid witnesses, and keep the statement, status and evidence consistent with `docs/state.md`.
+- **Updating the graph:** add or change nodes in `map/build.py`, put each new card's id in one route in `map/dashboard_data.py`, run `python3 map/build.py`, check that the pictures are valid witnesses, and keep the statement, status and evidence consistent with `docs/state.md`.
+
+## Opening the dashboard
+
+- **On this machine:** open `map/index.html` in a browser. Nothing needs to be served.
+- **As one file:** `python3 map/bundle.py` writes `map/dashboard-single.html` with the data, the labs and the graph inside. Send it as an attachment and open it in a browser.
+- **As a link:** the repository is ready for GitHub Pages; it is not switched on. The steps, and what becomes public, are in `docs/claims-map-guide.md` §7. The address would be https://andrew-spears.github.io/binary-xray-permutations/.

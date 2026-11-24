@@ -3,468 +3,430 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Claims map</title>
+<title>Binary x-ray conjecture: progress dashboard</title>
 <style>
-/* VOICE: a research notebook's logic map — clinical, quiet, precise.
-   IDEA: a proof-dependency chart pinned above the desk: claims as cards, arrows as "would prove".
-   PICTURE: the graph itself, full-bleed; status colours carry the meaning; each claim explained with the stones-and-board pictures.
-   COLOUR and TYPE: white / near-black ground; green proved, amber tested, grey open, red ruled out, violet ideas; blue only for "running". System sans.
-   LAYOUT: one column per line of attack, the no-tight-cut case and the conjecture at the bottom; details in a resizable side panel (bottom sheet on phones). */
+/* VOICE: a research notebook's front page: quiet, precise, readable on a phone.
+   LAYOUT: one column; tabs Overview / Families / Routes / Cards / Graph; a card opens as a sheet (full screen on phones).
+   COLOUR: green proved, amber tested or computer-checked, grey open, red ruled out, blue active; same tokens as graph.html. */
 :root{color-scheme:light dark;
-  --bg:light-dark(#fbfbfa,#121417);--ink:light-dark(#16191d,#e8eaed);--ink2:light-dark(#5b626b,#9ca3ab);
-  --line:light-dark(#cfd4da,#3a4048);--card:light-dark(#ffffff,#1b1f24);--chip:light-dark(#f0f1f2,#23282e);
-  --pr:light-dark(#23804a,#4cbb76);--em:light-dark(#b07a06,#e0aa3a);--op:light-dark(#6a717a,#9ca3ab);--no:light-dark(#c0392f,#ef6b61);
-  --idea:light-dark(#7442c8,#b493ff);--run:light-dark(#2563c9,#6ea2ff);--wood:light-dark(#c9a272,#8a6a44)}
-:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+  --bg:#fbfbfa;--ink:#16191d;--ink2:#5b626b;
+  --line:#cfd4da;--card:#ffffff;--chip:#f0f1f2;
+  --pr:#23804a;--em:#b07a06;--op:#6a717a;--no:#c0392f;
+  --idea:#7442c8;--run:#2563c9;--wood:#c9a272;
+  --hi:#c2410c;--lo:#0f766e}
+/* older phone browsers have no light-dark(), so the dark palette is a media query */
+@media (prefers-color-scheme:dark){:root{--bg:#121417;--ink:#e8eaed;--ink2:#9ca3ab;--line:#3a4048;--card:#1b1f24;--chip:#23282e;--pr:#4cbb76;--em:#e0aa3a;--op:#9ca3ab;--no:#ef6b61;--idea:#b493ff;--run:#6ea2ff;--wood:#8a6a44;--hi:#fb923c;--lo:#2dd4bf}}
 *{box-sizing:border-box;min-width:0}
-html,body{height:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;overflow:hidden;display:flex;flex-direction:column}
-header{padding:10px 14px 6px;border-bottom:1px solid var(--line)}
-h1{font-size:18px;line-height:1.2;margin:0 0 6px;font-weight:650}
-.bar{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center;font-size:13px;color:var(--ink2)}
-.chip{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:999px;background:var(--chip);white-space:nowrap}
-.dot{width:10px;height:10px;border-radius:50%;flex:none;background:var(--c)}
-.s-proved{--c:var(--pr)}.s-empirical{--c:var(--em)}.s-open{--c:var(--op)}.s-disproved{--c:var(--no)}.s-idea{--c:var(--idea)}
-.s-open .dot{background:none;border:1.5px dashed var(--op)}
-.ekey{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
-.ekey svg{width:30px;height:12px;overflow:visible}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:110px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px 0}
+.hrow{max-width:980px;margin:0 auto}
+h1{font-size:17px;margin:0 0 6px;font-weight:650;line-height:1.25}
+nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin:0 -6px}nav::-webkit-scrollbar{display:none}
+nav a{flex:none;padding:8px 10px;color:var(--ink2);text-decoration:none;border-bottom:3px solid transparent;white-space:nowrap;font-size:15px}
+nav a.on{color:var(--ink);border-color:var(--ink);font-weight:600}
+main{max-width:980px;margin:0 auto;padding:16px 16px 80px}
+h2{font-size:20px;margin:30px 0 6px;line-height:1.25}
+h3{font-size:14px;color:var(--ink2);margin:18px 0 4px;font-weight:600}
+p{margin:0 0 8px}
+a{color:inherit}
+.sub{color:var(--ink2);font-size:14px}
 button{font:inherit;color:inherit;cursor:pointer}
-.tb{border:1px solid var(--line);background:var(--card);border-radius:8px;min-width:36px;height:32px;padding:0 10px}
-.tb[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.tb:focus-visible,.node:focus-visible,.link:focus-visible,.tab:focus-visible,.junc:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-#key{display:none}
-#warn{background:color-mix(in srgb,var(--no) 14%,var(--bg));font-size:13px;padding:6px 14px;border-bottom:1px solid var(--line)}
-main{flex:1;display:flex;position:relative;min-height:0}
-#vp{flex:1;position:relative;overflow:hidden;touch-action:none;cursor:grab}
-#world{position:absolute;left:0;top:0;transform-origin:0 0}
-#edges{position:absolute;left:0;top:0;overflow:visible}
-.e{fill:none;stroke:var(--ink2);stroke-width:1.6}
-.e.partial{stroke-dasharray:1.5 4;stroke-linecap:round;stroke-width:2}
-.e.unchecked{stroke-dasharray:6 4}
-.e.dead{stroke:var(--no);opacity:.45;stroke-dasharray:3 4}
-.e.related{stroke-width:1.1;opacity:.6}
-.e.idea{stroke:var(--idea);stroke-dasharray:2 5;stroke-linecap:round;stroke-width:2;opacity:.85}
-.hit{fill:none;stroke:transparent;stroke-width:14;cursor:pointer}
-.node{position:absolute;width:156px;height:62px;border-radius:10px;padding:7px 9px 7px 10px;
-  background:color-mix(in srgb,var(--c) 13%,var(--card));border:1.5px solid color-mix(in srgb,var(--c) 70%,transparent);
-  font-size:12.5px;line-height:1.25;display:flex;gap:7px;align-items:flex-start;cursor:pointer;text-align:left;transition:opacity .15s}
-.node.s-open{background:var(--card);border-style:dashed}
-.node.s-idea{border-style:dashed;border-width:2px}
-.node .t{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.node .dot{margin-top:3px}
-.node.goal{width:250px;height:66px;font-size:14px;font-weight:650;border-width:2.5px}
-.node.has-vis{padding-right:30px}
-.vis{position:absolute;right:6px;bottom:6px;width:20px;height:20px;border-radius:5px;background:var(--ink);color:var(--bg);display:grid;place-items:center}
-.vis svg{width:12px;height:12px}
-.node.sel{box-shadow:0 0 0 3px var(--ink)}
-.junc{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--card);border:1.6px solid var(--ink2);color:var(--ink2);font-size:14px;font-weight:700;display:grid;place-items:center;pointer-events:none}
-.run{position:absolute;right:-5px;top:-5px;width:12px;height:12px;border-radius:50%;background:var(--run);box-shadow:0 0 0 3px var(--bg)}
-@media (prefers-reduced-motion:no-preference){.run{animation:pulse 1.6s ease-in-out infinite}}
-@keyframes pulse{50%{transform:scale(1.35);opacity:.6}}
-.alabel{position:absolute;width:156px;font-size:12px;font-weight:600;color:var(--ink2);text-align:center}
-.dim{opacity:.18}
-#panel{position:relative;width:420px;border-left:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;min-height:0}
-#panel.wide{width:520px}
-#panel[hidden]{display:none}
-.vgrip{position:absolute;left:-5px;top:0;bottom:0;width:10px;cursor:col-resize;z-index:2;touch-action:none}
-.vgrip::after{content:"";position:absolute;left:3px;top:50%;width:4px;height:44px;margin-top:-22px;border-radius:3px;background:var(--line)}
-.grip{display:none;touch-action:none;cursor:row-resize;padding:8px 0 6px;margin:-12px -16px 0}
-.grip::after{content:"";display:block;width:44px;height:5px;border-radius:3px;background:var(--line);margin:0 auto}
-#panel.dragging iframe{pointer-events:none}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--run);outline-offset:2px}
+.dot{width:10px;height:10px;border-radius:50%;flex:none;background:var(--c);display:inline-block}
+.s-proved,.s-reduction{--c:var(--pr)}.s-empirical,.s-tested,.s-computer{--c:var(--em)}.s-open,.s-stalled{--c:var(--op)}.s-disproved{--c:var(--no)}.s-idea{--c:var(--idea)}.s-active{--c:var(--run)}
+.s-open>.dot,.s-stalled>.dot,.dot.s-open,.dot.s-stalled{background:none;border:1.5px dashed var(--op)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:2px 9px;border-radius:999px;background:var(--chip);white-space:nowrap;font-size:13px;color:var(--ink2);text-decoration:none;border:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
+.item{display:flex;flex-direction:column;justify-content:flex-start;align-items:stretch;height:100%;width:100%;text-align:left;background:color-mix(in srgb,var(--c) 8%,var(--card));border:1px solid color-mix(in srgb,var(--c) 50%,var(--line));border-left:5px solid var(--c);border-radius:10px;padding:10px 12px}
+.item.s-open,.item.s-stalled{border-left-style:dashed}
+.item b{display:block;line-height:1.3;margin-bottom:3px}
+.item .t{display:block;font-size:14px;color:var(--ink2);line-height:1.4}
+.item .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;align-items:center}
+.row{display:flex;gap:9px;align-items:flex-start;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:none;padding:9px 2px}
+.row .dot{margin-top:7px}
+.row small{display:block;color:var(--ink2);font-size:13px}
+.hero{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.hero .eyebrow{font-size:13px;color:var(--ink2);margin:0 0 2px}
+.hero h2{margin:0 0 6px;font-size:22px}
+.jump{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0}
+.jump a{padding:5px 11px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0 0}
+details.more{margin-top:10px}details.more>summary{cursor:pointer;color:var(--ink2);font-size:14px;padding:6px 0}details.more[open]>summary{display:none}
+.rr .bar.thin{margin-top:5px;max-width:420px}
+.stat{background:color-mix(in srgb,var(--c) 8%,var(--card));border:1px solid var(--line);border-radius:10px;padding:8px 12px;text-align:left;text-decoration:none;display:block}
+.stat b{font-size:22px;display:block;line-height:1.2}
+.stat span{font-size:13px;color:var(--ink2)}
+input[type=text],select{font:inherit;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.tools>*{flex:1 1 150px}.tools>input{flex:2 1 240px}
+.bars{display:grid;grid-template-columns:auto 1fr auto;gap:5px 10px;align-items:center;font-size:14px;margin:8px 0}
+.bar{display:flex;height:16px;border-radius:5px;overflow:hidden;background:var(--chip)}
+.bar i{display:block;height:100%}
+.bar.thin{height:8px;border-radius:4px;margin-top:8px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--ink2);margin:6px 0}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.tree{margin:0;padding:0;list-style:none}
+.tree .tree{margin-left:8px;padding-left:10px;border-left:2px solid var(--line)}
+.tree li{margin:8px 0}
+.fam{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:start}
+.fam .meta{grid-column:1/-1}
+.word{font:14px ui-monospace,SFMono-Regular,Menlo,monospace}
+.glyph{display:block;flex:none}.glyph .ax{stroke:var(--line);stroke-width:1}.glyph .mdl{fill:var(--ink2)}.glyph .hi{fill:var(--hi)}.glyph .lo{fill:var(--lo)}
+.hi{color:var(--hi)}.lo{color:var(--lo)}
+.tiles{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 4px}
+.tile{border:1px solid color-mix(in srgb,var(--c) 45%,var(--line));background:color-mix(in srgb,var(--c) 10%,var(--card));border-radius:6px;padding:3px 4px}
+.seg-rest{--c:var(--em)}.seg-shape,.seg-nocross,.seg-tight{--c:var(--pr)}
+.stepper{display:inline-flex;align-items:center;gap:8px}
+.stepper button{border:0;background:var(--chip);width:36px;height:36px;border-radius:50%;font-size:18px;line-height:1}
+.stepper b{min-width:26px;text-align:center}
+.verdict{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--card);margin:8px 0}
+.two{display:grid;grid-template-columns:1fr minmax(110px,150px);gap:12px;align-items:center;margin:6px 0}
+.two svg{display:block;width:100%;height:auto}
+.ok{color:var(--pr);font-weight:600}.no{color:var(--em);font-weight:600}.bad{color:var(--no);font-weight:600}
+.gap{border-left:4px solid var(--em);background:color-mix(in srgb,var(--em) 8%,var(--card));border-radius:8px;padding:9px 12px;margin:10px 0}
+.gap b{display:block;font-size:13px;color:var(--ink2);font-weight:600}
+.claim{border-left:4px solid var(--c);background:color-mix(in srgb,var(--c) 8%,var(--card));border-radius:8px;padding:9px 12px;margin:12px 0}
+.claim b{display:block;font-size:13px;color:var(--ink2);font-weight:600}
+.back{display:inline-block;margin:0 0 4px;color:var(--ink2);font-size:14px;text-decoration:none}
+details.grp{margin-top:14px;border-top:1px solid var(--line);padding-top:8px}
+details.grp>summary{cursor:pointer;font-weight:600;font-size:15px;padding:4px 0}
+.day{font-size:13px;color:var(--ink2);font-weight:600;margin:14px 0 0;padding-bottom:4px;border-bottom:1px solid var(--line)}
+/* graph view */
+body.graph{height:100vh;height:100dvh;overflow:hidden;display:flex;flex-direction:column}
+body.graph main{flex:1;max-width:none;width:100%;padding:0;min-height:0}
+body.graph main iframe{width:100%;height:100%;border:0;display:block}
+/* sheet */
+#sheet{position:fixed;inset:0 0 0 auto;width:min(600px,100%);background:var(--card);border-left:1px solid var(--line);z-index:20;display:flex;flex-direction:column;box-shadow:-8px 0 30px rgba(0,0,0,.15)}
+#sheet[hidden]{display:none}
 .phead{padding:12px 16px 8px;border-bottom:1px solid var(--line)}
-.pbtn{float:right;border:0;background:none;font-size:20px;line-height:1;width:40px;height:36px;margin:-6px -8px 0 0;color:var(--ink2)}
-.pbody{flex:1;overflow-y:auto;padding:8px 16px 28px;min-height:0}
-.pbody.frame{padding:0;overflow:hidden}
-.pbody iframe{width:100%;height:100%;border:0;display:block;background:var(--bg)}
-.pbody.lab{display:flex;flex-direction:column}.pbody.lab iframe{flex:1;height:auto}
-.labbar{padding:8px 12px;border-bottom:1px solid var(--line)}.labbar button{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:6px 10px;font:inherit;cursor:pointer}
-.labable{position:relative;cursor:pointer;display:inline-block}.labable .labhint{position:absolute;right:2px;top:2px;font-size:11px;padding:1px 6px;border-radius:6px;background:var(--bg);border:1px solid var(--line);color:var(--ink2)}
-#panel h2{font-size:18px;line-height:1.25;margin:6px 0 4px}
-#panel h3{font-size:13px;color:var(--ink2);margin:18px 0 4px;font-weight:600}
-#panel p{margin:0 0 6px}
-.lead{font-size:16px;line-height:1.5}
+.phead h2{margin:6px 0 4px;font-size:18px}
+.phead .chips{display:flex;flex-wrap:wrap;gap:6px;margin-right:40px}
+.pbtn{float:right;border:0;background:none;font-size:28px;line-height:1;width:44px;height:44px;margin:-10px -12px 0 0;color:var(--ink2)}
+.pbody{flex:1;overflow-y:auto;padding:10px 16px 48px;min-height:0;overscroll-behavior:contain}
+.pbody.frame{padding:0;overflow:hidden;display:flex;flex-direction:column}.pbody iframe{flex:1;width:100%;border:0;display:block;background:var(--bg)}
+.labbar{padding:8px 12px;border-bottom:1px solid var(--line)}.labbar button{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:6px 10px}
+.lead{font-size:16px}
 .tabs{display:flex;gap:4px;background:var(--chip);border-radius:9px;padding:3px;margin-top:8px}
-.tab{flex:1;border:0;background:transparent;border-radius:7px;padding:6px 0;color:var(--ink2);font-size:14px}
+.tab{flex:1;border:0;background:transparent;border-radius:7px;padding:8px 4px;color:var(--ink2);font-size:14px}
 .tab.on{background:var(--card);color:var(--ink);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.12)}
-figure{margin:12px 0}
-.pics{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
-.pics svg{display:block;max-width:100%;height:auto}
-.mid{font-size:13px;color:var(--ink2);white-space:nowrap}
-figcaption{font-size:13px;color:var(--ink2);margin-top:4px}
-details{margin-top:18px;border-top:1px solid var(--line);padding-top:10px}
-summary{cursor:pointer;font-weight:600;font-size:14px;padding:4px 0}
-pre{background:var(--chip);border-radius:8px;padding:9px 10px;font:12.5px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-x:auto;margin:4px 0 6px}
-.link{display:flex;gap:8px;align-items:flex-start;width:100%;border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:8px 10px;margin:6px 0;text-align:left}
-.link .k{font-weight:700;color:var(--ink2);flex:none;min-width:22px}
-.link small{display:block;color:var(--ink2);font-size:13px;margin-top:2px}
-.route{display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px;font-size:12.5px;color:var(--ink2);margin:0 0 10px}
-.route button{border:none;background:none;padding:2px 0;color:var(--ink2);text-decoration:underline dotted;font:inherit;cursor:pointer}
-.route .here{color:var(--ink);font-weight:600}
-.note{font-size:13px;color:var(--ink2)}
-@media (max-width:899px){
-  #key{display:inline-block}
-  #legend{display:none}#legend.open{display:block}
-  #panel,#panel.wide{position:fixed;inset:0;width:auto;height:auto!important;border:0;border-radius:0;z-index:30}
-  .vgrip{display:none}.grip{display:none}
-  .pbtn[data-full]{display:none}
-  h1{font-size:16px}
+figure{margin:12px 0}.pics{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}.pics svg{display:block;max-width:100%;height:auto}
+.mid{font-size:13px;color:var(--ink2)}figcaption{font-size:13px;color:var(--ink2);margin-top:4px}
+.pbody details{margin-top:16px;border-top:1px solid var(--line);padding-top:10px}.pbody summary{cursor:pointer;font-weight:600;font-size:14px}
+pre{background:var(--chip);border-radius:8px;padding:9px 10px;font:12.5px/1.35 ui-monospace,Menlo,monospace;overflow-x:auto}
+.link{display:flex;gap:8px;width:100%;border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:8px 10px;margin:6px 0;text-align:left}
+.link small{display:block;color:var(--ink2);font-size:13px}
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px;font-size:13px;color:var(--ink2);margin:0 0 10px}
+.crumbs button{border:0;background:none;padding:2px 0;color:var(--ink2);text-decoration:underline dotted;text-align:left}
+.labable{position:relative;cursor:pointer;display:inline-block}.labable .labhint{position:absolute;right:2px;top:2px;font-size:11px;padding:1px 6px;border-radius:6px;background:var(--bg);border:1px solid var(--line);color:var(--ink2)}
+.btn{display:inline-block;border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:8px 12px;margin:4px 6px 4px 0;text-decoration:none;font-size:15px}
+table.cnt{border-collapse:collapse;font-size:14px;margin:6px 0}table.cnt td,table.cnt th{padding:3px 12px 3px 0;text-align:right;font-weight:400}table.cnt th{color:var(--ink2)}
+@media (max-width:640px){
+  header{padding:8px 12px 0}main{padding:12px 12px 80px}
+  nav a{padding:8px 9px;font-size:14.5px}
+  h2{font-size:19px}.hero h2{font-size:20px}
+  #sheet{width:100%;border:0}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  body.sheet{overflow:hidden}
 }
 </style>
 </head>
 <body>
-<header>
-  <h1>Claims map: binary x-ray conjecture</h1>
-  <div id="legend">
-  <div class="bar">
-    <span class="chip s-proved"><span class="dot"></span>Proved</span>
-    <span class="chip s-empirical"><span class="dot"></span>Holds in tests</span>
-    <span class="chip s-open"><span class="dot"></span>Open</span>
-    <span class="chip s-disproved"><span class="dot"></span>Ruled out</span>
-    <span class="chip s-idea"><span class="dot"></span>Idea to try</span>
-    <span class="chip"><span class="dot" style="--c:var(--run)"></span>Running now</span>
-    <span class="chip"><span class="vis" style="position:static;width:16px;height:16px"><svg viewBox="0 0 12 12"><path d="M1 1h4v4H1zM7 1h4v4H7zM1 7h4v4H1zM7 7h4v4H7z" fill="currentColor"/></svg></span>Interactive lab</span>
-  </div>
-  <div class="bar" style="margin-top:6px">
-    <span class="ekey"><svg viewBox="0 0 30 12"><line x1="0" y1="6" x2="24" y2="6" class="e"/><path d="M22,2 L30,6 L22,10z" style="fill:var(--ink2)"/></svg>implies</span>
-    <span class="ekey"><span class="junc" style="position:static;width:18px;height:18px;font-size:11px">∧</span>together imply</span>
-    <span class="ekey"><svg viewBox="0 0 30 12"><line x1="0" y1="6" x2="30" y2="6" class="e related"/></svg>related fact (not an implication)</span>
-    <span class="ekey">several arrows into one claim = alternative routes</span>
-    <span class="ekey"><svg viewBox="0 0 30 12"><line x1="0" y1="6" x2="30" y2="6" class="e unchecked"/></svg>not yet checked</span>
-    <span class="ekey"><svg viewBox="0 0 30 12"><line x1="0" y1="6" x2="30" y2="6" class="e idea"/></svg>idea</span>
-  </div>
-  </div>
-  <div class="bar" style="margin-top:6px">
-    <span style="flex:1"></span>
-    <button class="tb" id="key" aria-pressed="false">Key</button>
-    <button class="tb" id="hide" aria-pressed="false">Hide ruled out</button>
-  </div>
-</header>
-<div id="warn" hidden></div>
-<main id="main">
-  <div id="vp"><div id="world"></div></div>
-  <aside id="panel" hidden></aside>
-</main>
+<header><div class="hrow">
+  <h1>Binary x-ray conjecture: progress</h1>
+  <nav id="nav">
+    <a href="#/overview" data-v="overview">Overview</a><a href="#/families" data-v="families">Families</a><a href="#/routes" data-v="routes">Routes</a><a href="#/cards" data-v="cards">Cards</a><a href="#/graph" data-v="graph">Graph</a>
+  </nav>
+</div></header>
+<main id="main"></main>
+<aside id="sheet" hidden aria-label="Details"></aside>
+<script src="graph.js"></script>
+<script src="card.js"></script>
 <script>
 {
 const $ = id => document.getElementById(id);
-const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const NW = 156, NH = 62, GW = 250, GH = 66, JW = 26, COLW = 188, ROWH = 90, TOP = 34;
-const STATUS = { proved: "Proved", empirical: "Holds in tests", open: "Open", disproved: "Ruled out", idea: "Idea to try" };
-const PARTIAL = new Set(["case", "reduces", "related"]);
-const PAL = ["#3b6fd8","#f08a24","#3aa655","#d93f4c","#9457c9","#e0b616","#17a2b8","#ef7fb0","#8d6142","#2f3e57"];
-const VIS_ICON = '<span class="vis" title="Interactive lab"><svg viewBox="0 0 12 12"><path d="M1 1h4v4H1zM7 1h4v4H7zM1 7h4v4H1zM7 7h4v4H7z" fill="currentColor"/></svg></span>';
-let G, byId, J = [], pos = {}, hideDead = false, sel = null, view = { x: 0, y: 0, s: 1 }, worldW = 0, worldH = 0, segs = [];
-const size = { w: null, h: null };
+const G = window.GRAPH, byId = Object.fromEntries(G.nodes.map(n => [n.id, n])), routeById = Object.fromEntries(G.routes.map(r => [r.id, r])), famById = Object.fromEntries(G.families.map(f => [f.id, f]));
 const froms = e => Array.isArray(e.from) ? e.from : [e.from];
-const narrow = () => innerWidth < 900;
+const FST = { proved: "Proved", reduction: "Splits into smaller cases", computer: "Complete computer search", tested: "Holds in tests", open: "No proof yet" };
+const RST = { active: "Active", stalled: "Stalled", open: "Open" };
+const ORDER = { proved: 0, empirical: 1, open: 2, idea: 3, disproved: 4 };
+const chip = (cls, text) => `<span class="chip s-${cls}"><span class="dot"></span>${esc(text)}</span>`;
+const fmt = e => (e < 0 ? "−" : "") + Math.abs(e);
+const count = (list, st) => list.filter(n => n.status === st).length;
+const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const day = t => `${+t.slice(8, 10)} ${MON[+t.slice(5, 7) - 1]}${t.slice(0, 4) === G.updated.slice(0, 4) ? "" : " " + t.slice(0, 4)}`;
+const T0 = G.nodes.reduce((m, n) => n.added < m ? n.added : m, "9");   // the first import: cards that carry it have no meaningful date
+const pct = (a, b) => Math.round(100 * a / b);
 
-fetch("graph.json").then(r => r.json()).then(g => {
-  G = g; byId = Object.fromEntries(g.nodes.map(n => [n.id, n]));
-  J = g.edges.map((e, i) => Array.isArray(e.from) ? { id: "j" + i, edge: i, area: byId[e.from[0]].area } : null).filter(Boolean);
-  check(); layout(); fit();
-  const h = location.hash.slice(1); if (h.startsWith("n-") && byId[h.slice(2)]) select(h.slice(2), true);
-}).catch(() => { $("vp").innerHTML = '<p style="padding:20px">Could not load graph.json.</p>'; });
+// ---------- arrangements: words and families ----------
+// A word lists, for each stone in order of diagonals, how many marks it sits above its evenly spaced place.
+// Keep T1 and the proved kinds the same as in labs/covered.html.
+function words(n) { const out = [], w = [];
+  (function rec(s) { if (w.length === n) { if (s === 0) out.push(w.slice()); return; }
+    const k = w.length, lo = k === 0 ? 0 : Math.max(-s, w[k - 1] - 1);
+    for (let e = lo; e <= n; e++) { const left = n - k - 1; if (s + e + left * e > left * (left + 1) / 2) break; w.push(e); rec(s + e); w.pop(); } })(0);
+  return out; }
+function pieces(w) { const out = []; let s = 0, a = 0; for (let i = 0; i < w.length; i++) { s += w[i]; if (s === 0) { out.push(w.slice(a, i + 1)); a = i + 1; } } return out; }
+const diag = w => w.map((e, k) => 2 * (k + 1) + e - w.length - 1);
+const mx = q => Math.max(...q), mn = q => Math.min(...q);
+const T1 = {   // tests on a piece with no tight cut
+  even: q => mx(q) === 0 && mn(q) === 0,
+  l1: q => mx(q) <= 1 && mn(q) >= -1,
+  upone: q => mx(q) <= 1 || mn(q) >= -1,
+  nocross: q => { const fh = q.findIndex(e => e >= 2); let ll = -1; q.forEach((e, i) => { if (e <= -2) ll = i; }); return fh < 0 || ll < fh; },
+  uni: q => { let neg = false; for (const e of q) { if (e < 0) neg = true; else if (e > 0 && neg) return false; } return (mx(q) <= 2 && mn(q) >= -4) || (mx(q) <= 4 && mn(q) >= -2); },
+  hill: q => { let i = 0; while (i < q.length && q[i] <= 1) i++; let j = i; while (j < q.length && q[j] >= 0 && q[j] <= 2) j++;
+    let k = j; while (k < q.length && q[k] <= 0 && q[k] >= -2) k++; return q.slice(k).every(e => e >= -1); },
+};
+T1.cross = q => !T1.nocross(q);
+// the most central arrangement: every diagonal from -floor(n/2) to floor(n/2), without 0 when n is even
+T1.centre = q => { const n = q.length, h = n >> 1; let d = -h; return diag(q).every(x => { if (d === 0 && n % 2 === 0) d++; return x === d++; }); };
+T1.proved = q => T1.nocross(q) || T1.uni(q) || T1.hill(q) || T1.centre(q);
+const maxSlack = w => { let s = 0, m = 0; for (const e of w) { s += e; m = Math.max(m, s); } return m; };
+const whole = f => w => pieces(w).length === 1 && f(w);
+const FAM_TESTS = { all: w => true, tight: w => pieces(w).length > 1, notight: w => pieces(w).length === 1,
+  even: T1.even, l1: whole(T1.l1), upone: whole(T1.upone), nocross: whole(T1.nocross), cross: whole(T1.cross),
+  uni: whole(q => T1.cross(q) && T1.uni(q)), hill: whole(q => T1.cross(q) && T1.hill(q)),
+  onehigh: whole(q => T1.cross(q) && q.filter(e => e >= 2).length === 1), rest: whole(q => !T1.proved(q)),
+  centre: T1.centre, slack16: w => maxSlack(w) <= 16, sym: w => w.every((e, i) => e === -w[w.length - 1 - i]) };
+function why(q) { if (T1.even(q)) return q.length === 1 ? "a stone at its evenly spaced place" : "evenly spaced"; if (T1.l1(q)) return "every stone within one mark of evenly spaced";
+  if (T1.upone(q)) return "no high stone, or no low stone"; if (T1.nocross(q)) return "every low stone comes before every high stone";
+  if (T1.uni(q)) return "rises then falls with small letters"; if (T1.hill(q)) return "a gentle beginning, one hill, a gentle end"; if (T1.centre(q)) return "the most central arrangement"; return null; }
+const WC = {}; const W = n => WC[n] ||= words(n);
+// seg: which part of the coverage bar an arrangement belongs to
+const SEG = [["rest", "In no proved family (solvable by computer search)", "var(--em)", .85], ["shape", "Rises then falls, one hill, or most central", "var(--pr)", .5], ["nocross", "No high stone before a low stone", "var(--pr)", 1], ["tight", "Splits at tight cuts into proved pieces", "var(--pr)", .72]];
+function seg(w) { const P = pieces(w); if (!P.every(T1.proved)) return "rest"; if (P.length > 1) return "tight"; return T1.nocross(w) ? "nocross" : "shape"; }
+const SC = {}; function stat(n) { if (SC[n]) return SC[n]; const c = { total: 0, tight: 0, nocross: 0, shape: 0, rest: 0 }; for (const w of W(n)) { c.total++; c[seg(w)]++; } return SC[n] = c; }
+function witness(D, budget = 300000) { const n = D.length, rows = Array(n + 1).fill(false), cols = Array(n + 2).fill(false), pts = [];
+  const order = D.map((d, i) => i).sort((x, y) => Math.abs(D[y]) - Math.abs(D[x]));
+  const rec = i => { if (i === n) return true; if (--budget < 0) return false; const d = D[order[i]];
+    for (let r = Math.max(1, 1 - d); r <= Math.min(n, n - d); r++) { const c = r + d; if (rows[r] || cols[c]) continue;
+      rows[r] = cols[c] = true; pts.push([r, c]); if (rec(i + 1)) return true; pts.pop(); rows[r] = cols[c] = false; } return false; };
+  return rec(0) ? pts : null; }
 
-function check() {
-  const bad = G.edges.filter(e => !PARTIAL.has(e.kind) && e.kind !== "idea" && e.status === "proved" && froms(e).every(f => byId[f].status === "proved") && byId[e.to].status !== "proved");
-  if (bad.length) { $("warn").hidden = false; $("warn").textContent = "Inconsistent: " + bad.map(e => froms(e).map(f => byId[f].title).join(" + ") + " ⇒ " + byId[e.to].title).join("; ") + " — the target should then be proved."; }
-}
+// ---------- pictures of an arrangement ----------
+function glyph(w, bw = 6, h = 30) { const n = w.length, H = Math.max(2, ...w.map(Math.abs)), mid = h / 2, u = (h / 2 - 2) / H;
+  let s = `<svg class="glyph" viewBox="0 0 ${n * bw} ${h}" width="${n * bw}" height="${h}" aria-hidden="true"><path d="M0 ${mid}H${n * bw}" class="ax"/>`;
+  w.forEach((e, i) => { const c = e >= 2 ? "hi" : e <= -2 ? "lo" : "mdl";
+    s += e === 0 ? `<circle cx="${i * bw + bw / 2}" cy="${mid}" r="${bw / 5}" class="${c}"/>` : `<rect x="${i * bw + bw * .15}" y="${e > 0 ? mid - e * u : mid}" width="${bw * .7}" height="${Math.abs(e) * u}" class="${c}"/>`; });
+  return s + "</svg>"; }
+function bigBars(w) { const n = w.length, H = Math.max(2, ...w.map(Math.abs)), bw = 100 / n, u = 26 / H, mid = 32; let s = `<svg viewBox="0 0 100 64" role="img" aria-label="Bars: how far each stone is from its evenly spaced place">`, a = 0;
+  pieces(w).forEach(q => { if (!T1.proved(q)) { const fh = q.findIndex(e => e >= 2); let ll = -1; q.forEach((e, i) => { if (e <= -2) ll = i; }); s += `<rect x="${(a + fh) * bw}" y="1" width="${(ll - fh + 1) * bw}" height="62" style="fill:var(--chip)"/>`; }
+    a += q.length; if (a < n) s += `<path d="M${a * bw} 2V62" style="stroke:var(--ink2);stroke-width:.5;stroke-dasharray:2 2"/>`; });
+  s += `<path d="M0 ${mid}H100" style="stroke:var(--line);stroke-width:.6"/>`;
+  w.forEach((e, i) => { const col = e >= 2 ? "var(--hi)" : e <= -2 ? "var(--lo)" : "var(--ink)";
+    s += e === 0 ? `<circle cx="${(i + .5) * bw}" cy="${mid}" r="${Math.min(1.5, bw * .25)}" style="fill:${col}"/>` : `<rect x="${i * bw + bw * .18}" y="${e > 0 ? mid - e * u : mid}" width="${bw * .64}" height="${Math.abs(e) * u}" rx=".8" style="fill:${col}"/>`; });
+  return s + "</svg>"; }
+function solBoard(w) { const D = diag(w), n = D.length; if (n > 16) return ""; const pts = witness(D); if (!pts) return ""; const c = 100 / n, col = new Map();
+  w.forEach((e, i) => { if (e >= 2) col.set(D[i], "var(--hi)"); else if (e <= -2) col.set(D[i], "var(--lo)"); });
+  let s = `<svg viewBox="-1 -1 102 102" role="img" aria-label="One solution on the board">`;
+  for (let i = 0; i <= n; i++) s += `<path d="M0 ${i * c}H100M${i * c} 0V100" style="stroke:var(--line);stroke-width:.6;fill:none"/>`;
+  for (const [r, q] of pts) s += `<circle cx="${(q - .5) * c}" cy="${(r - .5) * c}" r="${c * .3}" style="fill:${col.get(q - r) || "var(--ink)"}"/>`;
+  return s + "</svg>"; }
+const wordHTML = w => w.map(e => e >= 2 ? `<span class="hi">${fmt(e)}</span>` : e <= -2 ? `<span class="lo">${fmt(e)}</span>` : fmt(e)).join(" ");
+const parseWord = t => t.replace(/−/g, "-").trim().split(/[\s,]+/).map(Number);
+function verdict(w) { const P = pieces(w), ok = P.every(T1.proved), D = diag(w), b = solBoard(w), ms = maxSlack(w);
+  return `<div class="verdict"><p class="${ok ? "ok" : "no"}">${ok ? "Proved for this kind of arrangement" : "In none of the proved families"}</p>
+   <div class="two"><div>${bigBars(w)}</div><div>${b}</div></div>
+   <p class="word">${wordHTML(w)}</p><p class="sub">Size ${w.length}. Diagonals ${D.map(d => (d > 0 ? "+" : "") + fmt(d)).join(", ")}. Largest slack ${ms}.${b ? " The board shows one solution, found by search." : ""}</p>
+   ${P.length > 1 ? `<p>It splits into ${P.length} pieces at its tight cuts (dashed lines):</p>` : ""}
+   ${P.map(q => `<p><span class="word">${wordHTML(q)}</span>: ${why(q) ? `<span class="ok">${why(q)}</span>` : `<span class="no">a high stone before a low stone, in none of the proved families</span> (shaded: the open stretch)`}</p>`).join("")}
+   <p class="sub">${ok ? "" : (w.length <= 22 ? "It has a solution: every arrangement up to size 22 was checked by exhaustive search. " : ms <= 16 ? "It has a solution by the complete machine search for slack at most 16. " : "")}Member of: ${G.families.filter(f => f.test && FAM_TESTS[f.test](w)).map(f => `<button class="chip s-${f.status}" data-fam="${f.id}"><span class="dot"></span>${esc(f.name)}</button>`).join(" ")}</p></div>`; }
 
-// ---------- layout: layered tree, root (the conjecture) at the top ----------
-// Rows = longest path to the conjecture, so every arrow points strictly upward.
-// Each claim hangs under one parent in the row directly above. Subtrees are packed by their
-// row-by-row outlines (Reingold–Tilford style), so a childless sibling sits right next to a big one.
-// Arrows into the same claim merge into one bus: up from each source, along a rail, one arrowhead in.
-const visible = id => { const n = byId[id]; return !n || !(hideDead && n.status === "disproved"); };
-const LH = 150, GAP = 22;
-let buses = [];
-function dims(id) { const n = byId[id]; if (!n) return [JW, JW]; return (id === "conj" || id === "notight") ? [GW, GH] : [NW, NH]; }
-function layout() {
-  const nodes = G.nodes.filter(n => visible(n.id));
-  const juncs = J.filter(j => froms(G.edges[j.edge]).every(visible));
-  segs = [];
-  G.edges.forEach((e, i) => {
-    if (!visible(e.to)) return;
-    if (Array.isArray(e.from)) { const j = "j" + i; if (!juncs.find(x => x.id === j)) return; e.from.forEach(f => segs.push([f, j, i, false])); segs.push([j, e.to, i, true]); }
-    else if (visible(e.from)) segs.push([e.from, e.to, i, true]);
-  });
-  const out = {}; segs.forEach(([a, b]) => (out[a] ||= []).push(b));
-  const h = {}; const H = id => h[id] ?? (h[id] = id === "conj" ? 0 : 1 + Math.max(-1, ...(out[id] || []).map(H)));
-  const ids = [...nodes.map(n => n.id), ...juncs.map(j => j.id)].filter(id => { H(id); return h[id] >= 0; });
-  const kids = {}; const AO = Object.fromEntries(G.areas.map((a, k) => [a.id, k]));
-  const area = v => byId[v]?.area ?? J.find(j => j.id === v)?.area ?? "";
-  ids.forEach(v => { if (v === "conj") return; const p = (out[v] || []).find(t => h[t] === h[v] - 1) ?? (out[v] || [])[0]; if (p !== undefined) (kids[p] ||= []).push(v); });
-  Object.values(kids).forEach(list => list.sort((p, q) => (AO[area(p)] ?? -1) - (AO[area(q)] ?? -1)));
-  // contour packing: build(v) -> { x: {node: offset from v}, c: {row: [left, right]} }
-  const build = v => {
-    const w = dims(v)[0], ch = kids[v] || [];
-    if (!ch.length) return { x: { [v]: 0 }, c: { [h[v]]: [-w / 2, w / 2] } };
-    const acc = { x: {}, c: {} }, roots = [];
-    ch.forEach((c, k) => {
-      const t = build(c); let shift = 0;
-      if (k) { shift = -Infinity; for (const r in t.c) if (acc.c[r]) shift = Math.max(shift, acc.c[r][1] - t.c[r][0] + GAP); if (shift === -Infinity) shift = roots[roots.length - 1]; }
-      for (const n in t.x) acc.x[n] = t.x[n] + shift;
-      for (const r in t.c) { const [l, rr] = t.c[r]; acc.c[r] = acc.c[r] ? [Math.min(acc.c[r][0], l + shift), Math.max(acc.c[r][1], rr + shift)] : [l + shift, rr + shift]; }
-      roots.push(shift);
-    });
-    const px = (roots[0] + roots[roots.length - 1]) / 2;
-    const res = { x: { [v]: 0 }, c: { [h[v]]: [-w / 2, w / 2] } };
-    for (const n in acc.x) res.x[n] = acc.x[n] - px;
-    for (const r in acc.c) res.c[r] = [acc.c[r][0] - px, acc.c[r][1] - px];
-    return res;
-  };
-  const T = build("conj");
-  const minL = Math.min(...Object.values(T.c).map(c => c[0])), maxR = Math.max(...Object.values(T.c).map(c => c[1]));
-  pos = {};
-  for (const v in T.x) { const [w, hh] = dims(v), cx = T.x[v] - minL + 20, cy = TOP + h[v] * LH + GH / 2;
-    pos[v] = { x: cx - w / 2, y: cy - hh / 2, w, h: hh, cx, cy, row: h[v] }; }
-  worldW = maxR - minL + 40; worldH = TOP + Math.max(...Object.keys(T.x).map(v => h[v])) * LH + GH + 30;
-  // buses: one per target, rails staggered within a row
-  const byT = {}; segs.forEach(([a, b, i, last]) => { if (pos[a] && pos[b]) (byT[b] ||= []).push({ a, i, last }); });
-  const rowT = {}; Object.keys(byT).forEach(b => (rowT[pos[b].row] ||= []).push(b));
-  const rowBot = {}; Object.values(pos).forEach(p => { if (p.row !== undefined && p.h) rowBot[p.row] = Math.max(rowBot[p.row] || 0, p.y + p.h); });
-  const rail = {}; Object.values(rowT).forEach(list => list.sort((p, q) => pos[p].cx - pos[q].cx).forEach((b, k) => rail[b] = (rowBot[pos[b].row] || pos[b].y + pos[b].h) + 16 + 9 * (k % 4)));
-  buses = Object.entries(byT).map(([b, ins]) => ({ b, ins, y: rail[b] }));
-  let html = nodes.filter(n => pos[n.id]).map(n => { const p = pos[n.id];
-    return `<div class="node s-${n.status}${n.id === "conj" || n.id === "notight" ? " goal" : ""}${n.vis ? " has-vis" : ""}" role="button" tabindex="0" data-id="${n.id}" style="left:${p.x}px;top:${p.y}px">` +
-      `<span class="dot"></span><span class="t">${esc(n.title)}</span>${n.vis ? VIS_ICON : ""}${n.active ? `<span class="run" title="${esc(n.active)}"></span>` : ""}</div>`; }).join("");
-  html += juncs.filter(j => pos[j.id]).map(j => { const p = pos[j.id]; return `<div class="junc" data-j="${j.edge}" style="left:${p.x}px;top:${p.y}px">∧</div>`; }).join("");
-  $("world").innerHTML = `<svg id="edges" width="${worldW}" height="${worldH}">${edgesSVG()}</svg>` + html;
-  $("world").style.width = worldW + "px"; $("world").style.height = worldH + "px";
-  if (sel && !pos[sel]) closePanel(); else if (sel) highlight(sel);
-}
-function edgeClass(e) {
-  if (e.kind === "idea") return "e idea";
-  if (e.kind === "related") return "e related";
-  return `e${e.status !== "proved" ? " unchecked" : ""}`;
-}
-function edgesSVG() {
-  const mk = (id, col) => `<marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L10,5 L0,9z" style="fill:${col}"/></marker>`;
-  let back = "", front = "";
-  buses.forEach(({ b, ins, y }) => {
-    const B = pos[b], x1 = B.cx, y1 = B.y + B.h;
-    let strongest = null;
-    ins.forEach(({ a, i }) => {
-      const A = pos[a], e = G.edges[i], x0 = A.cx, y0 = A.y, cls = edgeClass(e), r = Math.min(8, Math.abs(x1 - x0) / 2), dir = x1 > x0 ? 1 : -1;
-      // if the straight climb would pass behind another node, jog sideways just above the source first
-      const blocks = Object.entries(pos).filter(([v, q]) => v !== a && v !== b && q.y < y0 - 2 && q.y + q.h > y).map(([, q]) => [q.x - 8, q.x + q.w + 8]);
-      const free = x => blocks.every(([l, rr]) => x < l || x > rr);
-      let xs = x0;
-      if (!free(x0)) { const m = []; blocks.slice().sort((p, q) => p[0] - q[0]).forEach(([l, rr]) => { if (m.length && l <= m[m.length - 1][1]) m[m.length - 1][1] = Math.max(m[m.length - 1][1], rr); else m.push([l, rr]); });
-        const cand = m.flat().map((v, k) => k % 2 ? v + 1 : v - 1).sort((p, q) => Math.abs(p - x0) - Math.abs(q - x0)); if (cand.length) xs = cand[0]; }
-      const yj = y0 - 14;
-      const climb = xs === x0 ? `M${x0},${y0}` : `M${x0},${y0} V${yj} H${xs}`;
-      const r2 = Math.min(8, Math.abs(x1 - xs) / 2), dir2 = x1 > xs ? 1 : -1;
-      const d = Math.abs(x1 - xs) < 1 ? `${climb} V${y}` : `${climb} V${y + r2} Q${xs},${y} ${xs + dir2 * r2},${y} H${x1}`;
-      const start = e.kind === "equiv" ? ` marker-start="url(#a)"` : "";
-      const p = `<path class="${cls}" d="${d}"${start} data-e="${i}"/>`;
-      if (cls === "e") front += p; else back += p;
-      const rank = cls === "e" ? 3 : cls.includes("unchecked") && !cls.includes("dead") ? 2 : cls.includes("idea") ? 1 : cls.includes("related") ? -1 : 0;
-      if (!strongest || rank > strongest.rank) strongest = { rank, cls, i };
-    });
-    // one stub into the target, styled by the strongest incoming route
-    if (strongest.rank >= 0) { const head = strongest.cls.includes("idea") ? "ai" : strongest.cls.includes("dead") ? "ad" : "a";
-      front += `<path class="${strongest.cls}" d="M${x1},${y} V${y1}" marker-end="url(#${head})" data-stub="${b}"/>`; }
-    else front += `<path class="${strongest.cls}" d="M${x1},${y} V${y1}" data-stub="${b}"/>`;
-  });
-  return `<defs>${mk("a", "var(--ink2)")}${mk("ad", "var(--no)")}${mk("ai", "var(--idea)")}</defs>` + back + front;
-}
+// ---------- shared pieces ----------
+const claimOf = n => { const t = n.intuition || "", i = t.lastIndexOf(" Claim: "); return i < 0 ? { body: t, claim: "" } : { body: t.slice(0, i), claim: t[i + 8].toUpperCase() + t.slice(i + 9) }; };
+// Card texts are single long strings: break them into paragraphs of a few sentences for reading on a phone.
+function paras(t, cls = "") { const out = []; let cur = "";
+  for (const x of String(t).replace(/([.!?])\s+(?=[A-Z('‘])/g, "$1\n").split("\n")) { if (cur && cur.length + x.length > 420) { out.push(cur); cur = x; } else cur += (cur ? " " : "") + x; }
+  if (cur) out.push(cur); return out.map(x => `<p${cls}>${esc(x)}</p>`).join(""); }
+const clip = (t, k) => t.length <= k ? t : t.slice(0, t.lastIndexOf(" ", k)) + " …";
+const dated = n => n.since > T0 ? day(n.since) : "";
+function nodeRow(n, extra = []) { return `<button class="row" data-card="${n.id}"><span class="dot s-${n.status}"></span><span>${esc(n.title)}${n.vis ? ' <span class="chip">lab</span>' : ""}<small>${[STATUS[n.status], ...extra].filter(Boolean).map(esc).join(" · ")}</small></span></button>`; }
+function cardItem(n, text) { return `<button class="item s-${n.status}" data-card="${n.id}"><b>${esc(n.title)}</b><span class="t">${esc(text)}</span><span class="meta">${chip(n.status, STATUS[n.status])}${n.vis ? '<span class="chip">interactive lab</span>' : ""}${dated(n) ? `<span class="chip">${dated(n)}</span>` : ""}</span></button>`; }
+function statusBar(ns, cls = "bar thin") { const t = ns.length || 1; return `<span class="${cls}" role="img" aria-label="${count(ns, "proved")} proved, ${count(ns, "empirical")} tested, ${count(ns, "open") + count(ns, "idea")} open, ${count(ns, "disproved")} ruled out">` +
+  [["proved", "--pr"], ["empirical", "--em"], ["open", "--op"], ["idea", "--op"], ["disproved", "--no"]].map(([s, c]) => `<i style="width:${100 * count(ns, s) / t}%;background:var(${c})"></i>`).join("") + `</span>`; }
+const tally = ns => [[count(ns, "proved"), "proved"], [count(ns, "empirical"), "tested"], [count(ns, "open") + count(ns, "idea"), "open"], [count(ns, "disproved"), "ruled out"]].filter(x => x[0]).map(x => x.join(" ")).join(" · ");
+const inRoute = id => G.nodes.filter(n => n.route === id);
+const lastChange = ns => ns.reduce((m, n) => n.since > m ? n.since : m, "");
+const FEED = G.nodes.filter(n => n.since > T0).sort((a, b) => b.since.localeCompare(a.since) || a.title.localeCompare(b.title));
+function feedRow(n) { return nodeRow(n, [n.was ? `was: ${STATUS[n.was].toLowerCase()}` : "new card", routeById[n.route].name]); }
+function feedHTML(list) { let out = "", d = ""; for (const n of list) { const k = n.since.slice(0, 10); if (k !== d) { d = k; out += `<p class="day">${day(n.since)}</p>`; } out += feedRow(n); } return out; }
+function routeItem(r) { const ns = inRoute(r.id), lc = lastChange(ns), labs = ns.filter(n => n.vis).length;
+  return `<a class="item s-${r.state}" href="#/routes/${r.id}" style="text-decoration:none"><b>${esc(r.name)}</b><span class="t">${esc(r.summary)}</span>${statusBar(ns)}<span class="meta">${chip(r.state, RST[r.state])}<span class="chip">${tally(ns)}</span>${labs ? `<span class="chip">${labs} lab${labs > 1 ? "s" : ""}</span>` : ""}${lc > T0 ? `<span class="chip">changed ${day(lc)}</span>` : ""}</span></a>`; }
 
-// ---------- pictures: boards and stones ----------
-function boardSVG(b) {
-  const r0 = Math.min(...b.rows), r1 = Math.max(...b.rows), c0 = Math.min(...b.cols), c1 = Math.max(...b.cols);
-  const nr = r1 - r0 + 1, nc = c1 - c0 + 1, S = nc > 7 ? 24 : 28, L = b.par ? 34 : 22, T = 18;
-  const W = L + nc * S + 2, Hh = T + nr * S + 2, rank = d => b.D.indexOf(d);
-  const pts = new Set((b.pts || []).map(p => p.join())), w = Object.fromEntries((b.w || []).map(([r, c, v]) => [r + "," + c, v]));
-  const cand = new Set((b.cand || []).map(p => p.join()));
-  let s = `<svg viewBox="0 0 ${W} ${Hh}" width="${W}" height="${Hh}" role="img" aria-label="${esc(b.cap || "board")}"><defs><pattern id="hx" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" style="stroke:var(--line)" stroke-width="2"/></pattern></defs>`;
-  for (let c = c0; c <= c1; c++) s += `<text x="${L + (c - c0 + .5) * S}" y="12" text-anchor="middle" font-size="10" style="fill:var(--ink2)">${c}</text>`;
-  for (let r = r0; r <= r1; r++) {
-    const y = T + (r - r0) * S, has = b.rows.includes(r);
-    s += `<text x="${b.par ? 12 : L - 6}" y="${y + S / 2 + 4}" text-anchor="${b.par ? "middle" : "end"}" font-size="10" style="fill:var(--ink2)">${r}</text>`;
-    if (b.par && has) s += r % 2 ? `<circle cx="27" cy="${y + S / 2}" r="4" style="fill:var(--ink)"/>` : `<circle cx="27" cy="${y + S / 2}" r="3.5" style="fill:none;stroke:var(--ink)" stroke-width="1.4"/>`;
-    for (let c = c0; c <= c1; c++) {
-      const x = L + (c - c0) * S, key = r + "," + c, d = c - r, live = has && b.cols.includes(c), k = rank(d);
-      s += `<rect x="${x}" y="${y}" width="${S}" height="${S}" style="fill:${!live ? "url(#hx)" : k >= 0 ? PAL[k % 10] : "var(--card)"};fill-opacity:${!live ? 1 : k >= 0 ? .26 : 1};stroke:var(--line)"/>`;
-      if (!live) continue;
-      if (pts.has(key)) s += `<circle cx="${x + S / 2}" cy="${y + S / 2}" r="${S * .3}" style="fill:${k >= 0 ? PAL[k % 10] : "var(--ink)"};stroke:var(--ink)" stroke-width="1.2"/>`;
-      else if (w[key]) s += `<text x="${x + S / 2}" y="${y + S / 2 + 5}" text-anchor="middle" font-size="14" font-weight="700" style="fill:var(--ink)">${esc(w[key])}</text>`;
-      else if (k >= 0) s += `<text x="${x + S / 2}" y="${y + S / 2 + 3.5}" text-anchor="middle" font-size="9.5" style="fill:var(--ink2)">${d > 0 ? "+" + d : d}</text>`;
-      if (cand.has(key)) s += `<circle cx="${x + S / 2}" cy="${y + S / 2}" r="${S * .42}" style="fill:none;stroke:var(--no)" stroke-width="2" stroke-dasharray="3 2"/>`;
-    }
-  }
-  (b.blocks || []).forEach(([ra, rb, ca, cb]) => s += `<rect x="${L + (ca - c0) * S}" y="${T + (ra - r0) * S}" width="${(cb - ca + 1) * S}" height="${(rb - ra + 1) * S}" style="fill:none;stroke:var(--ink)" stroke-width="2.2" stroke-dasharray="5 3" rx="3"/>`);
-  return s + "</svg>";
-}
-function stonesSVG(st) {
-  const U = 22, n = st.hi - st.lo + 1, W = n * U + 10, Hh = 58, hl = new Set(st.hl || []);
-  let s = `<svg viewBox="0 0 ${W} ${Hh}" width="${W}" height="${Hh}" role="img" aria-label="${esc(st.cap || "stones")}">`;
-  s += `<rect x="2" y="30" width="${W - 4}" height="7" rx="2" style="fill:var(--wood)"/>`;
-  for (let m = st.lo; m <= st.hi; m++) { const x = 5 + (m - st.lo + .5) * U;
-    s += `<line x1="${x}" y1="37" x2="${x}" y2="41" style="stroke:var(--ink2)"/><text x="${x}" y="53" text-anchor="middle" font-size="9.5" style="fill:var(--ink2)">${m > 0 ? "+" + m : m}</text>`;
-    if (st.D.includes(m)) s += `<circle cx="${x}" cy="21" r="8" style="fill:var(--ink2)"/>` + (hl.has(m) ? `<circle cx="${x}" cy="21" r="11" style="fill:none;stroke:#e0743a" stroke-width="2"/>` : ""); }
-  return s + "</svg>";
-}
-function labPerm(b) {
-  const n = b.rows.length, pts = b.pts || [];
-  if (n > 10 || pts.length !== n || b.cols.length !== n) return null;
-  for (let k = 0; k < n; k++) if (b.rows[k] !== k + 1 || b.cols[k] !== k + 1) return null;
-  const p = Array(n).fill(0); pts.forEach(([r, c]) => p[r - 1] = c);
-  const d = p.map((c, i) => c - i - 1);
-  if (p.includes(0) || new Set(p).size !== n || new Set(d).size !== n || d.some(x => !b.D.includes(x))) return null;
-  return p.join(",");
-}
-const one = p => { if (p.t === "board") { const L = labPerm(p); return L ? `<div class="labable" data-lab="${L}" title="Open in the lab">${boardSVG(p)}<span class="labhint">lab ↗</span></div>` : boardSVG(p); }
-  return p.t === "stones" ? stonesSVG(p) : ""; };
-function picHTML(p) {
-  if (p.t === "pair") return `<figure><div class="pics"><div>${one(p.a)}${p.a.cap ? `<figcaption>${esc(p.a.cap)}</figcaption>` : ""}</div><span class="mid">${esc(p.mid || "→")}</span><div>${one(p.b)}${p.b.cap ? `<figcaption>${esc(p.b.cap)}</figcaption>` : ""}</div></div>${p.cap ? `<figcaption>${esc(p.cap)}</figcaption>` : ""}</figure>`;
-  return `<figure><div class="pics">${one(p)}</div>${p.cap ? `<figcaption>${esc(p.cap)}</figcaption>` : ""}</figure>`;
-}
+function routeRow(r) { const ns = inRoute(r.id), lc = lastChange(ns);
+  return `<a class="row rr" href="#/routes/${r.id}" style="text-decoration:none"><span class="dot s-${r.state}"></span><span style="flex:1">${esc(r.name)}<small>${[RST[r.state], tally(ns), lc > T0 ? "changed " + day(lc) : ""].filter(Boolean).join(" · ")}</small>${statusBar(ns)}</span></a>`; }
 
-// ---------- pan / zoom ----------
-const vp = $("vp");
-function apply() { $("world").style.transform = `translate(${view.x}px,${view.y}px) scale(${view.s})`; }
-function fit() {
-  const W = vp.clientWidth, Hh = vp.clientHeight, s = Math.min(W / (worldW + 40), Hh / (worldH + 40), 1.2);
-  view = { s, x: (W - worldW * s) / 2, y: Math.max(10, (Hh - worldH * s) / 2) }; apply();
+// ---------- views ----------
+function overview() {
+  const N = G.nodes, H = k => { const l = G.highlights.filter(h => h.kind === k).map(h => cardItem(byId[h.id], h.text)), top = 4;
+    return `<div class="grid">${l.slice(0, top).join("")}</div>` + (l.length > top ? `<details class="more"><summary>Show ${l.length - top} more</summary><div class="grid">${l.slice(top).join("")}</div></details>` : ""); };
+  const a = stat(10), b = stat(13), st = (s, label) => `<a class="stat s-${s}" href="#/cards/${s}"><b>${count(N, s)}</b><span>${label}</span></a>`;
+  const routesByDate = G.routes.filter(r => r.id !== "goal").sort((x, y) => (x.state === "active" ? 0 : 1) - (y.state === "active" ? 0 : 1) || lastChange(inRoute(y.id)).localeCompare(lastChange(inRoute(x.id))));
+  return `<div class="hero"><p class="eyebrow">Status, updated ${day(G.updated)} ${G.updated.slice(0, 4)}</p><h2>The conjecture is open.</h2>
+   <p>Conjecture: a set of n different diagonals is the diagonal x-ray of a permutation exactly when it satisfies Landau's condition. Every arrangement up to size 22 has a solution by exhaustive search. A written proof covers ${pct(a.total - a.rest, a.total)}% of the arrangements of size 10 and ${pct(b.total - b.rest, b.total)}% of those of size 13.</p>
+   <div class="bars" style="margin-bottom:0">${covRow(10)}${covRow(13)}</div>
+   <div class="stats">${st("proved", "proved statements")}${st("empirical", "hold in tests")}${st("open", "open")}${st("disproved", "ruled out")}</div>
+   <div class="jump"><a class="chip" href="#leads">Leads</a><a class="chip" href="#results">Results</a><a class="chip" href="#dead">Dead ends</a><a class="chip" href="#latest">Latest changes</a><a class="chip" href="#byroute">Routes</a></div></div>
+  <h2 id="leads">Most promising leads</h2><p class="sub">Not proved. Each holds in every test so far.</p>${H("lead")}
+  <h2 id="results">Strongest results so far</h2><p class="sub">Proved, or settled by a complete machine search where the text says so.</p>${H("result")}
+  <h2 id="dead">Dead ends worth knowing</h2><p class="sub">Each has a counterexample. ${count(N, "disproved")} statements are ruled out in total: <a href="#/cards/disproved">see all</a>.</p>${H("dead")}
+  <h2 id="latest">Latest changes</h2><p class="sub">New cards and cards whose status changed, newest first.</p>${feedHTML(FEED.slice(0, 8))}<p style="margin-top:10px"><a class="btn" href="#/cards/new">All ${FEED.length} dated changes</a></p>
+  <h2 id="byroute">Proof routes</h2><p class="sub">Each route is one way of attacking the conjecture. Active routes first, then by latest change.</p>${routesByDate.map(routeRow).join("")}
+  <h2>How to read the colours</h2>
+  <p class="sub">${chip("proved", "Proved")} a written proof is in the repository. Several recent proofs were written and refereed by AI sessions and have not been read by a person; each card says who checked it.<br>
+  ${chip("empirical", "Holds in tests")} no counterexample in the range given on the card. This is evidence, not proof.<br>
+  ${chip("open", "Open")} not settled. ${chip("disproved", "Ruled out")} a counterexample to exactly that statement is known.</p>`;
 }
-function zoomAt(f, cx, cy) {
-  const s = Math.max(0.15, Math.min(3, view.s * f)); f = s / view.s;
-  view.x = cx - (cx - view.x) * f; view.y = cy - (cy - view.y) * f; view.s = s; apply();
+function covRow(n) { const c = stat(n); return `<span>size ${n}</span><span class="bar" title="${c.total} arrangements">${SEG.map(([k, , col, op]) => `<i style="width:${100 * c[k] / c.total}%;background:${col};opacity:${op}"></i>`).join("")}</span><span>${pct(c.total - c.rest, c.total)}% of ${c.total.toLocaleString("en")}</span>`; }
+let AN = 8, AF = "";
+function families() {
+  let bars = ""; for (let n = 4; n <= 13; n++) bars += covRow(n);
+  const n = 9, ws = W(n), kids = id => G.families.filter(f => f.group === "tree" && f.parent === id);
+  const famBox = f => { const k = f.test ? ws.filter(FAM_TESTS[f.test]).length : null, ex = f.example ? parseWord(f.example) : null;
+    return `<button class="item fam s-${f.status}" data-fam="${f.id}"><b>${esc(f.name)}</b>${ex ? glyph(ex, Math.min(6, 60 / ex.length), 26) : "<span></span>"}<span class="t" style="grid-column:1/-1">${esc(f.text)}</span><span class="meta">${chip(f.status, FST[f.status])}${k === null ? "" : `<span class="chip">${k} of ${ws.length} at size ${n}</span>`}</span></button>`; };
+  const famItem = f => `<li>${famBox(f)}${kids(f.id).length ? `<ul class="tree">${kids(f.id).map(famItem).join("")}</ul>` : ""}</li>`;
+  const small = []; for (let m = 4; m <= 9 && small.length < 12; m++) for (const w of W(m)) if (pieces(w).length === 1 && !T1.proved(w) && small.length < 12) small.push(w);
+  return `<h2 style="margin-top:6px">How much is proved</h2><p class="sub">Share of all valid arrangements of each size that are of a kind with a written proof. Every arrangement up to size 22 has a solution by exhaustive search; the bars are about proofs.</p>
+  <div class="bars">${bars}</div><div class="legend">${SEG.slice().reverse().map(([, t, col, op]) => `<span><i style="background:${col};opacity:${op}"></i>${t}</span>`).join("")}</div>
+  <h2>Family tree</h2><p class="sub">Each box is a kind of arrangement, and the boxes under it are special cases. The small picture is an example: one bar per stone, showing how far it sits above or below its evenly spaced place (<span class="hi">high</span>: two or more above, <span class="lo">low</span>: two or more below). Tap a box for details.</p>
+  <ul class="tree">${kids(null).map(famItem).join("")}</ul>
+  <h2>Other families</h2><p class="sub">Described in another way; they cut across the tree.</p><div class="grid">${G.families.filter(f => f.group === "other").map(famBox).join("")}</div>
+  <h2 id="atlas">Atlas: every arrangement of one size</h2><p class="sub">One tile per arrangement. Tap a tile to see its solution and what is known about it.</p>
+  <div class="tools"><span class="stepper" style="flex:none"><span class="sub">size</span><button data-an="-1" aria-label="Smaller size">‹</button><b id="an"></b><button data-an="1" aria-label="Larger size">›</button></span>
+   <select id="af" aria-label="Show one family"><option value="">Every arrangement</option>${G.families.filter(f => f.test && f.id !== "all").map(f => `<option value="${f.id}">${esc(f.name)}</option>`).join("")}</select></div>
+  <div id="atlasout"></div>
+  <h2 id="look">Look up an arrangement</h2><p class="sub">Type its letters: for each stone in order of diagonals, how many marks it sits above (+) or below (−) its evenly spaced place. Example: 2 1 0 0 -1 -2</p>
+  <input type="text" id="lookup" placeholder="2 1 0 0 -1 -2" aria-label="Letters of an arrangement" autocomplete="off" autocapitalize="off"><div id="lookout"></div>
+  <h2>Smallest arrangements in no proved family</h2><p class="sub">No tight cut and in none of the proved families. All of them have solutions.</p>
+  ${small.map(w => `<button class="row" data-word="${w.join(" ")}">${glyph(w, 6, 26)}<span class="word">${wordHTML(w)}<small>size ${w.length}</small></span></button>`).join("")}`;
 }
-const ptr = new Map(); let downTarget = null, moved = false, last = null;
-vp.addEventListener("pointerdown", e => { ptr.set(e.pointerId, { x: e.clientX, y: e.clientY }); if (ptr.size === 1) { downTarget = e.target; moved = false; } last = null; });
-addEventListener("pointermove", e => {
-  if (!ptr.has(e.pointerId)) return;
-  const p = ptr.get(e.pointerId), dx = e.clientX - p.x, dy = e.clientY - p.y;
-  if (ptr.size === 1) { if (Math.abs(dx) + Math.abs(dy) > 4) moved = true; if (moved) { view.x += dx; view.y += dy; apply(); } }
-  ptr.set(e.pointerId, { x: e.clientX, y: e.clientY });
-  if (ptr.size === 2) { moved = true;
-    const [a, b] = [...ptr.values()], r = vp.getBoundingClientRect(), d = Math.hypot(a.x - b.x, a.y - b.y), mx = (a.x + b.x) / 2 - r.left, my = (a.y + b.y) / 2 - r.top;
-    if (last) { view.x += mx - last.mx; view.y += my - last.my; zoomAt(d / last.d, mx, my); }
-    last = { d, mx, my }; }
-});
-const up = e => { if (!ptr.has(e.pointerId)) return; ptr.delete(e.pointerId); last = null;
-  if (ptr.size === 0 && !moved && e.type === "pointerup") tap(downTarget); };
-addEventListener("pointerup", up); addEventListener("pointercancel", up);
-vp.addEventListener("wheel", e => { e.preventDefault(); const r = vp.getBoundingClientRect();
-  if (e.ctrlKey || e.metaKey) zoomAt(Math.exp(-e.deltaY * 0.01), e.clientX - r.left, e.clientY - r.top);
-  else { view.x -= e.deltaX; view.y -= e.deltaY; apply(); } }, { passive: false });
-$("key").onclick = () => { const o = $("legend").classList.toggle("open"); $("key").setAttribute("aria-pressed", o); requestAnimationFrame(() => { if (!sel) fit(); }); };
-$("hide").onclick = () => { hideDead = !hideDead; $("hide").setAttribute("aria-pressed", hideDead); layout(); fit(); };
-vp.addEventListener("keydown", e => { if (e.key !== "Enter" && e.key !== " ") return; const n = e.target.closest?.(".node");
-  if (n) { e.preventDefault(); select(n.dataset.id); } });
-function tap(t) {
-  const n = t?.closest?.(".node"); if (n) return select(n.dataset.id);
-  closePanel();
+function atlas() { const out = $("atlasout"); if (!out) return; $("an").textContent = AN; $("af").value = AF;
+  const ws = W(AN), c = stat(AN), by = { rest: [], shape: [], nocross: [], tight: [] }, f = AF && FAM_TESTS[famById[AF].test], bw = AN > 8 ? 4 : 6, h = AN > 8 ? 22 : 28;
+  const shown = f ? ws.filter(f) : ws; shown.forEach(w => by[seg(w)].push(w));
+  out.innerHTML = (f ? `<p class="sub">Showing the ${shown.length} of ${ws.length} arrangements of size ${AN} that are in '${esc(famById[AF].name)}'.</p>` : "") +
+    SEG.map(([k, t]) => by[k].length ? `<details class="grp" ${k === "rest" || shown.length <= 200 ? "open" : ""}><summary>${t}: ${by[k].length} of ${shown.length}</summary><div class="tiles">${by[k].map(w => `<button class="tile seg-${k}" data-word="${w.join(" ")}" title="${w.map(fmt).join(" ")}" aria-label="${w.map(fmt).join(" ")}">${glyph(w, bw, h)}</button>`).join("")}</div></details>` : "").join("") +
+    (shown.length ? "" : `<p>No arrangement of size ${AN} is of this kind.</p>`); }
+function lookup(text) { const out = $("lookout"); if (!out) return; if (!text.trim()) { out.innerHTML = ""; return; }
+  const w = parseWord(text); let s = 0, bad = w.some(e => !Number.isInteger(e)) ? "Use whole numbers separated by spaces." : w.length > 40 ? "At most 40 stones here." : null;
+  if (!bad) { w.forEach((e, i) => { if (i ? e < w[i - 1] - 1 : e < 0) bad ||= "Not an arrangement: each letter can be at most 1 less than the one before, and the first cannot be negative."; s += e; if (s < 0) bad ||= "Not valid: Landau's condition fails at stone " + (i + 1) + "."; }); if (!bad && s) bad = "Not valid yet: the letters must add up to 0 (they add up to " + fmt(s) + ")."; }
+  out.innerHTML = bad ? `<div class="verdict"><span class="bad">${bad}</span></div>` : verdict(w); }
+function routes(arg) {
+  if (routeById[arg]) return routePage(routeById[arg]);
+  const grp = s => G.routes.filter(r => r.state === s).map(routeItem).join("");
+  return `<p class="sub">A route is one way of attacking the conjecture. Every card belongs to exactly one. Tap a route for its key cards, its labs and its dead ends.</p>
+  <h2 style="margin-top:14px">Active</h2><div class="grid">${grp("active")}</div><h2>Stalled</h2><p class="sub">No current idea for the missing step.</p><div class="grid">${grp("stalled")}</div><h2>The goal</h2><div class="grid">${grp("open")}</div>`;
 }
+function routePage(r) { const ns = inRoute(r.id), key = (r.key || "").split(" ").filter(Boolean).map(id => byId[id]), labs = ns.filter(n => n.vis), lc = lastChange(ns);
+  const hl = Object.fromEntries(G.highlights.map(h => [h.id, h.text]));
+  const group = (st, label, open) => { const l = ns.filter(n => st.includes(n.status)).sort((a, b) => b.since.localeCompare(a.since)); return l.length ? `<details class="grp" ${open ? "open" : ""}><summary>${label} (${l.length})</summary>${l.map(n => nodeRow(n, [dated(n)])).join("")}</details>` : ""; };
+  return `<a class="back" href="#/routes">← All routes</a><h2 style="margin-top:0">${esc(r.name)}</h2>
+  <p>${chip(r.state, RST[r.state])} <span class="chip">${tally(ns)}</span>${lc > T0 ? ` <span class="chip">changed ${day(lc)}</span>` : ""}</p>${statusBar(ns, "bar")}
+  <p style="margin-top:10px">${esc(r.summary)}</p>${r.gap ? `<div class="gap"><b>What is missing</b>${esc(r.gap)}</div>` : ""}
+  ${labs.length ? `<h3>Interactive labs</h3>${labs.map(n => `<button class="btn" data-card="${n.id}" data-lab="1">▶ ${esc(n.vis.title)}</button>`).join("")}` : ""}
+  <h3>Start here</h3><div class="grid">${key.map(n => cardItem(n, hl[n.id] || clip(claimOf(n).claim || n.statement, 230))).join("")}</div>
+  <h3 style="margin-top:22px">Every card in this route</h3>
+  ${group(["proved"], "Proved", true)}${group(["empirical"], "Hold in tests", true)}${group(["open", "idea"], "Open", true)}${group(["disproved"], "Ruled out", count(ns, "disproved") <= 6)}
+  <p style="margin-top:16px"><a class="btn" href="#/graph/${key[0] ? key[0].id : ""}">Show in the logic graph</a></p>`;
+}
+let Q = "", ST = "", RT = "", SORT = "route", LAB = false;
+function cards(arg) {   // a shortcut from another tab (#/cards/<status>, #/cards/new) starts a fresh list
+  if (arg === "new" || STATUS[arg]) { Q = RT = ""; LAB = false; ST = arg === "new" ? "" : arg; SORT = arg === "new" ? "new" : "route"; }
+  const opt = (v, t, cur) => `<option value="${v}"${cur === v ? " selected" : ""}>${esc(t)}</option>`;
+  return `<div class="tools"><input type="text" id="q" placeholder="Search titles, explanations and statements" value="${esc(Q)}" aria-label="Search" autocomplete="off">
+   <select id="st" aria-label="Status">${opt("", "Every status", ST)}${Object.entries(STATUS).filter(([k]) => k !== "idea" || count(G.nodes, "idea")).map(([k, v]) => opt(k, v, ST)).join("")}</select>
+   <select id="rt" aria-label="Route">${opt("", "Every route", RT)}${G.routes.map(r => opt(r.id, r.name, RT)).join("")}</select>
+   <select id="sort" aria-label="Order">${opt("route", "Grouped by route", SORT)}${opt("new", "Newest change first", SORT)}${opt("status", "By status", SORT)}${opt("az", "A to Z", SORT)}</select>
+   <label class="chip" style="flex:none;padding:8px 12px"><input type="checkbox" id="lab"${LAB ? " checked" : ""}> with a lab</label></div><div id="list"></div>`;
+}
+function fillCards() { const q = Q.toLowerCase().trim();
+  const ns = G.nodes.filter(n => (!ST || n.status === ST) && (!RT || n.route === RT) && (!LAB || n.vis) && (!q || (n.title + " " + (n.intuition || "") + " " + n.statement + " " + n.id).toLowerCase().includes(q)));
+  let body;
+  if (SORT === "route") body = G.routes.map(r => { const l = ns.filter(n => n.route === r.id).sort((a, b) => ORDER[a.status] - ORDER[b.status]); return l.length ? `<p class="day">${esc(r.name)} (${l.length})</p>` + l.map(n => nodeRow(n, [dated(n)])).join("") : ""; }).join("");
+  else if (SORT === "new") { const dt = ns.filter(n => n.since > T0).sort((a, b) => b.since.localeCompare(a.since)), old = ns.filter(n => n.since <= T0);
+    body = feedHTML(dt) + (old.length ? `<p class="day">In the first import, ${day(T0)} (${old.length})</p>` + old.map(n => nodeRow(n, [routeById[n.route].name])).join("") : ""); }
+  else body = ns.slice().sort(SORT === "status" ? (a, b) => ORDER[a.status] - ORDER[b.status] || a.title.localeCompare(b.title) : (a, b) => a.title.localeCompare(b.title)).map(n => nodeRow(n, [routeById[n.route].name, dated(n)])).join("");
+  $("list").innerHTML = `<p class="sub">${ns.length} of ${G.nodes.length} cards</p>` + (body || `<p>No card matches.</p>`); }
+function graph(arg) { return `<iframe id="gframe" title="Logic graph"></iframe>`; }
+function graphBoot(arg) { const f = $("gframe"), page = window.PAGES && window.PAGES["graph.html"], J = x => JSON.stringify(x).replace(/</g, "\\u003c");
+  if (page) f.srcdoc = page.replace("/*BOOT*/", () => `window.GRAPH=${J(G)};window.LABS=${J(window.LABS || {})};window.BOOT_HASH=${J(byId[arg] ? "n-" + arg : "")};`);
+  else f.src = "graph.html" + (byId[arg] ? "#n-" + arg : ""); }
 
-// ---------- panel: open, resize, content ----------
-const P = $("panel");
-function sizePanel() {
-  P.style.width = !narrow() && size.w ? size.w + "px" : "";
-  P.style.height = "";
-}
-function openPanel(wide, inner) {
-  P.classList.toggle("wide", wide); P.hidden = false; sizePanel();
-  P.innerHTML = `<div class="vgrip" aria-hidden="true"></div>` + inner;
-  const mainR = () => $("main").getBoundingClientRect();
-  const drag = (el, onMove, onTap) => { if (!el) return; el.addEventListener("pointerdown", e => {
-    e.preventDefault(); el.setPointerCapture(e.pointerId); P.classList.add("dragging"); let mv = false; const sx = e.clientX, sy = e.clientY;
-    const move = ev => { if (Math.abs(ev.clientX - sx) + Math.abs(ev.clientY - sy) > 4) mv = true; if (mv) onMove(ev); };
-    const end = () => { P.classList.remove("dragging"); el.removeEventListener("pointermove", move); el.removeEventListener("pointerup", end); el.removeEventListener("pointercancel", end); if (!mv && onTap) onTap(); };
-    el.addEventListener("pointermove", move); el.addEventListener("pointerup", end); el.addEventListener("pointercancel", end); }); };
-  drag(P.querySelector(".vgrip"), ev => { const r = mainR(); size.w = Math.max(300, Math.min(r.width, r.right - ev.clientX)); sizePanel(); });
-  // phones: drag the card's top to resize; tap it to toggle half / full screen (full covers the header)
-  const ph = P.querySelector(".phead");
-  if (ph && false) ph.addEventListener("pointerdown", e => {
-    if (!narrow() || e.target.closest("button")) return;
-    e.preventDefault(); ph.setPointerCapture(e.pointerId); P.classList.add("dragging"); let mv = false; const sy = e.clientY, h0 = P.offsetHeight;
-    const move = ev => { if (Math.abs(ev.clientY - sy) > 5) mv = true; if (mv) { size.h = Math.max(110, Math.min(innerHeight, h0 + (sy - ev.clientY))); sizePanel(); } };
-    const end = () => { P.classList.remove("dragging"); ph.removeEventListener("pointermove", move); ph.removeEventListener("pointerup", end); ph.removeEventListener("pointercancel", end);
-      if (!mv) toggleFull(); else if (size.h > innerHeight * 0.85) { size.h = innerHeight; sizePanel(); } };
-    ph.addEventListener("pointermove", move); ph.addEventListener("pointerup", end); ph.addEventListener("pointercancel", end); });
-}
-function toggleFull() {
-  const r = $("main").getBoundingClientRect();
-  if (narrow()) size.h = P.offsetHeight >= innerHeight - 4 ? Math.round(innerHeight * .5) : innerHeight;
-  else size.w = P.offsetWidth >= r.width - 4 ? Math.round(r.width * .5) : r.width;
-  sizePanel();
-}
-function head(chip, title, extra = "") {
-  return `<div class="phead"><div class="grip" aria-label="Drag to resize; tap to toggle full screen"></div><button class="pbtn" data-close aria-label="Close">×</button><button class="pbtn" data-full aria-label="Full screen" title="Full screen / half">⤢</button>${chip}<h2>${esc(title)}</h2>${extra}</div>`;
-}
-P.addEventListener("click", e => {
-  const g = e.target.closest("[data-go]"); if (g) return select(g.dataset.go, true);
-  const lb = e.target.closest("[data-lab]"); if (lb) { const body = $("pbody"); if (!body) return; const back = body.innerHTML, cls = body.className, wasWide = P.classList.contains("wide");
-    P.classList.add("wide"); body.className = "pbody frame lab";
-    body.innerHTML = `<div class="labbar"><button data-back>← Back to card</button></div><iframe src="labs/views.html#p=${lb.dataset.lab}" title="Four equivalent views"></iframe>`;
-    body.querySelector("[data-back]").onclick = ev => { ev.stopPropagation(); body.className = cls; body.innerHTML = back; P.classList.toggle("wide", wasWide); };
-    return; }
-  if (e.target.closest("[data-close]")) return closePanel();
-  if (e.target.closest("[data-full]")) return toggleFull();
-});
-function highlight(id) {
-  const nb = new Set([id]), touch = new Set();
-  G.edges.forEach((e, i) => { const f = froms(e); if (f.includes(id) || e.to === id) { touch.add(i); f.forEach(x => nb.add(x)); nb.add(e.to); } });
-  document.querySelectorAll(".node").forEach(el => { el.classList.toggle("dim", !nb.has(el.dataset.id)); el.classList.toggle("sel", el.dataset.id === id); });
-  document.querySelectorAll(".junc").forEach(el => el.classList.toggle("dim", !touch.has(+el.dataset.j)));
-  document.querySelectorAll("path.e[data-e]").forEach(p => p.classList.toggle("dim", !touch.has(+p.dataset.e)));
-  document.querySelectorAll("path.e[data-stub]").forEach(p => { const b = p.dataset.stub; p.classList.toggle("dim", !(nb.has(b) || (b[0] === "j" && !byId[b] && touch.has(+b.slice(1))))); });
-}
-function clearHL() { document.querySelectorAll(".dim,.sel").forEach(el => el.classList.remove("dim", "sel")); }
-function closePanel() { sel = null; P.hidden = true; P.innerHTML = ""; clearHL(); history.replaceState(null, "", location.pathname + location.search); }
-function centerOn(id) { const p = pos[id]; if (!p) return; const W = vp.clientWidth, Hh = vp.clientHeight;
-  view.x = W / 2 - (p.x + p.w / 2) * view.s; view.y = (narrow() ? Hh * 0.2 : Hh / 2) - (p.y + p.h / 2) * view.s; apply(); }
-function chipFor(id) { const n = byId[id]; return `<span class="chip s-${n.status}" style="padding:1px 6px;margin-right:4px"><span class="dot"></span></span>${esc(n.title)}`; }
-function edgeItem(e, id, dir) {
-  const f = froms(e), part = PARTIAL.has(e.kind), joint = f.length > 1, idea = e.kind === "idea";
-  let k, label;
-  if (dir === "out") { k = idea ? "?" : part ? "∘" : e.kind === "equiv" ? "⇔" : "⇒"; label = (joint ? "with " + f.filter(x => x !== id).map(x => esc(byId[x].title)).join(", ") + " → " : "") + chipFor(e.to); }
-  else { k = idea ? "?" : part ? "∘" : e.kind === "equiv" ? "⇔" : joint ? "∧" : "⇐"; label = f.map(chipFor).join(joint ? " + " : ""); }
-  const go = dir === "out" ? e.to : f[0];
-  return `<button class="link" data-go="${go}"><span class="k">${k}</span><span>${label}<small>${part ? (e.kind === "related" ? "Related fact, not an implication. " : "Settles part of it. ") : ""}${esc(e.why)}${e.status !== "proved" && !idea ? " (not yet checked)" : ""}</small></span></button>`;
-}
-function routeTo(id) {
-  const prev = { [id]: null }, q = [id];
-  while (q.length) { const v = q.shift(); if (v === "conj") break;
-    for (const e of G.edges) if (froms(e).includes(v) && !(e.to in prev)) { prev[e.to] = v; q.push(e.to); } }
-  if (!("conj" in prev)) return [];
-  const path = []; for (let v = "conj"; v; v = prev[v]) path.push(v); return path;
-}
-function routeHTML(id) {
-  const p = routeTo(id); if (p.length < 2) return "";
-  return `<div class="route">` + p.map((v, i) => (i ? "<span>›</span>" : "") + (v === id ? `<span class="here">This card</span>` : `<button data-go="${v}">${esc(byId[v].title)}</button>`)).join("") + `</div>`;
-}
-function explain(n) {
-  const outs = G.edges.filter(e => froms(e).includes(n.id)), ins = G.edges.filter(e => e.to === n.id);
-  return (n.intuition ? `<p class="lead">${esc(n.intuition)}</p>` : `<p class="lead">${esc(n.statement)}</p>`) +
-    (n.pics || []).map(picHTML).join("") +
-    (n.proof ? `<h3>Proof sketch</h3><p>${esc(n.proof)}</p>` : "") +
-    (n.evidence ? `<h3>Evidence</h3><p>${esc(n.evidence)}</p>` : "") +
-    (outs.length ? `<h3>${n.status === "disproved" ? "Would have proved" : "Proves / would prove"}</h3>${outs.map(e => edgeItem(e, n.id, "out")).join("")}` : "") +
-    (ins.length ? `<h3>Follows from / supported by</h3>${ins.map(e => edgeItem(e, n.id, "in")).join("")}` : "") +
-    (n.intuition || n.example || n.refs ? `<details><summary>Formal statement and details</summary>` +
-      (n.intuition ? `<h3>Statement</h3><p>${esc(n.statement)}</p>` : "") +
-      (n.example ? `<h3>Example</h3><pre>${esc(n.example)}</pre>` : "") +
-      (n.refs ? `<h3>Source</h3><p class="note">${esc(n.refs)}</p>` : "") + `</details>` : "");
-}
-function select(id, recenter) {
-  if (!pos[id]) { hideDead = false; $("hide").setAttribute("aria-pressed", false); layout(); }
-  sel = id; const n = byId[id];
-  const chip = `<span class="chip s-${n.status}"><span class="dot"></span>${STATUS[n.status]}</span>` + (n.active ? ` <span class="chip"><span class="dot" style="--c:var(--run)"></span>${esc(n.active)}</span>` : "");
-  const tabs = n.vis ? `<div class="tabs"><button class="tab on" data-tab="v">${esc(n.vis.title || "Lab")}</button><button class="tab" data-tab="d">Explanation</button></div>` : "";
-  openPanel(!!n.vis, head(chip, n.title, tabs) + `<div class="pbody" id="pbody"></div>`);
-  const body = $("pbody");
-  const showTab = t => { P.querySelectorAll(".tab").forEach(b => b.classList.toggle("on", b.dataset.tab === t));
-    if (t === "v") { body.className = "pbody frame"; body.innerHTML = `<iframe src="${esc(n.vis.file)}" title="${esc(n.vis.title || n.title)}"></iframe>`; }
+// ---------- sheet: a card or a family ----------
+const S = $("sheet");
+const chipFor = id => `<span class="dot s-${byId[id].status}" style="margin-right:6px"></span>${esc(byId[id].title)}`;
+function edgeItem(e, id, out) { const f = froms(e), rel = e.kind === "related";
+  const label = out ? (f.length > 1 ? "with " + f.filter(x => x !== id).map(x => esc(byId[x].title)).join(", ") + " → " : "") + chipFor(e.to) : f.map(chipFor).join(" + ");
+  return `<button class="link" data-card="${out ? e.to : f.find(x => x !== id) || f[0]}"><span>${label}<small>${rel ? "Related fact, not an implication. " : ""}${esc(e.why)}${e.status !== "proved" && !rel ? " (not yet checked)" : ""}</small></span></button>`; }
+function pathTo(id) { const prev = { [id]: null }, q = [id];   // shortest chain of implications to the conjecture
+  while (q.length) { const v = q.shift(); if (v === "conj") break; for (const e of G.edges) if (e.kind !== "related" && froms(e).includes(v) && !(e.to in prev)) { prev[e.to] = [v, froms(e).length > 1]; q.push(e.to); } }
+  if (!("conj" in prev) || id === "conj") return ""; const path = []; let joint = false; for (let v = "conj"; v !== id; v = prev[v][0]) { path.unshift(v); joint ||= prev[v][1]; }
+  const st = byId[id].status, lead = st === "proved" ? "On a route to" : (st === "disproved" ? "Would have given" : "Would give") + (joint ? ", with other cards," : "");
+  return `<div class="crumbs"><span>${lead}</span>` + path.map((v, i) => (i ? "<span>→</span>" : "") + `<button data-card="${v}">${esc(byId[v].title)}</button>`).join("") + `</div>`; }
+function explain(n) { const outs = G.edges.filter(e => froms(e).includes(n.id)), ins = G.edges.filter(e => e.to === n.id), { body, claim } = claimOf(n);
+  return pathTo(n.id) + paras(body || n.statement, ' class="lead"') + (n.pics || []).map(picHTML).join("") +
+    (claim ? `<div class="claim s-${n.status}"><b>The claim (${STATUS[n.status].toLowerCase()})</b>${esc(claim)}</div>` : "") +
+    (n.proof ? `<h3>Proof sketch</h3>${paras(n.proof)}` : "") + (n.evidence ? `<h3>${n.status === "proved" ? "Proof and checks" : n.status === "disproved" ? "Counterexample" : "Evidence"}</h3>${paras(n.evidence)}` : "") +
+    (outs.length ? `<h3>${n.status === "disproved" ? "Would have proved" : n.status === "proved" ? "Proves" : "Would prove"}</h3>${outs.map(e => edgeItem(e, n.id, true)).join("")}` : "") +
+    (ins.length ? `<h3>Follows from / supported by</h3>${ins.map(e => edgeItem(e, n.id, false)).join("")}` : "") +
+    `<details><summary>Formal statement and details</summary>` + (n.intuition ? `<h3>Statement</h3><p>${esc(n.statement)}</p>` : "") +
+    (n.example ? `<h3>Example</h3><pre>${esc(n.example)}</pre>` : "") + (n.refs ? `<h3>Source</h3><p class="sub">${esc(n.refs)}</p>` : "") +
+    `<p class="sub">Card id: ${esc(n.id)}${n.added > T0 ? `. Added ${day(n.added)}` : ""}${n.was ? `. Was '${STATUS[n.was].toLowerCase()}' until ${day(n.since)}` : ""}.</p></details>` +
+    `<p style="margin-top:14px"><a class="btn" href="#/graph/${n.id}">Show in the logic graph</a></p>`; }
+function openCard(id, tab) { const n = byId[id], r = routeById[n.route];
+  S.innerHTML = `<div class="phead"><button class="pbtn" data-close aria-label="Close">×</button><div class="chips">${chip(n.status, STATUS[n.status])}<a class="chip" href="#/routes/${r.id}">${esc(r.name)}</a>${dated(n) ? `<span class="chip">${n.was ? "changed" : "added"} ${dated(n)}</span>` : ""}</div><h2>${esc(n.title)}</h2>` +
+    (n.vis ? `<div class="tabs"><button class="tab" data-tab="d">Explanation</button><button class="tab" data-tab="v">${esc(n.vis.title || "Lab")}</button></div>` : "") + `</div><div class="pbody" id="pbody"></div>`;
+  const body = $("pbody"), show = t => { S.querySelectorAll(".tab").forEach(b => b.classList.toggle("on", b.dataset.tab === t));
+    if (t === "v") { body.className = "pbody frame"; body.innerHTML = labFrame(n.vis.file, n.vis.title || n.title); }
     else { body.className = "pbody"; body.innerHTML = explain(n); body.scrollTop = 0; } };
-  P.querySelectorAll(".tab").forEach(b => b.onclick = () => showTab(b.dataset.tab));
-  showTab(n.vis ? "v" : "d");
-  highlight(id); history.replaceState(null, "", "#n-" + id);
-  if (recenter || narrow()) requestAnimationFrame(() => centerOn(id));
-}
-addEventListener("resize", () => { sizePanel(); if (!sel) fit(); });
+  S.querySelectorAll(".tab").forEach(b => b.onclick = () => show(b.dataset.tab)); show(tab && n.vis ? "v" : "d"); }
+function openFam(f) { const ex = f.example ? parseWord(f.example) : null, t = f.test && FAM_TESTS[f.test], card = f.card && byId[f.card];
+  let rows = ""; if (t) for (let n = 5; n <= 11; n++) { const ws = W(n), k = ws.filter(t).length; rows += `<tr><th>size ${n}</th><td>${k.toLocaleString("en")}</td><td>of ${ws.length.toLocaleString("en")}</td><td>${pct(k, ws.length)}%</td></tr>`; }
+  const kids = G.families.filter(x => x.parent === f.id), par = f.parent && famById[f.parent];
+  S.innerHTML = `<div class="phead"><button class="pbtn" data-close aria-label="Close">×</button><div class="chips">${chip(f.status, FST[f.status])}<span class="chip">Family</span></div><h2>${esc(f.name)}</h2></div><div class="pbody">
+   <p class="lead">${esc(f.text)}</p>${f.check ? `<div class="gap"><b>Who checked the proof</b>${esc(f.check)}</div>` : ""}
+   ${ex ? `<h3>Example</h3><div class="two"><div>${bigBars(ex)}</div><div>${solBoard(ex)}</div></div><p class="word">${wordHTML(ex)}</p><p class="sub">Left: one bar per stone, its distance above or below its evenly spaced place. Right: one solution on the board.</p>` : ""}
+   ${card ? `<h3>${f.status === "proved" || f.status === "reduction" ? "The proof" : f.status === "open" ? "What is known" : "The evidence"}</h3>${nodeRow(card, [routeById[card.route].name])}` : ""}
+   ${par ? `<h3>Special case of</h3><button class="link" data-fam="${par.id}"><span><span class="dot s-${par.status}" style="margin-right:6px"></span>${esc(par.name)}<small>${FST[par.status]}</small></span></button>` : ""}
+   ${kids.length ? `<h3>Special cases</h3>${kids.map(k => `<button class="link" data-fam="${k.id}"><span><span class="dot s-${k.status}" style="margin-right:6px"></span>${esc(k.name)}<small>${FST[k.status]}</small></span></button>`).join("")}` : ""}
+   ${rows ? `<h3>How many arrangements are of this kind</h3><table class="cnt">${rows}</table><p><button class="btn" data-atlas="${f.id}">Show them in the atlas</button></p>` : ""}</div>`; }
+
+// ---------- routing: #/view[/arg][~sheet]; sheet is a card id or f.<family id> ----------
+const VIEWS = { overview, families, routes, cards, graph }, SCROLL = {};
+let cur = null, fwd = false, curSheet = "";
+function parse() { let h = location.hash.slice(1); try { h = decodeURIComponent(h); } catch (e) {}
+  if (h.startsWith("n-") && byId[h.slice(2)]) return { v: "graph", arg: h.slice(2), sheet: "" };   // links saved when this file was the graph page
+  const [path, sheet = ""] = h.split("~"), [, v = "overview", arg = ""] = path.split("/"); return { v: VIEWS[v] ? v : "overview", arg, sheet }; }
+function route() { const { v, arg, sheet } = parse(), key = v + "/" + arg, back = !fwd; fwd = false;
+  if (key !== cur) { if (cur) SCROLL[cur] = scrollY; cur = key; document.body.classList.toggle("graph", v === "graph"); $("main").innerHTML = VIEWS[v](arg);
+    document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("on", a.dataset.v === v));
+    if (v === "cards") fillCards(); if (v === "families") atlas(); if (v === "graph") graphBoot(arg);
+    scrollTo(0, back ? SCROLL[key] || 0 : 0); }
+  const ok = sheet.startsWith("f.") ? famById[sheet.slice(2)] : byId[sheet];
+  if (ok && sheet !== curSheet) { S.hidden = false; sheet.startsWith("f.") ? openFam(ok) : openCard(sheet, labNext); S.querySelector(".pbody").focus?.(); }
+  if (!ok) { S.hidden = true; S.innerHTML = ""; }
+  curSheet = ok ? sheet : ""; labNext = false; document.body.classList.toggle("sheet", !!ok); }
+let labNext = false;
+const nav = h => { fwd = true; if (location.hash === h) route(); else location.hash = h; };
+const base = () => "#/" + cur.replace(/\/$/, "");
+const sheet = id => nav(base() + (id ? "~" + id : ""));
+document.addEventListener("click", e => { const t = e.target;
+  const a = t.closest("a[href^='#']"); if (a) { const h = a.getAttribute("href"); if (h.startsWith("#/")) fwd = true; else { e.preventDefault(); document.getElementById(h.slice(1))?.scrollIntoView({ behavior: "smooth" }); } return; }
+  const lb = t.closest(".labable[data-lab]"); if (lb && S.contains(lb)) { const body = $("pbody"), keep = body.innerHTML; body.className = "pbody frame";
+    body.innerHTML = `<div class="labbar"><button data-labback>← Back to the card</button></div>` + labFrame("labs/views.html", "Four equivalent views", "p=" + lb.dataset.lab);
+    body.querySelector("[data-labback]").onclick = () => { body.className = "pbody"; body.innerHTML = keep; }; return; }
+  const c = t.closest("[data-card]"); if (c) { labNext = !!c.dataset.lab; return sheet(c.dataset.card); }
+  const f = t.closest("[data-fam]"); if (f) return sheet("f." + f.dataset.fam);
+  if (t.closest("[data-close]")) return sheet("");
+  const at = t.closest("[data-atlas]"); if (at) { AF = at.dataset.atlas; nav("#/families"); atlas(); return setTimeout(() => $("atlas").scrollIntoView(), 0); }
+  const an = t.closest("[data-an]"); if (an) { AN = Math.max(4, Math.min(10, AN + +an.dataset.an)); return atlas(); }
+  const w = t.closest("[data-word]"); if (w) { $("lookup").value = w.dataset.word; lookup(w.dataset.word); $("look").scrollIntoView({ behavior: "smooth" }); } });
+document.addEventListener("input", e => { const t = e.target; if (t.id === "lookup") lookup(t.value);
+  if (t.id === "q") { Q = t.value; fillCards(); } if (t.id === "st") { ST = t.value; fillCards(); } if (t.id === "rt") { RT = t.value; fillCards(); }
+  if (t.id === "sort") { SORT = t.value; fillCards(); } if (t.id === "lab") { LAB = t.checked; fillCards(); } if (t.id === "af") { AF = t.value; atlas(); } });
+addEventListener("keydown", e => { if (e.key === "Escape" && !S.hidden) sheet(""); });
+addEventListener("message", e => { if (e.data && "graphCard" in e.data && cur && cur.startsWith("graph/")) { const id = byId[e.data.graphCard] ? e.data.graphCard : ""; cur = "graph/" + id; try { history.replaceState(null, "", "#/graph" + (id ? "/" + id : "")); } catch (err) {} } });
+window.DASH = { W, T1, FAM_TESTS, stat, parseWord, pieces, openCard, openFam, VIEWS };   // for checks from the console
+addEventListener("hashchange", route); route();
 }
 </script>
 </body>
