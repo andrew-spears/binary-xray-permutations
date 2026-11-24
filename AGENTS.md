@@ -8,7 +8,7 @@
 2. Before starting a line of work, find its node in `map/graph.json`. Check its status, its evidence, and its red children: specific attempts that already failed, with counterexamples. Don't redo a red child without a new idea.
 3. Report each task as **HIT** or **NOTHING**, using the format in `docs/delegation-queue.md`. A HIT states a precise claim, its exact range, and a recheck command that runs in under 10 minutes.
 4. If you change the graph:
-   - edit `map/build.py` and run `python3 map/build.py`;
+   - edit `map/build.py`, add each new card's id to one route in `map/dashboard_data.py`, and run `python3 map/build.py`;
    - make every new node a single precise statement, with exposition first and the claim at the end of `intuition`;
    - when an attempted rule fails, add it as a red child; leave the parent open;
    - follow the invariant / start / step template for inductions;
