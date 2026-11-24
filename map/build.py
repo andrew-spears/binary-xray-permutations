@@ -970,9 +970,9 @@ e("zeromix", "runxray", "related", "Uses the pairing criterion for the letter 0.
 e("zeromix", "paritycount", "related", "K is the odd-even count of that card; zeros conserve it.", "unchecked")
 e("ones", "zeromix", "related", "After 1…1 the zeros fill the classes |D| ≤ b at once.", "unchecked")
 e("paritylr", "interface", "related", "Parities of the path counts of the machine.", "unchecked")
-e("oddsplit", "paritylr", "related", "Uses the parity theorem on two complementary sets of stones.", "unchecked")
+e("paritylr", "oddsplit", "related", "Odd splits use the parity theorem on two complementary sets of stones.", "unchecked")
 e("rrsplit", "oddsplit", "implies", "An RR-split is an odd split whose two parities are both exactly 1 (Lemma R).")
-e("uni2", "rrsplit", "related", "The case of a single stone, which is proved.", "unchecked")
+e("rrsplit", "uni2", "related", "Its single-stone case is the proved card.", "unchecked")
 e("paritylr", "uni2", "implies", "The parity theorem and the dominance bounds on Littlewood–Richardson numbers.")
 e("thirds", "oddsplit", "implies", "If the count for (R, S) is odd, then for some set of columns the stones of S have an odd number of placements in R and those columns, and the other stones an odd number in the rest.")
 e("rowhalf", "thirds", "related", "Other fixed row sets; they fail.", "unchecked")
@@ -1086,6 +1086,20 @@ ids = [n["id"] for n in nodes]
 assert len(ids) == len(set(ids))
 for x in E: assert all(f in ids for f in (x["from"] if isinstance(x["from"], list) else [x["from"]])) and x["to"] in ids, x
 for n in nodes: assert n["status"] in ("proved", "empirical", "open", "disproved", "idea"), n["id"]
+# The renderer lays cards out by arrow depth, so arrows (of any kind) must not form a loop.
+_out = {}
+for _e in E:
+    for _f in (_e["from"] if isinstance(_e["from"], list) else [_e["from"]]):
+        _out.setdefault(_f, []).append(_e["to"])
+_state = {}
+def _visit(u, path):
+    _state[u] = 1
+    for v in _out.get(u, []):
+        assert _state.get(v) != 1, "arrow loop: " + " -> ".join(path[path.index(v):] + [v]) if v in path else "arrow loop"
+        if not _state.get(v): _visit(v, path + [v])
+    _state[u] = 2
+for _u in list(_out):
+    if not _state.get(_u): _visit(_u, [_u])
 json.dump({"updated": "2026-11-23", "areas": areas, "nodes": nodes, "edges": E},
           open(os.path.join(HERE, "graph.json"), "w"), ensure_ascii=False, indent=1)
 print(len(nodes), "nodes", len(E), "edges")
