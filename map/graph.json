@@ -2487,11 +2487,11 @@
   {
    "id": "halltree",
    "area": "moves",
-   "title": "Along one fixed path of moves to each arrangement, the mirror repairs never run out of solutions",
+   "title": "Along the path that always opens the first run, the mirror repairs never run out of solutions",
    "status": "empirical",
-   "intuition": "Every arrangement can be reached from the evenly spaced one by minimal moves, usually along many paths. Pick one path for each arrangement by a fixed rule: undo a move by opening one chosen run of neighbouring diagonals, for example the first one. Carry along that path all solutions the mirror repair produces, starting from the single solution of the evenly spaced arrangement. Unlike the card about the middle anti-diagonal, this needs no solution to be found by search: it only follows repairs. Claim: for a fixed rule, the set carried along is never empty.",
-   "statement": "Fix a rule choosing, for each valid D′ other than the evenly spaced one, one valid D from which D′ arises by a minimal move. Let A(evenly spaced) be its solution and A(D′) the set of solutions got from A(D) by the four chain reflections (s1 or s2, started at X or Y). Then A(D′) ≠ ∅ for every valid D′.",
-   "evidence": "Eight rules (first run, last run, longest, shortest, nearest the middle, furthest from the middle, greatest slack, least slack): no empty set for any valid D with n ≤ 12 (14,805 arrangements at n = 12). The sets stay small (at most 2,924 solutions at n = 12). With mirror lines next to the middle only, every rule fails by n = 7 or 8. Keeping a single solution (the first repair that works, in a fixed order) fails by n = 10 for all 192 combinations of rule and order.",
+   "intuition": "Every arrangement can be reached from the evenly spaced one by minimal moves, usually along many paths. Pick one path for each arrangement by a rule: undo a move by opening a run of neighbouring diagonals, here always the first run that can be opened. Carry along that path all solutions the mirror repair produces, starting from the single solution of the evenly spaced arrangement. Unlike the card about the middle anti-diagonal, this needs no solution to be found by search: it only follows repairs. Not every rule can work, because every path of moves is the path of some rule and one path at n = 7 fails (red card below). Claim: for the rule 'first run', the set carried along is never empty.",
+   "statement": "For a valid D′ other than the evenly spaced one, let its parent be the D got by opening the lowest maximal run of two or more consecutive diagonals a+1, …, b−1 of D′ (its end stones go to a and b) for which D is valid. Let A(evenly spaced) be its solution and A(D′) the set of solutions got from A(parent of D′) by the four chain reflections (s1 or s2, started at X or Y). Then A(D′) ≠ ∅ for every valid D′.",
+   "evidence": "The rule 'first run' and seven others (last run, longest, shortest, nearest the middle, furthest from the middle, greatest slack, least slack): no empty set for any valid D with n ≤ 12 (14,805 arrangements at n = 12). The sets stay small (at most 2,924 solutions at n = 12). With mirror lines next to the middle only, every rule fails by n = 7 or 8. Keeping a single solution (the first repair that works, in a fixed order) fails by n = 10 for all 192 combinations of rule and order.",
    "refs": "agents/hallwalk/REPORT.md (Claim 5); recheck: python3 agents/hallwalk/tree.py 10 (5 seconds)."
   },
   {
@@ -5100,7 +5100,7 @@
    "to": "halltree",
    "kind": "implies",
    "status": "proved",
-   "why": "A fixed path is one of the paths."
+   "why": "The path that opens the first run is one of the paths."
   },
   {
    "from": "repair",
