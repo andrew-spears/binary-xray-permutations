@@ -43,7 +43,7 @@
   <div class="row"><span class="lbl">size n</span><button class="arrow" id="np">‹</button><span class="val" id="nv"></span><button class="arrow" id="nn">›</button>
     <span class="lbl" style="margin-left:10px">arrangement</span><button class="arrow" id="wp">‹</button><span class="val" id="wv" style="min-width:74px"></span><button class="arrow" id="wn">›</button><button class="dice" id="dice" title="random">⚄</button></div>
   <div id="chain"></div>
-  <div class="step"><div><h3>The order that comes out</h3><svg id="hasse" viewBox="0 0 480 240"></svg><div class="dset" id="verdict"></div></div></div>
+  <div class="step"><div><h3>The order that comes out</h3><svg id="hasse" viewBox="0 0 480 300"></svg><div class="dset" id="verdict"></div></div></div>
   <p class="legend"><b>Reading the picture.</b> Each dot is a stone, labelled with its diagonal and drawn from left to right by diagonal. A line goes up from a stone to a stone directly above it in the order. This always works when Landau's condition holds. The conjecture asks for more: an order that comes from a board, with 'above' meaning higher and further right. The last line says whether this particular order does.</p>
 </main>
 <script>
@@ -63,14 +63,15 @@ function twoDim(m,below){const adj=[];for(let i=0;i<m;i++)adj.push(new Set());
   for(let b=0;b<m;b++){const N=[...adj[b]];for(let i=0;i<N.length;i++)for(let j=i+1;j<N.length;j++){const a=N[i],c=N[j];
     if(!adj[a].has(c)){par.set(find(key(a,b)),find(key(c,b)));par.set(find(key(b,a)),find(key(b,c)));}}}
   for(let a=0;a<m;a++)for(const b of adj[a])if(find(key(a,b))===find(key(b,a)))return false;return true;}
-// A cover line must not run through a third dot: bend it until it clears every other dot.
+// A cover line must not run through a third dot: bend it until it clears every other dot, staying inside the picture.
 function edge(x1,y1,x2,y2,others){const len=Math.hypot(x2-x1,y2-y1),px=-(y2-y1)/len,py=(x2-x1)/len;
   const clear=(b,f,gap)=>{const cx=x1+f*(x2-x1)+b*px,cy=y1+f*(y2-y1)+b*py;
     for(let t=0;t<=1;t+=.02){const u=1-t,qx=u*u*x1+2*u*t*cx+t*t*x2,qy=u*u*y1+2*u*t*cy+t*t*y2;
+      if(qx<3||qx>477||qy<3||qy>297)return null;
       for(const [ox,oy] of others)if(Math.hypot(qx-ox,qy-oy)<gap)return null;}
     return 'M'+x1+' '+y1+' Q'+cx+' '+cy+' '+x2+' '+y2;};
-  for(const gap of [20,16])for(let k=0;k<=12;k++)for(const sg of [1,-1])for(const f of [.5,.3,.7,.15,.85]){
-    if(k===0&&(sg<0||f!==.5))continue;const d=clear(sg*k*30,f,gap);if(d)return d;}
+  for(const gap of [20,16])for(let k=0;k<=24;k++)for(const sg of [1,-1])for(const f of [.5,.3,.7,.15,.85,0,1]){
+    if(k===0&&(sg<0||f!==.5))continue;const d=clear(sg*k*15,f,gap);if(d)return d;}
   return 'M'+x1+' '+y1+' L'+x2+' '+y2;}
 function draw(){const w=W[wi],D=w.map((e,k)=>e+2*(k+1)-n-1);$('nv').textContent=n;$('wv').textContent=(wi+1)+' / '+W.length;
   const {steps,below}=peel(D);let h='';
@@ -81,7 +82,7 @@ function draw(){const w=W[wi],D=w.map((e,k)=>e+2*(k+1)-n-1);$('nv').textContent=
   const lev=D.map(()=>0);
   const order=[...Array(n).keys()].sort((a,b)=>below[a].length-below[b].length);
   for(const z of order)for(const x of below[z])lev[z]=Math.max(lev[z],lev[x]+1);
-  const L=Math.max(...lev),X=i=>40+400*(n>1?i/(n-1):.5),Y=i=>210-(L?180*lev[i]/L:90);let g='';
+  const L=Math.max(...lev),X=i=>40+400*(n>1?i/(n-1):.5),Y=i=>255-(L?210*lev[i]/L:105);let g='';
   for(let z=0;z<n;z++)for(const x of below[z]){if(below[z].some(y=>below[y].includes(x)))continue;
     g+='<path d="'+edge(X(x),Y(x),X(z),Y(z),[...Array(n).keys()].filter(i=>i!==x&&i!==z).map(i=>[X(i),Y(i)]))+'" fill="none" stroke="var(--grid)" stroke-width="2"/>';}
   for(let i=0;i<n;i++)g+='<circle cx="'+X(i)+'" cy="'+Y(i)+'" r="13" fill="var(--chip)" stroke="var(--ink2)"/><text x="'+X(i)+'" y="'+(Y(i)+4.5)+'" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">'+fmt(D[i])+'</text>';
