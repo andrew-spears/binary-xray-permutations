@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Binary x-ray conjecture: progress dashboard</title>
+<style>
+/* VOICE: a research notebook's front page: quiet, precise, readable on a phone.
+   LAYOUT: one column; tabs Overview / Families / Routes / All cards; a card opens as a sheet (full screen on phones).
+   COLOUR: green proved, amber tested, grey open, red ruled out; same tokens as graph.html. */
+:root{color-scheme:light dark;
+  --bg:light-dark(#fbfbfa,#121417);--ink:light-dark(#16191d,#e8eaed);--ink2:light-dark(#5b626b,#9ca3ab);
+  --line:light-dark(#cfd4da,#3a4048);--card:light-dark(#ffffff,#1b1f24);--chip:light-dark(#f0f1f2,#23282e);
+  --pr:light-dark(#23804a,#4cbb76);--em:light-dark(#b07a06,#e0aa3a);--op:light-dark(#6a717a,#9ca3ab);--no:light-dark(#c0392f,#ef6b61);
+  --idea:light-dark(#7442c8,#b493ff);--run:light-dark(#2563c9,#6ea2ff);--wood:light-dark(#c9a272,#8a6a44)}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px 0}
+h1{font-size:18px;margin:0 0 8px;font-weight:650;line-height:1.25}
+nav{display:flex;gap:2px;overflow-x:auto}
+nav a{padding:8px 12px;color:var(--ink2);text-decoration:none;border-bottom:3px solid transparent;white-space:nowrap;font-size:15px}
+nav a.on{color:var(--ink);border-color:var(--ink);font-weight:600}
+main{max-width:980px;margin:0 auto;padding:16px 16px 80px}
+h2{font-size:20px;margin:26px 0 6px;line-height:1.25}
+h3{font-size:14px;color:var(--ink2);margin:18px 0 4px;font-weight:600}
+p{margin:0 0 8px}
+.sub{color:var(--ink2);font-size:14px}
+button{font:inherit;color:inherit;cursor:pointer}
+.dot{width:10px;height:10px;border-radius:50%;flex:none;background:var(--c);display:inline-block}
+.s-proved,.s-reduction{--c:var(--pr)}.s-empirical,.s-tested,.s-computer{--c:var(--em)}.s-open{--c:var(--op)}.s-disproved,.s-dead{--c:var(--no)}.s-idea{--c:var(--idea)}.s-active{--c:var(--run)}.s-stalled{--c:var(--op)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:2px 9px;border-radius:999px;background:var(--chip);white-space:nowrap;font-size:13px;color:var(--ink2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.item{display:block;width:100%;text-align:left;background:color-mix(in srgb,var(--c) 9%,var(--card));border:1px solid color-mix(in srgb,var(--c) 55%,var(--line));border-left:5px solid var(--c);border-radius:10px;padding:10px 12px}
+.item b{display:block;line-height:1.3;margin-bottom:3px}
+.item span.t{display:block;font-size:14px;color:var(--ink2);line-height:1.4}
+.item .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.row{display:flex;gap:8px;align-items:flex-start;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:none;padding:9px 2px}
+.row .dot{margin-top:7px}
+.row small{display:block;color:var(--ink2);font-size:13px}
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px;min-width:120px}
+.stat b{font-size:22px;display:block;line-height:1.2}
+.stat span{font-size:13px;color:var(--ink2)}
+input[type=text],select{font:inherit;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.tools>*{flex:1 1 160px}
+.bars{display:grid;grid-template-columns:auto 1fr auto;gap:5px 10px;align-items:center;font-size:14px;margin:8px 0}
+.bar{display:flex;height:18px;border-radius:5px;overflow:hidden;background:var(--chip)}
+.bar i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--ink2);margin:6px 0}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.tree{margin:0;padding:0;list-style:none}
+.tree .tree{margin-left:14px;padding-left:12px;border-left:2px solid var(--line)}
+.tree li{margin:8px 0}
+.word{font:14px ui-monospace,SFMono-Regular,Menlo,monospace}
+.verdict{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--card);margin:8px 0}
+.ok{color:var(--pr);font-weight:600}.no{color:var(--no);font-weight:600}
+/* card sheet */
+#sheet{position:fixed;inset:0 0 0 auto;width:min(560px,100%);background:var(--card);border-left:1px solid var(--line);z-index:20;display:flex;flex-direction:column;box-shadow:-8px 0 30px rgba(0,0,0,.15)}
+#sheet[hidden]{display:none}
+.phead{padding:12px 16px 8px;border-bottom:1px solid var(--line)}
+.phead h2{margin:6px 0 4px;font-size:18px}
+.pbtn{float:right;border:0;background:none;font-size:26px;line-height:1;width:44px;height:40px;margin:-8px -10px 0 0;color:var(--ink2)}
+.pbody{flex:1;overflow-y:auto;padding:10px 16px 40px;min-height:0}
+.pbody.frame{padding:0;overflow:hidden}.pbody iframe{width:100%;height:100%;border:0;display:block;background:var(--bg)}
+.lead{font-size:16px}
+.tabs{display:flex;gap:4px;background:var(--chip);border-radius:9px;padding:3px;margin-top:8px}
+.tab{flex:1;border:0;background:transparent;border-radius:7px;padding:7px 0;color:var(--ink2);font-size:14px}
+.tab.on{background:var(--card);color:var(--ink);font-weight:600}
+figure{margin:12px 0}.pics{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}.pics svg{display:block;max-width:100%;height:auto}
+.mid{font-size:13px;color:var(--ink2)}figcaption{font-size:13px;color:var(--ink2);margin-top:4px}
+details{margin-top:16px;border-top:1px solid var(--line);padding-top:10px}summary{cursor:pointer;font-weight:600;font-size:14px}
+pre{background:var(--chip);border-radius:8px;padding:9px 10px;font:12.5px/1.35 ui-monospace,Menlo,monospace;overflow-x:auto}
+.link{display:flex;gap:8px;width:100%;border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:8px 10px;margin:6px 0;text-align:left}
+.link small{display:block;color:var(--ink2);font-size:13px}
+.labable .labhint{display:none}
+a{color:inherit}
+</style>
+</head>
+<body>
+<header>
+  <h1>Binary x-ray conjecture: progress</h1>
+  <nav id="nav">
+    <a href="#/overview">Overview</a><a href="#/families">Families</a><a href="#/routes">Proof routes</a><a href="#/cards">All cards</a><a href="graph.html">Logic graph ↗</a>
+  </nav>
+</header>
+<main id="main"></main>
+<aside id="sheet" hidden></aside>
+<script src="graph.js"></script>
+<script src="card.js"></script>
+<script>
+{
+const $ = id => document.getElementById(id);
+const G = window.GRAPH, byId = Object.fromEntries(G.nodes.map(n => [n.id, n]));
+const froms = e => Array.isArray(e.from) ? e.from : [e.from];
+const FST = { proved: "Proved", reduction: "Reduces to smaller cases", computer: "Checked by complete search", tested: "Holds in tests", open: "Open" };
+const RST = { active: "Active", stalled: "Stalled", dead: "Ruled out", open: "Open" };
+const chip = (cls, text) => `<span class="chip s-${cls}"><span class="dot"></span>${esc(text)}</span>`;
+const fmt = e => (e < 0 ? "−" : "") + Math.abs(e);
+const count = (list, st) => list.filter(n => n.status === st).length;
+
+// ---------- arrangements: words, families ----------
+// A word lists, for each stone in order of diagonals, how many marks it sits above its evenly spaced place.
+function words(n) { const out = [], w = [];
+  (function rec(s) { if (w.length === n) { if (s === 0) out.push(w.slice()); return; }
+    const k = w.length, lo = k === 0 ? 0 : Math.max(-s, w[k - 1] - 1);
+    for (let e = lo; e <= n; e++) { const left = n - k - 1; if (s + e + left * e > left * (left + 1) / 2) break; w.push(e); rec(s + e); w.pop(); } })(0);
+  return out; }
+function pieces(w) { const out = []; let s = 0, a = 0; for (let i = 0; i < w.length; i++) { s += w[i]; if (s === 0) { out.push(w.slice(a, i + 1)); a = i + 1; } } return out; }
+const mx = q => Math.max(...q), mn = q => Math.min(...q);
+const T1 = {   // tests on a piece with no tight cut
+  even: q => mx(q) === 0 && mn(q) === 0,
+  l1: q => mx(q) <= 1 && mn(q) >= -1,
+  upone: q => mx(q) <= 1 || mn(q) >= -1,
+  nocross: q => { const fh = q.findIndex(e => e >= 2); let ll = -1; q.forEach((e, i) => { if (e <= -2) ll = i; }); return fh < 0 || ll < fh; },
+  uni: q => { let neg = false; for (const e of q) { if (e < 0) neg = true; else if (e > 0 && neg) return false; } return (mx(q) <= 2 && mn(q) >= -4) || (mx(q) <= 4 && mn(q) >= -2); },
+  hill: q => { let i = 0; while (i < q.length && q[i] <= 1) i++; let j = i; while (j < q.length && q[j] >= 0 && q[j] <= 2) j++;
+    let k = j; while (k < q.length && q[k] <= 0 && q[k] >= -2) k++; return q.slice(k).every(e => e >= -1); },
+};
+T1.cross = q => !T1.nocross(q);
+T1.onehigh = q => T1.cross(q) && q.filter(e => e >= 2).length === 1;
+T1.proved = q => T1.nocross(q) || T1.uni(q) || T1.hill(q);
+T1.rest = q => !T1.proved(q);
+const maxSlack = w => { let s = 0, m = 0; for (const e of w) { s += e; m = Math.max(m, s); } return m; };
+const whole = t => w => pieces(w).length === 1 && T1[t](w);
+const FAM_TESTS = { all: w => true, tight: w => pieces(w).length > 1, notight: w => pieces(w).length === 1,
+  even: w => T1.even(w), l1: w => T1.l1(w), upone: whole("upone"), nocross: whole("nocross"), uni: whole("uni"), hill: whole("hill"),
+  cross: whole("cross"), onehigh: whole("onehigh"), rest: whole("rest"), slack16: w => maxSlack(w) <= 16,
+  sym: w => w.every((e, i) => e === -w[w.length - 1 - i]) };
+const provedWord = w => pieces(w).every(T1.proved);
+function why(q) { if (T1.even(q)) return "evenly spaced"; if (T1.l1(q)) return "every stone within one mark of evenly spaced";
+  if (T1.upone(q)) return "no high stone, or no low stone"; if (T1.nocross(q)) return "no high stone before a low stone";
+  if (T1.uni(q)) return "rises then falls with small letters"; if (T1.hill(q)) return "a gentle beginning, one hill, a gentle end"; return null; }
+const WCACHE = {}; const W = n => WCACHE[n] ||= words(n);
+
+// ---------- views ----------
+function nodeRow(n, extra = "") { return `<button class="row" data-go="${n.id}"><span class="dot s-${n.status}"></span><span>${esc(n.title)}${n.vis ? ' <span class="chip">lab</span>' : ""}<small>${STATUS[n.status]}${extra ? " · " + esc(extra) : ""}</small></span></button>`; }
+function hl(h) { const n = byId[h.id]; return `<button class="item s-${n.status}" data-go="${n.id}"><b>${esc(n.title)}</b><span class="t">${esc(h.text)}</span><span class="meta">${chip(n.status, STATUS[n.status])}${n.vis ? '<span class="chip">interactive lab</span>' : ""}<span class="chip">${esc(h.date)}</span></span></button>`; }
+function overview() {
+  const N = G.nodes, H = k => G.highlights.filter(h => h.kind === k).map(hl).join("");
+  const n = 10, ws = W(n), pv = ws.filter(provedWord).length;
+  return `<p>The conjecture: a set of n different diagonals is the diagonal x-ray of a permutation exactly when it satisfies Landau's condition. It is open. This page tracks what is proved, what only holds in tests, and what has been ruled out. Updated ${esc(G.updated)}.</p>
+  <div class="stats"><div class="stat"><b>${count(N, "proved")}</b><span>proved statements</span></div><div class="stat"><b>${count(N, "empirical")}</b><span>hold in tests</span></div><div class="stat"><b>${count(N, "open")}</b><span>open</span></div><div class="stat"><b>${count(N, "disproved")}</b><span>ruled out</span></div>
+  <div class="stat"><b>${Math.round(100 * pv / ws.length)}%</b><span>of size-${n} arrangements are of a proved kind</span></div></div>
+  <h2>Most promising leads</h2><p class="sub">Not proved. Each would give the conjecture or a large part of it.</p><div class="grid">${H("lead")}</div>
+  <h2>Strongest results so far</h2><p class="sub">Proved, or settled by a complete machine search where the card says so.</p><div class="grid">${H("result")}</div>
+  <h2>Dead ends worth knowing</h2><p class="sub">Each has a counterexample. ${count(N, "disproved")} statements are ruled out in total; see All cards.</p><div class="grid">${H("dead")}</div>
+  <h2>Where to look next</h2><p><a href="#/families">Families</a> shows which kinds of arrangement are proved. <a href="#/routes">Proof routes</a> groups every card by method. <a href="graph.html">Logic graph</a> shows what implies what.</p>`;
+}
+const SEG = [["tight", "splits at a tight cut into proved pieces", "var(--pr)", .45], ["nocross", "no high stone before a low stone", "var(--pr)", 1], ["shape", "rises then falls, or one hill", "var(--pr)", .7], ["rest", "no proof yet", "var(--no)", .8]];
+function seg(w) { const P = pieces(w); if (!P.every(T1.proved)) return "rest"; if (P.length > 1) return "tight"; return T1.nocross(w) ? "nocross" : "shape"; }
+function families() {
+  let bars = ""; for (let n = 4; n <= 11; n++) { const ws = W(n), c = { tight: 0, nocross: 0, shape: 0, rest: 0 }; ws.forEach(w => c[seg(w)]++);
+    bars += `<span>size ${n}</span><span class="bar" title="${ws.length} arrangements">${SEG.map(([k, , col, op]) => `<i style="width:${100 * c[k] / ws.length}%;background:${col};opacity:${op}"></i>`).join("")}</span><span>${Math.round(100 * (ws.length - c.rest) / ws.length)}% proved of ${ws.length}</span>`; }
+  const n = 9, ws = W(n), kids = id => G.families.filter(f => f.parent === id);
+  const famItem = f => { const k = f.test ? ws.filter(FAM_TESTS[f.test]).length : null;
+    return `<li><button class="item s-${f.status}" data-go="${f.card}"><b>${esc(f.name)}</b><span class="t">${esc(f.text)}</span>${f.example ? `<span class="t word">e.g. ${esc(f.example.replace(/-/g, "−"))}</span>` : ""}<span class="meta">${chip(f.status, FST[f.status])}${k === null ? "" : `<span class="chip">${k} of ${ws.length} at size ${n}</span>`}</span></button>${kids(f.id).length ? `<ul class="tree">${kids(f.id).map(famItem).join("")}</ul>` : ""}</li>`; };
+  const small = []; for (let m = 4; m <= 9 && small.length < 12; m++) for (const w of W(m)) if (pieces(w).length === 1 && !T1.proved(w) && small.length < 12) small.push(w);
+  return `<h2>How much is proved</h2><p class="sub">Share of all valid arrangements of each size that are of a kind with a proof. Every arrangement up to size 22 has a solution by exhaustive search; the bars are about proofs.</p>
+  <div class="bars">${bars}</div><div class="legend">${SEG.map(([, t, col, op]) => `<span><i style="background:${col};opacity:${op}"></i>${t}</span>`).join("")}</div>
+  <h2>Look up an arrangement</h2><p class="sub">Type its letters: for each stone in order of diagonals, how many marks it sits above (+) or below (−) its evenly spaced place. Example: 2 1 0 0 -1 -2</p>
+  <input type="text" id="lookup" inputmode="text" placeholder="2 1 0 0 -1 -2" aria-label="Letters of an arrangement"><div id="lookout"></div>
+  <h2>Family tree</h2><p class="sub">Each box is a kind of arrangement; boxes inside a box are special cases of it. Tap a box for the card with the proof or the evidence.</p>
+  <ul class="tree">${kids(null).map(famItem).join("")}</ul>
+  <h2>Smallest arrangements with no proof</h2><p class="sub">No tight cut and in none of the proved families. All of them have solutions.</p>
+  ${small.map(w => `<button class="row" data-word="${w.join(" ")}"><span class="dot s-open"></span><span class="word">${w.map(fmt).join(" ")}<small>size ${w.length}</small></span></button>`).join("")}`;
+}
+function lookup(text) {
+  const out = $("lookout"); if (!out) return; const t = text.replace(/−/g, "-").trim(); if (!t) { out.innerHTML = ""; return; }
+  const w = t.split(/[\s,]+/).map(Number); let s = 0, bad = w.some(e => !Number.isInteger(e)) ? "Use whole numbers separated by spaces." : null;
+  if (!bad) { w.forEach((e, i) => { if (i ? e < w[i - 1] - 1 : e < 0) bad ||= "Not an arrangement: each letter can be at most 1 less than the one before, and the first cannot be negative."; s += e; if (s < 0) bad ||= "Not valid: Landau's condition fails at stone " + (i + 1) + "."; }); if (!bad && s) bad = "Not valid: the letters must add up to 0."; }
+  if (bad) { out.innerHTML = `<div class="verdict"><span class="no">${bad}</span></div>`; return; }
+  const n = w.length, D = w.map((e, k) => 2 * (k + 1) + e - n - 1), P = pieces(w), ok = P.every(T1.proved);
+  out.innerHTML = `<div class="verdict"><p class="${ok ? "ok" : "no"}">${ok ? "Proved for this kind of arrangement" : "No proof yet for this kind of arrangement"}</p>
+   <p class="sub">Diagonals ${D.map(d => (d > 0 ? "+" : "") + fmt(d)).join(", ")}. Largest slack ${maxSlack(w)}${maxSlack(w) <= 16 ? " (at most 16, so a solution exists by the machine search)" : ""}.</p>
+   ${P.length > 1 ? `<p>It splits into ${P.length} pieces at its tight cuts:</p>` : ""}
+   ${P.map(q => `<p><span class="word">${q.map(fmt).join(" ")}</span>: ${why(q) ? `<span class="ok">${why(q)}</span>` : `<span class="no">a high stone before a low stone, in no proved shape</span>`}</p>`).join("")}
+   <p class="sub">In families: ${G.families.filter(f => f.test && FAM_TESTS[f.test](w)).map(f => esc(f.name)).join("; ")}.</p></div>`;
+}
+function routes() {
+  return `<p class="sub">Every card belongs to one route. Tap a card for its explanation, evidence and lab.</p>` + G.routes.map(r => { const ns = G.nodes.filter(n => n.route === r.id), order = { proved: 0, empirical: 1, open: 2, idea: 3, disproved: 4 };
+    ns.sort((a, b) => order[a.status] - order[b.status]);
+    return `<details ${r.state === "active" ? "open" : ""}><summary>${esc(r.name)} &nbsp;${chip(r.state, RST[r.state])} <span class="chip">${count(ns, "proved")} proved · ${count(ns, "empirical")} tested · ${count(ns, "open")} open · ${count(ns, "disproved")} ruled out</span></summary><p style="margin-top:8px">${esc(r.summary)}</p>${ns.map(n => nodeRow(n)).join("")}</details>`; }).join("");
+}
+let Q = "", ST = "";
+function cards() {
+  return `<div class="tools"><input type="text" id="q" placeholder="Search titles and explanations" value="${esc(Q)}" aria-label="Search">
+   <select id="st" aria-label="Status"><option value="">Every status</option>${Object.entries(STATUS).filter(([k]) => k !== "idea").map(([k, v]) => `<option value="${k}"${ST === k ? " selected" : ""}>${v}</option>`).join("")}</select></div><div id="list"></div>`;
+}
+function fillCards() { const q = Q.toLowerCase(), rn = Object.fromEntries(G.routes.map(r => [r.id, r.name]));
+  const ns = G.nodes.filter(n => (!ST || n.status === ST) && (!q || (n.title + " " + (n.intuition || "") + " " + n.statement).toLowerCase().includes(q)));
+  $("list").innerHTML = `<p class="sub">${ns.length} of ${G.nodes.length} cards</p>` + ns.map(n => nodeRow(n, rn[n.route])).join(""); }
+
+// ---------- card sheet ----------
+const chipFor = id => `<span class="dot s-${byId[id].status}" style="margin-right:6px"></span>${esc(byId[id].title)}`;
+function edgeItem(e, id, out) { const f = froms(e), rel = e.kind === "related";
+  const label = out ? (f.length > 1 ? "with " + f.filter(x => x !== id).map(x => esc(byId[x].title)).join(", ") + " → " : "") + chipFor(e.to) : f.map(chipFor).join(" + ");
+  return `<button class="link" data-go="${out ? e.to : f[0]}"><span>${label}<small>${rel ? "Related fact, not an implication. " : ""}${esc(e.why)}${e.status !== "proved" && !rel ? " (not yet checked)" : ""}</small></span></button>`; }
+function explain(n) { const outs = G.edges.filter(e => froms(e).includes(n.id)), ins = G.edges.filter(e => e.to === n.id);
+  return `<p class="lead">${esc(n.intuition || n.statement)}</p>` + (n.pics || []).map(picHTML).join("") +
+    (n.proof ? `<h3>Proof sketch</h3><p>${esc(n.proof)}</p>` : "") + (n.evidence ? `<h3>Evidence</h3><p>${esc(n.evidence)}</p>` : "") +
+    (outs.length ? `<h3>${n.status === "disproved" ? "Would have proved" : "Proves / would prove"}</h3>${outs.map(e => edgeItem(e, n.id, true)).join("")}` : "") +
+    (ins.length ? `<h3>Follows from / supported by</h3>${ins.map(e => edgeItem(e, n.id, false)).join("")}` : "") +
+    `<details><summary>Formal statement and details</summary>` + (n.intuition ? `<h3>Statement</h3><p>${esc(n.statement)}</p>` : "") +
+    (n.example ? `<h3>Example</h3><pre>${esc(n.example)}</pre>` : "") + (n.refs ? `<h3>Source</h3><p class="sub">${esc(n.refs)}</p>` : "") +
+    `<p><a href="graph.html#n-${n.id}">Show in the logic graph ↗</a></p></details>`; }
+const S = $("sheet");
+function openCard(id) { const n = byId[id]; if (!n) return; const r = G.routes.find(x => x.id === n.route);
+  S.hidden = false;
+  S.innerHTML = `<div class="phead"><button class="pbtn" data-close aria-label="Close">×</button>${chip(n.status, STATUS[n.status])} <span class="chip">${esc(r.name)}</span><h2>${esc(n.title)}</h2>` +
+    (n.vis ? `<div class="tabs"><button class="tab" data-tab="d">Explanation</button><button class="tab" data-tab="v">${esc(n.vis.title || "Lab")}</button></div>` : "") + `</div><div class="pbody" id="pbody"></div>`;
+  const body = $("pbody"), show = t => { S.querySelectorAll(".tab").forEach(b => b.classList.toggle("on", b.dataset.tab === t));
+    if (t === "v") { body.className = "pbody frame"; body.innerHTML = `<iframe src="${esc(n.vis.file)}" title="${esc(n.vis.title || n.title)}"></iframe>`; }
+    else { body.className = "pbody"; body.innerHTML = explain(n); body.scrollTop = 0; } };
+  S.querySelectorAll(".tab").forEach(b => b.onclick = () => show(b.dataset.tab)); show("d"); }
+function closeCard() { S.hidden = true; S.innerHTML = ""; }
+
+// ---------- routing: #/view or #/view/card-id ----------
+const VIEWS = { overview, families, routes, cards };
+let cur = null;
+function route() { const [, v = "overview", id] = location.hash.split("/"); const view = VIEWS[v] ? v : "overview";
+  if (view !== cur) { cur = view; $("main").innerHTML = VIEWS[view](); scrollTo(0, 0); if (view === "cards") fillCards();
+    document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#/" + view)); }
+  if (id && byId[id]) openCard(id); else closeCard(); }
+const go = id => { location.hash = "#/" + cur + (id ? "/" + id : ""); };
+document.addEventListener("click", e => { const g = e.target.closest("[data-go]"); if (g) return go(g.dataset.go);
+  if (e.target.closest("[data-close]")) return go("");
+  const w = e.target.closest("[data-word]"); if (w) { $("lookup").value = w.dataset.word; lookup(w.dataset.word); $("lookup").scrollIntoView({ behavior: "smooth", block: "center" }); } });
+document.addEventListener("input", e => { if (e.target.id === "lookup") lookup(e.target.value);
+  if (e.target.id === "q") { Q = e.target.value; fillCards(); } if (e.target.id === "st") { ST = e.target.value; fillCards(); } });
+addEventListener("keydown", e => { if (e.key === "Escape" && !S.hidden) go(""); });
+addEventListener("hashchange", route); route();
+}
+</script>
+</body>
+</html>
