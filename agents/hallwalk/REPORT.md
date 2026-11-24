@@ -59,6 +59,14 @@ solutions (nearstat.py), so I have no description of the class yet.
 
 Equivalent form of Claim 3: some solution has r_X + r_Y in {n+1−y, n+2−y, n+3−y} or in {n−1−x, n−x, n+1−x}.
 
+Claim 3 split in two (tested only, n ≤ 10, spread.py). Let t = r + c − (n + 1) be the offset of a stone from the
+middle anti-diagonal, T = t_X + t_Y and g = y − x. Claim 3 says |T| ∈ {g − 4, g − 2, g} for some solution, and
+reflecting the whole board changes the sign of T. Over all solutions of D:
+- (A) the largest T is at least g − 4 (it can be larger than g: up to g + 10 at n = 10);
+- (B) two neighbouring values of T differ by 2 or 4, except when the only values are −4 and 4.
+(A) and (B) give Claim 3, because a step of 4 cannot jump over three consecutive values. (A) alone is weaker than
+Claim 3 and reads: some solution has r_X + r_Y ≥ n − 1 − x.
+
 ## Claim 5 (tested only): the path that always opens the first run keeps a solution
 
 Undoing a minimal move means opening a maximal run of two or more consecutive diagonals a+1, …, b−1 of D′: its two
