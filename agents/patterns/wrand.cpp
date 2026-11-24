@@ -17,7 +17,9 @@ bool rec(int i, array<int, 8> t) {
     return false;
 }
 int main(int argc, char **argv) {
+    if (argc < 7) { fprintf(stderr, "usage: wrand n w trials beta_x100 cap seed   (1 <= n <= 64, 1 <= w <= 7)\n"); return 1; }
     n = atoi(argv[1]); w = atoi(argv[2]); int trials = atoi(argv[3]); double beta = atoi(argv[4]) / 100.0; cap = atoll(argv[5]);
+    if (n < 1 || n > 64 || w < 1 || w > 7) { fprintf(stderr, "usage: wrand n w trials beta_x100 cap seed   (1 <= n <= 64, 1 <= w <= 7)\n"); return 1; }
     mt19937_64 rng(atoi(argv[6])); uniform_real_distribution<double> U(0, 1);
     long long none = 0, cut = 0, done = 0, worst = 0; set<vector<int>> seen;
     for (int tr = 0; tr < trials; tr++) {

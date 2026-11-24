@@ -28,7 +28,9 @@ void rec(int i, unsigned long long D) {
     }
 }
 int main(int argc, char **argv) {
+    if (argc < 2) { fprintf(stderr, "usage: pat n   (4 <= n <= 16)\n"); return 1; }
     n = atoi(argv[1]);
+    if (n < 4 || n > 16) { fprintf(stderr, "usage: pat n   (4 <= n <= 16)\n"); return 1; }
     int p[4] = {0, 1, 2, 3}, k = 0;
     do { patid[p[0]][p[1]][p[2]][p[3]] = k++; string s; for (int x : p) s += char('1' + x); names.push_back(s); } while (next_permutation(p, p + 4));
     rec(0, 0);

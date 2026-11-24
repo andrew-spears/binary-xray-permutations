@@ -15,7 +15,10 @@ long long rec(int i, array<int, 8> t) {
     return r;
 }
 int main(int argc, char **argv) {
-    n = atoi(argv[1]); w = atoi(argv[2]); vector<int> e(n); long long best = LLONG_MAX; vector<vector<int>> arg; map<long long, int> hist;
+    if (argc < 3) { fprintf(stderr, "usage: wcount n w   (1 <= n <= 31, 1 <= w <= 7)\n"); return 1; }
+    n = atoi(argv[1]); w = atoi(argv[2]);
+    if (n < 1 || n > 31 || w < 1 || w > 7) { fprintf(stderr, "usage: wcount n w   (1 <= n <= 31, 1 <= w <= 7)\n"); return 1; }
+    vector<int> e(n); long long best = LLONG_MAX; vector<vector<int>> arg; map<long long, int> hist;
     function<void(int, int)> gen = [&](int k, int s) {
         if (k == n) { if (s) return; memset(inD, 0, sizeof inD); for (int j = 0; j < n; j++) inD[e[j] + 2 * j] = true;
             array<int, 8> t; t.fill(-1); long long c = rec(0, t); hist[c]++;

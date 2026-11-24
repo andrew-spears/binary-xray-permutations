@@ -20,7 +20,10 @@ bool rec(int i, array<int, 8> t) {            // t[j] = largest last value over 
     return false;
 }
 int main(int argc, char **argv) {
-    n = atoi(argv[1]); w = atoi(argv[2]); bool pr = argc > 3;
+    if (argc < 3) { fprintf(stderr, "usage: width n w [print]   (1 <= n <= 31, 1 <= w <= 7)\n"); return 1; }
+    n = atoi(argv[1]); w = atoi(argv[2]);
+    if (n < 1 || n > 31 || w < 1 || w > 7) { fprintf(stderr, "usage: width n w [print]   (1 <= n <= 31, 1 <= w <= 7)\n"); return 1; }
+    bool pr = argc > 3;
     long long tot = 0, bad = 0, worst = 0; vector<int> e(n);
     // words: letters e_k = s_k - (k-1), nondecreasing scores => e_k >= e_{k-1} - 1, partial sums >= 0, total 0
     function<void(int, int)> gen = [&](int k, int s) {

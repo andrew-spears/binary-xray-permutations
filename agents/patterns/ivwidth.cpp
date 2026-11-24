@@ -22,7 +22,10 @@ bool rec(int t) {                       // choose k_t for t = n, n-1, ..., 1;  g
     return false;
 }
 int main(int argc, char **argv) {
-    n = atoi(argv[1]); w = atoi(argv[2]); long long tot = 0, bad = 0; vector<int> e(n);
+    if (argc < 3) { fprintf(stderr, "usage: ivwidth n w   (1 <= n <= 31, w >= 1)\n"); return 1; }
+    n = atoi(argv[1]); w = atoi(argv[2]);
+    if (n < 1 || n > 31 || w < 1) { fprintf(stderr, "usage: ivwidth n w   (1 <= n <= 31, w >= 1)\n"); return 1; }
+    long long tot = 0, bad = 0; vector<int> e(n);
     function<void(int, int)> gen = [&](int k, int s) {
         if (k == n) { if (s) return; tot++; memset(inD, 0, sizeof inD); memset(cnt, 0, sizeof cnt); memset(ge, 0, sizeof ge);
             for (int j = 0; j < n; j++) inD[e[j] + 2 * j] = true;          // d + n - 1
