@@ -1,0 +1,23 @@
+s  2: 5 states, 4 in every set, 0 covering pairs among the others, on 0 states; greedy matching 0 pairs
+s  3: 10 states, 4 in every set, 8 covering pairs among the others, on 6 states; greedy matching 2 pairs
+s  4: 20 states, 6 in every set, 49 covering pairs among the others, on 14 states; greedy matching 7 pairs
+s  5: 36 states, 6 in every set, 240 covering pairs among the others, on 30 states; greedy matching 14 pairs
+s  6: 65 states, 2 in every set, 750 covering pairs among the others, on 60 states; greedy matching 25 pairs
+s  7: 110 states, 6 in every set, 2216 covering pairs among the others, on 102 states; greedy matching 48 pairs
+s  8: 185 states, 14 in every set, 4702 covering pairs among the others, on 167 states; greedy matching 72 pairs
+s  9: 300 states, 12 in every set, 11508 covering pairs among the others, on 284 states; greedy matching 110 pairs
+s 10: 481 states, 18 in every set, 20556 covering pairs among the others, on 446 states; greedy matching 133 pairs
+s 11: 752 states, 20 in every set, 62440 covering pairs among the others, on 704 states; greedy matching 277 pairs
+s 12: 1165 states, 30 in every set, 146086 covering pairs among the others, on 1109 states; greedy matching 429 pairs
+natural involutions: number of states t (not in every set) with {t, i(t)} a covering pair / number with i(t) != t
+s  2: conjugate both 0/0;  conjugate first 0/0;  conjugate + swap 0/0
+s  3: conjugate both 0/4;  conjugate first 0/2;  conjugate + swap 0/6
+s  4: conjugate both 2/12;  conjugate first 0/8;  conjugate + swap 2/12
+s  5: conjugate both 6/26;  conjugate first 7/15;  conjugate + swap 6/30
+s  6: conjugate both 10/58;  conjugate first 3/39;  conjugate + swap 10/60
+s  7: conjugate both 30/98;  conjugate first 19/67;  conjugate + swap 30/104
+s  8: conjugate both 46/162;  conjugate first 24/116;  conjugate + swap 46/166
+s  9: conjugate both 36/280;  conjugate first 21/209;  conjugate + swap 36/288
+s 10: conjugate both 62/450;  conjugate first 39/347;  conjugate + swap 62/456
+s 11: conjugate both 156/716;  conjugate first 68/562;  conjugate + swap 156/732
+s 12: conjugate both 218/1114;  conjugate first 133/899;  conjugate + swap 218/1124

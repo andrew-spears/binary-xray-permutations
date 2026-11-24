@@ -1,0 +1,1 @@
+length <= 13: 12996 (word, orientation) with middle in {0,1,2}*{0..-4}* and a letter <= -3; with s1 < T: 6996; of these the two stones of Theorem B are not an RR-split inside m: 0

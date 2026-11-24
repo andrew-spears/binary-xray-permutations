@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Binary x-rays: three shortening rules</title>
+<style>
+  :root { --bg:#fbfaf7; --ink:#1d1d1f; --ink2:#6b6b70; --grid:#d9d6cf; --chip:#efece6; --hl:#c2410c; --hl2:#0f766e; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#17171a; --ink:#ececee; --ink2:#9a9aa2; --grid:#3a3a40; --chip:#26262b; --hl:#fb923c; --hl2:#2dd4bf; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font:15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+  main { max-width:520px; margin:0 auto; padding:16px 12px 28px; }
+  p.lead { color:var(--ink2); font-size:14px; margin:0 4px 10px; }
+  .row { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:10px; margin:7px 0; }
+  .lbl { color:var(--ink2); font-size:13px; }
+  .val { min-width:36px; text-align:center; font-variant-numeric:tabular-nums; font-weight:600; }
+  button.arrow, button.dice { border:0; background:var(--chip); color:var(--ink); width:32px; height:32px;
+                 border-radius:50%; font-size:16px; cursor:pointer; flex:none; }
+  .step { border:1px solid var(--grid); border-radius:10px; padding:10px 10px 8px; margin:0 0 4px; display:grid;
+          grid-template-columns:1fr 118px; gap:8px; align-items:center; }
+  .step h3 { margin:0 0 2px; font-size:13px; font-weight:600; color:var(--ink2); }
+  .word { font-variant-numeric:tabular-nums; font-weight:600; font-size:15px; letter-spacing:.02em; word-spacing:.12em; }
+  .word .cut { color:var(--hl); border-bottom:2px solid var(--hl); }
+  .word .new { color:var(--hl2); border-bottom:2px solid var(--hl2); }
+  .dset { color:var(--ink2); font-size:12px; font-variant-numeric:tabular-nums; margin-top:2px; }
+  .rule { text-align:center; color:var(--ink2); font-size:13px; margin:2px 0 6px; }
+  .rule b { color:var(--ink); font-weight:600; }
+  svg { display:block; width:100%; height:auto; }
+  .legend { color:var(--ink2); font-size:13px; margin:12px 4px 0; }
+  .legend b { color:var(--ink); font-weight:600; }
+  .k1 { color:var(--hl); font-weight:600; } .k2 { color:var(--hl2); font-weight:600; }
+</style>
+</head>
+<body>
+<main>
+  <p class="lead">Pick an arrangement. Its word lists, for each stone from the lowest diagonal up, how far the stone is from its evenly spaced position. Each step replaces the <span class="k1">marked piece</span> by a <span class="k2">shorter piece</span>, until every letter is 0.</p>
+  <div class="row"><span class="lbl">size n</span><button class="arrow" id="np">‹</button><span class="val" id="nv"></span><button class="arrow" id="nn">›</button>
+    <span class="lbl" style="margin-left:10px">arrangement</span><button class="arrow" id="wp">‹</button><span class="val" id="wv" style="min-width:74px"></span><button class="arrow" id="wn">›</button><button class="dice" id="wr" title="random arrangement">⚄</button></div>
+  <div id="chain"></div>
+  <p class="legend"><b>Reading it upwards.</b> The last board is solved by the anti-diagonal. The conjecture is equivalent to: whenever the shorter word has a solution, so does the longer one above it. The boards show one solution of each arrangement, found by search; nobody knows how to turn one solution into the next, and that is the open part.</p>
+  <p class="legend"><b>ZERO</b> drops a 0 that stands just before a −1. <b>PEAK</b> turns 1 0 −1 into 0. <b>RUN</b> takes a longer falling run that crosses zero, such as 2 1 0 −1, and removes one stone from it.</p>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+function words(n){ const out=[]; const w=[];
+  (function rec(s){ if (w.length===n){ if (s===0) out.push(w.slice()); return; }
+    const k=w.length, lo = k===0 ? 0 : Math.max(-s, w[k-1]-1);
+    for (let e=lo; e<=n; e++){ const left=n-k-1; if (s+e+left*e > left*(left+1)/2) break; w.push(e); rec(s+e); w.pop(); } })(0);
+  return out.filter(x=>x.some(e=>e!==0)); }
+function urun(a,b){ const o=[]; for (let t=a-1; t>-b; t--){ o.push(t); if (t===a-b) o.push(t); } return o; }
+function shorten(w){ const j=w.findIndex(e=>e<0);
+  if (w[j-2]===0) return {name:"ZERO", lo:j-1, hi:j, u:[-1]};
+  let lo=j-2; while (lo>0 && w[lo-1]===w[lo]+1) lo--;
+  let hi=j; while (hi+1<w.length && w[hi+1]===w[hi]-1) hi++;
+  const a=w[lo], b=-w[hi];
+  if (a===1 && b===1) return {name:"PEAK", lo, hi, u:[0]};
+  return {name:`RUN(${a}, ${b})`, lo, hi, u:urun(a,b)}; }
+const diag = w => w.map((e,k)=>2*(k+1)+e-w.length-1);
+function witness(D){ const n=D.length, rows=new Array(n+1).fill(false), cols=new Array(n+2).fill(false), pts=[];
+  const order=D.map((d,i)=>i).sort((x,y)=>Math.abs(D[y])-Math.abs(D[x]));
+  function rec(i){ if (i===n) return true; const d=D[order[i]];
+    for (let r=Math.max(1,1-d); r<=Math.min(n,n-d); r++){ const c=r+d; if (rows[r]||cols[c]) continue;
+      rows[r]=cols[c]=true; pts.push([r,c]); if (rec(i+1)) return true; pts.pop(); rows[r]=cols[c]=false; }
+    return false; }
+  return rec(0) ? pts : null; }
+function boardSVG(D, hl){ const n=D.length, S=100, c=S/n, pts=witness(D); let s=`<svg viewBox="-1 -1 ${S+2} ${S+2}">`;
+  for (let i=0;i<=n;i++) s+=`<path d="M0 ${i*c}H${S}M${i*c} 0V${S}" stroke="var(--grid)" stroke-width=".6" fill="none"/>`;
+  if (pts) for (const [r,q] of pts){ const on=hl.has(q-r);
+    s+=`<circle cx="${(q-.5)*c}" cy="${(r-.5)*c}" r="${c*.3}" fill="${on?hl.get(q-r):"var(--ink)"}"/>`; }
+  return s+"</svg>"; }
+function wordHTML(w, lo, hi, cls){ return w.map((e,i)=>{ const t=(e<0?"−":"")+Math.abs(e); return (i>=lo&&i<=hi)?`<span class="${cls}">${t}</span>`:t; }).join(" "); }
+let n=6, W=[], wi=0;
+function render(){ $("nv").textContent=n; $("wv").textContent=`${wi+1} / ${W.length}`;
+  let w=W[wi], html="", prev=null;
+  for(;;){ const zero=!w.some(e=>e!==0), st=zero?null:shorten(w), D=diag(w), hl=new Map();
+    if (prev) for (let i=prev.lo;i<prev.lo+prev.u.length;i++) hl.set(D[i],"var(--hl2)");
+    if (st) for (let i=st.lo;i<=st.hi;i++) hl.set(D[i],"var(--hl)");
+    let word = w.map((e,i)=>{ const t=(e<0?"−":"")+Math.abs(e);
+      if (st && i>=st.lo && i<=st.hi) return `<span class="cut">${t}</span>`;
+      if (prev && i>=prev.lo && i<prev.lo+prev.u.length) return `<span class="new">${t}</span>`; return t; }).join(" ");
+    html+=`<div class="step"><div><h3>n = ${w.length}${zero?" · evenly spaced":""}</h3><div class="word">${word}</div>`+
+          `<div class="dset">diagonals ${D.map(d=>(d<0?"−":d>0?"+":"")+Math.abs(d)).join(", ")}</div></div><div>${boardSVG(D,hl)}</div></div>`;
+    if (zero) break;
+    html+=`<div class="rule">↓ <b>${st.name}</b>: ${wordHTML(w.slice(st.lo,st.hi+1),0,99,"k1")} → ${wordHTML(st.u,0,99,"k2")}</div>`;
+    prev=st; w=w.slice(0,st.lo).concat(st.u, w.slice(st.hi+1)); }
+  $("chain").innerHTML=html; }
+function setN(m){ n=Math.max(3,Math.min(9,m)); W=words(n); wi=Math.floor(Math.random()*W.length); render(); }
+$("np").onclick=()=>setN(n-1); $("nn").onclick=()=>setN(n+1);
+$("wp").onclick=()=>{ wi=(wi+W.length-1)%W.length; render(); }; $("wn").onclick=()=>{ wi=(wi+1)%W.length; render(); };
+$("wr").onclick=()=>{ wi=Math.floor(Math.random()*W.length); render(); };
+setN(6);
+</script>
+</body>
+</html>

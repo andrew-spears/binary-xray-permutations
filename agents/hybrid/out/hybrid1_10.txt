@@ -1,0 +1,6 @@
+n 5: 1 words; no odd one-stone hybrid 0 (first -); none with the others row-extreme 0 (first -)
+n 6: 3 words; no odd one-stone hybrid 0 (first -); none with the others row-extreme 0 (first -)
+n 7: 12 words; no odd one-stone hybrid 1 (first 3 2 1 0 -1 -2 -3); none with the others row-extreme 1 (first 3 2 1 0 -1 -2 -3)
+n 8: 51 words; no odd one-stone hybrid 8 (first 0 3 2 1 0 -1 -2 -3); none with the others row-extreme 8 (first 0 3 2 1 0 -1 -2 -3)
+n 9: 197 words; no odd one-stone hybrid 42 (first 0 0 3 2 1 0 -1 -2 -3); none with the others row-extreme 43 (first 0 0 3 2 1 0 -1 -2 -3)
+n 10: 733 words; no odd one-stone hybrid 199 (first 0 0 0 3 2 1 0 -1 -2 -3); none with the others row-extreme 206 (first 0 0 0 3 2 1 0 -1 -2 -3)

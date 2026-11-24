@@ -163,3 +163,86 @@ NEXT: describe what a block does to an entering mark when h marks have already p
 trail of one mark through zeros is two interleaved staircases and the next mark visits every third stone.  Guess,
 not checked: after h marks, h + 1 staircases and every (h+2)-th stone.  The reflections happen at the ends of such
 plateaus; a proof of the passing claim has to control those ends.
+
+## Round graph and two marks (letters_two.py)
+- Round graph.  For a unit U let Wit(U) be ALL its witnesses.  A mark entering by m in {R, C} is transmitted or
+  reflected; reflection is a fixed-point-free involution ref_m on the witnesses that reflect m.  The chain on + U -
+  from w is the alternating walk w, ref_R(w), ref_C(ref_R(w)), ... in the graph on Wit(U) with these two kinds of
+  edges; it loops iff the component is a cycle.  A state of the leapfrog graph of + U - with the mark on the bottom
+  stone is automatically (1,1) + (a witness of U).  Hence:
+     passing claim for U (any witness, not only K)  <=>  some PATH of the leapfrog graph of + U - visits the bottom stone,
+  and by the transpose symmetry 'some witness transmits some move' is enough.  So for L_1 it suffices to show, for
+  every block B: not every witness of B reflects both moves.
+- Two marks.  In 0 M 0 read as + M -, the bottom stone is one short (mark D, moves up) and the top stone is one over
+  (mark E, moves down: swap with the PREVIOUS row / column).  When both marks sit on one stone they cancel and the
+  position is a witness of + M -.  D alone = zigzag chain (loops from 4 witnesses at n = 10).
+  With both marks free to move in any order, a witness of + M - is reachable from EVERY witness of EVERY M, n <= 13
+  (43,012 boards at n = 13; python3 letters_two.py 13, 7 seconds).  Not yet known: a rule for the order of the
+  moves, and whether this says more than '+ M - is solvable'.
+- Tried and dropped: (i) signed counts / squared Vandermonde (already the red card 'at'); (ii) splitting the stones
+  by row and column residues mod d (D = union of d*D_i + (tau(i) - i)): a true gluing rule, but zeros need even
+  offsets and +/- need odd ones, so it does not lower the height of a mixed word, and P_4 is not of this form;
+  (iii) 0-cycles of interface states: at slack h the staircase cycle ((1^j),(h-j)), j = 0..h, lies in F(h) for
+  h = 1, 3 only, the hook cycle for h = 2, 4 only, neither for h = 5.
+
+## Shortening rules on the interface machine (rewrite.py, rewrite_l1.py, l1_reduce.py)
+F(x) = set of interface states (pairs of diagrams) reachable after the prefix x.  A rewrite u -> v (same letter sum)
+is MONOTONE if F(xu) is a subset of F(xv) for every prefix x after which both are legal.  The step map is monotone
+in the set, so then 'x u y solvable' implies 'x v y solvable'.
+- Inside l1 (letters -1, 0, +1) there are only a handful of distinct reachable sets per slack (205 triples
+  (set, slack, last letter) for slack <= 24), and 246 rules with |u| < |v| <= 4 are monotone (slack <= 12).  Two suffice:
+     (A)  F(x 0) is a subset of F(x 0 0)          (B)  F(x 0) is a subset of F(x + 0 -)
+  Every valid word with a + contains + 0^j -, j >= 1 (+ - adjacent would repeat a diagonal).  (A) shortens it to
+  + 0 -, (B) replaces that by 0, and the all-zero word is the anti-diagonal.  So (A) and (B) for all x imply l1
+  for distinct diagonals.  With '+ -' adjacent allowed (a diagonal used twice, as card l1 permits) add
+     (C)  F(x) is a subset of F(x + -)
+  Checked for every such prefix with slack <= 24 (A) / 23 (B, C): python3 l1_reduce.py 24, 1 minute; 233 situations.
+  Hence every l1 word with all slacks <= 23 is solvable, for every n.
+- (A) and (B) are NOT true state by state, even allowing the transpose: for a single state a and b in 0.a, b need
+  not be in 00.{a, a^T} (fails from slack 2).  They are properties of the sets F(x).
+- The smallest reachable set at slack s is F(+^s) (sizes 1, 2, 4, 8, 14, 28, 48, 80, 128, 212, 332, 512, 774, 1176,
+  1744, 2560 for s = 0..15; equality with F(+^s) checked for s <= 13); it is contained in every other reachable set
+  at slack s except at s = 4, 5, 8, 12, where the intersection of all of them is smaller (12, 24, 126, 770).
+- For general words (any letters) almost nothing is monotone.  'Two more zeros never lose a state' (empty -> 0 0,
+  0 -> 0 0) holds for slack <= 7 and fails at slack 8 (15 of 1,236 sets at B = 12, one state lost each).
+  Rewrites of <= 2 letters that survive every situation with slack <= 12: (-1) -> (0,-1), (-2) -> (-2,0),
+  (-1,-1) -> (-2,0), (-1,-2) -> (-2,-1)  (441, 91, 91, 87 situations).  python3 rewrite.py 10 2.
+- Lookahead (lookahead_game.py B L): Placer knows L letters (the current one and L - 1 ahead).  Wins exactly for
+  L = 1, 2: B <= 2;  L = 3: B <= 4;  L = 4: B <= 8;  L = 5: wins at B = 9, 11, 13 (B = 10, 12, 14 not run).
+  Same thresholds 2, 4, 8 as the window of L - 1 past letters (invariant.py; window 4 stops at 13).  So lookahead grows with B as well.
+
+## Parity counts (parity_test.py) and the near-diagonal form (agents/l1form)
+- Reflected rows, stone j at row + col = 2j + e_j.  Even letter: row, col of equal parity; odd letter: unequal.
+  With z even, p odd letters in the prefix: #OO = (odd(R) + odd(C) - p)/2 in [0, z], #OE = (p + odd(R) - odd(C))/2 in [0, p].
+  PROVED necessary condition (P) on reachable states.  Staircase pair (t..1, t..1), slack t(t+1), needs z >= t.
+  Seen in the machine: F(+^s 0) misses ((2,1),(2,1)) at s = 6; F(+^12 0 0) misses only ((3,2,1),(3,2,1)).
+- (P) alone explains little (45 of 1,935 unreachable pairs, l1, slack <= 6, length <= 9; 33 of 3,126 for all letters,
+  slack <= 4, length <= 7).  With the sum test inside each parity class (S): 1,182 of 1,935 and 2,506 of 3,126.
+  What is left is the same thing one level down (rows mod 4): reachable = solvable hole board, a 2-adic hierarchy.
+- Near-diagonal form: + stone at (k,k+1)/(k+1,k), - stone at (k-1,k)/(k,k-1), zeros free => 'midpoint problem'
+  (pair the free rows with the free columns so that the midpoints are the zeros).  Fails: + + 0 0 - - (form2.py 6).
+  Witnesses of +^a 0^j -^a with fewest moves: rho rotates the pluses (1 2 .. a+1) and the minuses, pi is ONE
+  transposition across the middle (e.g. +++0000---: pi = (4 7), rho = (1 2 3 4)(7 10 9 8)).
+
+## Three shortening rules for ALL words (shorten.py, run_rule.py)  -- best lead of this round
+- shorten.py B Lmax N lists every valid rule u -> v (|u| < |v| <= Lmax) at bound B and a greedy cover of the words.
+  At B = 4, 6 the cover is: 0 -> 00, 0 -> (1,0,-1), and a family on descending runs.  The family:
+  RUN(a,b): v = (a, a-1, ..., -b), u = (a-1, ..., -(b-1)) with the letter a-b doubled  (a, b >= 1).
+- At B = 10: RUN(a,b) never fails except (a,b) = (1,1) (4 of 364, from slack 6); 0 -> 00 fails (slack 8);
+  c -> (0, c) fails for every c >= 0;  PEAK 0 -> (1,0,-1) and ZERO -1 -> (0,-1) never fail.
+- PEAK + ZERO + RUN reduce every valid nonzero word (first negative letter e_j = -1, e_{j-1} = 0, e_{j-2} in {0,1};
+  proof in the docstring of run_rule.py).  B = 12: 6,061 (rule, situation) checks, 0 failures.
+- In diagonals: ZERO removes one of two stones on neighbouring diagonals c, c+1 and closes up (stones below move
+  up 1, stones above down 1); PEAK turns c-1, c, c+1 into c (below up 2, above down 2); RUN removes one stone from a
+  block of a+b+1 neighbouring diagonals (below the block up 1, above down 1).
+- To prove: F(xu) inside F(xv).  Board form: a placement of the prefix x u on rows R, columns C must be turned into a
+  placement of x v on the same hole pattern (R, C shifted by |v| - |u| with the bottom filled).
+- count_rule.py 6 8: with multiplicity PEAK holds (2,812 tests), ZERO fails (43), RUN(2,1) fails (288), other RUN hold.
+- agents/transfer/transfer.py: NOTHING. Fset(S) inside Fset(S') for S' = S with two sums moved by one step: fails
+  more often than it holds in every class (together / apart, any gap), K = 4, 5.
+- CORRECTION: the set inclusions fail beyond slack 12 (run_rule.py 14, zero_fail.py 14): RUN(2,1) after x = (4,3,2,1)
+  (x 1 1 0 reaches two states that x 2 1 0 -1 does not; slack 13 on the way), ZERO after x = (2,3,3,2,2,1,1,0)
+  (slack 14).  PEAK: 1,941 situations at B = 14, 0 failures.  The missing states are alive.  What remains proved is
+  the reduction: conjecture <=> PEAK, ZERO, RUN keep solvability (word level).
+- PEAK as a set inclusion also fails: x = (3,4,3,3,2,1), slack 17 (3 states of F(x 0) missing from F(x 1 0 -1));
+  it holds for slack <= 16 (sub-session, C++ check + board brute force).  All three failures are on steep prefixes.

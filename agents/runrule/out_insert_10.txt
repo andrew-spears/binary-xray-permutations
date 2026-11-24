@@ -1,0 +1,12 @@
+INSERT b = (0,)                   N(b) =   1  placements   6222  violations     0  equalities   4153  least ratio 1.000
+INSERT b = (0, 0)                 N(b) =   1  placements   2002  violations     0  equalities   1449  least ratio 1.000
+INSERT b = (0, 0, 0)              N(b) =   1  placements    665  violations     0  equalities    531  least ratio 1.000
+INSERT b = (1, 0, -1)             N(b) =   2  placements    711  violations     0  equalities    531  least ratio 1.000
+SUBST  b = (1, 0, -1)             N(b) =   2  placements    853  violations     0  equalities    689  least ratio 1.000
+INSERT b = (1, 1, 0, -1, -1)      N(b) =   4  placements     87  violations     0  equalities     81  least ratio 1.000
+SUBST  b = (1, 1, 0, -1, -1)      N(b) =   4  placements    108  violations     0  equalities     94  least ratio 1.000
+INSERT b = (2, 1, 0, -1, -2)      N(b) =   6  placements     87  violations     0  equalities     54  least ratio 1.000
+SUBST  b = (2, 1, 0, -1, -2)      N(b) =   6  placements    108  violations     0  equalities     55  least ratio 1.000
+INSERT b = (1, 0, -1, 1, 0, -1)   N(b) =   4  placements     33  violations     0  equalities     33  least ratio 1.000
+SUBST  b = (1, 0, -1, 1, 0, -1)   N(b) =   4  placements     42  violations     0  equalities     40  least ratio 1.000
+totals (placements, violations): {'INSERT': [12812, 0], 'SUBST': [4470, 0]} blocks: 98

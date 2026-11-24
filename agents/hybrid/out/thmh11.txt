@@ -1,0 +1,1 @@
+length <= 11: 2084 words with middle in {0,1,2}*{0,-1,-2}*, 535 pairs (s1, m); number of odd pairs (u, v) in O x conj O at the named cell is even for 0; least number 1

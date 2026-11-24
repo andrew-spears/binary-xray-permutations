@@ -1,0 +1,3 @@
+DEL0       placements   1958  N(w) < N(w'): 0  no injection by one-stone insertion: 514  some solution of w' has no neighbour: 439   ((1, 1, 0, -1, -1), (1, 1, 0, 0, -1, -1), 4, 8, 2)
+RUN(1,1)   placements    295  N(w) < N(w'): 0  no injection by one-stone insertion: 66  some solution of w' has no neighbour: 66   ((1, 1, 0, 0, -1, -1), (1, 1, 1, 0, -1, -1, -1), 8, 8, 6)
+RUN(other) placements    274  N(w) < N(w'): 0  no injection by one-stone insertion: 88  some solution of w' has no neighbour: 88   ((2, 1, 0, 0, -1, -2), (2, 2, 1, 0, -1, -2, -2), 6, 26, 4)

@@ -1,0 +1,44 @@
+"""Reflection positivity test.  For prefixes x, y ending at the same slack s, G[x, y] = N(x mirror(y)) =
+number of solutions of the word x followed by the mirror (reversed, negated) of y.  Is G positive semidefinite?
+Only prefixes with last letter <= 0 are used: the join x mirror(y) is legal iff last(x) + last(y) <= 1, and an illegal
+join can repeat a diagonal, which this count would count once per ordering of the tied stones.
+Usage: python3 rp.py K B    (prefixes of length <= K, slacks <= B, legal: first letter >= 0, e >= last - 1)"""
+import sys, numpy as np
+from collections import defaultdict
+def prefixes(K, B):
+    out = defaultdict(list)                       # slack -> list of (word, {(R, C): count})
+    def go(w, s, last, L):
+        if w and last <= 0: out[s].append((tuple(w), L))       # last letters <= 0: then x mirror(y) is a legal word for every pair
+        if len(w) == K: return
+        k = len(w) + 1
+        for e in range(0 if last is None else max(-s, last - 1), B - s + 1):
+            t = 2 * k + e; M = defaultdict(int)
+            for (R, C), c in L.items():
+                for r in range(1, t):
+                    if r not in R and t - r not in C: M[(R | {r}, C | {t - r})] += c
+            if M: w.append(e); go(w, s + e, e, dict(M)); w.pop()
+    go([], 0, None, {(frozenset(), frozenset()): 1}); return out
+def gram(P):
+    m = len(P); G = np.zeros((m, m))
+    for i, (x, Lx) in enumerate(P):
+        for j, (y, Ly) in enumerate(P):
+            n = len(x) + len(y); full = set(range(1, n + 1)); tot = 0
+            for (R, C), c in Lx.items():
+                if max(R) > n or max(C) > n: continue
+                R2 = frozenset(n + 1 - r for r in full - R); C2 = frozenset(n + 1 - r for r in full - C)
+                tot += c * Ly.get((R2, C2), 0)
+            G[i, j] = tot
+    return G
+if __name__ == "__main__":
+    K, B = int(sys.argv[1]), int(sys.argv[2]); out = prefixes(K, B)
+    found = None                                       # smallest explicit violation of Cauchy-Schwarz, at the lowest slack that has one
+    for s in sorted(out):
+        P = out[s]; G = gram(P); ev = np.linalg.eigvalsh(G)
+        print(f"slack {s}: {len(P)} prefixes, rank {np.linalg.matrix_rank(G)}, least eigenvalue {ev[0]:.4f}, largest {ev[-1]:.1f}, symmetric {np.allclose(G, G.T)}")
+        if found is not None: continue
+        for i in range(len(P)):
+            for j in range(len(P)):
+                if G[i, j] ** 2 > G[i, i] * G[j, j] and (found is None or len(P[i][0]) + len(P[j][0]) < found[1]):
+                    found = (s, len(P[i][0]) + len(P[j][0]), P[i][0], P[j][0], int(G[i, i]), int(G[j, j]), int(G[i, j]))
+    if found is None: print("no pair with N(x mirror y)^2 > N(x mirror x) N(y mirror y) in this range")
+    else: print(f"slack {found[0]}, N(x mirror y)^2 > N(x mirror x) N(y mirror y): x = {found[2]}, y = {found[3]}, N(xx) = {found[4]}, N(yy) = {found[5]}, N(xy) = {found[6]}")

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Binary x-rays: which arrangements are proved</title>
+<style>
+  :root { --bg:#fbfaf7; --ink:#1d1d1f; --ink2:#6b6b70; --grid:#d9d6cf; --chip:#efece6; --hl:#c2410c; --hl2:#0f766e; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#17171a; --ink:#ececee; --ink2:#9a9aa2; --grid:#3a3a40; --chip:#26262b; --hl:#fb923c; --hl2:#2dd4bf; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font:15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+  main { max-width:520px; margin:0 auto; padding:16px 12px 28px; }
+  p.lead { color:var(--ink2); font-size:14px; margin:0 4px 10px; }
+  .row { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:10px; margin:7px 0; }
+  .lbl { color:var(--ink2); font-size:13px; }
+  .val { min-width:36px; text-align:center; font-variant-numeric:tabular-nums; font-weight:600; }
+  button.arrow, button.dice { border:0; background:var(--chip); color:var(--ink); width:32px; height:32px;
+                 border-radius:50%; font-size:16px; cursor:pointer; flex:none; }
+  .step { border:1px solid var(--grid); border-radius:10px; padding:10px 10px 8px; margin:0 0 4px; display:grid;
+          grid-template-columns:1fr 118px; gap:8px; align-items:center; }
+  .step h3 { margin:0 0 2px; font-size:13px; font-weight:600; color:var(--ink2); }
+  .word { font-variant-numeric:tabular-nums; font-weight:600; font-size:15px; letter-spacing:.02em; word-spacing:.12em; }
+  .word .cut { color:var(--hl); border-bottom:2px solid var(--hl); }
+  .word .new { color:var(--hl2); border-bottom:2px solid var(--hl2); }
+  .dset { color:var(--ink2); font-size:12px; font-variant-numeric:tabular-nums; margin-top:2px; }
+  .rule { text-align:center; color:var(--ink2); font-size:13px; margin:2px 0 6px; }
+  .rule b { color:var(--ink); font-weight:600; }
+  svg { display:block; width:100%; height:auto; }
+  .legend { color:var(--ink2); font-size:13px; margin:12px 4px 0; }
+  .legend b { color:var(--ink); font-weight:600; }
+  .k1 { color:var(--hl); font-weight:600; } .k2 { color:var(--hl2); font-weight:600; }
+  .verdict { border:1px solid var(--grid); border-radius:10px; padding:10px 12px; margin:8px 0; }
+  .verdict h3 { margin:0 0 4px; font-size:15px; }
+  .verdict ul { margin:4px 0 0; padding-left:18px; font-size:14px; }
+  .ok { color:var(--hl2); } .no { color:var(--hl); }
+  .two { display:grid; grid-template-columns:1fr 150px; gap:10px; align-items:center; }
+  .tally { text-align:center; color:var(--ink2); font-size:13px; margin:8px 0 0; }
+</style>
+</head>
+<body>
+<main>
+  <p class="lead">Pick an arrangement. Each bar is one stone, from the lowest diagonal up: its height says how many marks the stone sits above or below its evenly spaced place. A stone two or more above is <span class="k1">high</span>, two or more below is <span class="k2">low</span>. Dashed lines are tight cuts, where the arrangement splits into independent pieces.</p>
+  <div class="row"><span class="lbl">size n</span><button class="arrow" id="np">‹</button><span class="val" id="nv"></span><button class="arrow" id="nn">›</button>
+    <span class="lbl" style="margin-left:10px">arrangement</span><button class="arrow" id="wp">‹</button><span class="val" id="wv" style="min-width:86px"></span><button class="arrow" id="wn">›</button><button class="dice" id="wr" title="random">⚄</button></div>
+  <div class="row"><button class="dice" id="op" style="width:auto;border-radius:16px;padding:0 12px;font-size:13px">next one without a proof</button></div>
+  <div class="two"><div id="bars"></div><div id="board"></div></div>
+  <div class="word" id="word" style="text-align:center;margin-top:6px"></div>
+  <div class="dset" id="dset" style="text-align:center"></div>
+  <div class="verdict" id="verdict"></div>
+  <p class="tally" id="tally"></p>
+  <p class="legend"><b>What is proved.</b> A piece has a proof, for every size and every slack, if no <span class="k1">high</span> stone comes before a <span class="k2">low</span> stone; or if it rises and then falls with at most 2 above and 4 below (or 4 above and 2 below); or if it is a gentle beginning (nothing high), then one hill with letters between −2 and 2, then a gentle end (nothing low). The board shows one solution; for the pieces without a proof it comes from a search, and all arrangements this small were checked by computer.</p>
+  <p class="legend"><b>What is left.</b> A high stone before a low stone. The proof for the first family walks along the word with a set of hole patterns that depends only on the slack; a high stone breaks that set, and how to carry it across the stretch from the first high stone to the last low one (shaded) is the open question.</p>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+function words(n){ const out=[]; const w=[];
+  (function rec(s){ if (w.length===n){ if (s===0) out.push(w.slice()); return; }
+    const k=w.length, lo = k===0 ? 0 : Math.max(-s, w[k-1]-1);
+    for (let e=lo; e<=n; e++){ const left=n-k-1; if (s+e+left*e > left*(left+1)/2) break; w.push(e); rec(s+e); w.pop(); } })(0);
+  return out; }
+const diag = w => w.map((e,k)=>2*(k+1)+e-w.length-1);
+function witness(D){ const n=D.length, rows=new Array(n+1).fill(false), cols=new Array(n+2).fill(false), pts=[];
+  const order=D.map((d,i)=>i).sort((x,y)=>Math.abs(D[y])-Math.abs(D[x]));
+  function rec(i){ if (i===n) return true; const d=D[order[i]];
+    for (let r=Math.max(1,1-d); r<=Math.min(n,n-d); r++){ const c=r+d; if (rows[r]||cols[c]) continue;
+      rows[r]=cols[c]=true; pts.push([r,c]); if (rec(i+1)) return true; pts.pop(); rows[r]=cols[c]=false; }
+    return false; }
+  return rec(0) ? pts : null; }
+function pieces(w){ const out=[]; let s=0, a=0;
+  for (let i=0;i<w.length;i++){ s+=w[i]; if (s===0){ out.push([a,i]); a=i+1; } } return out; }
+function classify(q){ const mx=Math.max(...q), mn=Math.min(...q);
+  if (mx===0 && mn===0) return {ok:true, why: q.length===1 ? "a stone at its evenly spaced place" : "evenly spaced"};
+  if (mx<=1 && mn>=-1) return {ok:true, why:"every stone within one mark of evenly spaced"};
+  if (mx<=1) return {ok:true, why:"no high stone"};
+  if (mn>=-1) return {ok:true, why:"no low stone"};
+  const fh=q.findIndex(e=>e>=2); let ll=-1; q.forEach((e,i)=>{ if (e<=-2) ll=i; });
+  if (ll<fh) return {ok:true, why:"every low stone comes before every high stone"};
+  let uni=true, neg=false; for (const e of q){ if (e<0) neg=true; else if (e>0 && neg) uni=false; }
+  if (uni && ((mx<=2 && mn>=-4) || (mx<=4 && mn>=-2))) return {ok:true, why:"rises then falls, at most "+mx+" above and "+(-mn)+" below (two chosen stones)"};
+  { let i=0; while (i<q.length && q[i]<=1) i++;
+    let j=i; while (j<q.length && q[j]>=0 && q[j]<=2) j++;
+    let k=j; while (k<q.length && q[k]<=0 && q[k]>=-2) k++;
+    if (q.slice(k).every(e=>e>=-1)) return {ok:true, why:"a gentle beginning, one hill with letters between −2 and 2, a gentle end (one chosen stone)"}; }
+  return {ok:false, why:"a high stone comes before a low stone", lo:fh, hi:ll}; }
+const fmt = e => (e<0?"−":"")+Math.abs(e);
+function barsSVG(w, P, C){ const n=w.length, H=Math.max(2,...w.map(Math.abs)), bw=100/n, u=42/H, mid=50; let s=`<svg viewBox="0 0 100 100">`;
+  P.forEach(([a,b],j)=>{ const c=C[j]; if (!c.ok) s+=`<rect x="${(a+c.lo)*bw}" y="2" width="${(c.hi-c.lo+1)*bw}" height="96" fill="var(--chip)"/>`; });
+  s+=`<path d="M0 ${mid}H100" stroke="var(--grid)" stroke-width=".6"/>`;
+  P.slice(0,-1).forEach(([a,b])=>{ s+=`<path d="M${(b+1)*bw} 4V96" stroke="var(--ink2)" stroke-width=".5" stroke-dasharray="2 2"/>`; });
+  w.forEach((e,i)=>{ const col = e>=2 ? "var(--hl)" : e<=-2 ? "var(--hl2)" : "var(--ink)";
+    if (e===0) s+=`<circle cx="${(i+.5)*bw}" cy="${mid}" r="${Math.min(1.6,bw*.25)}" fill="${col}"/>`;
+    else s+=`<rect x="${i*bw+bw*.18}" y="${e>0?mid-e*u:mid}" width="${bw*.64}" height="${Math.abs(e)*u}" rx="1" fill="${col}"/>`; });
+  return s+"</svg>"; }
+function boardSVG(w){ const D=diag(w), n=D.length, S=100, c=S/n, pts=witness(D), col=new Map();
+  w.forEach((e,i)=>{ if (e>=2) col.set(D[i],"var(--hl)"); else if (e<=-2) col.set(D[i],"var(--hl2)"); });
+  let s=`<svg viewBox="-1 -1 ${S+2} ${S+2}">`;
+  for (let i=0;i<=n;i++) s+=`<path d="M0 ${i*c}H${S}M${i*c} 0V${S}" stroke="var(--grid)" stroke-width=".6" fill="none"/>`;
+  if (pts) for (const [r,q] of pts) s+=`<circle cx="${(q-.5)*c}" cy="${(r-.5)*c}" r="${c*.3}" fill="${col.get(q-r)||"var(--ink)"}"/>`;
+  return s+"</svg>"; }
+let n=7, W=[], OK=[], wi=0;
+const proved = w => pieces(w).every(([a,b])=>classify(w.slice(a,b+1)).ok);
+function render(){ $("nv").textContent=n; $("wv").textContent=`${wi+1} / ${W.length}`;
+  const w=W[wi], P=pieces(w), C=P.map(([a,b])=>classify(w.slice(a,b+1))), D=diag(w), all=C.every(c=>c.ok);
+  $("bars").innerHTML=barsSVG(w,P,C); $("board").innerHTML=boardSVG(w);
+  $("word").innerHTML=w.map(e=> e>=2?`<span class="k1">${fmt(e)}</span>` : e<=-2?`<span class="k2">${fmt(e)}</span>` : fmt(e)).join(" ");
+  $("dset").textContent="diagonals "+D.map(d=>(d<0?"−":d>0?"+":"")+Math.abs(d)).join(", ");
+  let h=`<h3 class="${all?"ok":"no"}">${all?"Proved for this kind of arrangement":"No proof yet for this kind of arrangement"}</h3>`;
+  if (P.length>1) h+=`It splits into ${P.length} pieces at its tight cuts:`;
+  h+="<ul>"+P.map(([a,b],j)=>`<li><b>${w.slice(a,b+1).map(fmt).join(" ")}</b>: <span class="${C[j].ok?"ok":"no"}">${C[j].why}</span></li>`).join("")+"</ul>";
+  $("verdict").innerHTML=h;
+  const k=OK.filter(x=>x).length;
+  $("tally").textContent=`Size ${n}: ${k} of ${W.length} arrangements are of a kind with a proof (${Math.round(100*k/W.length)}%).`; }
+function setN(m){ n=Math.max(3,Math.min(10,m)); W=words(n); OK=W.map(proved); wi=Math.floor(Math.random()*W.length); render(); }
+$("np").onclick=()=>setN(n-1); $("nn").onclick=()=>setN(n+1);
+$("wp").onclick=()=>{ wi=(wi+W.length-1)%W.length; render(); }; $("wn").onclick=()=>{ wi=(wi+1)%W.length; render(); };
+$("wr").onclick=()=>{ wi=Math.floor(Math.random()*W.length); render(); };
+$("op").onclick=()=>{ for (let j=1;j<=W.length;j++){ const i=(wi+j)%W.length; if (!OK[i]){ wi=i; break; } } render(); };
+setN(7);
+</script>
+</body>
+</html>

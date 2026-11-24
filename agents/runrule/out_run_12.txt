@@ -1,0 +1,3 @@
+B = 12: 3132 interface states, 3373 situations, largest set 1165; legal prefixes with empty reachable set: 0  (every valid word with slacks <= B is solvable)
+RUN(1,1)  tested 836 fails 6 fails1 6 failsLive 6   [x = 1 1 1 1 1 1; slack 6; missing 1 of 65, live 1]
+total checks 6897, failures 6, with a live missing state 6

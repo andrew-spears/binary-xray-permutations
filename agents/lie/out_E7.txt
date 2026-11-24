@@ -1,0 +1,1 @@
+type E7: |W| = 2903040, positive roots 63, dominant weights <= 2rho: 54573, of the form rho + w rho: 53801, regular: 1464, regular and not of that form: 0

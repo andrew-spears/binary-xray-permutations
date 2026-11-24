@@ -1,0 +1,5 @@
+m = 12, pattern 100: prefixes with slack 1: 22071; (A, state, phase) with placements but no odd S: 0; (A, state) with no placement at all: 0
+
+real	0m49.281s
+user	0m30.665s
+sys	0m0.006s

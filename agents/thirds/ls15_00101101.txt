@@ -1,0 +1,1 @@
+n = 15, prefix sums in [1, 99], pattern 00101101: words 223971; (word, phase) without an odd S: 0; without a solution: 0; max states 84476

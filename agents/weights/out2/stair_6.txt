@@ -1,0 +1,6 @@
+6 5 4 3 2 1: |F| = 7134, states with rows, columns < 13: 9490, LP-feasible 7158, + residue counts mod 2..1: 7158; not reachable: 221|5542 2221|5531 2222|4432 22|553211 331111|4421 3321|4422 3321|5322 33|542211
+6 5 4 3 2 1 0: |F| = 11090, states with rows, columns < 14: 12820, LP-feasible 11114, + residue counts mod 2..1: 11114; not reachable: 22|55421 22|64421 321111|5322 33|55311 33|5532 33|64311 4311|633 433111|521
+
+real	0m25.917s
+user	0m25.701s
+sys	0m0.363s
