@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Binary x-rays: three chains</title>
+<style>
+  :root { --bg:#fbfaf7; --ink:#1d1d1f; --ink2:#6b6b70; --grid:#d9d6cf; --chip:#efece6; --hl:#c2410c; --hl2:#0f766e; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#17171a; --ink:#ececee; --ink2:#9a9aa2; --grid:#3a3a40; --chip:#26262b; --hl:#fb923c; --hl2:#2dd4bf; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font:15px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+  main { max-width:520px; margin:0 auto; padding:16px 12px 28px; }
+  p.lead { color:var(--ink2); font-size:14px; margin:0 4px 10px; }
+  .row { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:10px; margin:7px 0; }
+  .lbl { color:var(--ink2); font-size:13px; }
+  .val { min-width:36px; text-align:center; font-variant-numeric:tabular-nums; font-weight:600; }
+  button.arrow, button.dice { border:0; background:var(--chip); color:var(--ink); width:32px; height:32px;
+                 border-radius:50%; font-size:16px; cursor:pointer; flex:none; }
+  .step { border:1px solid var(--grid); border-radius:10px; padding:10px 10px 8px; margin:0 0 4px; display:grid;
+          grid-template-columns:1fr; gap:8px; align-items:center; }
+  .step h3 { margin:0 0 2px; font-size:13px; font-weight:600; color:var(--ink2); }
+  .word { font-variant-numeric:tabular-nums; font-weight:600; font-size:15px; letter-spacing:.02em; word-spacing:.12em; }
+  .word .cut { color:var(--hl); border-bottom:2px solid var(--hl); }
+  .word .new { color:var(--hl2); border-bottom:2px solid var(--hl2); }
+  .dset { color:var(--ink2); font-size:12px; font-variant-numeric:tabular-nums; margin-top:2px; }
+  .rule { text-align:center; color:var(--ink2); font-size:13px; margin:2px 0 6px; }
+  .rule b { color:var(--ink); font-weight:600; }
+  svg { display:block; width:100%; height:auto; }
+  .chips { display:flex; flex-wrap:wrap; gap:5px; margin:3px 0 2px; }
+  .chip { background:var(--chip); border-radius:7px; padding:2px 7px; font-weight:600; font-variant-numeric:tabular-nums; font-size:14px; }
+  .chip.top { background:var(--hl); color:#fff; } .chip.low { outline:2px solid var(--hl2); }
+  .k3 { color:#7c3aed; font-weight:600; }
+  .legend { color:var(--ink2); font-size:13px; margin:12px 4px 0; }
+  .legend b { color:var(--ink); font-weight:600; }
+  .k1 { color:var(--hl); font-weight:600; } .k2 { color:var(--hl2); font-weight:600; }
+</style>
+</head>
+<body>
+<main>
+  <p class="lead">Pick an arrangement. The board shows a solution with as few chains as possible. A chain is a sequence of stones in which each stone is higher up and further right than the one before. So far three chains have always been enough.</p>
+  <div class="row"><span class="lbl">size n</span><button class="arrow" id="np">‹</button><span class="val" id="nv"></span><button class="arrow" id="nn">›</button>
+    <span class="lbl" style="margin-left:10px">arrangement</span><button class="arrow" id="wp">‹</button><span class="val" id="wv" style="min-width:74px"></span><button class="arrow" id="wn">›</button><button class="dice" id="dice" title="random">⚄</button></div>
+  <div class="step"><div><svg id="board" viewBox="0 0 480 480"></svg><div class="dset" id="verdict"></div></div></div>
+  <p class="legend"><b>Reading the picture.</b> Each stone is labelled with its diagonal (column − row). Stones of one colour form one chain, joined by a line. Two stones in different chains may still be one above the other; what matters is that no four stones are pairwise unrelated. Stones of a chain often sit in a row along an anti-diagonal: such a group uses neighbouring rows, neighbouring columns and every second diagonal.</p>
+</main>
+<script>
+function words(n){const out=[];(function rec(w,s){if(w.length===n){if(s===0)out.push(w.slice());return;}
+  const lo=w.length?w[w.length-1]-1:0;for(let e=Math.max(lo,-s);e<n-w.length;e++){w.push(e);rec(w,s+e);w.pop();}})([],0);return out;}
+let n=6,W=words(n),wi=W.findIndex(w=>w.join()==='2,1,0,0,-1,-2');
+const $=id=>document.getElementById(id), fmt=v=>v<0?'−'+(-v):''+v, COL=['var(--hl)','var(--hl2)','#7c3aed'];
+// sigma[row] = column, rows numbered from the top; a solution with no w+1 stones pairwise unrelated (no increasing run of w+1 columns)
+function solve(D,w){const m=D.length,inD=new Set(D),usedC=new Array(m).fill(false),sig=[];
+  const rec=(r,t)=>{if(r===m)return true;
+    for(let c=0;c<m;c++){if(usedC[c]||!inD.has(c-r)||c>t[w])continue;const u=t.slice();
+      for(let j=w-1;j>=1;j--)if(c>t[j])u[j+1]=Math.min(u[j+1],c);u[1]=Math.min(u[1],c);
+      usedC[c]=true;inD.delete(c-r);sig[r]=c;if(rec(r+1,u))return true;usedC[c]=false;inD.add(c-r);}
+    return false;};
+  const t=new Array(w+2).fill(m);return rec(0,t)?sig.slice(0,m):null;}
+function chainsOf(sig){const last=[],col=[];sig.forEach(c=>{let b=-1;last.forEach((l,j)=>{if(l>c&&(b<0||l<last[b]))b=j;});
+  if(b<0){last.push(c);col.push(last.length-1);}else{last[b]=c;col.push(b);}});return col;}
+function draw(){const w=W[wi],D=w.map((e,k)=>e+2*(k+1)-n-1);$('nv').textContent=n;$('wv').textContent=(wi+1)+' / '+W.length;
+  let sig=null,k=0;while(!sig&&k<n){k++;sig=solve(D,k);}
+  const col=chainsOf(sig),s=440/n,X=c=>20+s*(c+.5),Y=r=>20+s*(r+.5);let g='';
+  for(let i=0;i<=n;i++)g+='<line x1="'+(20+s*i)+'" y1="20" x2="'+(20+s*i)+'" y2="460" stroke="var(--grid)"/><line x1="20" y1="'+(20+s*i)+'" x2="460" y2="'+(20+s*i)+'" stroke="var(--grid)"/>';
+  for(let j=0;j<k;j++){const pts=[];for(let r=n-1;r>=0;r--)if(col[r]===j)pts.push(X(sig[r])+','+Y(r));
+    g+='<polyline points="'+pts.join(' ')+'" fill="none" stroke="'+COL[j%3]+'" stroke-width="2" opacity=".55"/>';}
+  for(let r=0;r<n;r++)g+='<circle cx="'+X(sig[r])+'" cy="'+Y(r)+'" r="'+Math.min(15,s*.36)+'" fill="'+COL[col[r]%3]+'"/><text x="'+X(sig[r])+'" y="'+(Y(r)+4)+'" text-anchor="middle" font-size="'+Math.min(12,s*.3)+'" font-weight="600" fill="#fff">'+fmt(sig[r]-r)+'</text>';
+  $('board').innerHTML=g;const size=[0,0,0];col.forEach(j=>size[j]++);
+  $('verdict').innerHTML='Letters '+w.map(fmt).join(' ')+'. Diagonals '+D.map(fmt).join(', ')+'. Fewest chains: <b>'+k+'</b> (sizes '+size.slice(0,k).join(', ')+').';}
+function setN(m){n=Math.max(3,Math.min(11,m));W=words(n);wi=Math.min(wi,W.length-1);draw();}
+$('np').onclick=()=>setN(n-1);$('nn').onclick=()=>setN(n+1);
+$('wp').onclick=()=>{wi=(wi+W.length-1)%W.length;draw();};$('wn').onclick=()=>{wi=(wi+1)%W.length;draw();};
+$('dice').onclick=()=>{wi=Math.floor(Math.random()*W.length);draw();};
+draw();
+</script>
+</body>
+</html>
