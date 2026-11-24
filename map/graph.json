@@ -5792,9 +5792,9 @@
   {
    "from": "twoplusone",
    "to": "threechains",
-   "kind": "implies",
+   "kind": "related",
    "status": "proved",
-   "why": "Two chains plus one stone is a solution with three chains (for that family)."
+   "why": "Two chains plus one stone is a solution with three chains, but only for arrangements with no high stone before a low stone; it would not give three chains for every arrangement."
   },
   {
    "from": "pm1twoplusone",

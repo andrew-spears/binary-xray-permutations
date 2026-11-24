@@ -1067,7 +1067,7 @@ e("threechains", "posetview", "related", "The width of the order: how many stone
 e("twochains", "threechains", "related", "The same claim with one chain fewer.", "unchecked")
 e("chainmachine", "threechains", "related", "Three chains are enough iff the machine with w = 3 accepts every valid word.")
 e("chainmachine", "twochains", "related", "For w = 2 the machine accepts the same words as the two-partition machine.")
-e("twoplusone", "threechains", "implies", "Two chains plus one stone is a solution with three chains (for that family).")
+e("twoplusone", "threechains", "related", "Two chains plus one stone is a solution with three chains, but only for arrangements with no high stone before a low stone; it would not give three chains for every arrangement.")
 e("pm1twoplusone", "threechains", "related", "The same statement for letters −1, 0, 1, where it still holds in tests.", "unchecked")
 e("vexillary", "thincorners", "related", "Both look for a smaller machine that still solves every arrangement; both fail.", "unchecked")
 e("centralonly", "landauexact", "related", "Why the start family must be four classes and not one.", "unchecked")
