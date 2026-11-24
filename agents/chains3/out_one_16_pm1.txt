@@ -1,0 +1,1 @@
+n 16  words with letters in -1,0,1: 72832  two chains: 69836  two chains + one stone: 2996  neither: 0
