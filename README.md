@@ -4,7 +4,7 @@ Research notes, data and code for an open conjecture about permutation matrices.
 
 ## The question
 
-Given n distinct diagonals of an n×n matrix, when is it possible to place n non-attacking rooks in the matrix with exactly one on each given diagonal? Equivalently: for which 0/1 vectors of length 2n − 1 is there a permutation matrix whose entries, projected onto the anti-diagonal, give exactly that vector? We index the diagonals by column − row, from −(n−1) to n−1, and call such a permutation matrix a *witness* for the vector.
+Given n distinct diagonals of an n×n matrix, when is it possible to place n non-attacking rooks in the matrix with exactly one on each given diagonal? Equivalently: for which 0/1 vectors of length 2n − 1 is there a permutation matrix whose entries, projected onto the anti-diagonal, give exactly that vector? We call such a permutation matrix a *witness* for the vector.
 
 <p align="center"><img src="docs/intro/0-examples.png" width="560" alt="Left: a 4×4 permutation matrix, turned 45°, projected onto a vector with 1s at −2, −1, 1, 2. Right: the vector with 1s at −3, −2, 2, 3 has no witness."></p>
 
