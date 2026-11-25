@@ -16,7 +16,7 @@ A 2005 paper by Bebeacua, Mansour, Postnikov and Severini proposes a condition o
 
 <p align="center"><img src="docs/intro/1-start.png" width="360" alt="The 7×7 anti-diagonal permutation matrix, turned 45°, projected onto the vector with points at −6, −4, −2, 0, 2, 4, 6"></p>
 
-**Figure 2.** A *move* takes any two points and moves each one index closer to the other, keeping all points on distinct indices. Here the points at −6 and 0 move to −5 and −1.
+**Figure 2.** A *move* takes any two points and moves them both one index closer together, keeping all points on distinct indices. Here the points at −6 and 0 move to −5 and −1.
 
 <p align="center"><img src="docs/intro/2-move.png" width="360" alt="The points at −6 and 0 each move one index toward the other"></p>
 
