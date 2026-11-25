@@ -30,7 +30,7 @@ A 2005 paper by Bebeacua, Mansour, Postnikov and Severini proposes a condition o
 
 <p align="center"><img src="docs/intro/4-final.png" width="360" alt="Final vectors: for n = 7, points at −3 to 3; for n = 6, points at −3 to 3 except 0"></p>
 
-**Figure 5.** A vector is *reachable* if some sequence of legal moves takes the starting vector to it. The top vector is reachable by the two moves above. The bottom one is not: a move never decreases the sum of the k leftmost points, and here the two leftmost sum to −11, below the starting −10.
+**Figure 5.** A vector is *reachable* if it can be reached by some sequence of legal moves from starting vector. The top vector is reachable by the two moves above. The bottom one is not: a move never decreases the sum of the k leftmost points, and here the two leftmost sum to −11, below the starting −10.
 
 <p align="center"><img src="docs/intro/5-reachable.png" width="360" alt="Top: a reachable vector, with the two moves from the starting vector shown. Bottom: a vector with points at −6, −5, −4, 0, 4, 5, 6, which is not reachable."></p>
 
