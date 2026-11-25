@@ -8,31 +8,37 @@ Research notes, data and code for an open conjecture about permutations: **Bebea
 
 There's an interactive version of this walkthrough in the [equivalent views lab](https://claude.ai/artifact/QLBTrw2VAiCUpzDjjQsegN).
 
-**1.** A plank balances on a fulcrum. Seven identical stones sit on every other mark, symmetric about the middle.
+Take a plank with 2n − 1 marks, labelled −(n−1), …, n−1. The pictures use n = 7, so the marks run from −6 to 6.
 
-<p align="center"><img src="docs/intro/1-start.png" width="480" alt="Seven stones on every other mark of a balanced plank"></p>
+**Figure 1.** Place n stones on every other mark: −6, −4, …, 4, 6. This is the *starting arrangement*.
 
-**2.** A *move*: pick two stones and slide each one mark toward the other. No two stones may share a mark. The plank stays balanced, because one stone gains exactly what the other loses.
+<p align="center"><img src="docs/intro/1-start.png" width="480" alt="Seven stones on every other mark of a plank"></p>
 
-<p align="center"><img src="docs/intro/2-move.png" width="480" alt="Two stones sliding one mark toward each other"></p>
+**Figure 2.** A *move* takes any two stones and slides each one mark toward the other. The stones need not be neighbours. A move is legal when the two marks the stones land on are empty and different from each other. Here the stones at −6 and 0 move to −5 and −1.
 
-**3.** Keep making moves, and the stones always end up packed together in the middle.
+<p align="center"><img src="docs/intro/2-move.png" width="480" alt="The stones at -6 and 0 each slide one mark toward the other"></p>
 
-<p align="center"><img src="docs/intro/3-packed.png" width="480" alt="All seven stones packed together in the middle"></p>
+**Figure 3.** A second move: the stones at 2 and 6 move to 3 and 5.
 
-**4.** Any arrangement you pass through on the way is called *reachable*. Here's one that looks random.
+<p align="center"><img src="docs/intro/3-second-move.png" width="480" alt="The stones at 2 and 6 each slide one mark toward the other"></p>
 
-<p align="center"><img src="docs/intro/4-reachable.png" width="480" alt="A reachable arrangement that looks random"></p>
+**Figure 4.** Every move brings two stones closer together, so you can't keep moving forever. Eventually you reach an arrangement where no move is legal. Whatever moves you choose, it's always the same final arrangement. For n odd, the stones fill the n middle marks, as in Figure 4. For n even, they fill the n + 1 middle marks except the centre mark 0.
 
-**5.** Now tilt the plank and look down from above. Its top is a 7×7 grid of cells turned 45°, and each mark on the plank is one *diagonal* of the grid. A stone may only slide along its own diagonal.
+<p align="center"><img src="docs/intro/4-final.png" width="480" alt="All seven stones on the seven middle marks"></p>
 
-<p align="center"><img src="docs/intro/5-from-above.png" width="640" alt="The plank tilted, then seen from above as a grid turned 45 degrees"></p>
+**Figure 5.** An arrangement is *reachable* if some sequence of legal moves takes the starting arrangement to it. This one is reachable: it is the result of the moves in Figures 2 and 3, followed by the stones at −4 and 3 moving to −3 and 2.
 
-**6.** Can the stones slide so that every stone has a row to itself and a column to itself? In the picture, each stone sends a line up its row to one edge and up its column to the other. Every row and every column is hit exactly once: the stones form a permutation. This arrangement can be solved.
+<p align="center"><img src="docs/intro/5-reachable.png" width="480" alt="A reachable arrangement"></p>
 
-<p align="center"><img src="docs/intro/6-solution.png" width="420" alt="Stones slid along their diagonals so that each row and each column holds one stone"></p>
+**Figure 6.** So far a stone's position has been a single number. Now give the plank a second dimension. The stones actually sit on an n×n board, and each mark on the plank stands for one diagonal of that board: the cells with a fixed value of column − row. The dashed lines in Figure 6 run along the diagonals that hold a stone. Seen edge-on from the front, each diagonal shrinks to a single point, which is a tick on the plank, so the 13 marks are the 13 diagonals of a 7×7 board. The plank picture records only *which diagonals* hold a stone. Within its diagonal, a stone may sit in any cell, and from the side every such placement looks the same.
 
-**The conjecture:** every reachable arrangement can be solved like this, whatever the number of stones.
+<p align="center"><img src="docs/intro/6-board.png" width="640" alt="The same stones on a 7 by 7 board turned 45 degrees, tilted and seen from above, with dashed lines along their diagonals"></p>
+
+**Figure 7.** Everything up to now was a construction: a way to produce sets of diagonals. This is the actual puzzle. Take a reachable arrangement, then slide each stone along its own diagonal so that every row and every column of the board contains exactly one stone; in other words, the stones form a permutation matrix. In Figure 7, each stone sends one line along its row and one along its column to the board's two upper edges, and every row and every column is hit exactly once. Finding such a placement is the hard part. Moving one stone to free up a row usually takes its new row or column from another stone, and no general method is known.
+
+<p align="center"><img src="docs/intro/7-solution.png" width="420" alt="Each stone slid along its diagonal so that every row and every column holds exactly one stone"></p>
+
+**The conjecture:** for every n, every reachable arrangement of n stones on the plank can be placed on the n×n board, each stone on its own diagonal, with every row and every column containing exactly one stone.
 
 ## The conjecture, formally
 
@@ -44,7 +50,7 @@ Write D = {d₁ < d₂ < … < dₙ} and s_k = d_k + n − k. **Landau's conditi
 
 > **Conjecture** (Bebeacua–Mansour–Postnikov–Severini 2005, Conj. 5; Nordh 2008, Conj. 10). D has a witness **if and only if** D satisfies Landau's condition.
 
-How this matches the pictures: the stones sit at the marks d ∈ D. Balance is the equality at k = n, since it says Σ d = 0. The starting position, a stone on every other mark, is D = {−(n−1), −(n−3), …, n−1}. The arrangements reachable from it by moves are exactly the ones satisfying Landau's condition (proved; card `mm` in the graph).
+How this matches the pictures: the stones sit at the marks d ∈ D. Balance is the equality at k = n, since it says Σ d = 0. The starting position, a stone on every other mark, is D = {−(n−1), −(n−3), …, n−1}. The arrangements reachable from it by moves are exactly the ones satisfying Landau's condition (proved; card `mm` in the graph). Each move lowers Σ d², so moves terminate. When no move is legal, the stones form one block of consecutive marks, or two blocks with a single empty mark between them, and Σ d = 0 then forces the final arrangement of Figure 4.
 
 **Status.** The "only if" direction is known. The "if" direction is open; it has been checked by exhaustive search for every n ≤ 22. If D has a *tight cut* (equality for some k < n), it splits into two smaller instances, so only the D with no tight cut matter. Nordh's formulation is about extremal Skolem sets: put rows at positions 1…n and columns at n+1…2n, and a witness becomes a pairing of {1, …, 2n} whose pair lengths are n + D.
 
