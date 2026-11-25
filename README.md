@@ -1,93 +1,42 @@
 # Binary x-rays of permutations
 
-**The question:** given n distinct diagonals of an n×n board, when can you place n non-attacking rooks so that each of those diagonals holds exactly one rook? A 2005 conjecture gives a simple answer. This repository holds research notes, data and code for proving or disproving it. The conjecture is **Bebeacua–Mansour–Postnikov–Severini Conjecture 5**, which is the same as **Nordh Conjecture 10**.
+Research notes, data and code for an open conjecture about permutation matrices. **[Progress dashboard](https://claude.ai/artifact/PnNNnhXRqfmtgrEThzoG9Z)**: what is proved, what holds in tests, and what has been ruled out (other ways to open it are under [Opening the dashboard](#opening-the-dashboard)).
 
-**[Progress dashboard](https://claude.ai/artifact/PnNNnhXRqfmtgrEThzoG9Z):** what is proved, what holds in tests, what has been ruled out, and how it fits together. It is a claude.ai page; if it doesn't open for you, clone the repository and open `map/index.html` in a browser.
+## The question
 
-## The puzzle, in pictures
+Given n distinct diagonals of an n×n matrix, when is it possible to place n non-attacking rooks in the matrix with exactly one on each given diagonal? Equivalently: for which 0/1 vectors of length 2n − 1 is there a permutation matrix whose entries, projected onto the anti-diagonal, give exactly that vector? We index the diagonals by column − row, from −(n−1) to n−1, and call such a permutation matrix a *witness* for the vector.
 
-Take a plank with 2n − 1 marks, labelled −(n−1), …, n−1. The pictures use n = 7, so the marks run from −6 to 6.
+<p align="center"><img src="docs/intro/0-examples.png" width="560" alt="Left: a 4×4 permutation matrix, turned 45°, projected onto a vector with 1s at −2, −1, 1, 2. Right: the vector with 1s at −3, −2, 2, 3 has no witness."></p>
 
-**Figure 1.** Place n stones on every other mark: −6, −4, …, 4, 6. This is the *starting arrangement*.
+On the left, a permutation matrix and its projection. On the right, a vector with no witness: diagonal −3 is a single cell, and both cells of diagonal −2 share its row or its column.
 
-<p align="center"><img src="docs/intro/1-start.png" width="480" alt="Seven stones on the marks -6, -4, -2, 0, 2, 4, 6 of a plank"></p>
+A 2005 paper by Bebeacua, Mansour, Postnikov and Severini proposes a condition on the vector, which is most intuitively described by the following process.
 
-**Figure 2.** A *move* takes two stones at marks a < b, where b − a ≥ 3 and the marks a + 1 and b − 1 are both empty, and moves them to a + 1 and b − 1. In words: each stone slides one mark toward the other. The two stones need not be neighbours. One stone moves right by one and the other left by one, so the sum of the stones' positions never changes; it stays 0. Here the stones at −6 and 0 move to −5 and −1.
+**Figure 1.** Place n points on alternating indices: −6, −4, …, 4, 6 (here n = 7). This is the *starting vector*. Notice that it is also the projection of the matrix with points along the anti-diagonal.
 
-<p align="center"><img src="docs/intro/2-move.png" width="480" alt="The stones at -6 and 0 each slide one mark toward the other"></p>
+<p align="center"><img src="docs/intro/1-start.png" width="360" alt="The 7×7 anti-diagonal permutation matrix, turned 45°, projected onto the vector with points at −6, −4, −2, 0, 2, 4, 6"></p>
 
-**Figure 3.** A second move: the stones at 2 and 6 move to 3 and 5.
+**Figure 2.** A *move* takes any two points and moves each one index closer to the other, keeping all points on distinct indices. Here the points at −6 and 0 move to −5 and −1.
 
-<p align="center"><img src="docs/intro/3-second-move.png" width="480" alt="The stones at 2 and 6 each slide one mark toward the other"></p>
+<p align="center"><img src="docs/intro/2-move.png" width="360" alt="The points at −6 and 0 each move one index toward the other"></p>
 
-**Figure 4.** A move from a, b to a + 1, b − 1 lowers the sum of the squared positions by 2(b − a − 1) > 0, so no sequence of moves goes on forever. Eventually you reach an arrangement where no move is legal. Whatever moves you choose, it is always the same final arrangement:
-- **n odd:** the stones fill the n middle marks, as shown here.
-- **n even:** the stones fill the n + 1 middle marks except the centre mark 0.
+**Figure 3.** A second move: the points at 2 and 6 move to 3 and 5.
 
-<p align="center"><img src="docs/intro/4-final.png" width="480" alt="All seven stones on the marks -3 to 3"></p>
+<p align="center"><img src="docs/intro/3-second-move.png" width="360" alt="The points at 2 and 6 each move one index toward the other"></p>
 
-**Figure 5.** An arrangement is *reachable* if some sequence of legal moves takes the starting arrangement to it. This one is reachable: it is the result of the moves in Figures 2 and 3, followed by the stones at −4 and 3 moving to −3 and 2. Not every arrangement whose positions sum to 0 is reachable; there is an example below.
+**Figure 4.** It turns out that after enough moves, you always reach the same final vector, where no move is legal:
+- n odd: the points fill the n middle indices.
+- n even: the points fill the n + 1 middle indices, excluding the center.
 
-<p align="center"><img src="docs/intro/5-reachable.png" width="480" alt="A reachable arrangement: stones on -5, -3, -2, -1, 2, 4, 5"></p>
+<p align="center"><img src="docs/intro/4-final.png" width="360" alt="Final vectors: for n = 7, points at −3 to 3; for n = 6, points at −3 to 3 except 0"></p>
 
-**Figure 6.** Now read the plank as the side view of a board. Take an n×n board turned 45°, so that one corner points up. Number its rows 1, …, n down the upper-left edge and its columns 1, …, n down the upper-right edge. The cell in row i, column j lies on the *diagonal* j − i. In this picture the cells of one diagonal form a vertical line, from −(n−1) on the far left to n−1 on the far right.
+**Figure 5.** A vector is *reachable* if some sequence of legal moves takes the starting vector to it. The top vector is reachable by the two moves above. The bottom one is not: a move never decreases the sum of the k leftmost points, and here the two leftmost sum to −11, below the starting −10.
 
-Seen edge-on from the front, each of these vertical lines collapses to a single point. The 2n − 1 diagonals become exactly the 2n − 1 marks of the plank. Figure 6a shows the board tilted. Figure 6b shows it from above, with the plank of Figure 5 underneath: the dashed lines run down the diagonals that hold a stone, onto those stones' marks.
+<p align="center"><img src="docs/intro/5-reachable.png" width="360" alt="Top: a reachable vector, with the two moves from the starting vector shown. Bottom: a vector with points at −6, −5, −4, 0, 4, 5, 6, which is not reachable."></p>
 
-So a plank arrangement records only *which diagonals* hold a stone. Within its diagonal, a stone may sit in any cell, and from the side every such placement looks the same. In Figure 6 the stones are placed arbitrarily, and several of them share a row or a column.
+One can easily show that if a vector is the projection of some permutation matrix, then it is reachable. But is every reachable vector also the projection of some permutation matrix? In other words, if I give you any reachable vector as the prescribed diagonals of an n×n matrix, can you always slide the points along their prescribed diagonals until they occupy distinct rows and columns?
 
-<p align="center"><img src="docs/intro/6a-board-tilted.png" width="480" alt="Figure 6a: the board tilted, stones on their diagonals, dashed lines along those diagonals"></p>
-
-<p align="center"><img src="docs/intro/6b-board-from-above.png" width="420" alt="Figure 6b: the board from above, with the plank of Figure 5 underneath and dashed lines from each diagonal down to its mark"></p>
-
-**Figure 7.** Everything up to now was a construction: a way to produce sets of diagonals. This is the actual puzzle. Take a reachable arrangement, then slide each stone along its own diagonal so that every row and every column of the board contains exactly one stone. In other words, the stones form a permutation matrix.
-
-In Figure 7, each stone sends one line along its row to the upper-left edge and one along its column to the upper-right edge, and every row and every column is hit exactly once. Reading the rows in order, rows 1, …, 7 hold stones in columns 5, 7, 1, 6, 4, 3, 2. That is the permutation π = 5716432. Its diagonals π(i) − i are 4, 5, −2, 2, −1, −3, −5, the marks of Figure 5.
-
-Finding such a placement is the hard part. Moving one stone to free up a row usually takes its new row or column from another stone, and no general method is known.
-
-<p align="center"><img src="docs/intro/7-solution.png" width="420" alt="Each stone slid along its diagonal so that every row and every column holds exactly one stone"></p>
-
-**The conjecture:** for every n, every reachable arrangement of n stones on the plank can be placed on the n×n board, each stone in some cell of the diagonal given by its mark, with every row and every column containing exactly one stone.
-
-The converse is known: an arrangement that is not reachable can never be placed. So the conjecture says that an arrangement can be placed *exactly when* it is reachable.
-
-For example, take n = 4 and the arrangement {−3, −2, 2, 3}. Its positions sum to 0, but it is not reachable, and it cannot be placed. Diagonal −3 is the single cell in row 4, column 1. The two cells of diagonal −2 are (row 3, column 1) and (row 4, column 2), and each shares a column or a row with it.
-
-**A small case.** For n = 3 the reachable arrangements are {−2, 0, 2} (the start) and {−1, 0, 1} (the final arrangement). Here are placements for both, drawn as ordinary matrices with row 1 on top. The board pictures above are these matrices turned 45°.
-
-```
-{−2, 0, 2}       {−1, 0, 1}
- . . ●            ● . .
- . ● .            . . ●
- ● . .            . ● .
-```
-
-An interactive version of this walkthrough is in the [equivalent views lab](https://claude.ai/artifact/QLBTrw2VAiCUpzDjjQsegN) (a claude.ai page).
-
-## The conjecture, formally
-
-Number the cells of the n×n board by (row i, column j), and call d = j − i the cell's **diagonal**, so −(n−1) ≤ d ≤ n−1. A permutation π puts one point in each row i, at column π(i). Its **diagonal x-ray** is the vector counting π's points on each of the 2n − 1 diagonals. The x-ray is **binary** when every count is 0 or 1. Then the diagonals used form a set D of exactly n diagonals, and π is a **witness** for D. The plank picture is this x-ray: it is the board seen edge-on, which is where the name comes from.
-
-Write D = {d₁ < d₂ < … < dₙ}. **Landau's condition** on D is:
-
-  d₁ + … + d_k ≥ −k(n − k) for every k, with equality at k = n (that is, Σ d = 0).
-
-It is necessary. Any k points of a permutation lie in k distinct rows and k distinct columns, so their diagonals sum to at least (1 + … + k) − ((n−k+1) + … + n) = −k(n − k). Apply this to the points on the k lowest diagonals. The name: with s_k = d_k + n − k, the condition says exactly that s is the score sequence of a tournament on n players, by Landau's theorem (1953).
-
-> **Conjecture** (Bebeacua–Mansour–Postnikov–Severini 2005, Conj. 5; Nordh 2008, Conj. 10). D has a witness **if and only if** D satisfies Landau's condition.
-
-**How this matches the pictures.**
-- The stones sit at the marks d ∈ D, and a move keeps Σ d = 0.
-- The starting arrangement is D = {−(n−1), −(n−3), …, n−1}.
-- The arrangements reachable from it are exactly the ones satisfying Landau's condition (proved; see the dashboard).
-- Why the final arrangement is unique: when no move is legal, the stones form one block of consecutive marks, or two blocks with a single empty mark between them. Σ d = 0 then leaves only the arrangement described in Figure 4.
-
-**Status.** The "only if" direction is the necessity argument above. The "if" direction is open; it has been checked by exhaustive search for every n ≤ 22.
-
-**Tight cuts.** Suppose equality holds at some k < n. Then the bound in the necessity argument is attained, so the k points on the k lowest diagonals fill rows n−k+1, …, n and columns 1, …, k: the k×k block in the lower-left corner. The other n − k diagonals then form an independent instance of size n − k in the upper-right block. So only the D with no tight cut matter.
-
-**Skolem form.** Nordh's formulation is about extremal Skolem sets. Put rows at positions 1, …, n and columns at n+1, …, 2n, and a witness becomes a pairing of {1, …, 2n} whose pair lengths are n + D. These lengths sum to n², the largest total any pairing of {1, …, 2n} can have, and a pairing reaches it only when every pair joins one of 1, …, n to one of n+1, …, 2n. So such pairings correspond exactly to witnesses.
+That is the conjecture (Bebeacua–Mansour–Postnikov–Severini 2005, Conjecture 5; Nordh 2008, Conjecture 10). It has been checked by computer for every n ≤ 22.
 
 ## What's here
 
