@@ -1,6 +1,52 @@
 # Binary x-rays of permutations
 
-This repo is research notes, data and code for **Bebeacua–Mansour–Postnikov–Severini Conjecture 5 / Nordh Conjecture 10**. The conjecture: a set D of n distinct diagonals (d = column − row) of the n×n board is the diagonal x-ray of a permutation if and only if s_k = d_k + n − k is a tournament score sequence (Landau's condition). Necessity is known. Sufficiency has been verified for n ≤ 22 and is open.
+Research notes, data and code for an open conjecture about permutations: **Bebeacua–Mansour–Postnikov–Severini Conjecture 5**, which is the same as **Nordh Conjecture 10**.
+
+**[Open the progress dashboard →](https://claude.ai/artifact/PnNNnhXRqfmtgrEThzoG9Z)** It shows what is proved, what holds in tests, what has been ruled out, and how it all fits together.
+
+## The puzzle, in pictures
+
+There's an interactive version of this walkthrough in the [equivalent views lab](https://claude.ai/artifact/QLBTrw2VAiCUpzDjjQsegN).
+
+**1.** A plank balances on a fulcrum. Seven identical stones sit on every other mark, symmetric about the middle.
+
+<p align="center"><img src="docs/intro/1-start.png" width="480" alt="Seven stones on every other mark of a balanced plank"></p>
+
+**2.** A *move*: pick two stones and slide each one mark toward the other. No two stones may share a mark. The plank stays balanced, because one stone gains exactly what the other loses.
+
+<p align="center"><img src="docs/intro/2-move.png" width="480" alt="Two stones sliding one mark toward each other"></p>
+
+**3.** Keep making moves, and the stones always end up packed together in the middle.
+
+<p align="center"><img src="docs/intro/3-packed.png" width="480" alt="All seven stones packed together in the middle"></p>
+
+**4.** Any arrangement you pass through on the way is called *reachable*. Here's one that looks random.
+
+<p align="center"><img src="docs/intro/4-reachable.png" width="480" alt="A reachable arrangement that looks random"></p>
+
+**5.** Now tilt the plank and look down from above. Its top is a 7×7 grid of cells turned 45°, and each mark on the plank is one *diagonal* of the grid. A stone may only slide along its own diagonal.
+
+<p align="center"><img src="docs/intro/5-from-above.png" width="640" alt="The plank tilted, then seen from above as a grid turned 45 degrees"></p>
+
+**6.** Can the stones slide so that every stone has a row to itself and a column to itself? In the picture, each stone sends a line up its row to one edge and up its column to the other. Every row and every column is hit exactly once: the stones form a permutation. This arrangement can be solved.
+
+<p align="center"><img src="docs/intro/6-solution.png" width="420" alt="Stones slid along their diagonals so that each row and each column holds one stone"></p>
+
+**The conjecture:** every reachable arrangement can be solved like this, whatever the number of stones.
+
+## The conjecture, formally
+
+Number the cells of the n×n board by (row i, column j) and call d = j − i the cell's **diagonal**, so −(n−1) ≤ d ≤ n−1. A permutation π uses the diagonals π(i) − i, one per row. Given a set D of n distinct diagonals, a **witness** for D is a permutation that uses every diagonal in D exactly once. Equivalently, D is the *binary diagonal x-ray* of π: every diagonal holds one point of π or none.
+
+Write D = {d₁ < d₂ < … < dₙ} and s_k = d_k + n − k. **Landau's condition** says s is the score sequence of a tournament:
+
+  s₁ + … + s_k ≥ k(k−1)/2 for every k, with equality at k = n.
+
+> **Conjecture** (Bebeacua–Mansour–Postnikov–Severini 2005, Conj. 5; Nordh 2008, Conj. 10). D has a witness **if and only if** D satisfies Landau's condition.
+
+How this matches the pictures: the stones sit at the marks d ∈ D. Balance is the equality at k = n, since it says Σ d = 0. The starting position, a stone on every other mark, is D = {−(n−1), −(n−3), …, n−1}. The arrangements reachable from it by moves are exactly the ones satisfying Landau's condition (proved; card `mm` in the graph).
+
+**Status.** The "only if" direction is known. The "if" direction is open; it has been checked by exhaustive search for every n ≤ 22. If D has a *tight cut* (equality for some k < n), it splits into two smaller instances, so only the D with no tight cut matter. Nordh's formulation is about extremal Skolem sets: put rows at positions 1…n and columns at n+1…2n, and a witness becomes a pairing of {1, …, 2n} whose pair lengths are n + D.
 
 ## What's here
 
@@ -45,4 +91,5 @@ The full version is in `docs/claims-map-guide.md`.
 
 - **On this machine:** open `map/index.html` in a browser. Nothing needs to be served.
 - **As one file:** `python3 map/bundle.py` writes `map/dashboard-single.html` with the data, the labs and the graph inside. Send it as an attachment and open it in a browser.
-- **As a link:** the repository is ready for GitHub Pages; it is not switched on. The steps, and what becomes public, are in `docs/claims-map-guide.md` §7. The address would be https://andrew-spears.github.io/binary-xray-permutations/.
+- **As a link:** a snapshot of the dashboard is published at https://claude.ai/artifact/PnNNnhXRqfmtgrEThzoG9Z. It is rebuilt by hand, so it can lag behind `main`.
+- **On GitHub Pages:** the repository is ready for Pages; it is not switched on. The steps, and what becomes public, are in `docs/claims-map-guide.md` §7. The address would be https://andrew-spears.github.io/binary-xray-permutations/.
