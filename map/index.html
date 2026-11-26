@@ -106,6 +106,9 @@ body.graph main iframe{width:100%;height:100%;border:0;display:block}
 .pbody.frame{padding:0;overflow:hidden;display:flex;flex-direction:column}.pbody iframe{flex:1;width:100%;border:0;display:block;background:var(--bg)}
 .labbar{padding:8px 12px;border-bottom:1px solid var(--line)}.labbar button{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:6px 10px}
 .lead{font-size:16px}
+a.term{color:var(--run);text-decoration:none;border-bottom:1px dotted color-mix(in srgb,var(--run) 60%,transparent);cursor:pointer}a.term:hover{border-bottom-style:solid}
+.inl{border:0;background:none;padding:0;color:var(--ink2);text-decoration:underline dotted;font:inherit}
+.gl dt{font-weight:600;margin-top:14px}.gl dd{margin:2px 0 0}.gl dd .sub{display:block;margin-top:2px}
 .tabs{display:flex;gap:4px;background:var(--chip);border-radius:9px;padding:3px;margin-top:8px}
 .tab{flex:1;border:0;background:transparent;border-radius:7px;padding:8px 4px;color:var(--ink2);font-size:14px}
 .tab.on{background:var(--card);color:var(--ink);font-weight:600;box-shadow:0 1px 3px rgba(0,0,0,.12)}
@@ -134,7 +137,7 @@ table.cnt{border-collapse:collapse;font-size:14px;margin:6px 0}table.cnt td,tabl
 <header><div class="hrow">
   <h1>Binary x-ray conjecture: progress</h1>
   <nav id="nav">
-    <a href="#/overview" data-v="overview">Overview</a><a href="#/families" data-v="families">Families</a><a href="#/routes" data-v="routes">Routes</a><a href="#/cards" data-v="cards">Cards</a><a href="#/graph" data-v="graph">Graph</a>
+    <a href="#/overview" data-v="overview">Overview</a><a href="#/families" data-v="families">Families</a><a href="#/routes" data-v="routes">Routes</a><a href="#/cards" data-v="cards">Cards</a><a href="#/graph" data-v="graph">Graph</a><a href="#/terms" data-v="terms">Terms</a>
   </nav>
 </div></header>
 <main id="main"></main>
@@ -227,17 +230,28 @@ const parseWord = t => t.replace(/−/g, "-").trim().split(/[\s,]+/).map(Number)
 function verdict(w) { const P = pieces(w), ok = P.every(T1.proved), D = diag(w), b = solBoard(w), ms = maxSlack(w);
   return `<div class="verdict"><p class="${ok ? "ok" : "no"}">${ok ? "Proved for this kind of arrangement" : "In none of the proved families"}</p>
    <div class="two"><div>${bigBars(w)}</div><div>${b}</div></div>
-   <p class="word">${wordHTML(w)}</p><p class="sub">Size ${w.length}. Diagonals ${D.map(d => (d > 0 ? "+" : "") + fmt(d)).join(", ")}. Largest slack ${ms}.${b ? " The board shows one solution, found by search." : ""}</p>
+   <p class="word">${wordHTML(w)}</p><p class="sub">Size ${w.length}. Diagonals ${D.map(d => (d > 0 ? "+" : "") + fmt(d)).join(", ")}. Largest ${T("slack", "slack")} ${ms}.${b ? " The board shows one solution, found by search." : ""}</p>
    ${P.length > 1 ? `<p>It splits into ${P.length} pieces at its tight cuts (dashed lines):</p>` : ""}
    ${P.map(q => `<p><span class="word">${wordHTML(q)}</span>: ${why(q) ? `<span class="ok">${why(q)}</span>` : `<span class="no">a high stone before a low stone, in none of the proved families</span> (shaded: the open stretch)`}</p>`).join("")}
    <p class="sub">${ok ? "" : (w.length <= 22 ? "It has a solution: every arrangement up to size 22 was checked by exhaustive search. " : ms <= 16 ? "It has a solution by the complete machine search for slack at most 16. " : "")}Member of: ${G.families.filter(f => f.test && FAM_TESTS[f.test](w)).map(f => `<button class="chip s-${f.status}" data-fam="${f.id}"><span class="dot"></span>${esc(f.name)}</button>`).join(" ")}</p></div>`; }
+
+// ---------- glossary links: the first use of a project term on a page links to its entry ----------
+const TERMS = G.terms || [], termById = Object.fromEntries(TERMS.map(t => [t.id, t])), FORM = {};
+TERMS.forEach(t => t.forms.forEach(f => FORM[f.toLowerCase()] = t.id));
+const TRE = new RegExp("(?<![\\w\\-])(" + Object.keys(FORM).sort((a, b) => b.length - a.length).map(f => esc(f).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")(?![\\w\\-])", "gi");
+let LK = null;   // the page being written: { seen: terms already linked, self: the card whose own terms are not linked }
+const linkCtx = (self = null, seen = []) => { LK = { seen: new Set(seen), self }; };
+const link = h => !LK || !TERMS.length ? h : h.replace(TRE, m => { const id = FORM[m.toLowerCase()], t = termById[id];
+  if (LK.seen.has(id) || (LK.self && t.card === LK.self)) return m; LK.seen.add(id);
+  return `<a class="term" data-term="${id}" href="#">${m}</a>`; });
+const T = (id, text) => `<a class="term" data-term="${id}" href="#">${text}</a>`;   // a fixed link in a page's own text
 
 // ---------- shared pieces ----------
 const claimOf = n => { const t = n.intuition || "", i = t.lastIndexOf(" Claim: "); return i < 0 ? { body: t, claim: "" } : { body: t.slice(0, i), claim: t[i + 8].toUpperCase() + t.slice(i + 9) }; };
 // Card texts are single long strings: break them into paragraphs of a few sentences for reading on a phone.
 function paras(t, cls = "") { const out = []; let cur = "";
   for (const x of String(t).replace(/([.!?])\s+(?=[A-Z('‘])/g, "$1\n").split("\n")) { if (cur && cur.length + x.length > 420) { out.push(cur); cur = x; } else cur += (cur ? " " : "") + x; }
-  if (cur) out.push(cur); return out.map(x => `<p${cls}>${esc(x)}</p>`).join(""); }
+  if (cur) out.push(cur); return out.map(x => `<p${cls}>${link(esc(x))}</p>`).join(""); }
 const clip = (t, k) => t.length <= k ? t : t.slice(0, t.lastIndexOf(" ", k)) + " …";
 const dated = n => n.since > T0 ? day(n.since) : "";
 function nodeRow(n, extra = []) { return `<button class="row" data-card="${n.id}"><span class="dot s-${n.status}"></span><span>${esc(n.title)}${n.vis ? ' <span class="chip">lab</span>' : ""}<small>${[STATUS[n.status], ...extra].filter(Boolean).map(esc).join(" · ")}</small></span></button>`; }
@@ -263,7 +277,7 @@ function overview() {
   const a = stat(10), b = stat(13), st = (s, label) => `<a class="stat s-${s}" href="#/cards/${s}"><b>${count(N, s)}</b><span>${label}</span></a>`;
   const routesByDate = G.routes.filter(r => r.id !== "goal").sort((x, y) => (x.state === "active" ? 0 : 1) - (y.state === "active" ? 0 : 1) || lastChange(inRoute(y.id)).localeCompare(lastChange(inRoute(x.id))));
   return `<div class="hero"><p class="eyebrow">Status, updated ${day(G.updated)} ${G.updated.slice(0, 4)}</p><h2>The conjecture is open.</h2>
-   <p>Conjecture: a set of n different diagonals is the diagonal x-ray of a permutation exactly when it satisfies Landau's condition. Every arrangement up to size 22 has a solution by exhaustive search. A written proof covers ${pct(a.total - a.rest, a.total)}% of the arrangements of size 10 and ${pct(b.total - b.rest, b.total)}% of those of size 13.</p>
+   <p>Conjecture: a set of n different diagonals is the diagonal x-ray of a permutation exactly when it satisfies ${T("landau", "Landau's condition")}. Every arrangement up to size 22 has a solution by exhaustive search. A written proof covers ${pct(a.total - a.rest, a.total)}% of the arrangements of size 10 and ${pct(b.total - b.rest, b.total)}% of those of size 13.</p>
    <div class="bars" style="margin-bottom:0">${covRow(10)}${covRow(13)}</div>
    <div class="stats">${st("proved", "proved statements")}${st("empirical", "hold in tests")}${st("open", "open")}${st("disproved", "ruled out")}</div>
    <div class="jump"><a class="chip" href="#leads">Leads</a><a class="chip" href="#results">Results</a><a class="chip" href="#dead">Dead ends</a><a class="chip" href="#latest">Latest changes</a><a class="chip" href="#byroute">Routes</a></div></div>
@@ -288,16 +302,16 @@ function families() {
   const small = []; for (let m = 4; m <= 9 && small.length < 12; m++) for (const w of W(m)) if (pieces(w).length === 1 && !T1.proved(w) && small.length < 12) small.push(w);
   return `<h2 style="margin-top:6px">How much is proved</h2><p class="sub">Share of all valid arrangements of each size that are of a kind with a written proof. Every arrangement up to size 22 has a solution by exhaustive search; the bars are about proofs.</p>
   <div class="bars">${bars}</div><div class="legend">${SEG.slice().reverse().map(([, t, col, op]) => `<span><i style="background:${col};opacity:${op}"></i>${t}</span>`).join("")}</div>
-  <h2>Family tree</h2><p class="sub">Each box is a kind of arrangement, and the boxes under it are special cases. The small picture is an example: one bar per stone, showing how far it sits above or below its evenly spaced place (<span class="hi">high</span>: two or more above, <span class="lo">low</span>: two or more below). Tap a box for details.</p>
+  <h2>Family tree</h2><p class="sub">Each box is a kind of arrangement, and the boxes under it are special cases. The small picture is an example: one bar per stone, showing how far it sits above or below its ${T("evenly", "evenly spaced place")} (<span class="hi">${T("highlow", "high")}</span>: two or more above, <span class="lo">low</span>: two or more below). Tap a box for details.</p>
   <ul class="tree">${kids(null).map(famItem).join("")}</ul>
   <h2>Other families</h2><p class="sub">Described in another way; they cut across the tree.</p><div class="grid">${G.families.filter(f => f.group === "other").map(famBox).join("")}</div>
   <h2 id="atlas">Atlas: every arrangement of one size</h2><p class="sub">One tile per arrangement. Tap a tile to see its solution and what is known about it.</p>
   <div class="tools"><span class="stepper" style="flex:none"><span class="sub">size</span><button data-an="-1" aria-label="Smaller size">‹</button><b id="an"></b><button data-an="1" aria-label="Larger size">›</button></span>
    <select id="af" aria-label="Show one family"><option value="">Every arrangement</option>${G.families.filter(f => f.test && f.id !== "all").map(f => `<option value="${f.id}">${esc(f.name)}</option>`).join("")}</select></div>
   <div id="atlasout"></div>
-  <h2 id="look">Look up an arrangement</h2><p class="sub">Type its letters: for each stone in order of diagonals, how many marks it sits above (+) or below (−) its evenly spaced place. Example: 2 1 0 0 -1 -2</p>
+  <h2 id="look">Look up an arrangement</h2><p class="sub">Type its ${T("letter", "letters")}: for each stone in order of diagonals, how many marks it sits above (+) or below (−) its evenly spaced place. Example: 2 1 0 0 -1 -2</p>
   <input type="text" id="lookup" placeholder="2 1 0 0 -1 -2" aria-label="Letters of an arrangement" autocomplete="off" autocapitalize="off"><div id="lookout"></div>
-  <h2>Smallest arrangements in no proved family</h2><p class="sub">No tight cut and in none of the proved families. All of them have solutions.</p>
+  <h2>Smallest arrangements in no proved family</h2><p class="sub">No ${T("tightcut", "tight cut")} and in none of the proved families. All of them have solutions.</p>
   ${small.map(w => `<button class="row" data-word="${w.join(" ")}">${glyph(w, 6, 26)}<span class="word">${wordHTML(w)}<small>size ${w.length}</small></span></button>`).join("")}`;
 }
 function atlas() { const out = $("atlasout"); if (!out) return; $("an").textContent = AN; $("af").value = AF;
@@ -321,7 +335,7 @@ function routePage(r) { const ns = inRoute(r.id), key = (r.key || "").split(" ")
   const group = (st, label, open) => { const l = ns.filter(n => st.includes(n.status)).sort((a, b) => b.since.localeCompare(a.since)); return l.length ? `<details class="grp" ${open ? "open" : ""}><summary>${label} (${l.length})</summary>${l.map(n => nodeRow(n, [dated(n)])).join("")}</details>` : ""; };
   return `<a class="back" href="#/routes">← All routes</a><h2 style="margin-top:0">${esc(r.name)}</h2>
   <p>${chip(r.state, RST[r.state])} <span class="chip">${tally(ns)}</span>${lc > T0 ? ` <span class="chip">changed ${day(lc)}</span>` : ""}</p>${statusBar(ns, "bar")}
-  <p style="margin-top:10px">${esc(r.summary)}</p>${r.gap ? `<div class="gap"><b>What is missing</b>${esc(r.gap)}</div>` : ""}
+  <p style="margin-top:10px">${(linkCtx(), link(esc(r.summary)))}</p>${r.gap ? `<div class="gap"><b>What is missing</b>${link(esc(r.gap))}</div>` : ""}
   ${labs.length ? `<h3>Interactive labs</h3>${labs.map(n => `<button class="btn" data-card="${n.id}" data-lab="1">▶ ${esc(n.vis.title)}</button>`).join("")}` : ""}
   <h3>Start here</h3><div class="grid">${key.map(n => cardItem(n, hl[n.id] || clip(claimOf(n).claim || n.statement, 230))).join("")}</div>
   <h3 style="margin-top:22px">Every card in this route</h3>
@@ -362,13 +376,13 @@ function pathTo(id) { const prev = { [id]: null }, q = [id];   // shortest chain
   if (!("conj" in prev) || id === "conj") return ""; const path = []; let joint = false; for (let v = "conj"; v !== id; v = prev[v][0]) { path.unshift(v); joint ||= prev[v][1]; }
   const st = byId[id].status, lead = st === "proved" ? "On a route to" : (st === "disproved" ? "Would have given" : "Would give") + (joint ? ", with other cards," : "");
   return `<div class="crumbs"><span>${lead}</span>` + path.map((v, i) => (i ? "<span>→</span>" : "") + `<button data-card="${v}">${esc(byId[v].title)}</button>`).join("") + `</div>`; }
-function explain(n) { const outs = G.edges.filter(e => froms(e).includes(n.id)), ins = G.edges.filter(e => e.to === n.id), { body, claim } = claimOf(n);
+function explain(n) { linkCtx(n.id); const outs = G.edges.filter(e => froms(e).includes(n.id)), ins = G.edges.filter(e => e.to === n.id), { body, claim } = claimOf(n);
   return pathTo(n.id) + paras(body || n.statement, ' class="lead"') + (n.pics || []).map(picHTML).join("") +
-    (claim ? `<div class="claim s-${n.status}"><b>The claim (${STATUS[n.status].toLowerCase()})</b>${esc(claim)}</div>` : "") +
+    (claim ? `<div class="claim s-${n.status}"><b>The claim (${STATUS[n.status].toLowerCase()})</b>${link(esc(claim))}</div>` : "") +
     (n.proof ? `<h3>Proof sketch</h3>${paras(n.proof)}` : "") + (n.evidence ? `<h3>${n.status === "proved" ? "Proof and checks" : n.status === "disproved" ? "Counterexample" : "Evidence"}</h3>${paras(n.evidence)}` : "") +
     (outs.length ? `<h3>${n.status === "disproved" ? "Would have proved" : n.status === "proved" ? "Proves" : "Would prove"}</h3>${outs.map(e => edgeItem(e, n.id, true)).join("")}` : "") +
     (ins.length ? `<h3>Follows from / supported by</h3>${ins.map(e => edgeItem(e, n.id, false)).join("")}` : "") +
-    `<details><summary>Formal statement and details</summary>` + (n.intuition ? `<h3>Statement</h3><p>${esc(n.statement)}</p>` : "") +
+    `<details><summary>Formal statement and details</summary>` + (n.intuition ? `<h3>Statement</h3><p>${link(esc(n.statement))}</p>` : "") +
     (n.example ? `<h3>Example</h3><pre>${esc(n.example)}</pre>` : "") + (n.refs ? `<h3>Source</h3><p class="sub">${esc(n.refs)}</p>` : "") +
     `<p class="sub">Card id: ${esc(n.id)}${n.added > T0 ? `. Added ${day(n.added)}` : ""}${n.was ? `. Was '${STATUS[n.was].toLowerCase()}' until ${day(n.since)}` : ""}.</p></details>` +
     `<p style="margin-top:14px"><a class="btn" href="#/graph/${n.id}">Show in the logic graph</a></p>`; }
@@ -383,15 +397,26 @@ function openFam(f) { const ex = f.example ? parseWord(f.example) : null, t = f.
   let rows = ""; if (t) for (let n = 5; n <= 11; n++) { const ws = W(n), k = ws.filter(t).length; rows += `<tr><th>size ${n}</th><td>${k.toLocaleString("en")}</td><td>of ${ws.length.toLocaleString("en")}</td><td>${pct(k, ws.length)}%</td></tr>`; }
   const kids = G.families.filter(x => x.parent === f.id), par = f.parent && famById[f.parent];
   S.innerHTML = `<div class="phead"><button class="pbtn" data-close aria-label="Close">×</button><div class="chips">${chip(f.status, FST[f.status])}<span class="chip">Family</span></div><h2>${esc(f.name)}</h2></div><div class="pbody">
-   <p class="lead">${esc(f.text)}</p>${f.check ? `<div class="gap"><b>Who checked the proof</b>${esc(f.check)}</div>` : ""}
+   <p class="lead">${(linkCtx(), link(esc(f.text)))}</p>${f.check ? `<div class="gap"><b>Who checked the proof</b>${esc(f.check)}</div>` : ""}
    ${ex ? `<h3>Example</h3><div class="two"><div>${bigBars(ex)}</div><div>${solBoard(ex)}</div></div><p class="word">${wordHTML(ex)}</p><p class="sub">Left: one bar per stone, its distance above or below its evenly spaced place. Right: one solution on the board.</p>` : ""}
    ${card ? `<h3>${f.status === "proved" || f.status === "reduction" ? "The proof" : f.status === "open" ? "What is known" : "The evidence"}</h3>${nodeRow(card, [routeById[card.route].name])}` : ""}
    ${par ? `<h3>Special case of</h3><button class="link" data-fam="${par.id}"><span><span class="dot s-${par.status}" style="margin-right:6px"></span>${esc(par.name)}<small>${FST[par.status]}</small></span></button>` : ""}
    ${kids.length ? `<h3>Special cases</h3>${kids.map(k => `<button class="link" data-fam="${k.id}"><span><span class="dot s-${k.status}" style="margin-right:6px"></span>${esc(k.name)}<small>${FST[k.status]}</small></span></button>`).join("")}` : ""}
    ${rows ? `<h3>How many arrangements are of this kind</h3><table class="cnt">${rows}</table><p><button class="btn" data-atlas="${f.id}">Show them in the atlas</button></p>` : ""}</div>`; }
 
+function openTerm(t) { const c = t.card && byId[t.card];
+  linkCtx(null, [t.id]); const def = link(esc(t.text)); LK = null;
+  S.innerHTML = `<div class="phead"><button class="pbtn" data-close aria-label="Close">×</button><div class="chips"><a class="chip" href="#/terms">Term</a></div><h2>${esc(t.name)}</h2></div><div class="pbody">
+   <p class="lead">${def}</p>${c ? `<h3>Introduced in</h3>${nodeRow(c, [routeById[c.route].name])}` : ""}
+   <p class="sub" style="margin-top:14px">Use your browser's back button to return to where you were. <a href="#/terms">All terms</a></p></div>`; }
+function terms() { const l = TERMS.slice().sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
+  const out = `<h2 style="margin-top:6px">Terms</h2><p class="sub">Words with a special meaning in this project. In card texts, the first use of each one on a page links here.</p><dl class="gl">` +
+    l.map(t => { linkCtx(null, [t.id]); const d = link(esc(t.text)), c = t.card && byId[t.card];
+      return `<dt id="term-${t.id}">${esc(t.name)}</dt><dd>${d}${c ? `<span class="sub">Introduced in <button class="inl" data-card="${c.id}">${esc(c.title)}</button></span>` : ""}</dd>`; }).join("") + "</dl>";
+  LK = null; return out; }
+
 // ---------- routing: #/view[/arg][~sheet]; sheet is a card id or f.<family id> ----------
-const VIEWS = { overview, families, routes, cards, graph }, SCROLL = {};
+const VIEWS = { overview, families, routes, cards, graph, terms }, SCROLL = {};
 let cur = null, fwd = false, curSheet = "";
 function parse() { let h = location.hash.slice(1); try { h = decodeURIComponent(h); } catch (e) {}
   if (h.startsWith("n-") && byId[h.slice(2)]) return { v: "graph", arg: h.slice(2), sheet: "" };   // links saved when this file was the graph page
@@ -401,8 +426,8 @@ function route() { const { v, arg, sheet } = parse(), key = v + "/" + arg, back 
     document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("on", a.dataset.v === v));
     if (v === "cards") fillCards(); if (v === "families") atlas(); if (v === "graph") graphBoot(arg);
     scrollTo(0, back ? SCROLL[key] || 0 : 0); }
-  const ok = sheet.startsWith("f.") ? famById[sheet.slice(2)] : byId[sheet];
-  if (ok && sheet !== curSheet) { S.hidden = false; sheet.startsWith("f.") ? openFam(ok) : openCard(sheet, labNext); S.querySelector(".pbody").focus?.(); }
+  const ok = sheet.startsWith("f.") ? famById[sheet.slice(2)] : sheet.startsWith("t.") ? termById[sheet.slice(2)] : byId[sheet];
+  if (ok && sheet !== curSheet) { S.hidden = false; sheet.startsWith("f.") ? openFam(ok) : sheet.startsWith("t.") ? openTerm(ok) : openCard(sheet, labNext); LK = null; S.querySelector(".pbody").focus?.(); }
   if (!ok) { S.hidden = true; S.innerHTML = ""; }
   curSheet = ok ? sheet : ""; labNext = false; document.body.classList.toggle("sheet", !!ok); }
 let labNext = false;
@@ -410,6 +435,7 @@ const nav = h => { fwd = true; if (location.hash === h) route(); else location.h
 const base = () => "#/" + cur.replace(/\/$/, "");
 const sheet = id => nav(base() + (id ? "~" + id : ""));
 document.addEventListener("click", e => { const t = e.target;
+  const tm = t.closest("[data-term]"); if (tm) { e.preventDefault(); return sheet("t." + tm.dataset.term); }
   const a = t.closest("a[href^='#']"); if (a) { const h = a.getAttribute("href"); if (h.startsWith("#/")) fwd = true; else { e.preventDefault(); document.getElementById(h.slice(1))?.scrollIntoView({ behavior: "smooth" }); } return; }
   const lb = t.closest(".labable[data-lab]"); if (lb && S.contains(lb)) { const body = $("pbody"), keep = body.innerHTML; body.className = "pbody frame";
     body.innerHTML = `<div class="labbar"><button data-labback>← Back to the card</button></div>` + labFrame("labs/views.html", "Four equivalent views", "p=" + lb.dataset.lab);

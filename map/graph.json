@@ -445,6 +445,357 @@
    "text": "One arrangement of each size. In tests it is the only one with no tight cut that does not split into blocks. It has an explicit solution."
   }
  ],
+ "terms": [
+  {
+   "id": "landau",
+   "name": "Landau's condition",
+   "card": "conj",
+   "forms": [
+    "Landau's condition",
+    "Landau condition",
+    "Landau's test"
+   ],
+   "text": "For every k, the k leftmost stones have in total at least as many empty marks to their left as at the start, with equality for all n stones. In letters: every slack is at least 0 and the last one is 0."
+  },
+  {
+   "id": "valid",
+   "name": "valid",
+   "card": "conj",
+   "forms": [
+    "valid"
+   ],
+   "text": "An arrangement is valid if it satisfies Landau's condition. The conjecture says every valid arrangement has a witness."
+  },
+  {
+   "id": "witness",
+   "name": "witness (solution)",
+   "card": "conj",
+   "forms": [
+    "witness",
+    "witnesses"
+   ],
+   "text": "A board with one point in each row and each column whose points lie on exactly the arrangement's diagonals, one point per diagonal. Cards also call it a solution."
+  },
+  {
+   "id": "score",
+   "name": "score of a stone",
+   "card": "conj",
+   "forms": [
+    "score",
+    "scores"
+   ],
+   "text": "The number of empty marks to the stone's left. The scores of the stones, in order, form the score sequence of a tournament exactly when Landau's condition holds."
+  },
+  {
+   "id": "evenly",
+   "name": "evenly spaced place",
+   "card": "conj",
+   "forms": [
+    "evenly spaced place",
+    "evenly spaced places",
+    "evenly spaced"
+   ],
+   "text": "Where a stone sits at the start: the k-th stone from the left at mark 2k − n − 1, so the stones are on every other mark. 'The evenly spaced arrangement' is the start itself."
+  },
+  {
+   "id": "letter",
+   "name": "letter",
+   "card": null,
+   "forms": [
+    "letter",
+    "letters"
+   ],
+   "text": "A stone's letter is how many marks it sits above (+) or below (−) its evenly spaced place: eₖ = dₖ − (2k − n − 1) for the k-th stone. Each letter is at most 1 below the one before."
+  },
+  {
+   "id": "word",
+   "name": "word",
+   "card": null,
+   "forms": [
+    "word",
+    "words",
+    "part-word",
+    "part-words"
+   ],
+   "text": "The letters e₁, …, eₙ of an arrangement, in order of diagonals. An arrangement and its word determine each other. A beginning (prefix) is the first few letters."
+  },
+  {
+   "id": "slack",
+   "name": "slack",
+   "card": "slackB",
+   "forms": [
+    "slack",
+    "slacks"
+   ],
+   "text": "The slack after k stones is e₁ + … + eₖ: how far the first k stones have drifted, in total, to the right of their evenly spaced places. An arrangement is valid when every slack is at least 0 and the last is 0."
+  },
+  {
+   "id": "tightcut",
+   "name": "tight cut",
+   "card": "tightcut",
+   "forms": [
+    "tight cut",
+    "tight cuts"
+   ],
+   "text": "A place after k < n stones where the slack is 0: those k stones have not drifted at all. Their points are then forced into the bottom-left k×k corner, so the arrangement splits into two smaller ones."
+  },
+  {
+   "id": "highlow",
+   "name": "high and low stones",
+   "card": "nocross",
+   "forms": [
+    "high stone",
+    "high stones",
+    "low stone",
+    "low stones"
+   ],
+   "text": "A stone is high if its letter is 2 or more (two or more marks above its evenly spaced place), and low if its letter is −2 or less."
+  },
+  {
+   "id": "minmove",
+   "name": "minimal move",
+   "card": "mm",
+   "forms": [
+    "minimal move",
+    "minimal moves"
+   ],
+   "text": "Stones at a < b, with a + 1 and b − 1 empty and every mark strictly between occupied, move to a + 1 and b − 1. Minimal moves from the start reach every valid arrangement."
+  },
+  {
+   "id": "movespast",
+   "name": "moves past P_n",
+   "card": "movecount",
+   "forms": [
+    "moves past P_n",
+    "move past P_n",
+    "moves past P_k"
+   ],
+   "text": "How many minimal moves an arrangement is from P_n. It does not depend on the route: it equals how many more 3-cycles its tournaments have than P_n's."
+  },
+  {
+   "id": "pn",
+   "name": "P_n, the prime arrangement",
+   "card": "pn",
+   "forms": [
+    "P_n",
+    "P_k",
+    "P pieces",
+    "P piece",
+    "prime arrangement"
+   ],
+   "text": "The arrangement with no tight cut closest to the start: stones on every other mark, except that each end pair is squeezed together. It is the one arrangement that cannot be split into blocks."
+  },
+  {
+   "id": "block",
+   "name": "block",
+   "card": "inflation",
+   "forms": [
+    "block",
+    "blocks"
+   ],
+   "text": "A set of points filling a run of consecutive rows and a run of consecutive columns, so that it is a smaller solved board. On the plank, a block is a group of stones that is a shifted copy of a smaller arrangement."
+  },
+  {
+   "id": "frame",
+   "name": "frame",
+   "card": "boundedframes",
+   "forms": [
+    "frame",
+    "frames"
+   ],
+   "text": "What remains of a permutation when each maximal block is shrunk to a point: a permutation with no blocks of its own."
+  },
+  {
+   "id": "fat",
+   "name": "fat stone",
+   "card": "twoblock",
+   "forms": [
+    "fat stone",
+    "fat stones",
+    "fat-stone"
+   ],
+   "text": "In a block layout, one stone standing for a whole block, as wide as the block."
+  },
+  {
+   "id": "holepattern",
+   "name": "hole pattern (interface state)",
+   "card": "interface",
+   "forms": [
+    "hole pattern",
+    "hole patterns",
+    "interface state",
+    "interface states",
+    "hole state",
+    "hole states"
+   ],
+   "text": "Place the stones in order of diagonals. After k stones, the future depends only on which rows and columns are used. The used rows and columns beyond rows 1…k and columns 1…k form two Young diagrams with as many boxes in total as the slack. Written (λ|μ)."
+  },
+  {
+   "id": "gs",
+   "name": "G(s)",
+   "card": "l1",
+   "forms": [
+    "G(s)"
+   ],
+   "text": "An explicit set of hole patterns, one for each slack s: every pattern in it can be left behind by any beginning with no letter above 1. Introduced in the proof for letters −1, 0, 1."
+  },
+  {
+   "id": "oneline",
+   "name": "one-line pattern",
+   "card": "hooksout",
+   "forms": [
+    "one-line pattern",
+    "one-line patterns",
+    "row patterns",
+    "column patterns"
+   ],
+   "text": "A hole pattern with all its slack in a single row or a single column: the row patterns (s|−), (−|s) and the column patterns (1^s|−), (−|1^s)."
+  },
+  {
+   "id": "old",
+   "name": "old prefix",
+   "card": "oldprefix",
+   "forms": [
+    "old prefix",
+    "old prefixes"
+   ],
+   "text": "A beginning in which every final stretch of j letters has sum at most j: no recent stone is still too far up."
+  },
+  {
+   "id": "padded",
+   "name": "padded word",
+   "card": "transfer",
+   "forms": [
+    "padded word",
+    "padded words"
+   ],
+   "text": "The middle m of a word (from its first high stone to its last low stone) with the beginning replaced by s₁ letters 1 and the end by s₂ letters −1, where s₁ and s₂ are the slacks before and after m."
+  },
+  {
+   "id": "gentle",
+   "name": "gentle beginning, gentle end",
+   "card": "hill2",
+   "forms": [
+    "gentle beginning",
+    "gentle end"
+   ],
+   "text": "A beginning with no letter above 1, or an end with no letter below −1."
+  },
+  {
+   "id": "chosen",
+   "name": "chosen stone",
+   "card": "rrsplit",
+   "forms": [
+    "chosen stone",
+    "chosen stones"
+   ],
+   "text": "A stone fixed on an explicit cell, chosen so that the other stones fit around it in an odd number of ways, and therefore in at least one."
+  },
+  {
+   "id": "rrsplit",
+   "name": "RR-split",
+   "card": "rrsplit",
+   "forms": [
+    "RR-split",
+    "RR-splits"
+   ],
+   "text": "A few chosen stones and a hole pattern such that, by plain arithmetic on the word, both the chosen stones and the rest fit in an odd number of ways. It proves the arrangement solvable."
+  },
+  {
+   "id": "peeling",
+   "name": "peeling",
+   "card": "peel",
+   "forms": [
+    "peeling",
+    "peel",
+    "peels",
+    "peeled"
+   ],
+   "text": "Placing one point in the top row and deleting its row and column, which leaves a smaller board with a hole where the column was."
+  },
+  {
+   "id": "holes",
+   "name": "board with holes",
+   "card": "peel",
+   "forms": [
+    "board with holes",
+    "boards with holes",
+    "one-hole board",
+    "one-hole boards",
+    "missing column",
+    "missing columns"
+   ],
+   "text": "A board with some columns deleted, as peeling leaves it. The parity test and the sum test are asked on such boards."
+  },
+  {
+   "id": "paritytest",
+   "name": "parity test",
+   "card": "start",
+   "forms": [
+    "parity test"
+   ],
+   "text": "Decide for each stone whether its point goes in an odd or an even row, with the right counts, then check that a fractional solution exists using only the allowed cells. Every solvable board passes."
+  },
+  {
+   "id": "sumtest",
+   "name": "sum test",
+   "card": "g1",
+   "forms": [
+    "sum test"
+   ],
+   "text": "Landau's condition adjusted to a board with missing columns: 'the k leftmost columns' skips over the holes."
+  },
+  {
+   "id": "symmetric",
+   "name": "symmetric arrangement",
+   "card": "sym",
+   "forms": [
+    "symmetric arrangement",
+    "symmetric arrangements"
+   ],
+   "text": "Every stone at +d has a partner at −d, so the plank looks the same in a mirror held at the middle mark."
+  },
+  {
+   "id": "folding",
+   "name": "folding solution",
+   "card": "symodd",
+   "forms": [
+    "folding solution",
+    "folding solutions"
+   ],
+   "text": "A solution of a symmetric arrangement that is its own mirror image across the main diagonal. Finding one is a pairing puzzle of Skolem type."
+  },
+  {
+   "id": "centre",
+   "name": "most central arrangement",
+   "card": "centre",
+   "forms": [
+    "most central arrangement",
+    "most central"
+   ],
+   "text": "Where every sequence of moves ends: the n middle marks filled when n is odd, and the n + 1 middle marks except the middle one when n is even."
+  },
+  {
+   "id": "nearsol",
+   "name": "near-solution",
+   "card": "leapfrog",
+   "forms": [
+    "near-solution",
+    "near-solutions"
+   ],
+   "text": "A board with every stone on its diagonal except one, which is one diagonal short."
+  },
+  {
+   "id": "leapfrog",
+   "name": "leapfrog path",
+   "card": "leapfrog",
+   "forms": [
+    "leapfrog path",
+    "leapfrog paths"
+   ],
+   "text": "Starting from a near-solution, alternately swap the short stone's row with the next row and its column with the next column. The path never branches, and its two ends are solutions."
+  }
+ ],
  "nodes": [
   {
    "id": "conj",
