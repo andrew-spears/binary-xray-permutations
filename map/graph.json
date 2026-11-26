@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-23",
+ "updated": "2026-11-24",
  "areas": [
   {
    "id": "families",
@@ -20,6 +20,419 @@
   {
    "id": "ideas",
    "label": "Other routes"
+  }
+ ],
+ "routes": [
+  {
+   "id": "goal",
+   "name": "The conjecture and its reductions",
+   "state": "open",
+   "summary": "The statement itself, and the proved reduction to arrangements with no tight cut: at a tight cut an arrangement splits into two smaller ones whose solutions glue together.",
+   "gap": "The conjecture is open. It has been checked by exhaustive search up to size 22.",
+   "key": "conj tightcut notight"
+  },
+  {
+   "id": "cuts",
+   "name": "One hole pattern for both halves",
+   "state": "active",
+   "summary": "Cut an arrangement in two and look for a hole pattern (a board with some rows and columns already used) that the first part can reach and the second part can finish from. The largest proved family comes from this: an explicit set of hole patterns is carried along the word, one letter at a time.",
+   "gap": "The middle of a word, from the first high stone to the last low stone. The claim that the middle carries one explicit set into another (BRIDGE) holds for every word up to size 13; the proof for letters up to 1 does not extend to it.",
+   "key": "nocross bridge cutcore oldprefix onehigh upone l1"
+  },
+  {
+   "id": "orders",
+   "name": "Partial orders and chains",
+   "state": "active",
+   "summary": "A solution is a partial order drawn in the plane, and each diagonal counts stones below minus stones above. For arbitrary partial orders Landau's condition is proved sufficient; for orders from points in the plane that is the conjecture. In tests, every arrangement has a solution whose stones split into three chains.",
+   "gap": "Three chains is tested, not proved, and it describes a solution without building one. The version for intervals on a line also holds in tests, and it is proved that no rule that reads the letters one at a time can choose the intervals.",
+   "key": "threechains anyposet intervalorder posetview"
+  },
+  {
+   "id": "machine",
+   "name": "Hole patterns: the Young-diagram machine",
+   "state": "active",
+   "summary": "Placing the stones in order of their diagonals is a walk on pairs of Young diagrams whose total size is the Landau slack (proved). With the slack bounded this is one finite machine for every board size, and a complete search settles slack up to 16. Several exact facts about reachable hole patterns are proved.",
+   "gap": "A description of the hole patterns reachable after an arbitrary beginning. The Landau-type condition is necessary and not sufficient, and rules that place stones with bounded memory or lookahead fail.",
+   "key": "interface slack16 slackB landauholes paritycount residue ones"
+  },
+  {
+   "id": "oddcount",
+   "name": "Odd counts",
+   "state": "active",
+   "summary": "Whether the number of ways to place some of the stones is odd is given by a Littlewood–Richardson number (proved). An odd count is not zero, so this proves solvability for the rising-then-falling families and for words with one hill.",
+   "gap": "A rule that names the stones to fix. In tests every arrangement has a split with odd counts, but no rule finds it, and the parity statements tried for a general middle each have a counterexample.",
+   "key": "paritylr uni2 uni4 hill2 freeend rrsplit oddsplit thirds"
+  },
+  {
+   "id": "shorten",
+   "name": "Shortening induction",
+   "state": "active",
+   "summary": "Every arrangement except the evenly spaced one comes from a shorter one by one of three operations (proved). So the conjecture is equivalent to: each operation keeps solvability. The form about sets of hole patterns is false; the form about the number of solutions holds in tests.",
+   "gap": "A proof that each operation never lowers the number of solutions. It is proved only at cuts of slack at most 1.",
+   "key": "shorten3 countrule shorten3set l1red"
+  },
+  {
+   "id": "moves",
+   "name": "Minimal moves",
+   "state": "stalled",
+   "summary": "Every valid arrangement is reached from the evenly spaced one by minimal moves: two stones each move one mark towards each other (proved). The conjecture follows if every such move keeps the board solvable.",
+   "gap": "That a move keeps solvability. Repairing a given solution can need changes to more and more stones as the size grows, and a move can lower the number of solutions.",
+   "key": "mm move ratio goodwitness"
+  },
+  {
+   "id": "leapfrog",
+   "name": "Leapfrog paths",
+   "state": "stalled",
+   "summary": "Near-solutions, with one stone one diagonal short, are joined by row and column swaps into paths and closed loops. For an arrangement whose last letter is −1 the solutions are exactly the ends of the paths (proved). Closed loops exist from size 10.",
+   "gap": "A reason why some near-solution lies on a path. The statements that hold in tests here would give only the family 'within one mark', which now has a proof by another route.",
+   "key": "leapfrog nocycle rounds pass twoends"
+  },
+  {
+   "id": "blocks",
+   "name": "Blocks and frames",
+   "state": "stalled",
+   "summary": "Build a solution of a large arrangement by gluing solutions of smaller ones into a block layout. Gluing is proved. That every arrangement except one per size splits this way holds in tests.",
+   "gap": "A rule that picks the blocks. Each rule tried has a counterexample.",
+   "key": "inflation decomp pn twoblock boundedframes"
+  },
+  {
+   "id": "symmetric",
+   "name": "Symmetric arrangements and folding",
+   "state": "stalled",
+   "summary": "A symmetric arrangement (D = −D) can be folded in half, which turns the question into a pairing problem of Skolem type. This is proved for the most central arrangements, and odd symmetric arrangements fold in every test.",
+   "gap": "Even symmetric arrangements, and a proof for the odd ones. No theorem on Skolem pairings covers arbitrary sets of lengths.",
+   "key": "sym symodd symeven nordh8 f3 centre"
+  },
+  {
+   "id": "parity",
+   "name": "Peeling and parity tests",
+   "state": "stalled",
+   "summary": "Remove one row at a time, and keep a test that says whether the smaller board with holes still has a placement. The parity test is exact on every board tested; the simpler sum test is exact with one missing column in tests and false with two.",
+   "gap": "A proof that the parity test is exact, and a way to choose the cell to peel. Each fixed rule for the choice has a counterexample.",
+   "key": "parity peel start g1 chainpeel"
+  },
+  {
+   "id": "algebra",
+   "name": "Fractional and polynomial methods",
+   "state": "stalled",
+   "summary": "The fractional version is a theorem (Li–Yao). With it, a capacity lower bound on the number of solutions would give the conjecture, and the bound holds in tests.",
+   "gap": "A way to prove the capacity bound: real stability, log-concavity and the one-variable step all fail for this polynomial. Rounding a fractional solution, saturation and signed counts also have counterexamples.",
+   "key": "ly cap round sat"
+  },
+  {
+   "id": "tournaments",
+   "name": "Tournaments",
+   "state": "stalled",
+   "summary": "Davis and Schroeder map solutions to tournaments with the same scores, and define a reverse map on some tournaments. If every score sequence has a tournament the reverse map accepts, the conjecture follows.",
+   "gap": "Which tournament to take. The two rules tried fail, and in the tested range the accepted tournaments are exactly the images of solutions, so the claim restates the conjecture there.",
+   "key": "delta"
+  },
+  {
+   "id": "repeats",
+   "name": "Repeated diagonals",
+   "state": "stalled",
+   "summary": "A stronger statement: let a diagonal be used more than once. With each diagonal used at most twice, Landau's condition is still sufficient in every test. With three uses it fails at size 6.",
+   "gap": "'At most twice' is tested only. It would give the conjecture as its special case.",
+   "key": "twice"
+  },
+  {
+   "id": "lie",
+   "name": "Lie algebra view",
+   "state": "stalled",
+   "summary": "The conjecture says: every regular dominant weight below 2ρ is a sum of two rearrangements of ρ (a proved restatement). The same statement holds in tests in types B, C, D and E and fails in G₂ and F₄.",
+   "gap": "No theorem in the literature covers regular weights.",
+   "key": "lieview lietypes"
+  }
+ ],
+ "highlights": [
+  {
+   "kind": "lead",
+   "id": "bridge",
+   "text": "What is left after the proved families: the stretch from the first high stone to the last low stone. The claim that this stretch carries one explicit set of hole patterns into another holds for every word up to size 13. Together with the proved family it would give the conjecture."
+  },
+  {
+   "kind": "lead",
+   "id": "cutcore",
+   "text": "After a stone at its evenly spaced place or one above, a single hole pattern works for every possible first part and every possible second part, at every slack up to 24. For all slacks this would give the conjecture. Checked by one program, not cross-checked."
+  },
+  {
+   "kind": "lead",
+   "id": "threechains",
+   "text": "Every arrangement up to size 15 has a solution whose stones split into three chains (complete search). Two chains fail from size 6. Up to size 13 some solution has all but two stones in two chains; that number is not bounded."
+  },
+  {
+   "kind": "lead",
+   "id": "oldprefix",
+   "text": "An explicit candidate for the hole patterns that are reachable once the big stones are far enough back. Exhaustive for slack up to 20. The table was fitted to data and corrected three times, so treat it as a conjecture."
+  },
+  {
+   "kind": "lead",
+   "id": "countrule",
+   "text": "Lengthening an arrangement by any of the three operations never lowers the number of solutions, in every test (all words of length up to 12 with slack up to 8). With the proved reduction this would give the conjecture."
+  },
+  {
+   "kind": "lead",
+   "id": "intervalorder",
+   "text": "The same question for intervals on a line holds for every arrangement up to size 14. Its machine has one partition as state, in place of two Young diagrams. It is neither weaker nor stronger than the conjecture."
+  },
+  {
+   "kind": "result",
+   "id": "nocross",
+   "text": "The largest proved family: if no high stone comes before a low stone, the arrangement has a solution, for every size. With tight cuts, rising-then-falling words, one-hill words and the most central arrangement, the proved kinds are 93% of arrangements at size 10 and 76% at size 13. Proof written and refereed by AI sessions; no person has read it."
+  },
+  {
+   "kind": "result",
+   "id": "anyposet",
+   "text": "With any partial order allowed in place of points in the plane, Landau's condition is sufficient, even with repeated diagonals. Proved by peeling the top stone."
+  },
+  {
+   "kind": "result",
+   "id": "slack16",
+   "text": "Complete search of one finite machine: every arrangement of any size whose slack stays at most 16 has a solution. A computer check, not a hand proof, which is why the card says 'holds in tests'."
+  },
+  {
+   "kind": "result",
+   "id": "paritylr",
+   "text": "Whether a count of partial placements is odd is given by a Littlewood–Richardson number. This is the tool behind the rising-then-falling families. The proof is an AI session's and has not been checked line by line."
+  },
+  {
+   "kind": "result",
+   "id": "landauholes",
+   "text": "Every reachable hole pattern obeys a Landau-type inequality that comes from undoing the last stones. It is necessary and not sufficient."
+  },
+  {
+   "kind": "result",
+   "id": "leapfrog",
+   "text": "For an arrangement whose last letter is −1, solutions are exactly the ends of leapfrog paths. So such an arrangement is solvable exactly when some near-solution lies on a path and not on a closed loop."
+  },
+  {
+   "kind": "dead",
+   "id": "twochains",
+   "text": "Two chains are not enough, first at size 6. Even arrangements with every stone within one mark of evenly spaced can need three, from size 10."
+  },
+  {
+   "kind": "dead",
+   "id": "landauexact",
+   "text": "The Landau inequality for hole patterns is not the only obstruction after a letter at or below 0. After the letters 2 2 2 2 1 0, four patterns satisfy it and are not reached."
+  },
+  {
+   "kind": "dead",
+   "id": "shorten3set",
+   "text": "The three shortening operations do lose reachable hole patterns: first at slack 13, 14 and 17. The check up to slack 12 had found nothing. The form about numbers of solutions still holds in tests."
+  },
+  {
+   "kind": "dead",
+   "id": "oddbridge",
+   "text": "The padded-word parity method for the middle of a word fails for four middles of 9 letters; the smallest found has size 25. Other paddings are not ruled out."
+  },
+  {
+   "kind": "dead",
+   "id": "nocycle",
+   "text": "Leapfrog paths do close up into loops, first at size 10. Every word tested still has a path."
+  },
+  {
+   "kind": "dead",
+   "id": "vexillary",
+   "text": "Solutions that are themselves interval orders exist for every arrangement up to size 9 and fail at size 10."
+  },
+  {
+   "kind": "dead",
+   "id": "round",
+   "text": "A fractional solution cannot always be rounded while keeping its diagonal sums (Li–Liu–Yao)."
+  }
+ ],
+ "families": [
+  {
+   "id": "all",
+   "group": "tree",
+   "name": "Every valid arrangement",
+   "status": "open",
+   "card": "conj",
+   "parent": null,
+   "test": "all",
+   "example": "2 1 0 0 -1 -2",
+   "text": "n different diagonals that satisfy Landau's condition. The conjecture says each one has a solution."
+  },
+  {
+   "id": "tight",
+   "group": "tree",
+   "name": "Has a tight cut",
+   "status": "reduction",
+   "card": "tightcut",
+   "parent": "all",
+   "test": "tight",
+   "example": "1 0 -1 1 0 -1",
+   "text": "At some point the lowest k stones sit as low as they possibly can. The arrangement then splits into two smaller ones, and solutions of the two pieces glue together. It has a proof when every piece is of a proved kind."
+  },
+  {
+   "id": "notight",
+   "group": "tree",
+   "name": "No tight cut",
+   "status": "open",
+   "card": "notight",
+   "parent": "all",
+   "test": "notight",
+   "example": "2 1 0 0 -1 -2",
+   "text": "The slack is positive at every cut. These are the arrangements that need a proof."
+  },
+  {
+   "id": "nocross",
+   "group": "tree",
+   "name": "No high stone before a low stone",
+   "status": "proved",
+   "card": "nocross",
+   "parent": "notight",
+   "test": "nocross",
+   "example": "1 1 1 1 0 -1 -2 2 1 0 -1 -1 -1 -1",
+   "check": "Proof written by an AI session and read line by line by a second one. No person has read it.",
+   "text": "A stone is high if it is two or more marks above its evenly spaced place, and low if two or more below. Here every low stone comes before every high stone. The largest proved family. Up to size 13 it contains nothing beyond the family under it; the example has size 14."
+  },
+  {
+   "id": "upone",
+   "group": "tree",
+   "name": "No high stone, or no low stone",
+   "status": "proved",
+   "card": "upone",
+   "parent": "nocross",
+   "test": "upone",
+   "example": "1 1 1 1 0 -1 -2 -1",
+   "check": "Proof written by an AI session and read line by line by a second one. No person has read it.",
+   "text": "No stone is two or more marks above its evenly spaced place; or, in the mirror image, none is two or more below."
+  },
+  {
+   "id": "l1",
+   "group": "tree",
+   "name": "Every stone within one mark of evenly spaced",
+   "status": "proved",
+   "card": "l1",
+   "parent": "upone",
+   "test": "l1",
+   "example": "1 0 1 0 -1 -1",
+   "check": "Proof written by an AI session and read line by line by a second one. No person has read it.",
+   "text": "Every letter is −1, 0 or 1. Proved for every size and slack by an induction that carries an explicit set of hole patterns."
+  },
+  {
+   "id": "cross",
+   "group": "tree",
+   "name": "A high stone before a low stone",
+   "status": "open",
+   "card": "bridge",
+   "parent": "notight",
+   "test": "cross",
+   "example": "3 2 1 0 0 0 -1 -2 -3",
+   "text": "Everything not covered by the family above. Proved only in the two shapes listed under it and for the most central arrangement."
+  },
+  {
+   "id": "uni",
+   "group": "tree",
+   "name": "Rises then falls, small letters",
+   "status": "proved",
+   "card": "uni4",
+   "parent": "cross",
+   "test": "uni",
+   "example": "2 1 0 0 -1 -2",
+   "check": "Hand proofs by AI sessions. The counts were checked by brute force up to size 10.",
+   "text": "All positive letters come before all negative ones, with at most 2 above and 4 below, or at most 4 above and 2 below. Proved by fixing one or two chosen stones and showing that the number of ways to place the rest is odd."
+  },
+  {
+   "id": "hill",
+   "group": "tree",
+   "name": "A gentle beginning, one hill, a gentle end",
+   "status": "proved",
+   "card": "hill2",
+   "parent": "cross",
+   "test": "hill",
+   "example": "1 1 0 -1 2 1 0 -1 -2 -1",
+   "check": "Hand proof by an AI session, resting on three other AI proofs, of which one has been refereed.",
+   "text": "Letters at most 1, then a stretch of letters 0 to 2, then a stretch of letters −2 to 0, then letters at least −1."
+  },
+  {
+   "id": "onehigh",
+   "group": "tree",
+   "name": "Exactly one high stone",
+   "status": "tested",
+   "card": "onehigh",
+   "parent": "cross",
+   "test": "onehigh",
+   "example": "1 2 1 0 -1 -2 -1",
+   "text": "One letter is 2 and no letter is larger. Solvable if a statement about hole patterns after a 2 holds in general; that statement is tested only."
+  },
+  {
+   "id": "rest",
+   "group": "tree",
+   "name": "In no proved family",
+   "status": "open",
+   "card": "bridge",
+   "parent": "cross",
+   "test": "rest",
+   "example": "3 2 1 0 -1 -2 2 1 0 -1 -2 -3",
+   "text": "A high stone before a low stone, in neither of the two proved shapes, and not the most central arrangement. Here the only evidence is computation."
+  },
+  {
+   "id": "even",
+   "group": "other",
+   "name": "Evenly spaced",
+   "status": "proved",
+   "card": null,
+   "parent": null,
+   "test": "even",
+   "example": "0 0 0 0 0",
+   "text": "A stone on every other mark: every letter is 0. It has exactly one solution, and every other arrangement is reached from it by minimal moves. It is tight at every cut."
+  },
+  {
+   "id": "small",
+   "group": "other",
+   "name": "Size at most 22",
+   "status": "computer",
+   "card": "conj",
+   "parent": null,
+   "test": null,
+   "example": "",
+   "text": "Every valid arrangement with n ≤ 22 has a solution, by exhaustive search."
+  },
+  {
+   "id": "slack16",
+   "group": "other",
+   "name": "Slack at most 16",
+   "status": "computer",
+   "card": "slack16",
+   "parent": null,
+   "test": "slack16",
+   "example": "2 2 1 0 -1 -2 -2",
+   "text": "The Landau slack never exceeds 16. One finite machine covers every board size, and a complete search found that it accepts every such arrangement. This covers every arrangement up to size 11. A single program that was not cross-checked extends this to slack 24."
+  },
+  {
+   "id": "sym",
+   "group": "other",
+   "name": "Symmetric arrangements",
+   "status": "open",
+   "card": "sym",
+   "parent": null,
+   "test": "sym",
+   "example": "2 1 0 -1 -2",
+   "text": "D equals −D. Odd symmetric arrangements fold into a pairing problem in every test; the even case is open."
+  },
+  {
+   "id": "centre",
+   "group": "other",
+   "name": "The most central arrangement",
+   "status": "proved",
+   "card": "centre",
+   "parent": null,
+   "test": "centre",
+   "example": "3 2 1 0 -1 -2 -3",
+   "text": "One arrangement of each size: the stones packed as close to the middle as Landau's condition allows. It has a solution for every size."
+  },
+  {
+   "id": "pn",
+   "group": "other",
+   "name": "The prime arrangement P_n",
+   "status": "proved",
+   "card": "pn",
+   "parent": null,
+   "test": null,
+   "example": "",
+   "text": "One arrangement of each size. In tests it is the only one with no tight cut that does not split into blocks. It has an explicit solution."
   }
  ],
  "nodes": [
@@ -89,7 +502,10 @@
    "vis": {
     "file": "labs/views.html",
     "title": "Four equivalent views"
-   }
+   },
+   "route": "goal",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "notight",
@@ -145,7 +561,10 @@
      "cap": "No tight cut: {−4, −3, 0, +1, +2, +4}"
     }
    ],
-   "statement": "Every valid D whose Landau inequalities are strict for every k < n has a witness."
+   "statement": "Every valid D whose Landau inequalities are strict for every k < n has a witness.",
+   "route": "goal",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "tightcut",
@@ -224,7 +643,10 @@
     }
    ],
    "statement": "If Σ_{i≤k} s_i = C(k,2) for some k < n, then D_low = {d₁…d_k} + (n−k) and D_high = {d_{k+1}…d_n} − k are valid at sizes k and n − k, and if both have witnesses, so does D (their skew sum).",
-   "proof": "Equality at k says the k lowest diagonals add up to −k(n−k), the smallest total possible for k points in different rows and columns; that minimum forces those k points into the bottom k rows and the leftmost k columns. So D splits into the lower k stones (shifted up by n−k) and the upper n−k stones (shifted down by k). Both shifted sets inherit Landau's inequalities from the prefix sums, with equality at their own sizes, so they are valid smaller instances. Put a witness of the first in the bottom-left k×k block and a witness of the second in the top-right block: the shifts put every point back on its original diagonal."
+   "proof": "Equality at k says the k lowest diagonals add up to −k(n−k), the smallest total possible for k points in different rows and columns; that minimum forces those k points into the bottom k rows and the leftmost k columns. So D splits into the lower k stones (shifted up by n−k) and the upper n−k stones (shifted down by k). Both shifted sets inherit Landau's inequalities from the prefix sums, with equality at their own sizes, so they are valid smaller instances. Put a witness of the first in the bottom-left k×k block and a witness of the second in the top-right block: the shifts put every point back on its original diagonal.",
+   "route": "goal",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "inflation",
@@ -334,7 +756,10 @@
     }
    ],
    "statement": "Let D split into groups G₁…G_k of sizes n_i with integer means c_i. If each G_i − c_i has a witness, and there are an order of the groups by rows and an order by columns (a permutation σ) with c_i = (total size of the groups before i in the column order) − (total size of the groups before i in the row order), then D has a witness (the inflation σ[π₁,…,π_k]).",
-   "proof": "Let π_i be a witness of G_i − c_i (size n_i). Give block i the rows after the groups that precede it in the row order, and the columns after the groups that precede it in the column order; by hypothesis, column start − row start = c_i. A point of π_i at local position (r, c) lands at (row start + r, column start + c), so its diagonal is its local diagonal plus c_i, which lies in G_i. Blocks use disjoint rows and disjoint columns, so the result is a permutation, and since the groups partition D, every diagonal of D is used exactly once."
+   "proof": "Let π_i be a witness of G_i − c_i (size n_i). Give block i the rows after the groups that precede it in the row order, and the columns after the groups that precede it in the column order; by hypothesis, column start − row start = c_i. A point of π_i at local position (r, c) lands at (row start + r, column start + c), so its diagonal is its local diagonal plus c_i, which lies in G_i. Blocks use disjoint rows and disjoint columns, so the result is a permutation, and since the groups partition D, every diagonal of D is used exactly once.",
+   "route": "blocks",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "directsum",
@@ -407,7 +832,10 @@
    ],
    "statement": "If π₁ witnesses D₁ (size n₁), π₂ witnesses D₂ (size n₂), and D₁ ∩ D₂ = ∅, then π₁ ⊕ π₂ witnesses D₁ ∪ D₂.",
    "refs": "Nordh 2008, Thm 27",
-   "proof": "Place π₁ in the top-left n₁×n₁ block and π₂ in the bottom-right block. Each point keeps its diagonal (both blocks sit on the main diagonal), rows and columns are disjoint between the blocks, and the diagonals don't collide because D₁ ∩ D₂ = ∅."
+   "proof": "Place π₁ in the top-left n₁×n₁ block and π₂ in the bottom-right block. Each point keeps its diagonal (both blocks sit on the main diagonal), rows and columns are disjoint between the blocks, and the diagonals don't collide because D₁ ∩ D₂ = ∅.",
+   "route": "blocks",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "fixedpoint",
@@ -473,7 +901,10 @@
     }
    ],
    "statement": "If 0 ∈ D and D ∖ {0} has a witness at size n − 1, then D has a witness with π(1) = 1.",
-   "proof": "Put a point at (1,1); it is on diagonal 0 and uses row 1 and column 1. Deleting them leaves rows and columns 2…n, and every remaining cell keeps its diagonal. So a witness of D∖{0} at size n−1, shifted down and right by one, fills the rest."
+   "proof": "Put a point at (1,1); it is on diagonal 0 and uses row 1 and column 1. Deleting them leaves rows and columns 2…n, and every remaining cell keeps its diagonal. So a witness of D∖{0} at size n−1, shifted down and right by one, fills the rest.",
+   "route": "blocks",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "decomp",
@@ -579,7 +1010,10 @@
    ],
    "statement": "For n ≥ 4, every valid no-tight-cut D other than P_n splits into k < n groups satisfying the hypotheses of the block-layout lemma: integer means c_i, each G_i − c_i valid at its size, and the layout of sizes and centres realizable by some σ.",
    "evidence": "Exhaustive for 4 ≤ n ≤ 12: exactly one no-tight-cut D per n fails, P_n (up to mirror, out of 1, 3, 5, 15, 36, 107, 306, 969, 3055). Checked through witnesses (D splits iff some witness is not a simple permutation), so it relies on the conjecture at those sizes, which is verified. The layout can need up to n − 1 blocks.",
-   "refs": "Prime agent 2026-11-22, /home/claude/agents/prime/"
+   "refs": "Prime agent 2026-11-22, /home/claude/agents/prime/",
+   "route": "blocks",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "pn",
@@ -659,7 +1093,10 @@
    ],
    "statement": "P_n (scores 1, 1, 2, 3, …, n−3, n−2, n−2; D = {±(n−2)} ∪ {|d| ≤ n−3, d ≡ n−1 mod 2}) has a witness for every n ≥ 4: π(2) = n; π(i) = n−1−i for odd i ≤ n−2; π(i) = n+3−i for even i ≥ 4; and π(n−1) = 1 (n even) or π(n) = 2 (n odd).",
    "refs": "Verify agent 2026-11-23, /home/claude/agents/verify/pn.py (formula checked n ≤ 30; exactly two witnesses for n ≤ 14)",
-   "proof": "Odd positions i ≤ n−2 get the values n−1−i and even positions i ≥ 4 get n+3−i: two staircases using opposite parity classes of values, so together with n (at position 2) and the leftover value they form a permutation. Diagonals: n−2 at i = 2, 2−n at the leftover position, n−1−2i at odd i and n−1−2(i−2) at even i ≥ 4. The last two together give every n−1−2r for 1 ≤ r ≤ n−2, i.e. {n−3, n−5, …, 3−n}, which is the rest of P_n."
+   "proof": "Odd positions i ≤ n−2 get the values n−1−i and even positions i ≥ 4 get n+3−i: two staircases using opposite parity classes of values, so together with n (at position 2) and the leftover value they form a permutation. Diagonals: n−2 at i = 2, 2−n at the leftover position, n−1−2i at odd i and n−1−2(i−2) at even i ≥ 4. The last two together give every n−1−2r for 1 ≤ r ≤ n−2, i.e. {n−3, n−5, …, 3−n}, which is the rest of P_n.",
+   "route": "blocks",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "twoblock",
@@ -733,7 +1170,10 @@
    ],
    "statement": "Every valid no-tight-cut D other than P_n has stones x, x + 2 such that some witness contains a 2×2 block (points (r, c+1) and (r+1, c)) on those two diagonals. Equivalently, the layout with one 2-wide stone at offset x + 1 and all other stones 1-wide is solvable.",
    "evidence": "Exhaustive for no-tight-cut D up to mirror, n = 4–14 (33,284 D at n = 14); the only exception at each n is P_n. Also exact there: shrinking a 2×2 block never leaves an arrangement with a tight cut. A block (any size) whose shrunken permutation has distinct diagonals does not always exist: 1, 2, 3, 5, 11 arrangements at n = 5–9 have none (first beyond P_n: ±{1, 2, 3}).",
-   "refs": "Blocks agent 2026-11-22, /home/claude/agents/blocks/"
+   "refs": "Blocks agent 2026-11-22, /home/claude/agents/blocks/",
+   "route": "blocks",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "closestpair",
@@ -763,7 +1203,10 @@
    ],
    "statement": "For every valid no-tight-cut D ≠ P_n, the pair {x, x + 2} ⊂ D whose centre x + 1 is closest to 0 forms a 2×2 block in some witness.",
    "evidence": "First failure n = 6, D = ±{1, 2, 3} (picture). Right for 99.3% of D up to n = 14, but failures grow (424 at n = 14). Also failed: the leftmost pair, any pair with an empty mark between, pairs whose outer neighbours are empty.",
-   "refs": "Blocks agent 2026-11-22"
+   "refs": "Blocks agent 2026-11-22",
+   "route": "blocks",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "mergepair",
@@ -789,7 +1232,10 @@
    ],
    "statement": "For every valid no-tight-cut D ≠ P_n, some pair {x, x + 2} ⊂ D has D ∖ {x, x+2} ∪ {x+1} valid at size n − 1.",
    "evidence": "A valid arrangement's stones sum to 0, but the merged set sums to −(x + 1), so only a pair centred at 0 can work. D = {−4, −3, 0, 1, 2, 4} has no such pair (picture); overall only 7.7% of pairs pass.",
-   "refs": "Blocks agent 2026-11-22"
+   "refs": "Blocks agent 2026-11-22",
+   "route": "blocks",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "weighted",
@@ -819,7 +1265,10 @@
    ],
    "statement": "A layout of stones of width 1 or 2 with target offsets t (total width W; row and column orders free) is solvable iff for every set S of stones with total width V, Σ_S width·t ≥ −V(W − V).",
    "evidence": "False: D = {−4, −2, 0, 1, 2, 3} with {−2, 0} fattened passes the count, yet no witness has that block (the pairs {−4, −2}, {0, 2}, {+1, +3} do). Failures are common (117 of 260 in one class at total width 8), and parity gives no fix.",
-   "refs": "Weighted agent 2026-11-22, /home/claude/agents/weighted/"
+   "refs": "Weighted agent 2026-11-22, /home/claude/agents/weighted/",
+   "route": "blocks",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "boundedframes",
@@ -899,7 +1348,10 @@
    ],
    "statement": "There is a constant K such that every valid D has a witness whose substitution tree uses only the frames 12, 21, the solutions of the P_k, and block-free permutations with at most K points.",
    "evidence": "For n ≤ 9 a greedy search found 23 frames of size ≤ 8 that, together with 12, 21 and P_k's solutions, build a witness of every valid D (mirrors and tight cuts included; checked recursively at every level). The frames needed per size so far: 1, 3, 8, 6, 4 for sizes 4–8; about half repeat a diagonal (e.g. 3 1 5 2 4, which builds ±{1, 2, 3}). Whether the sizes stay bounded as n grows is unknown. Interactive builder and data: Block-building experiments page.",
-   "refs": "Basket agent 2026-11-23, /home/claude/agents/basket/ (frames.py, recursive.py); https://claude.ai/artifact/E4q4L8E73nqREQg4RzhDZP"
+   "refs": "Basket agent 2026-11-23, /home/claude/agents/basket/ (frames.py, recursive.py); https://claude.ai/artifact/E4q4L8E73nqREQg4RzhDZP",
+   "route": "blocks",
+   "added": "2026-11-23T09:09Z",
+   "since": "2026-11-23T09:09Z"
   },
   {
    "id": "pkframes",
@@ -925,7 +1377,10 @@
    ],
    "statement": "Every valid D has a witness whose substitution tree uses only the frames 12, 21 and the solutions of the P_k.",
    "evidence": "False at n = 6 for ±{1, 2, 3}: two of its solutions are block-free themselves, and the others have frames like 3 1 5 2 4 or 2 5 1 6 4 3. Misses 1, 3, 17, 79 arrangements at n = 6–9.",
-   "refs": "Basket agent 2026-11-23, framesets.py"
+   "refs": "Basket agent 2026-11-23, framesets.py",
+   "route": "blocks",
+   "added": "2026-11-23T09:09Z",
+   "since": "2026-11-23T09:09Z"
   },
   {
    "id": "symframes",
@@ -991,7 +1446,10 @@
    ],
    "statement": "Every valid D has a witness whose substitution tree uses only 12, 21 and block-free permutations that are involutions or centrosymmetric (survive a half turn).",
    "evidence": "With only frames that are themselves solutions (no repeated diagonal): builds everything for n ≤ 7, misses 4 arrangements at n = 8 and 26 at n = 9 (no tight cut, mirrors counted). Allowing symmetric frames that repeat a diagonal (e.g. 4 6 3 1 5 2): misses 2 at n = 8 (the Q₈ pair) and 18 at n = 9. The remaining misses need asymmetric frames such as 5 2 6 4 1 3, 3 1 5 2 4, 5 7 4 2 6 1 3; adding frames greedily, 12 more (10 of them repeating a diagonal) fix everything to n = 9.",
-   "refs": "Basket agent 2026-11-23, symfam.py, symall.py, symfix.py; Block-building experiments page"
+   "refs": "Basket agent 2026-11-23, symfam.py, symall.py, symfix.py; Block-building experiments page",
+   "route": "blocks",
+   "added": "2026-11-23T10:04Z",
+   "since": "2026-11-23T10:04Z"
   },
   {
    "id": "qn",
@@ -1156,7 +1614,11 @@
    ],
    "statement": "Let D be valid with no tight cut and one minimal move past P_n (so D has n − 1 three-cycles; Q_n, the central move, is one of them). Then D has a witness of this form: a solution of P_a (or 21, 132/213 for a = 2, 3) in the top a rows, a solution of P_b in the bottom b = n − a rows, columns as in a skew sum except that the bottom piece's rightmost column slides two places right, past the top piece's two leftmost columns.",
    "evidence": "Holds for every such D at n = 8, 9, 10 (2, 3, 3 arrangements up to mirror), and for Q_n for n = 7–12 (exactly one such splice each). All have exactly 4 witnesses (P_n has 2).",
-   "refs": "Basket agent 2026-11-23, splice.py, nearP.py"
+   "refs": "Basket agent 2026-11-23, splice.py, nearP.py",
+   "route": "blocks",
+   "added": "2026-11-23T10:04Z",
+   "since": "2026-11-23T10:35Z",
+   "was": "open"
   },
   {
    "id": "ptwo",
@@ -1236,7 +1698,10 @@
    ],
    "statement": "Every valid no-tight-cut D two minimal moves past P_n has a witness that is a chain of P pieces (solutions of P_k, or 1, 21, 132, 213), skew-stacked, with one slide of length at most 4 (either direction) at each cut.",
    "evidence": "Works for every such D at n = 8 and 10 and all but one at n = 9 (all have exactly 8 witnesses). Fails for D = {−7, −5, −4, −3, 0, 3, 4, 5, 7} at n = 9 (chains of up to 6 pieces, slides up to 4); its witnesses use pieces like 321 instead (e.g. 8 7 6 4 9 3 2 1 5).",
-   "refs": "Basket agent 2026-11-23, chain.py"
+   "refs": "Basket agent 2026-11-23, chain.py",
+   "route": "blocks",
+   "added": "2026-11-23T10:35Z",
+   "since": "2026-11-23T10:35Z"
   },
   {
    "id": "movecount",
@@ -1278,7 +1743,10 @@
     }
    ],
    "statement": "If E is obtained from D by one minimal move, then t(E) = t(D) + 1, where t(D) = C(n,3) − Σ C(s_i, 2) is the number of 3-cycles of any tournament with D's scores. So every sequence of minimal moves from D to E has length t(E) − t(D).",
-   "proof": "Direct computation."
+   "proof": "Direct computation.",
+   "route": "moves",
+   "added": "2026-11-23T10:51Z",
+   "since": "2026-11-23T10:51Z"
   },
   {
    "id": "grammar",
@@ -1344,7 +1812,10 @@
    ],
    "statement": "Let G be the smallest set of permutations with distinct diagonals that contains every P_k solution, 1, 21, 132, 213 and every anti-diagonal, and is closed under (a) skew-stacking two members with one column slid across the cut by at most 2, and (b) widening each point of a member into a member. Claim: every valid no-tight-cut D has a witness in G.",
    "evidence": "Covers every D at n ≤ 9 up to 12 moves past P_n, including the n = 9 exception to the three-piece chain. Fails for {±1, ±2, ±3} at n = 6 (4 moves past P_6, the most central arrangement), 1 at n = 7, 2 at n = 8, 6 at n = 9, all 13 or more moves past P_n at n = 9.",
-   "refs": "2026-11-23, /home/claude/agents/basket/short.py, minimal.py"
+   "refs": "2026-11-23, /home/claude/agents/basket/short.py, minimal.py",
+   "route": "blocks",
+   "added": "2026-11-23T10:51Z",
+   "since": "2026-11-23T10:51Z"
   },
   {
    "id": "sym",
@@ -1430,7 +1901,10 @@
      "cap": "One of its solutions, 3 7 6 1 5 4 2"
     }
    ],
-   "statement": "Let 𝒩 be the valid arrangements with no tight cut and 𝒮 ⊂ 𝒩 the symmetric ones (D = −D). Every D ∈ 𝒮 has a witness."
+   "statement": "Let 𝒩 be the valid arrangements with no tight cut and 𝒮 ⊂ 𝒩 the symmetric ones (D = −D). Every D ∈ 𝒮 has a witness.",
+   "route": "symmetric",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "nonsym",
@@ -1525,7 +1999,10 @@
      "cap": "A solution of the first, 1 4 6 5 3 2"
     }
    ],
-   "statement": "Every D ∈ 𝒩 ∖ 𝒮 (no tight cut, D ≠ −D) has a witness."
+   "statement": "Every D ∈ 𝒩 ∖ 𝒮 (no tight cut, D ≠ −D) has a witness.",
+   "route": "symmetric",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "symodd",
@@ -1584,7 +2061,10 @@
    ],
    "statement": "If D ∈ 𝒮 has n = 2m + 1 and L = D ∩ (0, ∞), then for some position f the positions {1, …, n} ∖ {f} split into pairs with distances exactly L; equivalently, D has an involution witness with fixed point (f, f). (In terms of L, Landau says: the K largest elements of L sum to at most K(n − K), for every K.)",
    "evidence": "Holds for every symmetric valid D with n odd ≤ 15 (1971 at n = 15). No fixed choice of the free position works (end, centre and start all fail by n = 7), and 'parity + density for the remaining positions ⇒ pairing' is false (n = 5, L = {1, 3}, centre free). No theorem in the Skolem literature covers arbitrary L.",
-   "refs": "Sympair agent 2026-11-23, /home/claude/agents/sympair/"
+   "refs": "Sympair agent 2026-11-23, /home/claude/agents/sympair/",
+   "route": "symmetric",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "symeven",
@@ -1610,7 +2090,10 @@
      "cap": "±{1, 2, 5, 6}: eight stones, middle mark empty"
     }
    ],
-   "statement": "Every D ∈ 𝒮 with n even has a witness."
+   "statement": "Every D ∈ 𝒮 with n even has a witness.",
+   "route": "symmetric",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "nordh8",
@@ -1690,7 +2173,10 @@
    ],
    "statement": "Let D ∈ 𝒮 with n = 2m and L = D ∩ (0, ∞), and suppose L has an even number of even elements. Then positions 1…2m split into pairs with distances exactly L; equivalently, D has an involution witness. (The no-tight-cut case of Nordh's Conjecture 8: parity + density ⇒ perfect Skolem set.)",
    "evidence": "For even n ≤ 14, a symmetric valid D has an involution witness exactly when L has an even number of even elements. Nordh checked his conjecture for up to 20 distances. Proved special cases: Skolem ({1…m}), Langford/Simpson (intervals), Shalaby (an interval minus one element).",
-   "refs": "Nordh 2008, Conj. 8; sympair agent 2026-11-23"
+   "refs": "Nordh 2008, Conj. 8; sympair agent 2026-11-23",
+   "route": "symmetric",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "centro",
@@ -1770,7 +2256,10 @@
    ],
    "statement": "Let D ∈ 𝒮 with n = 2m and L = D ∩ (0, ∞), and suppose L has an odd number of even elements. Then D has a centrosymmetric witness: π(n+1−i) = n+1−π(i).",
    "evidence": "Holds for every such D with n even ≤ 14. Narrower versions fail at n = 6 for L = {1, 2, 3}: σ an involution, or a pairing plus one 4-cycle.",
-   "refs": "Sympair agent 2026-11-23"
+   "refs": "Sympair agent 2026-11-23",
+   "route": "symmetric",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "f1",
@@ -1836,7 +2325,10 @@
    ],
    "statement": "For every a ≥ 1, D = {±1, …, ±a} (n = 2a) has the witness π(i) = 2i for i ≤ a, π(i) = 2i − (2a+1) for i > a.",
    "refs": "Nordh 2008, Thm 28 (arXiv v1 numbering); explicit witness ours",
-   "proof": "Rows i ≤ a go to column 2i, so diagonal 2i − i = i takes the values 1…a on the even columns 2, 4, …, 2a. Rows i > a go to column 2i − 2a − 1, so diagonal i − 2a − 1 takes the values −a…−1 on the odd columns 1, 3, …, 2a − 1. All columns are distinct, so this is a permutation using each diagonal ±1…±a once."
+   "proof": "Rows i ≤ a go to column 2i, so diagonal 2i − i = i takes the values 1…a on the even columns 2, 4, …, 2a. Rows i > a go to column 2i − 2a − 1, so diagonal i − 2a − 1 takes the values −a…−1 on the odd columns 1, 3, …, 2a − 1. All columns are distinct, so this is a permutation using each diagonal ±1…±a once.",
+   "route": "symmetric",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "oddcentre",
@@ -1910,7 +2402,10 @@
    "statement": "For n = 2m + 1, D = {−m, …, m} has an involution witness: from a Skolem sequence of order m (m ≡ 0, 1 mod 4; fixed point at position n) or a hooked Skolem sequence of order m (m ≡ 2, 3 mod 4; fixed point at position n − 1).",
    "proof": "Skolem sequences exist iff m ≡ 0, 1 mod 4; hooked Skolem sequences iff m ≡ 2, 3 mod 4.",
    "evidence": "Checked by search for n ≤ 11.",
-   "refs": "Skolem 1957; O'Keefe 1961 (hooked)"
+   "refs": "Skolem 1957; O'Keefe 1961 (hooked)",
+   "route": "symmetric",
+   "added": "2026-11-23T11:01Z",
+   "since": "2026-11-23T11:01Z"
   },
   {
    "id": "centre",
@@ -2036,7 +2531,10 @@
     }
    ],
    "statement": "For every n, the valid D with the most 3-cycles is unique, namely C_n = {−⌊n/2⌋, …, ⌊n/2⌋} with 0 removed when n is even, and C_n has a witness.",
-   "proof": "Uniqueness: the number of 3-cycles is C(n,3) − Σ C(s_i,2), maximised exactly when the scores differ by at most 1; checked n ≤ 12."
+   "proof": "Uniqueness: the number of 3-cycles is C(n,3) − Σ C(s_i,2), maximised exactly when the scores differ by at most 1; checked n ≤ 12.",
+   "route": "symmetric",
+   "added": "2026-11-23T11:01Z",
+   "since": "2026-11-23T11:01Z"
   },
   {
    "id": "f3",
@@ -2102,7 +2600,10 @@
    ],
    "statement": "D = ±L (n = 2m) has an involution witness ⇔ positions 1…2m split into pairs with distances exactly L; with one unpaired position, the same holds for D = {0} ∪ ±L. Known solvable L: {1…m} iff m ≡ 0, 1 mod 4 (Skolem 1957); intervals {d…d+m−1} under Simpson's 1983 conditions; {1…k} ∖ {j} on positions 1…2k−2 when k ≡ 0, 1 mod 4 and j odd, or k ≡ 2, 3 mod 4 and j even (Shalaby; Nordh Cor 26).",
    "refs": "Nordh 2008, Thm 23 and Cor 26; Skolem 1957; Simpson 1983; Shalaby",
-   "proof": "An involution's 2-cycles i ↔ j give the points (i, j) and (j, i), on diagonals +(j − i) and −(j − i). So an involution witness for ±L is the same thing as a pairing of the positions with distances exactly L, and a fixed point adds diagonal 0. Skolem (1957) shows {1…2m} pairs with distances {1…m} iff m ≡ 0, 1 (mod 4); Simpson (1983) settles distances {d…d+m−1}, and Shalaby's near-Skolem theorem settles {1…k} ∖ {m} on positions 1…2k−2."
+   "proof": "An involution's 2-cycles i ↔ j give the points (i, j) and (j, i), on diagonals +(j − i) and −(j − i). So an involution witness for ±L is the same thing as a pairing of the positions with distances exactly L, and a fixed point adds diagonal 0. Skolem (1957) shows {1…2m} pairs with distances {1…m} iff m ≡ 0, 1 (mod 4); Simpson (1983) settles distances {d…d+m−1}, and Shalaby's near-Skolem theorem settles {1…k} ∖ {m} on positions 1…2k−2.",
+   "route": "symmetric",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "mm",
@@ -2183,7 +2684,10 @@
     }
    ],
    "statement": "Call a move minimal if it takes stones at a < b, where a + 1 and b − 1 are empty and every mark strictly between them is occupied, to a + 1 and b − 1. Every valid D is reached from the start (stones on every other mark) by minimal moves, and each move raises the number of 3-cycles by exactly 1.",
-   "proof": "Induct on the number of 3-cycles. A non-transitive valid D has two equal scores; take a maximal run of equal scores v and undo a move at its two ends (v, v → v−1, v+1). The result stays sorted, its prefix sums drop by 1 only inside the run, and none of those prefixes can be tight (a tight prefix at k forces s_k < s_{k+1}), so it is still valid with one fewer 3-cycle. Each forward move only raises prefix sums, so it keeps Landau."
+   "proof": "Induct on the number of 3-cycles. A non-transitive valid D has two equal scores; take a maximal run of equal scores v and undo a move at its two ends (v, v → v−1, v+1). The result stays sorted, its prefix sums drop by 1 only inside the run, and none of those prefixes can be tight (a tight prefix at k forces s_k < s_{k+1}), so it is still valid with one fewer 3-cycle. Each forward move only raises prefix sums, so it keeps Landau.",
+   "route": "moves",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "move",
@@ -2290,7 +2794,10 @@
      "cap": "The start for n = 5 and a solution after one move"
     }
    ],
-   "statement": "If D has a witness and D → D′ is a minimal move, then D′ has a witness."
+   "statement": "If D has a witness and D → D′ is a minimal move, then D′ has a witness.",
+   "route": "moves",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "ratio",
@@ -2338,7 +2845,10 @@
     }
    ],
    "statement": "There is c > 0 with W(D′) ≥ c·W(D) for every minimal move D → D′ and every n.",
-   "evidence": "Minimum ratio = 2/3 for n ≤ 16, attained only by this pattern; next-smallest ≈ 0.734 (n = 14–16)."
+   "evidence": "Minimum ratio = 2/3 for n ≤ 16, attained only by this pattern; next-smallest ≈ 0.734 (n = 14–16).",
+   "route": "moves",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "hallwalk",
@@ -2472,7 +2982,10 @@
    "statement": "In a solution, for an integer s let ψ(r) be the row of the stone in column s − r. Reflecting the stones of a closed loop of ψ in the anti-diagonal r + c = s gives another solution of the same D. For a minimal move of X (on x) and Y (on y), put s1 = r_X + c_Y − 1 and s2 = r_Y + c_X + 1. For s = s1 or s2 a repair by reflecting a chain of ψ exists unless the rows of X and Y lie on two different open paths of ψ; ψ has exactly |s − (n+1)| open paths. So if some solution of D has s1 or s2 in {n, n+1, n+2}, the moved arrangement is solvable.",
    "proof": "Proof in agents/hallwalk/REPORT.md (Claims 1 and 2).",
    "evidence": "The repair and the criterion are also asserted on every solution of every valid D for n ≤ 11 (1,405,479 move–solution pairs at n = 11). With the mirror line through the middle (s = n+1) the repair is the plain swap of 'Some solution needs only a small fix' after reflecting one closed loop; the two neighbouring lines use the one chain that runs off the edge and are new. Loop reflections do not connect all solutions of D (2 classes for −3, −1, 0, 1, 3).",
-   "refs": "agents/hallwalk/REPORT.md; recheck: python3 agents/hallwalk/refl.py 10 (8 seconds). M. Hall, A combinatorial problem on abelian groups, Proc. AMS 3 (1952)."
+   "refs": "agents/hallwalk/REPORT.md; recheck: python3 agents/hallwalk/refl.py 10 (8 seconds). M. Hall, A combinatorial problem on abelian groups, Proc. AMS 3 (1952).",
+   "route": "moves",
+   "added": "2026-11-24T04:01Z",
+   "since": "2026-11-24T04:01Z"
   },
   {
    "id": "hallnear",
@@ -2482,7 +2995,10 @@
    "intuition": "The mirror repair always works when its mirror line is the middle anti-diagonal of the board or one of the two next to it. The line is fixed by the two moving stones: it passes just beside the corner of the rectangle they span. So it is enough to find, for each move, one solution in which that corner lies on one of three neighbouring anti-diagonals. Claim: such a solution exists for every minimal move of every valid arrangement.",
    "statement": "For every minimal move of a valid D, of X on x and Y on y, some solution of D has r_X + c_Y − 1 or r_Y + c_X + 1 in {n, n+1, n+2}.",
    "evidence": "Every minimal move of every valid D, n ≤ 11 (12,913 moves at n = 11): no exception. For 1,083 of those moves no solution has the middle line itself, so the plain swap of two stones is not enough there. Not every solution works: the share of solutions that any chain reflection repairs falls with n (0.83 at n = 7, 0.69 at n = 9, 0.53 at n = 11).",
-   "refs": "agents/hallwalk/REPORT.md (Claim 3); recheck: python3 agents/hallwalk/refl.py 11 (40 seconds)."
+   "refs": "agents/hallwalk/REPORT.md (Claim 3); recheck: python3 agents/hallwalk/refl.py 11 (40 seconds).",
+   "route": "moves",
+   "added": "2026-11-24T04:01Z",
+   "since": "2026-11-24T04:01Z"
   },
   {
    "id": "halltree",
@@ -2492,7 +3008,10 @@
    "intuition": "Every arrangement can be reached from the evenly spaced one by minimal moves, usually along many paths. Pick one path for each arrangement by a rule: undo a move by opening a run of neighbouring diagonals, here always the first run that can be opened. Carry along that path all solutions the mirror repair produces, starting from the single solution of the evenly spaced arrangement. Unlike the card about the middle anti-diagonal, this needs no solution to be found by search: it only follows repairs. Not every rule can work, because every path of moves is the path of some rule and one path at n = 7 fails (red card below). Claim: for the rule 'first run', the set carried along is never empty.",
    "statement": "For a valid D′ other than the evenly spaced one, let its parent be the D got by opening the lowest maximal run of two or more consecutive diagonals a+1, …, b−1 of D′ (its end stones go to a and b) for which D is valid. Let A(evenly spaced) be its solution and A(D′) the set of solutions got from A(parent of D′) by the four chain reflections (s1 or s2, started at X or Y). Then A(D′) ≠ ∅ for every valid D′.",
    "evidence": "The rule 'first run' and seven others (last run, longest, shortest, nearest the middle, furthest from the middle, greatest slack, least slack): no empty set for any valid D with n ≤ 12 (14,805 arrangements at n = 12). The sets stay small (at most 2,924 solutions at n = 12). With mirror lines next to the middle only, every rule fails by n = 7 or 8. Keeping a single solution (the first repair that works, in a fixed order) fails by n = 10 for all 192 combinations of rule and order.",
-   "refs": "agents/hallwalk/REPORT.md (Claim 5); recheck: python3 agents/hallwalk/tree.py 10 (5 seconds)."
+   "refs": "agents/hallwalk/REPORT.md (Claim 5); recheck: python3 agents/hallwalk/tree.py 10 (5 seconds).",
+   "route": "moves",
+   "added": "2026-11-24T04:01Z",
+   "since": "2026-11-24T04:01Z"
   },
   {
    "id": "hallanypath",
@@ -2502,7 +3021,10 @@
    "intuition": "If the path did not matter, no rule for choosing it would be needed. Claim: the set carried along any path of moves is never empty.",
    "statement": "For every sequence of minimal moves from the evenly spaced arrangement, the set of solutions got by chain reflections along that sequence is non-empty.",
    "evidence": "False at n = 7. After the moves (−6,−2), (−3,0), (−1,2), (1,4), (−2,2), (−4,−1), (3,6), (1,4), (−5,0), (−1,2), (1,5) the set has two solutions of −4, −3, −2, 0, 2, 3, 4, and neither can be repaired for the next move (−2, 2). It is the only such state at n = 7.",
-   "refs": "agents/hallwalk/REPORT.md (Claim 5); recheck: python3 agents/hallwalk/allpaths.py 7."
+   "refs": "agents/hallwalk/REPORT.md (Claim 5); recheck: python3 agents/hallwalk/allpaths.py 7.",
+   "route": "moves",
+   "added": "2026-11-24T04:01Z",
+   "since": "2026-11-24T04:01Z"
   },
   {
    "id": "hallevery",
@@ -2512,7 +3034,10 @@
    "intuition": "If the mirror repair worked from every solution, there would be nothing to choose and the induction over moves would close. Claim: it works from every solution.",
    "statement": "For every minimal move of a valid D and every solution of D, one of the four chain reflections (s1 or s2, starting at X or Y) gives a solution of the moved arrangement.",
    "evidence": "False from n = 7: for D = −5, −3, −2, 1, 2, 3, 4 and the move −2, 1 → −1, 0 it fails for 2 of the 12 solutions. The share of solutions that can be repaired keeps falling: 0.69 at n = 9 and 10, 0.53 at n = 11, lowest for the last move into the most central arrangement.",
-   "refs": "agents/hallwalk/REPORT.md; python3 agents/hallwalk/refl.py 9."
+   "refs": "agents/hallwalk/REPORT.md; python3 agents/hallwalk/refl.py 9.",
+   "route": "moves",
+   "added": "2026-11-24T04:01Z",
+   "since": "2026-11-24T04:01Z"
   },
   {
    "id": "goodwitness",
@@ -2641,7 +3166,10 @@
    ],
    "statement": "For every minimal move D → D′ of a solvable D, some witness of D becomes a witness of D′ by changing at most 4 rows (the two moving stones' rows plus at most two more).",
    "evidence": "Best old solution, all minimal moves of all valid D, n ≤ 12: a plain column swap works for 93% of moves (41,726 of 44,972 at n = 12), including every move with nothing between the movers; the rest need 3 or 4 rows, never more. From an arbitrary old solution the fix grows (up to 7 rows at n = 12).",
-   "refs": "Connect agent 2026-11-23, /home/claude/agents/connect/"
+   "refs": "Connect agent 2026-11-23, /home/claude/agents/connect/",
+   "route": "moves",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "repair",
@@ -2651,7 +3179,10 @@
    "intuition": "Instead of choosing a good old solution, fix whichever one you have. Claim: the fix never needs more than a fixed number of other points to move.",
    "statement": "There is R such that for every minimal move D → D′ and every witness π of D, some witness of D′ agrees with π on all but at most R of the non-moving stones' points.",
    "example": "n = 7: D = {−5,−2,−1,0,1,2,5}, move −5,−2 → −4,−3,\nπ = 3 7 1 4 6 5 2: every witness after the move\nmoves ≥ 3 of the other 5 points.",
-   "evidence": "The worst case grows: 1, 2, 2, 3, 3, 3 for n = 4–9, and 5 at n = 14 (Devin)."
+   "evidence": "The worst case grows: 1, 2, 2, 3, 3, 3 for n = 4–9, and 5 at n = 14 (Devin).",
+   "route": "moves",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "fibre",
@@ -2660,7 +3191,10 @@
    "status": "disproved",
    "intuition": "Freeze every point except the two moving ones, and compare how many ways the moving pair can be placed before and after. Claim: the count never drops below 2/3.",
    "statement": "For every minimal move and every placement of the non-moving stones' points that extends to a witness of D, it extends to at least 2/3 as many witnesses of D′.",
-   "evidence": "Every fibre has size 0 or 1, so a fibre with one witness before and none after is a counterexample; these occur from small n."
+   "evidence": "Every fibre has size 0 or 1, so a fibre with one witness before and none after is a counterexample; these occur from small n.",
+   "route": "moves",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "exchange",
@@ -2755,7 +3289,10 @@
    ],
    "statement": "There is k such that for every D, any two witnesses are connected by a chain of witnesses, each obtained from the previous by rearranging at most k points.",
    "evidence": "False for every fixed k: P_n's two solutions differ in all n rows (n = 5–11). With rotations of up to 4 points, 302 of 306 arrangements are disconnected at n = 10.",
-   "refs": "Connect agent 2026-11-22"
+   "refs": "Connect agent 2026-11-22",
+   "route": "moves",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "start",
@@ -2814,7 +3351,10 @@
     }
    ],
    "statement": "If D satisfies Landau, the square n×n board with diagonals D passes the parity test: there is a choice a(d) ∈ {odd, even} for each d ∈ D such that the parity counts match and the fractional placement using only cells (r, c) with r ≡ a(c − r) exists.",
-   "evidence": "Holds for n ≤ 12, tight cuts included, but checked via real solutions, so no evidence beyond the conjecture. Only the all-same-parity D has a unique working choice."
+   "evidence": "Holds for n ≤ 12, tight cuts included, but checked via real solutions, so no evidence beyond the conjecture. Only the all-same-parity D has a unique working choice.",
+   "route": "parity",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "parityrule",
@@ -2824,7 +3364,10 @@
    "intuition": "The simplest kind of parity choice reads a stone's parity off its own mark and its rank. Claim: one such rule works for every arrangement.",
    "statement": "There is a function f such that for every valid D, the choice a(d) = f(d, rank of d in D) passes the parity test.",
    "example": "D = {−1, 0, 1} forces a(0) = odd, but D = {−2, 0, 2} forces a(0) = even,\nand 0 has rank 2 in both.",
-   "evidence": "Fails at n = 3 (example). Also fail: rules from parity-class rank (n = 6), local Landau slack (n = 7), alternating within parity classes (n = 6), every function of 4 binary local features (n ≤ 6)."
+   "evidence": "Fails at n = 3 (example). Also fail: rules from parity-class rank (n = 6), local Landau slack (n = 7), alternating within parity classes (n = 6), every function of 4 binary local features (n ≤ 6).",
+   "route": "parity",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "paritymove",
@@ -2934,7 +3477,10 @@
     }
    ],
    "statement": "If D passes the parity test and D → D′ is a minimal move, then D′ passes the parity test.",
-   "evidence": "True for n ≤ 12, since every valid D passes there (starting lemma); no direct argument yet."
+   "evidence": "True for n ≤ 12, since every valid D passes there (starting lemma); no direct argument yet.",
+   "route": "parity",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "carry",
@@ -2944,7 +3490,10 @@
    "intuition": "Instead of finding a new parity choice after a move, keep the old one: the two moving stones share a parity and pass it on to their new marks. Claim: some working choice always carries over like this.",
    "statement": "For every minimal move a, b → a+1, b−1 from a D that passes the parity test, some working choice for D with equal values on a and b becomes a working choice for D′ after giving a+1 and b−1 that value and keeping all other values.",
    "evidence": "Holds for the moves with nothing between the movers, n ≤ 11 (from solutions) and n ≤ 10 (from the LP). Not yet checked for general minimal moves. 'Every working choice carries over' fails at n = 6 (D = (−4,−3,0,1,2,4), x = −3).",
-   "refs": "Parity-data agent 2026-11-22"
+   "refs": "Parity-data agent 2026-11-22",
+   "route": "parity",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "peel",
@@ -3042,7 +3591,10 @@
     }
    ],
    "statement": "Every board with rows 1…m and any m columns that passes the parity test has a top-row cell whose peel (delete its row, its column and its diagonal) leaves a board that still passes.",
-   "evidence": "Some top-row cell always peels: rows 1…m with h ≤ 3 holes, m ≤ 7, and h = 2, m = 8. The peel can always keep the same parity choice (m ≤ 7, h ≤ 3), but not every passing choice works."
+   "evidence": "Some top-row cell always peels: rows 1…m with h ≤ 3 holes, m ≤ 7, and h = 2, m = 8. The peel can always keep the same parity choice (m ≤ 7, h ≤ 3), but not every passing choice works.",
+   "route": "parity",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "parity",
@@ -3172,7 +3724,10 @@
     }
    ],
    "statement": "A board with rows 1…m and any m columns has a placement ⇔ it passes the parity test.",
-   "evidence": "Exact on all tested boards: 2 holes up to m = 10, 3 up to m = 9, 4 up to m = 7. General row sets only up to m = 5."
+   "evidence": "Exact on all tested boards: 2 holes up to m = 10, 3 up to m = 9, 4 up to m = 7. General row sets only up to m = 5.",
+   "route": "parity",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "toprules",
@@ -3224,7 +3779,10 @@
     }
    ],
    "statement": "At least one of these always keeps the parity test passing: (a) the top-row cell with the largest diagonal, (b) the smallest, (c) the largest weight in the fractional solution.",
-   "evidence": "(a), (b) fail at m = 4 (picture); (c) fails at m = 6, h = 3, where the restricted fractional solution is all ½."
+   "evidence": "(a), (b) fail at m = 4 (picture); (c) fails at m = 6, h = 3, where the restricted fractional solution is all ½.",
+   "route": "parity",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "ir",
@@ -3233,7 +3791,10 @@
    "status": "disproved",
    "intuition": "A cell with weight 1 in a fractional solution uses up its row, column and diagonal, so peeling it keeps the rest of that solution. Claim: every passing choice has such a cell at some vertex.",
    "statement": "For every passing parity choice, the restricted fractional polytope has a vertex with some cell of weight exactly 1.",
-   "evidence": "False: m = 6, h = 3, columns {1,3,4,7,8,9}, D = {−3,−1,2,3,4,6} has a unique all-½ solution for one passing choice. For some choice a weight-1 vertex always existed in tests, but that version is equivalent to the peeling lemma."
+   "evidence": "False: m = 6, h = 3, columns {1,3,4,7,8,9}, D = {−3,−1,2,3,4,6} has a unique all-½ solution for one passing choice. For some choice a weight-1 vertex always existed in tests, but that version is equivalent to the peeling lemma.",
+   "route": "parity",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "forcing",
@@ -3314,7 +3875,10 @@
    ],
    "statement": "Peel a top-row cell e of a board passing the parity test, leaving board P. Then P fails the parity test ⇔ for every parity choice a of P, either the parity counts don't match, or forced-move propagation on the a-restricted P empties some row, column or diagonal. (Propagation: while some row, column or diagonal has exactly one usable cell, place a point there and delete its lines.)",
    "evidence": "Exact on all tested boards: m ≤ 7 with up to 4 holes, m = 8 with up to 3. Propagation alone (no parity) explains 96–99% of bad cells; parity first matters at m = 7. A real placement survives forced moves, so the rule never wrongly calls a cell bad. The raw LP certificates are a zoo (dozens of sign patterns, weights up to 6).",
-   "refs": "Farkas agent 2026-11-23, /home/claude/agents/farkas/"
+   "refs": "Farkas agent 2026-11-23, /home/claude/agents/farkas/",
+   "route": "parity",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "chainpeel",
@@ -3411,7 +3975,10 @@
      "cap": "Every remaining point is forced, and no line runs dry"
     }
    ],
-   "statement": "Every board with rows 1…m passing the parity test has a top-row cell e and a parity choice a for the peeled board such that the parity counts match and forced-move propagation on the a-restricted peeled board never empties a row, column or diagonal."
+   "statement": "Every board with rows 1…m passing the parity test has a top-row cell e and a parity choice a for the peeled board such that the parity counts match and forced-move propagation on the a-restricted peeled board never empties a row, column or diagonal.",
+   "route": "parity",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "g1",
@@ -3489,7 +4056,10 @@
     }
    ],
    "statement": "Rows 1…m, columns {1…m+1} ∖ {c}, t_k = d_k + m − k: a placement exists ⇔ Σ_{i≤k} t_i ≥ C(k,2) + max(0, k+1−c) for all k, with equality at k = m.",
-   "evidence": "Sufficiency verified by computer for m ≤ 15 (Devin)."
+   "evidence": "Sufficiency verified by computer for m ≤ 15 (Devin).",
+   "route": "parity",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "sum2",
@@ -3523,7 +4093,10 @@
     }
    ],
    "statement": "On boards with rows 1…m and two or more missing columns, the Landau-type sum test implies a placement.",
-   "evidence": "Fails from m = 3: rows 1–3, columns {1,3,5}, D = {−1,1,3} (picture)."
+   "evidence": "Fails from m = 3: rows 1–3, columns {1,3,5}, D = {−1,1,3} (picture).",
+   "route": "parity",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "edgepeel",
@@ -3533,7 +4106,10 @@
    "intuition": "Another route to G1: always peel an edge line chosen so that the board keeps at most one hole. Claim: some such class is closed under peeling and has an exact sum test.",
    "statement": "Some class of boards with at most one hole is closed under peeling a suitable edge row or column, and the sum test is exact on it.",
    "example": "Stuck board: rows 1–4, columns {1,2,4,5}, D = {−2,−1,2,3}:\nevery peel leaves the class.",
-   "evidence": "About 19% of boards get stuck at m = 8; enlargements of the class fail too."
+   "evidence": "About 19% of boards get stuck at m = 8; enlargements of the class fail too.",
+   "route": "parity",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "plainlp",
@@ -3542,7 +4118,10 @@
    "status": "disproved",
    "intuition": "Without choosing parities first. Claim: the plain fractional test is already exact with holes.",
    "statement": "On boards with missing columns, a fractional placement implies a real one.",
-   "evidence": "First failure at m = 6: columns {1,2,5,6,7,8}, D = {−3,−2,0,2,5,6} has a unique all-½ fractional solution (the parity claim's second picture)."
+   "evidence": "First failure at m = 6: columns {1,2,5,6,7,8}, D = {−3,−2,0,2,5,6} has a unique all-½ fractional solution (the parity claim's second picture).",
+   "route": "parity",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "ly",
@@ -3605,7 +4184,10 @@
    ],
    "statement": "If s satisfies Landau, there is a doubly stochastic matrix supported on the diagonals of D in which each diagonal of D sums to 1.",
    "refs": "Li–Yao; Li–Liu–Yao, arXiv:2608.01442",
-   "proof": "Li–Yao / Li–Liu–Yao: by LP duality, a doubly stochastic matrix with these diagonal sums exists iff a family of weighted inequalities I(w) holds for all weights w ≥ 0; an induction on the weights reduces every I(w) to Landau's finitely many inequalities."
+   "proof": "Li–Yao / Li–Liu–Yao: by LP duality, a doubly stochastic matrix with these diagonal sums exists iff a family of weighted inequalities I(w) holds for all weights w ≥ 0; an induction on the weights reduces every I(w) to Landau's finitely many inequalities.",
+   "route": "algebra",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "cap",
@@ -3637,7 +4219,10 @@
    "statement": "W(D) ≥ (n!/nⁿ)·cap(P_D), where P_D(x) = per(M) with M_ij = x_{j−i} if j − i ∈ D (else 0), and cap(P_D) = inf_{x>0} P_D(x)/∏_d x_d.",
    "example": "Weights on {−1, 0, +1}:\n  x₀  x₁  ·\n  x₋₁ x₀  x₁\n  ·   x₋₁ x₀\nFillings: 123 → x₀³ (three stones on mark 0)\n          132 → x₀x₁x₋₁ (a solution)\n          213 → x₁x₋₁x₀ (a solution)\nP = x₀³ + 2·x₋₁x₀x₁, so W = 2.\nP/(x₋₁x₀x₁) = x₀²/(x₋₁x₁) + 2 → smallest value 2: cap = 2.\nBound: W ≥ (6/27)·2 ≈ 0.44. True: W = 2.",
    "evidence": "Holds for every no-tight-cut D with n ≤ 11 (n ≤ 8 Devin; n = 9–11 exhaustive). The slack W·nⁿ/(n!·cap) is at least 13.8, 17.2, 18.0 at n = 9, 10, 11 and grows with n; the worst cases are near-regular arrangements with many solutions, not P_n. Along P_n (W = 2) the slack grows like e^{0.21n} through n = 20.",
-   "refs": "Capacity agent 2026-11-22, /home/claude/agents/capacity/"
+   "refs": "Capacity agent 2026-11-22, /home/claude/agents/capacity/",
+   "route": "algebra",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "stable",
@@ -3648,7 +4233,10 @@
    "statement": "P_D is real stable, or at least log-concave on the positive orthant (or Lorentzian), so the Gurvits / Anari–Oveis Gharan–Vinzant coefficient bounds apply.",
    "example": "D = {−1, 0, 1}: P = x₀³ + 2·x₋₁x₀x₁.\nAt (x₋₁, x₀, x₁) = (½, 1, ½), along (1, 0, 1),\nthe second derivative of log P is 8/9 > 0: not log-concave.",
    "evidence": "Fails at n = 3 (example) and for every no-tight-cut D with n ≤ 7: not log-concave, not Lorentzian, support not M-convex.",
-   "refs": "Capacity agent 2026-11-22"
+   "refs": "Capacity agent 2026-11-22",
+   "route": "algebra",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "gstep",
@@ -3659,7 +4247,10 @@
    "statement": "In some order, removing one variable at a time (q = ∂P/∂x_d at x_d = 0) lowers the capacity by at most a factor ((k−1)/k)^{k−1} (k = deg_{x_d}), or by at most a fixed constant c > 0, at every step.",
    "example": "P₅ = {−3, −2, 0, 2, 3}: removing x₀ first gives\nq = a²d² + 2abcd + 2b²c²  (a, b, c, d = x₋₃, x₋₂, x₂, x₃),\ncap(q) = 2 + 2√2; removing any next variable leaves 2·(the rest),\nlosing a factor √2 − 1 where Gurvits allows ½.",
    "evidence": "Gurvits' factor fails at n = 5 for P₅ in every order. The best constant per step shrinks: 0.5, 0.39, 0.33, 0.33, 0.26, 0.22 for n = 4–9, always worst at P_n.",
-   "refs": "Capstep agent 2026-11-23, /home/claude/agents/capstep/"
+   "refs": "Capstep agent 2026-11-23, /home/claude/agents/capstep/",
+   "route": "algebra",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "sat",
@@ -3669,7 +4260,10 @@
    "intuition": "If every whole-number point of the fractional region were realised, Li–Yao would immediately give a solution. Claim: it is, even when marks may hold several stones.",
    "statement": "Every lattice point of the polytope of all permutation x-rays (repeated diagonals allowed) is the x-ray of some permutation.",
    "example": "n = 12: e = {−8, −7, −3⁵, 1, 7³, 8} is the average of two x-rays,\nbut no permutation has x-ray e.",
-   "evidence": "Holds for n ≤ 11, fails at n = 12 (example)."
+   "evidence": "Holds for n ≤ 11, fails at n = 12 (example).",
+   "route": "algebra",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "round",
@@ -3679,7 +4273,10 @@
    "intuition": "Start from a fractional solution and clean it up. Claim: any fractional solution can be rounded to a real one with the same diagonals.",
    "statement": "Every doubly stochastic matrix with a binary x-ray can be rounded to a permutation matrix with the same x-ray.",
    "evidence": "Li–Liu–Yao Sec. 5: a 5×5 doubly stochastic matrix with entries ½ and x-ray (0,0,1,1,1,1,0,0) can't be rounded keeping its x-ray (a permutation with that x-ray exists anyway).",
-   "refs": "Li–Liu–Yao, arXiv:2608.01442, Sec. 5"
+   "refs": "Li–Liu–Yao, arXiv:2608.01442, Sec. 5",
+   "route": "algebra",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "tct",
@@ -3689,7 +4286,10 @@
    "intuition": "A broader version of the problem, with three families of lines in place of rows, columns and diagonals. Claim: integrality holds there too.",
    "statement": "Integer version of Li–Liu–Yao's Conj. 5.3: every triangular contingency table problem with binary marginals that has a fractional solution has an integer one.",
    "evidence": "False at n = 112 (Prop 5.4): binary marginals whose table is unique and has a ½ entry. So a proof must use the geometry of the square board.",
-   "refs": "Li–Liu–Yao, arXiv:2608.01442, Prop 5.4"
+   "refs": "Li–Liu–Yao, arXiv:2608.01442, Prop 5.4",
+   "route": "algebra",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "at",
@@ -3699,7 +4299,10 @@
    "intuition": "Polynomial-method proofs (Alon–Tarsi) show existence by showing a coefficient is nonzero; here the natural coefficient is the signed count of solutions. Claim: it never vanishes.",
    "statement": "For every valid no-tight-cut D, Σ_{witnesses π of D} sign(π) ≠ 0.",
    "evidence": "Vanishes for some valid no-tight-cut D at n = 4–6. A second natural sign, the sign of the column order alone when the stones are listed by diagonal, gives the inverse Kostka number K⁻¹(ρ, λ) (coefficient of z^(λ+ρ) in permanent × determinant of the Vandermonde matrix); it also vanishes, first for D = {1, 2, 4, 5} in rows and columns 0…3, because a solution with an odd permutation cancels against its transpose (25 of 167 solvable D at n = 8; python3 agents/invkostka/ik.py 8).",
-   "refs": "agents/invkostka/ik.py"
+   "refs": "agents/invkostka/ik.py",
+   "route": "algebra",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "lieview",
@@ -3711,7 +4314,10 @@
    "example": "n = 3, D = {−1, 0, 1}: scores (1, 1, 1), so λ + ρ = (1, 1, 1) + (2, 1, 0) = (3, 2, 1).\nAs a sum of two rearrangements of ρ: (3, 2, 1) = (2, 0, 1) + (1, 2, 0).",
    "proof": "A restatement; the proof is two lines (agents/lie/REPORT.md).",
    "evidence": "Literature, read in full text by a sub-session (agents/lie2/REPORT.md part A): every dominant μ ≤ 2ρ is ρ + β with β a weight of V(ρ), not necessarily a rearrangement of ρ (Chirivì–Kumar–Maffei, Lemma 8); the corners of the polytope of such μ are of the form ρ + wρ in every type (Boysal, Proposition 2.3, attributed to Kostant), but the only regular corner is 2ρ, which is the evenly spaced arrangement. Nothing was found for regular μ. Berenstein–Zelevinsky was not read (paywalled).",
-   "refs": "agents/lie/REPORT.md, agents/lie2/REPORT.md; Chirivì–Kumar–Maffei, Transform. Groups 22 (2017); Boysal, arXiv:2309.06890; Berenstein–Zelevinsky, J. Algebraic Combin. 1 (1992)"
+   "refs": "agents/lie/REPORT.md, agents/lie2/REPORT.md; Chirivì–Kumar–Maffei, Transform. Groups 22 (2017); Boysal, arXiv:2309.06890; Berenstein–Zelevinsky, J. Algebraic Combin. 1 (1992)",
+   "route": "lie",
+   "added": "2026-11-23T16:31Z",
+   "since": "2026-11-23T16:31Z"
   },
   {
    "id": "lietypes",
@@ -3721,7 +4327,10 @@
    "intuition": "The Lie-algebra form of the conjecture makes sense for every root system, with the symmetric group replaced by another reflection group. For type C it is again a board problem: choose a permutation σ of 1…n and, for each row i, read either the sum i + σ(i) or the distance |i − σ(i)|; which sets of n distinct numbers can be read? If the same statement is true there, a proof might be found in a family with more freedom, and any proposed mechanism can be tested on a second family. Claim: it holds in all classical types and in type E.",
    "statement": "For the root systems B_n, C_n, D_n, E_6, E_7 (and E_8), every regular dominant weight μ ≤ 2ρ is conjugate under the Weyl group to ρ + wρ for some w.",
    "evidence": "No exception for B_2…B_6, C_2…C_7, D_4…D_6, E_6, E_7 (E_8 not run). Recheck: python3 agents/lie/prv.py C 5; python3 agents/lie/prv_gen.py E 6 (each under 20 seconds). Types B and C are not independent families (proved, agents/lie2/REPORT.md): a type with two root lengths is a folded simply-laced type, and its statement says that a weight with the symmetry of the folding has a solution with the same symmetry. For the boards: type B_n is 'every mirror-symmetric arrangement of even size 2n has a solution that is unchanged by a half-turn'. Type C_n contains the original conjecture of size n (when the n numbers have the largest possible sum, every row must read its sum), so it has no easier proof. The statement that survives every test is the one for the simply-laced types A, D, E.",
-   "refs": "agents/lie/REPORT.md, agents/lie2/REPORT.md"
+   "refs": "agents/lie/REPORT.md, agents/lie2/REPORT.md",
+   "route": "lie",
+   "added": "2026-11-23T16:31Z",
+   "since": "2026-11-23T16:31Z"
   },
   {
    "id": "lieall",
@@ -3732,7 +4341,10 @@
    "statement": "For every finite root system, every regular dominant weight μ ≤ 2ρ is conjugate to ρ + wρ for some w in the Weyl group.",
    "example": "G_2: 5 regular dominant weights lie below 2ρ; ρ + ω_1 and ρ + ω_2 are not of the form ρ + wρ (the other 3 are).",
    "evidence": "Fails in G_2 (2 of 5) and F_4 (2 of 58). Recheck: python3 agents/lie/prv_gen.py G 2; python3 agents/lie/prv_gen.py F 4 (seconds). Explained by folding (proved, agents/lie2/REPORT.md part B): G_2 is D_4 folded by its threefold symmetry and F_4 is E_6 folded by its twofold one, and the four failing weights do have solutions in D_4 and E_6 (6, 6, 24, 12 of them), only none with the symmetry. Consequence for proofs: no rule that builds a solution in a way that respects the symmetries of the diagram can work for all simply-laced types; in type A that symmetry is the mirror D → −D.",
-   "refs": "agents/lie/REPORT.md, agents/lie2/REPORT.md"
+   "refs": "agents/lie/REPORT.md, agents/lie2/REPORT.md",
+   "route": "lie",
+   "added": "2026-11-23T16:31Z",
+   "since": "2026-11-23T16:31Z"
   },
   {
    "id": "countglobal",
@@ -3743,7 +4355,10 @@
    "statement": "For every n, (Σ_D W(D))² / Σ_D W(D)² > A_n − 1, where the sums run over valid D of size n and A_n is the number of valid D.",
    "example": "n = 5: 9 arrangements, 23 witnesses, Σ W² = 77:\n23² / 77 ≈ 6.9, not above 8.\nn = 9: 490 arrangements, ΣW = 12657, ratio ≈ 208.",
    "evidence": "False for every n checked: the ratio is 6.9, 16.4, 34.7, 92, 208 against A_n − 1 = 8, 21, 58, 166, 489 for n = 5–9, so it covers well under half. The counts are very uneven (P_n has 2 witnesses, others hundreds), so any global count with repeats loses. A counting proof has to give a lower bound for each arrangement separately, as the capacity and move-ratio claims do.",
-   "refs": "framesets.py (counts)"
+   "refs": "framesets.py (counts)",
+   "route": "algebra",
+   "added": "2026-11-23T09:09Z",
+   "since": "2026-11-23T09:09Z"
   },
   {
    "id": "delta",
@@ -3753,7 +4368,10 @@
    "intuition": "Davis–Schroeder turn each solution into a tournament with the same scores, and give a condition on a tournament under which the process can be reversed to produce a solution. Tournaments with given valid scores are easy to build (Landau's theorem), so it would be enough to find, for each score sequence, one tournament satisfying their condition. The accepted tournaments turn out to be exactly those that come from solutions, so this is close to a restatement; the hope is a natural canonical tournament. Claim: every valid score sequence has an accepted tournament.",
    "statement": "For every valid score sequence s there is a tournament with scores s on which Davis–Schroeder's reverse map δ is defined (then δ of it is a witness).",
    "evidence": "The accepted tournaments are exactly the images of solutions (checked n ≤ 6), so the claim is equivalent to the conjecture in that range. Accepted fraction drops to 2% at n = 8.",
-   "refs": "Davis–Schroeder, arXiv:2606.21532; tourn agent 2026-11-23, /home/claude/agents/tourn/"
+   "refs": "Davis–Schroeder, arXiv:2606.21532; tourn agent 2026-11-23, /home/claude/agents/tourn/",
+   "route": "tournaments",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "maxupset",
@@ -3763,7 +4381,10 @@
    "intuition": "A canonical choice: among tournaments with the right scores, take one with as many upsets as possible. Claim: one of those is always accepted.",
    "statement": "For every valid score sequence s, some tournament with scores s and the maximum possible number of upsets is accepted by δ.",
    "evidence": "Holds for n ≤ 8; fails at n = 9 for s = (1,2,3,3,4,5,5,6,7) (accepted reach 10 upsets, the maximum is 11). Staircase, rotational and Havel–Hakimi tournaments fail earlier.",
-   "refs": "Tourn agent 2026-11-23"
+   "refs": "Tourn agent 2026-11-23",
+   "route": "tournaments",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "greedy",
@@ -3773,7 +4394,10 @@
    "intuition": "Landau's theorem for tournaments has step-by-step constructions. Claim: one of these step-by-step placements never gets stuck.",
    "statement": "One of the 92 tested greedy rules (Havel–Hakimi style, fixed diagonal orders, least-damage, row-by-row urgency, most-constrained-first) finds a witness without backtracking for every valid no-tight-cut D.",
    "example": "n = 5, D = {−3, −2, 0, 2, 3}: a few placements can leave rows {2,3,4},\ncolumns {1,3,5}, diagonals {−2,0,2}, all usable only in row 3.",
-   "evidence": "All 92 fail by n ≤ 10; the best fails 0.5–0.9% at n = 11–13."
+   "evidence": "All 92 fail by n ≤ 10; the best fails 0.5–0.9% at n = 11–13.",
+   "route": "machine",
+   "added": "2026-11-23T00:42Z",
+   "since": "2026-11-23T00:42Z"
   },
   {
    "id": "interface",
@@ -3833,7 +4457,10 @@
    "statement": "Sort D and put e_k = s_k − (k−1), σ_k = e_1 + … + e_k (the Landau slack of the first k stones). Witnesses of D correspond one-to-one to sequences of pairs of partitions (λ_k, μ_k), k = 0…n, with (λ_0, μ_0) = (λ_n, μ_n) = (∅, ∅), |λ_k| + |μ_k| = σ_k, in which step k adds one bead to each partition at offsets u and v with u + v = e_k. The allowed steps do not depend on k or n. If all σ_k ≤ B, only finitely many pairs can occur, so whether D has a witness is decided by a finite automaton A_B that reads e_1, e_2, … and is the same for every n.",
    "example": "The board above, rows numbered from the bottom, stones in order of diagonal:\n(row, column) = (1,2), (2,3), (5,1), (3,4), (4,5); row + column = 3, 5, 6, 7, 9.\nUsed rows / columns after each stone, as (rows diagram, columns diagram):\n{1} / {2}: (∅, 1)   {1,2} / {2,3}: (∅, 1+1)   {1,2,5} / {1,2,3}: (2, ∅)\n{1,2,3,5} / {1,2,3,4}: (1, ∅)   all / all: (∅, ∅).\nBox counts 1, 2, 2, 1, 0 are the slacks.",
    "refs": "agents/interface/README.md §1; check_walks.py (walk count = number of witnesses, all valid D, n ≤ 8)",
-   "proof": "Number rows from the bottom, r′ = n+1−r. A point on diagonal d = c − r has r′ + c = d + n + 1, so the k-th smallest diagonal needs r′ + c = b_k := d_k + n + 1 = 2k + e_k. A witness is a pair of bijections ρ, γ: {1…n} → {1…n} with ρ(k) + γ(k) = b_k. Let R_k = ρ({1…k}), C_k = γ({1…k}), and for a k-set X let exc(X) = ΣX − k(k+1)/2 ≥ 0. Then exc(R_k) + exc(C_k) = Σ_{i≤k} b_i − k(k+1) = σ_k. A k-set X = {x_1 < … < x_k} with excess j is the partition of j with parts x_i − i, so (R_k, C_k) is a pair of partitions with σ_k boxes in total; it starts and ends empty. Step k adds row k + u and column k + v with u + v = e_k, and whether a row or column is free depends only on the partitions and on u, v, not on k or n (n only enters through 'row ≤ n', which holds automatically because the final excess is 0). Conversely any such sequence of sets gives ρ and γ. If σ_k ≤ B then each excess is ≤ B, so a k-set contains {1…k−B} and is contained in {1…k+B}: finitely many states, and the transition rule is the same for all k."
+   "proof": "Number rows from the bottom, r′ = n+1−r. A point on diagonal d = c − r has r′ + c = d + n + 1, so the k-th smallest diagonal needs r′ + c = b_k := d_k + n + 1 = 2k + e_k. A witness is a pair of bijections ρ, γ: {1…n} → {1…n} with ρ(k) + γ(k) = b_k. Let R_k = ρ({1…k}), C_k = γ({1…k}), and for a k-set X let exc(X) = ΣX − k(k+1)/2 ≥ 0. Then exc(R_k) + exc(C_k) = Σ_{i≤k} b_i − k(k+1) = σ_k. A k-set X = {x_1 < … < x_k} with excess j is the partition of j with parts x_i − i, so (R_k, C_k) is a pair of partitions with σ_k boxes in total; it starts and ends empty. Step k adds row k + u and column k + v with u + v = e_k, and whether a row or column is free depends only on the partitions and on u, v, not on k or n (n only enters through 'row ≤ n', which holds automatically because the final excess is 0). Conversely any such sequence of sets gives ρ and γ. If σ_k ≤ B then each excess is ≤ B, so a k-set contains {1…k−B} and is contained in {1…k+B}: finitely many states, and the transition rule is the same for all k.",
+   "route": "machine",
+   "added": "2026-11-23T11:40Z",
+   "since": "2026-11-23T11:40Z"
   },
   {
    "id": "slackB",
@@ -3844,7 +4471,10 @@
    "statement": "For every B ≥ 1, the automaton A_B accepts every valid no-tight-cut word with all slacks ≤ B. Equivalently: for every B, every valid D of every size whose Landau slacks are all ≤ B has a witness.",
    "example": "B = 1: the only words are e = (1, 0, …, 0, −1), which is P_n.\nThe machine has 3 states and accepts all of them: P_n is solvable for every n.",
    "evidence": "Settled for B ≤ 16 by complete search of A_B (see the card for B = 16). Open for B ≥ 17, where only n ≤ 22 is known. The statement about stones with e_k = 0 was checked for B ≤ 8: from every reachable set of the machine after which a letter 0 is allowed, at most 7 letters 0 lead to the set of all pairs. From a single interface state this is false (at slack 1 the two states just alternate).",
-   "refs": "agents/interface/README.md §2, §4; flat.py"
+   "refs": "agents/interface/README.md §2, §4; flat.py",
+   "route": "machine",
+   "added": "2026-11-23T11:40Z",
+   "since": "2026-11-23T11:40Z"
   },
   {
    "id": "slack16",
@@ -3855,7 +4485,10 @@
    "statement": "For every n, every valid D whose Landau slacks σ_k are all ≤ 16 has a witness.",
    "example": "P_n has slack 1 at every cut. A minimal move raises the slack by 1 at the cuts between its two stones,\nso P_n followed by any 15 minimal moves is covered, for every n.\nEvery D with n ≤ 11 has slack ≤ 16.",
    "evidence": "Not a sample: the automaton A_16 (22,358 reachable states after determinising, 11 s, 0.94 GB) accepts every valid word, and by the interface card this covers every n. It is listed as empirical only because the finite check is done by a program. Three implementations give the same verdict (Python for B ≤ 8, two C++ programs for B ≤ 12), and the step rule was compared with brute force on all 6,742 multisets with repeats for n ≤ 8, including the 39 with no solution. B = 17 was not done: the program packs a state into 64 bits, which stops at B = 16, and the search would also need more than the 7 GB available. Does not depend on the conjecture at any size. Recheck: g++ -O2 -o slack_dfa slack_dfa.cpp && ./slack_dfa 16.",
-   "refs": "agents/interface/slack_dfa.cpp, slack_dfa.py, slack_dfa2.cpp, audit_step.py"
+   "refs": "agents/interface/slack_dfa.cpp, slack_dfa.py, slack_dfa2.cpp, audit_step.py",
+   "route": "machine",
+   "added": "2026-11-23T11:40Z",
+   "since": "2026-11-23T11:40Z"
   },
   {
    "id": "alivedom",
@@ -3865,7 +4498,10 @@
    "intuition": "An induction over the slack bound needs a description of which hole states are still alive after a prefix. The simplest hope is an order-theoretic shape, like Landau's own condition: if a state is alive, so is every 'more spread out' one. Claim: alive sets have that shape.",
    "statement": "For every valid prefix, the set of alive interface states (λ, μ) is closed under replacing λ or μ by a diagram it dominates (equivalently, moving a box to a lower row), or under the reverse; the same for the combined diagram of rows and columns interleaved.",
    "evidence": "False in every version. With slack ≤ 6, 100 distinct alive sets occur: all are symmetric under swapping rows and columns, but only 14 are closed downward and 14 upward under dominance, and only 20 are intervals in the interleaved form. Example at slack 5: with no row holes, the column diagrams 41, 32, 311, 221 are alive and 5, 2111, 11111 are dead — the middle of the order survives, both extremes die.",
-   "refs": "2026-11-23, agents/basket/alive.py, shape.py, shape2.py"
+   "refs": "2026-11-23, agents/basket/alive.py, shape.py, shape2.py",
+   "route": "machine",
+   "added": "2026-11-23T14:20Z",
+   "since": "2026-11-23T14:20Z"
   },
   {
    "id": "cutcore",
@@ -3876,7 +4512,10 @@
    "statement": "For every slack s ≥ 1 and l ∈ {0, 1} there is an interface state c that is reachable after every legal prefix with slack s and last letter l, and from which every suffix that starts at slack s with first letter ≥ l − 1 can be completed.",
    "example": "Slack 9: all rows below the cut used, and the columns shifted as the diagram 3 3 3 (three columns skipped, the next three used). Slack 6 after a 0: rows 1 1 1, columns 2 1.",
    "evidence": "Holds for all first and second parts with slacks ≤ 24, at every slack 1…24 (sub-session, C++); the number of such patterns grows from 2 to about 2,460. Unlike the set-level shortening rules and the red child 'beginnings without negative letters', it shows no strain for steep beginnings. Every arrangement except the evenly spaced one has two neighbouring letters 1, 0 (proved: take the last positive letter before the first negative one; agents/weights/REPORT.md §0), so the claim for l = 1 and all slacks would give the conjecture, and the tested range gives: every arrangement of any size with all slacks ≤ 24 is solvable (one program with pruning; the slack ≤ 16 card was cross-checked three ways, this was not). No family of such patterns is known in closed form. After other letters it fails (last letter 2 at slack 5: no pattern is reachable after every first part), but a weighted form holds at every cut: weights on the patterns such that every reachable set and every completable set together weigh more than 1 (best values 1.55 to 2). Recheck: python3 agents/majority/core.py 14 (1 minute), maj.py 14 1 (30 seconds); slack 22: agents/peak/cut_check 22 (45 seconds, see agents/peak/REPORT.md). Not yet tied to a proof: see the two red children.",
-   "refs": "agents/majority/REPORT.md, core.py, maj.py"
+   "refs": "agents/majority/REPORT.md, core.py, maj.py",
+   "route": "cuts",
+   "added": "2026-11-23T15:35Z",
+   "since": "2026-11-23T15:35Z"
   },
   {
    "id": "majdim",
@@ -3887,7 +4526,10 @@
    "statement": "Let dim(λ | μ) = C(s, |λ|) f^λ f^μ (the number of standard fillings of the pair of diagrams), and let w = dim² on the states of slack s whose two 2-cores are as small as possible (both empty for even s; one empty and one a single box for odd s), w = 0 on the others, normalised to total 1. For every s ≥ 1: min over prefixes x ending in 1 of w(F(x)) + min over prefixes x ending in 0 of w(F(x)) > 1.",
    "example": "Slack 20 to 24, all prefixes: the two minima add up to 1.685, 1.644, 1.808, 1.818, 1.766.\nOn the steep staircases k, k−1, …, 1 and k, …, 1, 0, which are the lightest sets found, the sum stays between 1.64 and 1.73 up to slack 45.",
    "evidence": "All prefixes, s ≤ 24: the sum is at least 1.219 (at s = 4) and 1.64 to 1.82 for s ≥ 20. Beyond 24 only families of prefixes are tested: steep staircases to slack 45 (1.64 to 1.73), staircases with one letter lowered and double staircases (all higher), and 1, …, 1 and 1, …, 1, 0, where the sets are known exactly (card ones) and the weight lost is under 6%. No rule is known that says which prefix is lightest, so the minimum over all prefixes beyond slack 24 is open. The plain weight dim also passes for s ≤ 24 (minimum 1.293) but on the exact sets after 1, …, 1 and 1, …, 1, 0 its sum falls steadily, 1.429 at s = 20 to 1.193 at s = 60, so it is expected to fail near slack 110. Uniform weights and f^λ f^μ fail at slack 10. One proof step holds in tests for dim only: a letter 0 never lowers the dim-weight of any set of patterns (max-flow, s ≤ 13); no bijection proving it was found, and the letters that change the slack are not understood. Recheck: sh agents/weights/runs.sh (5 minutes), sh agents/weights/runs2.sh (3 minutes).",
-   "refs": "agents/weights/REPORT.md, agents/weights/REPORT2.md"
+   "refs": "agents/weights/REPORT.md, agents/weights/REPORT2.md",
+   "route": "cuts",
+   "added": "2026-11-23T16:40Z",
+   "since": "2026-11-23T16:40Z"
   },
   {
    "id": "ones",
@@ -3899,7 +4541,10 @@
    "example": "1 1 1 1 (slack 4): the states with D = 0 are all reachable except (2 | 1 1) and (1 1 | 2), the two pairs (λ | λ′) with |λ| = 2.\n1^a 0^b with a ≤ 11 and b ≥ 2: every state of slack a is reachable.",
    "proof": "Proved by induction on the number of stones: remove the last stone and count candidates by pigeonhole (agents/weights/REPORT2.md §1.1; the proofs are the sub-session's; the parent session read the first and did not check the other two line by line).",
    "evidence": "Checked against the machine for a ≤ 24 (b ≤ 1) and a ≤ 20, b ≤ 4. The same is not true for other words in letters 0 and 1 (341 of 1,023 words of length ≤ 10 starting with 1 differ from the count set), and for steep staircases no description was found. Also proved there: a state has no predecessor under a letter 1 exactly when it is (λ | λ′), and under a letter 0 every state has one. Recheck: cd agents/weights && python3 ones0.py 24 (30 seconds).",
-   "refs": "agents/weights/REPORT2.md"
+   "refs": "agents/weights/REPORT2.md",
+   "route": "machine",
+   "added": "2026-11-23T17:03Z",
+   "since": "2026-11-23T17:03Z"
   },
   {
    "id": "runxray",
@@ -3911,7 +4556,10 @@
    "example": "Letter 0 and b = 2: the two new rows i < i′ and the two new columns j < j′ must satisfy {i + j′, i′ + j} = {0, 2} or {i + j, i′ + j′} = {0, 2}.\nConsequence: a letter 0 never changes K = #odd(R) − #odd(C) (up to the sign change from the sliding), so zeros can only join states with the same K.",
    "proof": "Proof in agents/weights/REPORT3.md, Lemmas 1 and 2 (substitute x_k = i_k + k − 1 for the k-th stone); the sub-session's proof, short, not rechecked line by line by the parent.",
    "evidence": "Checked against the step-by-step machine. Recheck: cd agents/weights && python3 maya.py (seconds).",
-   "refs": "agents/weights/REPORT3.md"
+   "refs": "agents/weights/REPORT3.md",
+   "route": "machine",
+   "added": "2026-11-23T17:30Z",
+   "since": "2026-11-23T17:30Z"
   },
   {
    "id": "zeromix",
@@ -3922,7 +4570,10 @@
    "statement": "For states t, u of slack s with the same K = #odd(R) − #odd(C): u is reached from t by b letters 0 for every b ≥ 2(s − K²) + 2.",
    "example": "Slack 4, K = 0 (18 states): from any state, 10 zeros reach all 18; 9 are not enough from the single column.\nSets mix faster than single states: the set reached by a real beginning fills its classes after at most 6 zeros (slack ≤ 8).",
    "evidence": "Every pair of states with slack ≤ 10 and b ≤ 26; the bound is sharp (slowest starts: one column, one row). Not proved: the natural step (b zeros work ⇒ b + 2 work) fails below the bound. Related, also tested only: blocks 1 0 −1 join every pair of states of slack ≤ 9 within 6 blocks; runs of 1 never join everything. Recheck: cd agents/weights && sh runs3.sh (2 minutes).",
-   "refs": "agents/weights/REPORT3.md"
+   "refs": "agents/weights/REPORT3.md",
+   "route": "machine",
+   "added": "2026-11-23T17:30Z",
+   "since": "2026-11-23T17:30Z"
   },
   {
    "id": "paritylr",
@@ -3934,7 +4585,10 @@
    "example": "Stones on sums 3, 5, 7 (letters 1, 1, 1): the count for rows R and columns C is odd exactly when C(3, |λ|) f^λ f^γ is odd.\nConsequence: letters in {0, 1} followed by letters in {0, −1} always have a solution (the first part can use rows 1…m and all of columns 1…m+1 but one; the count is 1 modulo 2).",
    "proof": "Proved in agents/unimodal/REPORT.md §1 (bordered Hankel determinant over the field with two elements); the proof is the sub-session's and the parent session has not checked it line by line.",
    "evidence": "Tested against brute force: 394 prefixes with letters ≥ 0 and 192 with both signs, no mismatch. The new solvable family (letters in {0,1} then in {0,−1}, any slack) is Theorem 2 there; it is not constructive. Recheck: cd agents/unimodal && python3 parity.py 6 5 (under a minute).",
-   "refs": "agents/unimodal/REPORT.md"
+   "refs": "agents/unimodal/REPORT.md",
+   "route": "oddcount",
+   "added": "2026-11-23T17:24Z",
+   "since": "2026-11-23T17:24Z"
   },
   {
    "id": "oddsplit",
@@ -3945,7 +4599,10 @@
    "statement": "For every valid D there are a set S of its stones, a set R of |S| rows and a set C of |S| columns such that the number of placements of the stones of S in R × C is odd and the number of placements of the other stones in the remaining rows and columns is odd.",
    "example": "1 0 −1 1 0 −1 1 0 −1 (n = 9): the stones with a positive letter, with suitable rows and columns, give 8 choices where both counts are odd.\n1^9 0 −1 −2 −3 −3 (n = 14): cutting after the first 9 or 10 stones gives nothing, but 29 of 30 random splits work.",
    "evidence": "Every valid D with n ≤ 10 has such a split (1,486 sets at n = 10). For n ≤ 9 the fixed choice S = stones above their evenly spaced place always works, and on average 91% of the splits allowed by an obvious necessary condition work; that fixed choice fails for the words 1^8 0 −1 −2 −3 −2 (n = 13) and 1^9 0 −1 −2 −3 −3 (n = 14), where random other splits work. Not tested beyond n = 10 except for those two words. Recheck: cd agents/oddsplit && g++ -O2 -o oddsplit oddsplit.cpp && ./oddsplit 9 v (2 seconds).",
-   "refs": "agents/oddsplit/NOTES.md, agents/unimodal/REPORT.md"
+   "refs": "agents/oddsplit/NOTES.md, agents/unimodal/REPORT.md",
+   "route": "oddcount",
+   "added": "2026-11-23T17:24Z",
+   "since": "2026-11-23T17:24Z"
   },
   {
    "id": "rrsplit",
@@ -3956,7 +4613,10 @@
    "statement": "Every valid word without a tight cut has a set S of stones and two partitions λ, γ such that both part-words are ≥ 0, the positive letters of the S-word, sorted, are λ + γ, and the positive letters of the other part-word, sorted, are λ′ + γ′. (S-word: u_j = d_{k_j} − 2j for the stones k_1 < k_2 < … of S. Other part-word: 2·#{stones of S after k} − e_k for k ∉ S, read from right to left.)",
    "example": "1 1 1 1 1 1 0 −1 −2 −3 (n = 10), S = stones 1 and 6: S-word (1, 9); other part-word (3, 2, 1, 0, 1, 1, 1, 1); λ = (7, 1), γ = (2): λ + γ = (9, 1) and λ′ + γ′ = (3, 2, 1, 1, 1, 1, 1).",
    "evidence": "Proved: the criterion (an RR-split gives an odd split, hence a solution); one dominance lemma is cited from memory. Tested: every valid word without a tight cut for n ≤ 13 (19,715 words at n = 13) has an RR-split. Correction: an earlier version of this card said n ≤ 14 with 27,225 words; the program that listed the words skipped those that end steeply (such as 2 1 0 −1 −2), about half of them, and the same for the rising-then-falling test to n = 15. The numbers here are from the corrected list. No rule that names S: S in the first |S| columns fails at n = 9, and a given S survives a shortening step in only 74–84% of cases, so no induction on n yet.",
-   "refs": "agents/oddsplit/REPORT.md, esplit.cpp, check_e.py"
+   "refs": "agents/oddsplit/REPORT.md, esplit.cpp, check_e.py",
+   "route": "oddcount",
+   "added": "2026-11-23T18:11Z",
+   "since": "2026-11-23T18:11Z"
   },
   {
    "id": "uni2",
@@ -3968,7 +4628,10 @@
    "example": "2 1 0 −1 −2 (n = 5), diagonals {−2, −1, 0, 1, 2}: k = 3, p = 1, q = 2, so stone 3 goes on the cell (4, 2), rows counted from the bottom. Exactly one of the six solutions, 3 2 1 5 4, has it there.",
    "proof": "Hand proof in agents/oddsplit/REPORT.md §1–§3 (sub-session).",
    "evidence": "Checked against brute force for all words of size 8 and 9. It covers 221 of the 251 rising-then-falling words without a tight cut at n = 10; the earlier family {0, 1}* {0, −1}* covers 64.",
-   "refs": "agents/oddsplit/REPORT.md §3, check_one.py, check_cell.py"
+   "refs": "agents/oddsplit/REPORT.md §3, check_one.py, check_cell.py",
+   "route": "oddcount",
+   "added": "2026-11-23T18:11Z",
+   "since": "2026-11-23T18:11Z"
   },
   {
    "id": "thirds",
@@ -3979,7 +4642,10 @@
    "statement": "Let R be the rows r ≡ 1 (mod 3) of the n × n board. For every valid D there is a set S of stones such that the number of solutions in which the stones in the rows of R are exactly S is odd.",
    "example": "n = 4, D = {−2, −1, 1, 2}: R = {1, 4}. The two solutions 2 4 1 3 and 3 1 4 2 put different stones in rows 1 and 4, so each of the two sets S occurs once.",
    "evidence": "Every valid D with n ≤ 15, for each of the three row classes modulo 3 (223,971 arrangements without a tight cut at n = 15; sub-session, agents/thirds); with all partial sums of the word ≤ 2, up to n = 28. Some arrangements have exactly one such S. No rule for S works: weights from a stone's letter, position or slack modulo 3 (n ≤ 8), S from the first or last solution, S a residue class of stones (all fail at n = 9). The statement is false for partial boards with a general hole pattern (slack 2), so it cannot be carried along the word as it stands. Reformulated without permutations on the card 'Weighted by cube roots of 1'.",
-   "refs": "agents/rowcut/NOTES.md, fixedR.cpp (./fixedR 12 100, 2 s), f4.py; agents/thirds/REPORT.md, sweep.sh (6 minutes)"
+   "refs": "agents/rowcut/NOTES.md, fixedR.cpp (./fixedR 12 100, 2 s), f4.py; agents/thirds/REPORT.md, sweep.sh (6 minutes)",
+   "route": "oddcount",
+   "added": "2026-11-23T18:00Z",
+   "since": "2026-11-23T18:00Z"
   },
   {
    "id": "rowhalf",
@@ -3990,7 +4656,10 @@
    "statement": "For R = the odd rows, or R = the top a rows for any a, every valid D has a set S of stones that fills exactly R in an odd number of solutions.",
    "example": "Odd rows, n = 9: the words 1 1 2 1 0 −1 −2 −1 −1 and 1 1 0 1 0 −1 0 −1 −1 have no such S. Top rows, n = 9: 2 1 0 −1 0 1 0 −1 −2 has none for any a.",
    "evidence": "Odd rows: holds for n ≤ 8, 2 failures at n = 9, 483 at n = 13. Top rows: holds for arrangements without a tight cut for n ≤ 8, 4 failures at n = 9.",
-   "refs": "agents/rowcut/NOTES.md, fixedR.cpp (./fixedR 9 10), rowcut.cpp"
+   "refs": "agents/rowcut/NOTES.md, fixedR.cpp (./fixedR 9 10), rowcut.cpp",
+   "route": "oddcount",
+   "added": "2026-11-23T18:00Z",
+   "since": "2026-11-23T18:00Z"
   },
   {
    "id": "f4phase",
@@ -4002,7 +4671,10 @@
    "example": "All weights equal: no ties are allowed, the only tournament-score with no ties that is a valid D is the evenly spaced one, so F is 0 unless D is evenly spaced. This is the fact that the number of solutions is even except for the evenly spaced arrangement.",
    "proof": "Hand proof by a sub-session (agents/thirds/REPORT.md §1, Theorem 1 and Corollary 2; the substitution x_i = y_i / u_i² is five lines).",
    "evidence": "Checked against brute force for every valid D and every u for n ≤ 6 (python3 agents/thirds/f4phase.py 6; partition.py 6).",
-   "refs": "agents/thirds/REPORT.md §1; f4phase.py, partition.py, formula.py"
+   "refs": "agents/thirds/REPORT.md §1; f4phase.py, partition.py, formula.py",
+   "route": "oddcount",
+   "added": "2026-11-23T20:11Z",
+   "since": "2026-11-23T20:11Z"
   },
   {
    "id": "thirdsgap",
@@ -4013,7 +4685,10 @@
    "statement": "For a row set R whose gaps follow a fixed repeating pattern of 2s and 3s other than 3, 3, 3, …, every valid D has a set S of stones that fills exactly R in an odd number of solutions.",
    "example": "Rows 3, 5, 8, 10, 13, 15 (pattern 00101 repeated) on the n = 17 word 1 1 0 −1 0 0 0 0 0 0 0 0 1 0 0 −1 −1: 16 solutions, 7 sets S occur, each an even number of times.",
    "evidence": "Exact counterexamples: pattern 00101 at n = 17, 00100101 at n = 15, 001011 at n = 14 (python3 agents/thirds/verify.py with the word, seconds each). 00101101 has no failure for n ≤ 15. Number of minimal failing patterns new at each length 9 to 14: 2, 1, 3, 4, 5, 8.",
-   "refs": "agents/thirds/REPORT.md §2; verify.py, forbid.cpp"
+   "refs": "agents/thirds/REPORT.md §2; verify.py, forbid.cpp",
+   "route": "oddcount",
+   "added": "2026-11-23T20:11Z",
+   "since": "2026-11-23T20:11Z"
   },
   {
    "id": "oddprefix",
@@ -4024,7 +4699,10 @@
    "statement": "For every valid word x y with all letters of x ≥ 0 and all letters of y ≤ 0, some state at the cut has an odd number of placements on both sides.",
    "example": "1 1 1 1 1 1 1 1 0 −1 −2 −3 −2 (cut after the eight 1s): no state is odd on both sides.",
    "evidence": "True for every such cut of slack ≤ 7; fails for 4 of 64 pairs of odd sets at slack 8 and 2 of 144 at slack 9. Recheck: cd agents/unimodal && python3 par.py 9 (4 seconds).",
-   "refs": "agents/unimodal/REPORT.md §3"
+   "refs": "agents/unimodal/REPORT.md §3",
+   "route": "oddcount",
+   "added": "2026-11-23T17:24Z",
+   "since": "2026-11-23T17:24Z"
   },
   {
    "id": "lrpos",
@@ -4035,7 +4713,10 @@
    "statement": "For a prefix x with letters ≥ 0 and a state (λ | γ): if the coefficient of s_λ(X) s_γ(Y) in s_θ(x)(X ∪ Y) is positive then the state is reachable after x.",
    "example": "x = 0 0 0 1 1 and the state (1 | 1): the number is 2, and there is no placement.",
    "evidence": "558 of 2,979 positive states are unreachable for prefixes of length ≤ 5 and slack ≤ 5. Recheck: cd agents/oddsplit && python3 lrpos.py 5 5 (seconds).",
-   "refs": "agents/oddsplit/NOTES.md"
+   "refs": "agents/oddsplit/NOTES.md",
+   "route": "oddcount",
+   "added": "2026-11-23T17:24Z",
+   "since": "2026-11-23T17:24Z"
   },
   {
    "id": "nonneg",
@@ -4046,7 +4727,10 @@
    "statement": "For every legal prefix x with last letter l ≥ 0 there is a prefix x′ with all letters ≥ 0, the same slack and the same last letter, and F(x′) ⊆ F(x).",
    "example": "x = (4, 3, 2, 1, 3, 2, 1, 0, −1, 2), slack 17, last letter 2: none of the 393 smallest sets F(x′) lies inside F(x).",
    "evidence": "Held for every beginning with slacks ≤ 16. Fails at slack 17 for last letter ≥ 2 and at slack 26 for last letter 1 (x = 5 4 3 2 4 3 2 1 0 −1 2 1). For last letter 0 no failure up to slack 27; given how the other two forms failed it should not be trusted beyond that. Recheck: python3 agents/peak/verify_nonneg.py (10 seconds).",
-   "refs": "agents/peak/REPORT.md section 2, agents/nonneg/NOTES.md"
+   "refs": "agents/peak/REPORT.md section 2, agents/nonneg/NOTES.md",
+   "route": "cuts",
+   "added": "2026-11-23T16:13Z",
+   "since": "2026-11-23T16:13Z"
   },
   {
    "id": "cutgame",
@@ -4056,7 +4740,10 @@
    "intuition": "If universal patterns could be chained, a word would split at its letters 0 and 1 into independent short pieces, each a walk between two fixed patterns. Claim: patterns can be fixed at all these cuts so that every piece between two cuts has a walk.",
    "statement": "There are sets G(s, l) of interface states (slack s, last letter l ∈ {0, 1}), with the empty state at slack 0, such that from every state of G(s, l), along every legal run of letters up to the next 0 or 1, some walk ends in the set G of that next cut.",
    "evidence": "The largest such family is empty for slack bound 8, and for bound 6 when cuts are made only after a 0. A universal pattern works for every future, but which pattern to pass at the next cut depends on what comes after it. Recheck: python3 agents/majority/segment.py 8 (1 second).",
-   "refs": "agents/majority/segment.py"
+   "refs": "agents/majority/segment.py",
+   "route": "cuts",
+   "added": "2026-11-23T15:35Z",
+   "since": "2026-11-23T15:35Z"
   },
   {
    "id": "blockinv",
@@ -4066,7 +4753,10 @@
    "intuition": "The patterns reachable after every first part might form an invariant: start with the empty board, and show that each block of letters carries the common set of one cut onto the common set of the next. Runs of high letters are treated as single blocks because after a high letter there is no common pattern. Claim: such a family of sets exists.",
    "statement": "There are nonempty sets J(s, l) of interface states (slack s, last letter l ≤ 1), J(0, ·) = {empty}, with J(s, l) ⊆ step_w(J(s′, l′)) for every block w from (s′, l′) to (s, l), where a block is one letter ≤ 1 or a run of letters ≥ 2 followed by its closing 1.",
    "evidence": "The largest such family is empty for slack bound 6. The patterns common to all reachable sets are not all reached from common patterns: different first parts reach them through different earlier patterns. Remembering the last m letters instead of one does not rescue it for any fixed m: the largest family is empty from slack bound 3, 5, 9, 14 for m = 1, 2, 3, 4 (see the card on growing memory). Recheck: python3 agents/majority/blockinv.py 6 (1 second).",
-   "refs": "agents/majority/blockinv.py"
+   "refs": "agents/majority/blockinv.py",
+   "route": "cuts",
+   "added": "2026-11-23T15:35Z",
+   "since": "2026-11-23T15:35Z"
   },
   {
    "id": "upone",
@@ -4078,7 +4768,11 @@
    "example": "1 1 1 0 −1 −2 (n = 6, diagonals {−4, −2, 0, 1, 2, 3}): it has the letter −2, so the card for letters −1, 0, 1 does not cover it; its slacks are 1, 2, 3, 3, 2, 0. One solution: 1 4 6 5 3 2.",
    "proof": "Hand proof in agents/l2sets/REPORT.md §1–§2 (Lemma G and Theorem 0), by a sub-session, on top of the proof for letters −1, 0, 1. Both were read line by line by a second sub-session acting as referee (agents/referee/REPORT.md): no gap, one unused remark corrected. No human has read them.",
    "evidence": "Checks I reran (sh runs.sh, 1 minute): the predecessor counts on 6,597 (pattern, letter) pairs; G⁻(s) = Central(s) ∩ step_{−1}(G(s + 1)) for s ≤ 12; the proof run as an algorithm solves all 9,397 valid words of length 13 with letters ≤ 1 and 150 random ones of length ≥ 250 (slack up to 181, letters down to −12). Before the proof the same was seen on the machine: such sets exist at every slack ≤ 24 (LET=-99,1 KLO=0 ./types 24 K). The class is 24,114 of the 158,808 valid arrangements at n = 14.",
-   "refs": "agents/l2sets/REPORT.md §1–§2, neg0.py, runs.sh; agents/universal/types.cpp (LET); agents/online2/game.py"
+   "refs": "agents/l2sets/REPORT.md §1–§2, neg0.py, runs.sh; agents/universal/types.cpp (LET); agents/online2/game.py",
+   "route": "cuts",
+   "added": "2026-11-23T18:19Z",
+   "since": "2026-11-23T18:50Z",
+   "was": "empirical"
   },
   {
    "id": "nocross",
@@ -4192,7 +4886,10 @@
    "vis": {
     "file": "labs/covered.html",
     "title": "Which arrangements are proved"
-   }
+   },
+   "route": "cuts",
+   "added": "2026-11-23T18:50Z",
+   "since": "2026-11-23T18:50Z"
   },
   {
    "id": "bridge",
@@ -4203,7 +4900,10 @@
    "statement": "Write a valid word as w = x m y, where m runs from the first letter ≥ 2 to the last letter ≤ −2, and let s₁, s₂ be the slacks before and after m. Then some pattern of G(s₁) is carried by the letters of m to a pattern of conj G(s₂).",
    "example": "2 1 0 −1 −2 (n = 5): x and y are empty, m is the whole word, s₁ = s₂ = 0, and the statement is that the word has a solution.\n1 1 2 1 0 −1 −2 −1 −1: x = 1 1 (slack 2), m = 2 1 0 −1 −2, y = −1 −1 (slack 2): some pattern of G(2) must be carried by m into conj G(2).",
    "evidence": "Tested: all 48,064 valid words of length ≤ 13 that have a letter ≥ 2 before a letter ≤ −2 (34,677 of the 48,107 valid words at n = 13), any letters, and 200 random words with letters between −2 and 2, length ≥ 30, slack ≤ 9. No failure. Not proved, and the proof for letters ≤ 1 does not extend to the middle, for three computed reasons: a central pattern can have no central predecessor under the letter 2; the reachable sets for letters between −2 and 2 are not determined by the slack, the classes present and the last 5 letters (335 ambiguous keys at slack ≤ 10); and the sets found by the block machine are not unions of 2-core or 4-core classes. The hard prefixes are the steep ones, 2 2 … 2 1. How fast the explicit family comes back after a high stone (letters between −2 and 2, slack ≤ 8, length ≤ 9; python3 agents/l2sets/repair.py 9 8 2, 10 s): never within 2 gentle letters, for 337 of 855 prefixes after 3, 1,247 of 1,269 after 6, all 720 after 8; the slowest are 2 1 1 1 1 1 1 0, and what is missing there is 2 patterns of 126.",
-   "refs": "agents/l2sets/REPORT.md §3–§4, bridge.py, keys.py, blocks.py, fine.py"
+   "refs": "agents/l2sets/REPORT.md §3–§4, bridge.py, keys.py, blocks.py, fine.py",
+   "route": "cuts",
+   "added": "2026-11-23T18:50Z",
+   "since": "2026-11-23T18:50Z"
   },
   {
    "id": "thincorners",
@@ -4214,7 +4914,10 @@
    "statement": "Let T(2, 2) be the hole patterns in which each of the two Young diagrams has at most 2 distinct row lengths. Every valid word has a walk on the interface machine that stays in T(2, 2).",
    "example": "Rejected by T(2, 2): the 44-letter word 10 9 8 7 6 5 4 3 2 1 3 2 2 1 2 2 2 1 2 1 1 0 0 −1 −1 −2 −1 −2 −2 −2 −1 −2 −2 −3 −1 −2 −3 −4 −5 −6 −7 −8 −9 −10 (slack 74).\nRejected by one corner on each side: 2 1 0 0 −1 −2.",
    "evidence": "Computed with two programs that agree (C++ and Python), not proved by hand. T(1, 2), T(1, 3) and T(2, 2) accept every word with slacks ≤ 16; T(1, 2) accepts every word of ≤ 15 letters, the other two every word of ≤ 18. T(1, 4) still accepts all four rejected words, so 'no bound on the corners works' is expected but not shown. Other restrictions (bounded rows, columns, Durfee square, hooks, 2-cores, distinct parts, λ = μ or μ′) fail by slack 8 or need a bound growing with the pyramid. A bound that grows with the word, 'corners ≤ number of runs + 2', accepts every word of ≤ 16 letters but is not small.",
-   "refs": "agents/thin/REPORT.md, killers.txt, corners.py, steep.cpp"
+   "refs": "agents/thin/REPORT.md, killers.txt, corners.py, steep.cpp",
+   "route": "cuts",
+   "added": "2026-11-23T18:50Z",
+   "since": "2026-11-23T18:50Z"
   },
   {
    "id": "uni4",
@@ -4226,7 +4929,10 @@
    "example": "2 2 1 1 0 −1 −2 −3 (n = 8): T = 1, P = 2, 4, …, so k_1 = 1 with P(k_1) = T + 1, and k_2 = t + 2 = 7.",
    "proof": "Hand proof in agents/oddsplit/REPORT2.md §3 (Theorem B), by a sub-session, using the RR criterion.",
    "evidence": "Checked: the rule gives an odd count for every such word with n ≤ 10 by brute force, and satisfies the RR arithmetic for n ≤ 14. Smallest open statement on this line: rising side in {0, 1, 2}, falling side of any depth. The interleaved pairing behind the rule is special to this family: among all words without a tight cut it fails from n = 9 (2 of 184 words), where another RR-split still exists. (An earlier version said n = 11; the word list behind it was incomplete.)",
-   "refs": "agents/oddsplit/REPORT2.md §1–§5, thm_b.py, thm_c.py"
+   "refs": "agents/oddsplit/REPORT2.md §1–§5, thm_b.py, thm_c.py",
+   "route": "oddcount",
+   "added": "2026-11-23T18:50Z",
+   "since": "2026-11-23T18:50Z"
   },
   {
    "id": "freeend",
@@ -4238,7 +4944,10 @@
    "example": "x = 1 1 1 1, m = 2 1 0 −1 −1 −1 −2 −2 with κ the letter 1 of m: z₀ = 2 ≤ s = 4. A 2 comes before a −2, and x could be replaced by any beginning of slack 4 with no high stone.",
    "proof": "Hand proof in agents/oddsplit/REPORT3.md §1 and §4 (Theorem M, Theorem D), by a sub-session; not read by anyone else. One step (the pattern is not in the thin exceptional family at slack 4m² + 1) was machine-checked to slack 80 by the sub-session and closed by a short argument added in the report.",
    "evidence": "Checked by brute force for n ≤ 10: 6,816 pairs (x, κ) in 755 words at n = 10, no failure. Not a route to everything: 2 2 2 2 2 2 2 1 0 −1 −2 −3 −4 −5 has no gentle end at all. Tested only: every valid word with a high stone before a low stone, n ≤ 9, has a mixed split with at most 2 chosen stones in the middle. No rule for two stones.",
-   "refs": "agents/oddsplit/REPORT3.md, thm_d.py (10: a few minutes), rel.py"
+   "refs": "agents/oddsplit/REPORT3.md, thm_d.py (10: a few minutes), rel.py",
+   "route": "oddcount",
+   "added": "2026-11-23T19:17Z",
+   "since": "2026-11-23T19:17Z"
   },
   {
    "id": "transfer",
@@ -4250,7 +4959,10 @@
    "example": "m = 2 1 0 −1 −2 with s₁ = 1, s₂ = 1: the padded word is 1 2 1 0 −1 −2 −1. An odd count for it with one stone of m fixed solves 1 2 1 0 −1 −2 −1, 0 1 2 1 0 −1 −2 0 −1, 1 0 2 1 0 −1 −2 −1 0, and every other word x 2 1 0 −1 −2 y with those slacks.",
    "proof": "Hand proof in agents/hybrid/REPORT.md §3 (Lemma O, Theorem T), by a sub-session; not read by anyone else.",
    "evidence": "Lemma O checked for slack ≤ 24. How far it reaches (tested): with the two parts required to fit in exactly one way up to parity, it covers 13,263 of the 13,387 words of length ≤ 12 left by 'No high stone before a low stone', and 34,297 of 34,677 at length 13. Other paddings (a single letter 3, 5 or 7 instead of the ones) cover 85 of the 124 missed words; 39 words remain, all with a letter ≥ 3 or ≤ −3 in the middle. For those only that restricted kind of odd count was tried.",
-   "refs": "agents/hybrid/REPORT.md §3, §5, §7; lemmao.py, normal.py, normal2.py; sh runs.sh (40 s)"
+   "refs": "agents/hybrid/REPORT.md §3, §5, §7; lemmao.py, normal.py, normal2.py; sh runs.sh (40 s)",
+   "route": "oddcount",
+   "added": "2026-11-23T19:27Z",
+   "since": "2026-11-23T19:27Z"
   },
   {
    "id": "hill2",
@@ -4262,7 +4974,10 @@
    "example": "1 1 1 1 0 −1 −2 2 1 0 −1 −2 −1: x = 1 1 1 1 0 −1 −2 has a deep letter, the hill is 2 1 0 −1 −2, y = −1. Also 1 1 2 1 0 −1 −2 3 2 1 0 followed by eight −1: the end y contains a 3.",
    "proof": "Hand proof in agents/hybrid/REPORT.md §4 (Theorems H and H2), by a sub-session, on top of three other sub-session proofs (the explicit families, the padded-word transfer, the one-stone rising-then-falling theorem); the first of these has been refereed, the others not.",
    "evidence": "Checked through the proof for all 535 middles with their slacks in the 2,084 words of the family of length ≤ 11: the count is always odd. Not covered: two hills in the middle (2 1 0 −1 −2 2 1 0 −1 −2 with slack before it), and middles with a letter ≥ 3 or ≤ −3 beyond Theorem H2.",
-   "refs": "agents/hybrid/REPORT.md §4; thmh.py, thmh2.py"
+   "refs": "agents/hybrid/REPORT.md §4; thmh.py, thmh2.py",
+   "route": "oddcount",
+   "added": "2026-11-23T19:27Z",
+   "since": "2026-11-23T19:27Z"
   },
   {
    "id": "hybridplain",
@@ -4273,7 +4988,10 @@
    "statement": "For every valid word x m y with a high stone before a low stone there are hole patterns u before m and v after m, both in the explicit families, such that the number of ways to place all stones of m between u and v is odd.",
    "example": "2 1 0 −1 −2: the middle is the whole word, the only pair of patterns is (empty, empty), and the number of ways is the number of solutions, 6.",
    "evidence": "Counterexample by hand. Fails for 13,377 of the 13,387 words of length ≤ 12 that have a high stone before a low stone; the 10 exceptions all have slack 3 on both sides of 2 1 0 −1 −2 or 2 1 0 0 −1 −2.",
-   "refs": "agents/hybrid/REPORT.md §2; hybrid.py 12"
+   "refs": "agents/hybrid/REPORT.md §2; hybrid.py 12",
+   "route": "oddcount",
+   "added": "2026-11-23T19:27Z",
+   "since": "2026-11-23T19:27Z"
   },
   {
    "id": "padextreme",
@@ -4284,7 +5002,10 @@
    "statement": "For every middle m and slacks s₁, s₂, the padded word 1 … 1 m −1 … −1 has an RR-split (or one of the other three extreme kinds) whose chosen stones all lie in m.",
    "example": "1 1 1 2 1 0 −1 −2 −3 (slack 3 before the middle 2 1 0 −1 −2 −3, target T = 1): no split of the extreme kinds has its stones inside the middle. The word itself is solvable.",
    "evidence": "Exhaustive over all four extreme kinds and all sets of stones of m: 124 of 13,387 words of length ≤ 12 fail, 380 of 34,677 at length 13. Not tested: odd counts that are not of the extreme kinds.",
-   "refs": "agents/hybrid/REPORT.md §5, §7; normal.py 13 (3 minutes)"
+   "refs": "agents/hybrid/REPORT.md §5, §7; normal.py 13 (3 minutes)",
+   "route": "oddcount",
+   "added": "2026-11-23T19:27Z",
+   "since": "2026-11-23T19:27Z"
   },
   {
    "id": "oddbridge",
@@ -4295,7 +5016,10 @@
    "statement": "For every middle m with slacks s₁ before and s₂ after: some hole pattern that the run 1 … 1 (s₁ letters) reaches in an odd number of ways is carried by m to a pattern from which the run −1 … −1 (s₂ letters) finishes in an odd number of ways.",
    "example": "s₁ = 0, m = 4 5 4 3 2 1 0 −1 −2, s₂ = 16 (the word m followed by sixteen letters −1, n = 25): m reaches 4,026 patterns from the empty one, 2,543 of them in the explicit family that every gentle end completes, and none of them is an odd pattern of the run of −1s. So this word and every word x m y with these slacks is solvable, but no parity count of the padded word shows it.",
    "evidence": "Holds for all 4,605 middles (s₁, m, s₂) from valid words of length ≤ 12 (python3 agents/oddbridge/oddbridge.py 12, 4 minutes) and all 721 middles with at most 8 letters, letters between −5 and 5, s₁ ≤ 4, slack ≤ 16, n ≤ 28. Fails for four middles of 9 letters found by random search: s₁ = 0 or 1 with 6 5 4 3 2 1 0 −1 −2, s₁ = 0 with 4 5 4 3 2 1 0 −1 −2 (n = 25, the smallest found), s₁ = 1 with 5 4 4 3 2 1 0 −1 −2. In all four BRIDGE itself holds with thousands of patterns to spare. Not shown: that n = 25 is the smallest failure. Other paddings (any gentle word whose odd patterns lie in the explicit family) are not ruled out, but no such word other than a run of 1s has a known description of its odd patterns.",
-   "refs": "agents/oddbridge/REPORT.md; oddbridge.py, oddrand.py, bridgeat.py"
+   "refs": "agents/oddbridge/REPORT.md; oddbridge.py, oddrand.py, bridgeat.py",
+   "route": "oddcount",
+   "added": "2026-11-23T20:11Z",
+   "since": "2026-11-23T20:11Z"
   },
   {
    "id": "linebridge",
@@ -4306,7 +5030,10 @@
    "statement": "For every middle m with slacks s₁ and s₂, one of the four patterns of slack s₁ that consist of a single row or a single column (in either diagram) is carried by m to one of the four such patterns of slack s₂.",
    "example": "s₁ = 3, m = 3 3 2 1 0 −1 −2, s₂ = 9 (n = 19): none of the four one-line patterns of slack 3 is carried to a one-line pattern of slack 9. BRIDGE holds there with 208 patterns.",
    "evidence": "Holds for all 4,605 middles from valid words of length ≤ 12 (python3 agents/oddbridge/rows.py 12). Among the 199 middles with at most 7 letters, letters between −3 and 3, s₁ ≤ 5 and slack ≤ 12 it fails for three: s₁ = 3 with 3 3 2 1 0 −1 −2 (n = 19), s₁ = 4 with 2 3 2 1 0 −1 −2 and with 3 2 2 1 0 −1 −2 (n = 20) (python3 agents/oddbridge/linemin.py 7 5 12 3, 1 minute).",
-   "refs": "agents/oddbridge/REPORT.md; rows.py, linemin.py, bridgeat.py"
+   "refs": "agents/oddbridge/REPORT.md; rows.py, linemin.py, bridgeat.py",
+   "route": "cuts",
+   "added": "2026-11-23T20:11Z",
+   "since": "2026-11-23T20:11Z"
   },
   {
    "id": "onehigh",
@@ -4317,7 +5044,10 @@
    "statement": "Let x have no letter above 1 and slack s₀, and let j ≥ 1. (X1) Every pattern of G⁻ is reached from G(s₀) by 2 1^j 0 −1. (X2) If s₀ ≥ 1, every pattern of G is reached from G(s₀) by 2 1^j 0 e, e = 0 or 1. (X3) Every pattern of G⁻ is reached from the empty pattern by 2 1^j 0 y 0 −1, for any y of letters 0 and 1.",
    "example": "x = 1 1 1 (slack 3), then 2 1: 12 patterns of G(6) are missing. Then 0: only (6|−) and (−|6) are missing. Then one more letter 0, 1 or −1: nothing is missing.",
    "evidence": "Tested by a sub-session: s₀ ≤ 8, at most 7 letters after the 2, slack ≤ 13 (1,882 words ending 0 or 1, 537 ending −1); selected targets at slack 23, 24 (68,970 pairs) and 400 random targets at slack 34 to 96. The only exceptions are six words with s₀ = 0, which (X3) repairs. The reduction 'statement ⟹ one high stone is solvable' is a short hand proof in the report; I have not read it line by line. After two high stones in a row (2 2, or 3 2) the family is back only after two more letters, and after 4 3 2 not even then, so this is a statement about single letters 2 only. Recheck: cd agents/onehigh && sh runs.sh (25 s).",
-   "refs": "agents/onehigh/REPORT.md §1, §2; exit.py, fam.py"
+   "refs": "agents/onehigh/REPORT.md §1, §2; exit.py, fam.py",
+   "route": "cuts",
+   "added": "2026-11-23T20:11Z",
+   "since": "2026-11-23T20:11Z"
   },
   {
    "id": "hooksout",
@@ -4329,7 +5059,10 @@
    "example": "Smallest case: the beginning 2 1 (slack 3) does not reach (3|−), and neither does 2 1 0.",
    "proof": "Hand proof by a sub-session (agents/onehigh/REPORT.md §1, Lemma C: the predecessors of a one-line pattern are listed in bead coordinates). I have not read the proof line by line.",
    "evidence": "The predecessor lists are machine-checked on all 3,132 patterns of slack ≤ 12 (python3 agents/onehigh/tight.py 12).",
-   "refs": "agents/onehigh/REPORT.md §1 (Lemma C), §3; tight.py"
+   "refs": "agents/onehigh/REPORT.md §1 (Lemma C), §3; tight.py",
+   "route": "cuts",
+   "added": "2026-11-23T20:11Z",
+   "since": "2026-11-23T20:11Z"
   },
   {
    "id": "signedcount",
@@ -4340,7 +5073,10 @@
    "statement": "For a solution let ρ send stone k (in order of diagonals) to its row and κ to its column. Put A = Σ sgn(ρ) and P = Σ sgn(ρ) sgn(κ) over all solutions of D. For every valid D, A ≠ 0 or P ≠ 0.",
    "example": "D = {−7, −6, −4, −3, 1, 3, 4, 5, 7} (n = 9) has 8 solutions and A = P = 0.\nn = 8: A = 0 for 25 of the 167 arrangements, P = 0 for 25, never both.",
    "evidence": "The two identities are proved (agents/signed/NOTES.md, a few lines each). The claim is true for n ≤ 8 and false for 7 of the 490 arrangements at n = 9 and 28 of 1,486 at n = 10 (python3 agents/signed/signed.py 9, 20 seconds). The count with the sign of the column order equals ±A.",
-   "refs": "agents/signed/signed.py, NOTES.md"
+   "refs": "agents/signed/signed.py, NOTES.md",
+   "route": "algebra",
+   "added": "2026-11-23T18:50Z",
+   "since": "2026-11-23T18:50Z"
   },
   {
    "id": "meminv",
@@ -4351,7 +5087,10 @@
    "statement": "Let the type of a prefix be its end slack and its last m letters. For m = 5 and all words with slacks ≤ 14 there are nonempty sets J(type), J(empty word) = {empty state}, with J(type of x e) ⊆ step_e(J(type of x)) for every prefix x and letter e, such that J(t) ∩ conj J(t′) ≠ ∅ for all types t, t′ of the same slack whose last letters add up to at most 1.",
    "example": "Memory 1 works to slack 2, memory 2 to slack 4, memory 3 to slack 8, memory 4 to slack 13, memory 5 at least to slack 14.\nThe failures come at slack 3, 5, 9, 14: one less than a triangular number, when the steepest staircase no longer fits in the memory.",
    "evidence": "Computed as the largest such family, so 'none exists' is exact (python3 agents/universal/memory_inv.py 14 5 q, 75 seconds). The common part of the sets is a universal hole pattern at every slack ≤ 14. The needed memory grows with the slack, so this is not yet an induction for all slacks: a proof needs a formula for the sets, or a coarser type than 'the last m letters' (for example the final descending run and the final run of zeros). The same sub-session found no closed form for the universal patterns themselves: every simple shape (no row hole, both rectangles, staircases, …) is missing at some slack ≤ 24, and the steepest staircase alone removes 84 to 89 percent of the patterns that are not universal.",
-   "refs": "agents/universal/REPORT.md"
+   "refs": "agents/universal/REPORT.md",
+   "route": "cuts",
+   "added": "2026-11-23T16:46Z",
+   "since": "2026-11-23T16:46Z"
   },
   {
    "id": "blocktypes",
@@ -4362,7 +5101,10 @@
    "statement": "Give a set J only to prefixes that end in a letter 0 or 1, and let the type of such a prefix be its end slack together with its last 5 letters, cut off at the last place where the letters rise (at most 62 types per slack). For all words with slacks ≤ 24 there are nonempty sets J(type), J(empty word) = {empty state}, with J(type of x w) ⊆ step_w(J(type of x)) for every block w = (letters other than 0 and 1)* followed by one letter 0 or 1, such that J(t) ∩ conj J(t′) ≠ ∅ for every type t ending in 1 and t′ ending in 0 of the same slack.",
    "example": "Tails of 2, 3, 4 letters work through slack 5, 7, 14 and then fail; 5 letters work through 24 (not run further).\nWithout blocks the same 5-letter tail already fails at slack 7.\nThe sets are large, 26 to 100 percent of all hole patterns of that slack; what is left out is mostly hooks.",
    "evidence": "Computed as the largest such family (cd agents/universal && g++ -O2 -std=c++17 -o types types.cpp && KLO=0 ./types 16 A4K, 8 seconds, last line WORKS; bound 20 a few minutes, bound 24 about 20 minutes). The reduction to the conjecture is proved in the report (§0). It is not an induction for all slacks: the tail length needed still grows (slowly) with the slack, a block has unbounded length, and no rule for the sets was found. The coarser memories proposed earlier (length of the final falling run, run of equal letters, letter before the run, last rise and its age) all fail by slack 7 without blocks and by slack 18 with blocks.",
-   "refs": "agents/universal/REPORT2.md"
+   "refs": "agents/universal/REPORT2.md",
+   "route": "cuts",
+   "added": "2026-11-23T17:46Z",
+   "since": "2026-11-23T17:46Z"
   },
   {
    "id": "oldprefix",
@@ -4373,7 +5115,10 @@
    "statement": "Call a prefix x old if every final stretch of j letters has sum ≤ j (equivalently y = 0, where y starts at 0 and each letter e replaces y by max(0, y + e − 1)). For every old prefix x with slack s ≥ 11 whose last letter is 0 or 1, F(x) ⊇ J*(s, τ), where τ is the last two letters of x and J* is: all states whose two imbalances have sum c in a fixed window (c ∈ {0, 1} for τ = 1 1; −1 ≤ c ≤ 2 for τ = · 1 and 1 0; −2 ≤ c ≤ 3 for τ = 0 0 and · 0) and difference at most 2 to 4, minus an explicit thin set (for τ ending in 0: the two one-row patterns, and for 1 0 also two-equal-rows patterns and E⁰; for τ ending in 1: the patterns (λ | λ′), the four states A(s), and k|k).",
    "example": "After 2 2 2 1 from slack 1, the next three zeros have y = 2, 1, 0. The patterns of the family still missing are then: 22 (all with a row of length ≥ s − 2, or close), 6 (a row or column ≥ s − 1), 2 (the two one-row patterns), exactly the thin set of the table at y = 0.\nAfter 2 2 2 2 1, 2 2 2 1 1 1 and 2 1 2 1 2 1 the counts at y = 2, 1, 0 are 18, 6, 2: the same sets, whatever the block was.",
    "evidence": "Exhaustive for all words with slack ≤ 20 (the set equals the largest block-closed family there, and that family is identical at bounds 16, 18, 20). Sampled on exact reachable sets for about 17,600 old prefixes: steep words to slack 28, random words to slack 26, falling runs to slack 30, one or two staircases. The table was fitted, and corrected three times by tests beyond bound 20 (most recently k|k after a long staircase), so a longer staircase than slack 30 allows could add another exception. Below slack 11 the sets are a finite table. Missing for a proof: the step across an excursion (a block that starts with a letter ≥ 2 and ends when y is back at 0), tested only for 1,209 short blocks, and by the red children the sets inside an excursion have no local description. Recheck (1 minute): cd agents/universal && g++ -O2 -std=c++17 -o types types.cpp && g++ -O2 -std=c++17 -o fw fw.cpp && python3 jstar.py 16 && python3 closed.py 11 14 5 3 20 && python3 stair.py 5 6. Healing counts: python3 agents/lens/restore.py 1 \"2 2 2 1 0 0 0 0\".",
-   "refs": "agents/universal/REPORT3.md, agents/lens/NOTES.md"
+   "refs": "agents/universal/REPORT3.md, agents/lens/NOTES.md",
+   "route": "cuts",
+   "added": "2026-11-23T20:26Z",
+   "since": "2026-11-23T20:26Z"
   },
   {
    "id": "youngtail",
@@ -4383,7 +5128,10 @@
    "intuition": "For letters up to 1 the exceptional set is explained by the last stone alone: a pattern is missing because the last stone cannot have been placed to produce it. The hope was that after a 2 or a 3 the same holds with a slightly larger explicit set. Claim: the common part after such a tail is the central class minus the patterns the tail itself forbids.",
    "statement": "For a tail τ containing a letter ≥ 2 (τ = 2, 2 1, 2 2, 3 2 1), the intersection of F(x) over all prefixes x with slack s and tail τ equals Central(s) minus the states that have no chain of predecessors along the letters of τ, minus T(s).",
    "evidence": "False. The locally forbidden part is explicit but small (a last letter 2 excludes exactly the states with M − 1 ⊆ B: 40 states of the family at slack 12), while 358 of the 770 states of the family at slack 12 have predecessors along the tail and are still not common: they are missing because of what stands before the tail, differently for different prefixes. Also a quarter to a third of the common part lies outside the central class. Recheck: cd agents/universal && python3 tail.py 2 12.",
-   "refs": "agents/universal/REPORT3.md §1"
+   "refs": "agents/universal/REPORT3.md §1",
+   "route": "cuts",
+   "added": "2026-11-23T20:26Z",
+   "since": "2026-11-23T20:26Z"
   },
   {
    "id": "norun3",
@@ -4393,7 +5141,10 @@
    "intuition": "The card 'Sets that remember only a falling run of five letters' needed whole blocks as steps. Could the same memory work letter by letter, so that the induction step is a single stone? Claim: sets indexed by the slack and the final falling run exist on every prefix.",
    "statement": "For words with letters ≤ 3 there are nonempty sets J(slack, final non-increasing run of the prefix), one for every prefix, with J(type of x e) ⊆ step_e(J(type of x)) for every letter e.",
    "evidence": "Impossible, by exhaustion, whatever the rule: the 13 different sets F(x) of prefixes x of slack 7 whose last letter is a rise to 3 have empty intersection (minimal ones: F(1 1 2 3), F(1 2 1 3), F(1 1 1 1 3), F(2 1 1 3), F(2 2 3), F(1 1 1 1 0 3)). For letters ≤ 2 such sets are nonempty but not carried by single letters (fails at bound 5 to 12 depending on the run length). Adding the counter y of the card above to the type repairs letters ≤ 2 through bound 24, at the price of a number of types that grows with the slack. Recheck: cd agents/universal && CORE=2 DUMPMAX=7 LET=-99,3 ./types 7 A3.",
-   "refs": "agents/universal/REPORT3.md §2"
+   "refs": "agents/universal/REPORT3.md §2",
+   "route": "cuts",
+   "added": "2026-11-23T20:26Z",
+   "since": "2026-11-23T20:26Z"
   },
   {
    "id": "landauholes",
@@ -4405,7 +5156,10 @@
    "example": "After 2 2 2 1 from any start, the next three zeros have (ŷ, y) = (3, 2), (2, 1), (1, 0): rows longer than s − 3, s − 2, s − 1 and columns longer than s − 2, s − 1, s are excluded. Inside the family of the card 'Every stone within one mark…' that is 22, 6 and 2 patterns, the counts seen in the tests.",
    "proof": "Proof (agents/damage/REPORT.md §1, a sub-session's; I checked the proof of the inequality line by line, not the 'whole condition' part): undoing L stones from (M, B) is a choice of distinct beads m_i ∈ M and distinct holes n_i ∉ B with n_i − m_i = 2i − 1 − e_i, increasing in i. Among the first t + k stones at most p use the p largest beads and at most q the q smallest holes; the other k have beads ≤ the (p+1)-st and holes ≥ the (q+1)-st, which bounds the sum of their distances from below, and the k largest distances bound it from above.",
    "evidence": "Checked on all states for 7,214 prefixes (length ≤ 9, slack ≤ 10, letters −3..2). Recheck (3 minutes): cd agents/damage && sh runs.sh.",
-   "refs": "agents/damage/REPORT.md"
+   "refs": "agents/damage/REPORT.md",
+   "route": "machine",
+   "added": "2026-11-23T21:05Z",
+   "since": "2026-11-23T21:05Z"
   },
   {
    "id": "landauexact",
@@ -4416,7 +5170,11 @@
    "statement": "Statement S: let Lev₂(s) be the states of slack s whose odd-even count is in one of the four middle classes (level ≤ 2). For every s₀ ≥ 5 and every legal word w with letters ≤ 2 whose last letter is ≤ 0, the states of Lev₂(s) that are not reachable by w from Lev₂(s₀) are exactly those that violate the inequalities of the card 'The last stones forbid long rows and columns' for w (a row longer than s − ŷ or a column longer than s − y).",
    "example": "From all 4-class patterns of slack 6, after 2 2 2 2 1 0 (slack 15, ŷ = 4, y = 3): 56 patterns are unreachable, 52 violate the Landau condition. The other four are − | 11 2 2, 11 | 2 2 and their swaps: a row of length s − ŷ = 11 and a 2 × 2 square.",
    "evidence": "Counterexamples (computed; found by the automatic review of PR #19, confirmed with agents/damage/sword.py). (1) Start Lev₂(s₀), word 2 2 2 2 1 0: for s₀ = 5, 6, 7, 9 the four patterns (− | R 2 2), (R | 2 2) and swaps with R = s − 4 satisfy the condition and are unreached; they are reached after one more 0, but not after 2 2 2 2 1 −1. After 2 2 2 2 2 1 0 the same happens with (R 2 1 | 2 1), R = s − 6. (2) Staircase pairs: 3 2 1 | 4 3 2 1 and its swap (slack 16) after 2 2 2 2 2 1 0 0 from s₀ = 5 and after 2 2 2 2 1 0 0 from s₀ = 7; ten patterns such as 2 1 | 5 4 3 2 1 and 4 3 2 1 | 5 2 1 (slack 18) after 2 2 2 2 2 1 from s₀ = 7, still missing after four zeros, gone after a −1. Also, the search in the sub-session's report dropped words that pass through slack 0; with them, −1 −2 −3 2 1 1 0 from s₀ = 6 misses 1 1 | 1 1. What stays true: the Landau condition is necessary (proved, card above), and for words with at most three 2s in a row S held in every test (s₀ = 6, 706 words, length ≤ 7, slack ≤ 12). Any letters, every class (agents/damage/dall.py, length ≤ 9, slack ≤ 9, letters −3..4, 8,629 prefixes ending in a letter ≤ 0): 1,555 of 507,103 patterns that satisfy the condition are unreachable; after a positive letter 512,133 of 2,579,257. Steep words from the empty word (agents/damage/dword.py): after 1^5 4 3 2 1 and one, two, three zeros (slack 15) 46, 40, 12 allowed patterns are unreached, all with two long lines. Recheck (1 minute): cd agents/damage && python3 sword.py 6 '2 2 2 2 1 0 0' && python3 sword.py 7 '2 2 2 2 2 1 0 0'.",
-   "refs": "agents/damage/REPORT.md §2, §3 (correction at the top); agents/lens/NOTES.md items 5, 7, 8"
+   "refs": "agents/damage/REPORT.md §2, §3 (correction at the top); agents/lens/NOTES.md items 5, 7, 8",
+   "route": "machine",
+   "added": "2026-11-23T21:05Z",
+   "since": "2026-11-24T00:17Z",
+   "was": "empirical"
   },
   {
    "id": "nygraded",
@@ -4427,7 +5185,10 @@
    "statement": "For every prefix x ending in 0 with counter y, J*(s, τ) ∖ F(x) = N_y(s) ∩ J*(s, τ), where J* is the set of the card 'Once the big stones are far enough back…' and N_y(s) is the set of states with a row of length ≥ s − y or a column of length > s − y.",
    "example": "x = 1 1 1 1 1 3 2 1 0 0 (slack 11, y = 1): besides the 6 patterns of N_1, the patterns − | 6 5, − | 8 3 and their swaps are missing. One zero earlier 38 are missing against 20 in N_2; the extra ones are two-line patterns such as 3 | 8, 4 | 7, 5 | 6.",
    "evidence": "False for letters ≥ 3 (agents/universal/REPORT4.md §1c): the extra patterns have two long lines, about s/2 from a one-line pattern, and go away only after about c zeros, c the largest letter (after 1^7 5 4 3 2 1 the first six zeros leave 3737, 1645, 412, 64, 5, 0 extra). Most of them are explained by the proved Landau condition with two or more lines (card 'The last stones forbid long rows and columns'): after 1^5 4 3 2 1 0 there are 468 unreached patterns of 3,956 and 422 of them violate it; the other 46 (then 40, 12 after the next zeros) do not (python3 agents/damage/dword.py \"1 1 1 1 1 4 3 2 1 0 0 0\"). For letters ≤ 2 the claim holds in tests up to a small unfitted set: exactly N_y after a negative letter (y ≤ 4) and after 0 0 (y = 2, 3), otherwise N_y plus at most about 30 patterns once s ≥ 2y + 6 (all words, slack ≤ 18). Sets on every prefix ending in a letter ≤ 0 exist with the exact y as type but not with y capped. Recheck (1 minute): cd agents/universal && g++ -O2 -std=c++17 -o types types.cpp && g++ -O2 -std=c++17 -o fw fw.cpp && python3 young.py 16 14 && python3 zero.py \"1 1 1 1 1 3 2 1 0 0\".",
-   "refs": "agents/universal/REPORT4.md"
+   "refs": "agents/universal/REPORT4.md",
+   "route": "cuts",
+   "added": "2026-11-23T21:12Z",
+   "since": "2026-11-23T21:12Z"
   },
   {
    "id": "posetview",
@@ -4438,7 +5199,10 @@
    "statement": "Say stone x is below stone y if y is higher up and further right on the board. Then for every solution the diagonal of a stone is d = (number of stones below it) − (number of stones above it). So D has a solution exactly when D is the set of values 'below minus above' of a partial order that comes from points in the plane (dimension ≤ 2). With the stones listed by diagonal, the letter of stone k is (later stones incomparable to k) − (earlier stones incomparable to k), and the slack after k stones is the number of incomparable pairs with one stone on each side of the cut.",
    "example": "D = {−1, 0, 1}, solution with stones at (row 0, column 1), (row 1, column 0), (row 2, column 2). The first is above the second; the third is incomparable to both. Below minus above: 1 − 0, 0 − 1, 0 − 0.",
    "proof": "The column of a stone is the number of stones in smaller columns: those in lower rows (the stones below it) plus those in higher rows. Its row is the number of stones in higher rows: those in larger columns (the stones above it) plus those in smaller columns. The second parts are the same set, so column − row = below − above. For the letters: with the stones listed by diagonal, stone k has k − 1 − (earlier incomparable) below it and n − k − (later incomparable) above it. In any partial order x below y gives below(y) ≥ below(x) + 1 and above(y) ≤ above(x) − 1.",
-   "refs": "agents/intervals/NOTES.md"
+   "refs": "agents/intervals/NOTES.md",
+   "route": "orders",
+   "added": "2026-11-24T00:36Z",
+   "since": "2026-11-24T00:36Z"
   },
   {
    "id": "anyposet",
@@ -4454,7 +5218,10 @@
    "vis": {
     "file": "labs/peel.html",
     "title": "Peel the top stone"
-   }
+   },
+   "route": "orders",
+   "added": "2026-11-24T00:44Z",
+   "since": "2026-11-24T00:44Z"
   },
   {
    "id": "intervalorder",
@@ -4465,7 +5232,10 @@
    "statement": "For every valid D there are n intervals on a line such that, calling an interval below another when it lies entirely to its left, the values (number below) − (number above) are exactly D.",
    "example": "D = {−2, −1, 0, 1, 2}, letters 2 1 0 −1 −2. Intervals [1, 4], [2, 6], [3, 8], [5, 9], [7, 10]: every pair overlaps except the first with the last two and the second with the last. Below minus above: 0 − 2, 0 − 1, 0 − 0, 1 − 0, 2 − 0.",
    "evidence": "Tested, not proved: every valid arrangement up to n = 13 (48,107 at n = 13) has such a family (agents/intervals/pm.py). A sub-session (agents/intervals2/REPORT.md) extended this by a finite search that covers every n: every arrangement whose slack stays at most 22 has such a family, which includes every arrangement with n ≤ 14. It also proved by hand that no rule choosing m from the letters read so far can work: after 3 2 1 0 −1 the endings −2 −3 and −2 −1 −2 need different states. Seven ways of ordering the intervals in advance fail, each with a counterexample for n ≤ 7. No simple rule for m works: smallest m, largest m, most open intervals and four others each fail from n = 5 or n = 7 (rules.py). Always overlapping every open interval fails first on 2 1 1 0 −1 −1 −2 (iv.py). Intervals of equal length (semiorders) reach 21 of 22 arrangements at n = 6 and 5,798 of 14,805 at n = 12 (semi.py). Reachable sets: for 1,731 of the 1,772 prefixes of valid words of length 9 the reachable partitions are exactly those whose partial sums of parts lie between the smallest and largest values seen; in the other 41 one or two partitions such as (2, 2) are missing (box.py). At a cut the labels of the intervals on the left and on the right are conjugate partitions, so the two halves fit together exactly when the reachable set of the left half meets the conjugate of the reachable set of the mirrored right half. For all 11,567 cuts with positive slack at n = 10, each of the two sets has a smallest and a largest partition in dominance order, and the meet of the two largest lies in both sets except in 32 cases (cut.py). This is the shape of the Gale–Ryser theorem for 0-1 matrices with given row and column sums. A form without a machine (proved equivalent): list the intervals by right endpoint; interval t lies above the first k_t of them, where 0 ≤ k_t ≤ t − 1 can be chosen freely, and its value is k_t − (number of t' with k_t' ≥ t). With repeated diagonals allowed the statement is false: −1, −1, 1, 1 satisfies the inequality and is not reached, and 1,294 of 5,302 multisets of size 8 are not (subex.py). So a proof must use that the diagonals are distinct, as for the conjecture itself. Recheck (1 minute): cd agents/intervals && python3 pm.py 12 && python3 box.py 9 && python3 cut.py 9.",
-   "refs": "agents/intervals/NOTES.md, agents/intervals2/REPORT.md"
+   "refs": "agents/intervals/NOTES.md, agents/intervals2/REPORT.md",
+   "route": "orders",
+   "added": "2026-11-24T00:36Z",
+   "since": "2026-11-24T00:36Z"
   },
   {
    "id": "vexillary",
@@ -4476,7 +5246,10 @@
    "statement": "Every valid D has a solution σ (σ(row) = column) with no four rows i < j < k < l such that σ(j) < σ(i) < σ(l) < σ(k) (the pattern 2143).",
    "example": "D = {−6, −5, −4, −3, −1, 1, 3, 4, 5, 6} (n = 10, letters 3 2 1 0 0 0 0 −1 −2 −3) is solvable, but every solution contains the pattern 2143.",
    "evidence": "Computed (agents/intervals/vex.py, complete search): n ≤ 9 none missing; n = 10: 2 of 1,486 (the example and 3 3 2 1 0 0 −1 −2 −3 −3); n = 11: 10 of 4,639; n = 12: 29 of 14,805. Each single pattern 1234, 1243, 1324, 1342, 1423, 1432, 2134, 2143, 2314, 3124, 3214 can be avoided for every arrangement with n ≤ 9; of the pairs only those containing 1234 (pat4b.py 9). Avoiding three pairwise incomparable stones: 21 of 22 at n = 6, 1,003 of 1,486 at n = 10 (classes.py). Recheck (1 minute): cd agents/intervals && python3 vex.py 10.",
-   "refs": "agents/intervals/NOTES.md"
+   "refs": "agents/intervals/NOTES.md",
+   "route": "orders",
+   "added": "2026-11-24T00:36Z",
+   "since": "2026-11-24T00:36Z"
   },
   {
    "id": "threechains",
@@ -4491,7 +5264,10 @@
    "vis": {
     "file": "labs/chains.html",
     "title": "A solution with the fewest chains"
-   }
+   },
+   "route": "orders",
+   "added": "2026-11-24T01:01Z",
+   "since": "2026-11-24T01:01Z"
   },
   {
    "id": "chainmachine",
@@ -4502,7 +5278,10 @@
    "statement": "Machine M_w. A state is two words (α, β) in the letters • and 1, …, w with the same number m of •. Step with the letter e of the next stone: choose a chain X; in each word the first X becomes •, or, if the word has no X, a word u in the letters other than X followed by • is appended; with p the number of letters before the new •, the step is allowed iff e = p_α + p_β − 2m; then the longest common run of • at the front is deleted from both. A valid word has a solution with at most w chains iff M_w goes from two empty words to two empty words, and the runs correspond one to one to solutions with their stones labelled by chains.",
    "proof": "Proved by hand (agents/chains3/REPORT.md, Theorem 1; a sub-session's proof, which I read once).",
    "evidence": "Checked: for every valid word the solutions rebuilt from all accepting runs are exactly the solutions with at most w chains found by complete search, for w = 2 and n ≤ 10, w = 3 and n ≤ 9, w = 4 and n ≤ 8. Recheck: cd agents/chains3 && g++ -O2 -o sol3 sol3.cpp && python3 m3.py check 3 9 (1.5 minutes).",
-   "refs": "agents/chains3/REPORT.md §1, m3.py"
+   "refs": "agents/chains3/REPORT.md §1, m3.py",
+   "route": "orders",
+   "added": "2026-11-24T04:01Z",
+   "since": "2026-11-24T04:01Z"
   },
   {
    "id": "twoplusone",
@@ -4512,7 +5291,10 @@
    "intuition": "Two chains are completely described by a small machine, and in the tests the third chain was very short: for the family already proved solvable, one stone. Taking one stone out changes the letters before it by −1 and those after it by +1, so 'two chains plus one stone' would turn into a statement about the two-chain machine alone. Claim: for that family one extra stone is always enough.",
    "statement": "Every valid word with no letter ≥ 2 before a letter ≤ −2 has a solution in which all stones but one split into two chains.",
    "evidence": "True for n ≤ 13, false at n = 14: 9 of the 35,543 such words need two extra stones, the first being 1 1 0 0 1 1 0 −1 1 0 −1 0 −1 −2 (agents/chains3/REPORT.md §2; confirmed by agents/blocks/third.cpp). Each of the 9 has two or three separate peaks of the slack. Eleven rules for which stone to take out also fail; the best, 'a stone at its evenly spaced place at a peak of the slack', holds to n = 13 and fails at n = 14 (§3). Six rules for a canonical three-chain solution fail by n = 9 (§4). Recheck: cd agents/chains3 && g++ -O2 -o sol3 sol3.cpp && python3 one.py 14 (1.5 minutes).",
-   "refs": "agents/chains3/REPORT.md §2–4"
+   "refs": "agents/chains3/REPORT.md §2–4",
+   "route": "orders",
+   "added": "2026-11-24T04:01Z",
+   "since": "2026-11-24T04:01Z"
   },
   {
    "id": "pm1twoplusone",
@@ -4522,7 +5304,10 @@
    "intuition": "For the family where every stone is within one mark of its evenly spaced place, a solution is known to exist, but two chains are not always enough (first at n = 10). The tests say the next best thing holds: one stone outside two chains. All nine counterexamples of the red card beside this one contain a stone two marks away. Claim: for letters −1, 0, 1 two chains plus one stone always suffice.",
    "statement": "Every valid word with letters in {−1, 0, 1} has a solution in which all stones but one split into two chains.",
    "evidence": "Complete for n ≤ 16 (at n = 16: 72,832 words, 2,996 without a two-chain solution, every one of them with one extra stone). n = 17 was started and not finished. Tested, not proved (agents/chains3/REPORT.md §2). Recheck: cd agents/chains3 && g++ -O2 -o sol3 sol3.cpp && python3 one.py 15 pm1 (20 seconds).",
-   "refs": "agents/chains3/REPORT.md §2"
+   "refs": "agents/chains3/REPORT.md §2",
+   "route": "orders",
+   "added": "2026-11-24T04:01Z",
+   "since": "2026-11-24T04:01Z"
   },
   {
    "id": "twochains",
@@ -4533,7 +5318,10 @@
    "statement": "Every valid D has a solution whose stones split into two chains (a solution avoiding the pattern 123).",
    "example": "D = {−3, −2, −1, 1, 2, 3} (n = 6, letters 2 1 0 0 −1 −2): all 6 of its solutions with at most three chains have exactly three.",
    "evidence": "Computed (agents/patterns/width.cpp, complete search): no failure for n ≤ 5; 1 of 22 at n = 6; 6 of 59 at n = 7; 29 of 167 at n = 8; 123 of 490 at n = 9; 483 of 1,486 at n = 10. Recheck (seconds): ./width 6 2. Proved (agents/blocks/NOTES.md, section 2): two-chain solutions are exactly the runs of a small machine. Its state is two partitions P and Q; a stone with letter e either deletes the first row of Q, of length q, and gives P a new first column of height e + q, or does the same with P and Q exchanged; a word has a two-chain solution exactly when some run returns to the empty state. In pictures: the order of the rows, of the columns and of the diagonals are three lattice paths, and the third must run midway between the first two; a letter is twice its distance from the middle. Even words with every letter in {−1, 0, 1} can fail: 1 1 0 0 1 0 −1 0 −1 −1 at n = 10, none smaller (pm1.py).",
-   "refs": "agents/patterns/REPORT.md, agents/blocks/NOTES.md"
+   "refs": "agents/patterns/REPORT.md, agents/blocks/NOTES.md",
+   "route": "orders",
+   "added": "2026-11-24T01:01Z",
+   "since": "2026-11-24T01:01Z"
   },
   {
    "id": "centralonly",
@@ -4543,7 +5331,10 @@
    "intuition": "The proved induction for letters up to 1 carried one class of the odd-even count. The natural extension keeps that class and subtracts the patterns a big stone is known to destroy. Claim: the one class minus the damage is carried by a letter 0.",
    "statement": "For every prefix x ending in 2 1^j 0 0, every state of G(s) (the family of the card 'Every stone within one mark…') outside the forbidden set of the card 'The last stones forbid long rows and columns' has a 0-predecessor in G(s) outside the forbidden set of x without its last letter.",
    "evidence": "False (proved, agents/damage/REPORT.md Proposition E). The pattern (s − 1 | 1) is in G(s), and its only 0-predecessors are the one-row pattern (s | −), which is forbidden one letter after the block, and (− | 2 1^(s−2)), which lies in the neighbouring class. Smallest case: (2 | 1) is reached by 2 1 0 0 only through (− | 2 1). With G as start family the test of the card above also fails: 2 | 4 1 1 is missing after 2 1 1 0 from slack 4 although it satisfies the Landau condition (36 of 510 words ending in 0). Recheck: cd agents/damage && python3 cores.py && python3 landau.py 4 7 12 -3.",
-   "refs": "agents/damage/REPORT.md §1, §2"
+   "refs": "agents/damage/REPORT.md §1, §2",
+   "route": "cuts",
+   "added": "2026-11-23T21:05Z",
+   "since": "2026-11-23T21:05Z"
   },
   {
    "id": "twotourn",
@@ -4553,7 +5344,10 @@
    "intuition": "The rows of a solution are a rearrangement of 0, …, n − 1, and so are the columns. Relax both: let the rows be the score vector of any tournament, and the columns too. Such pairs are easy to find (the evenly spread ones always exist), and a pair is a solution exactly when the sum of squares is as large as it can be. So a solution could be found by climbing. Claim: from every pair that is not a solution, one exchange between two stones goes up.",
    "statement": "For every valid D with word d, every pair of tournament score vectors (a, a + d) that is not a solution can be changed by one exchange a_i + 1, a_j − 1 to another such pair with a larger value of Σ a_i² + Σ (a_i + d_i)².",
    "evidence": "False from n = 5: 3 of the 9 valid sets have a stuck pair (13 of 22 at n = 6). Allowing two exchanges at once fails at n = 6, three at n = 7; e.g. d = −6 −3 −2 1 2 3 5 with rows 6 4 5 2 3 0 1. The radius needed grows with n. Recheck: python3 agents/lens/lens.py 6; python3 agents/lens/lens2.py 7 3.",
-   "refs": "agents/lens/NOTES.md"
+   "refs": "agents/lens/NOTES.md",
+   "route": "tournaments",
+   "added": "2026-11-23T20:26Z",
+   "since": "2026-11-23T20:26Z"
   },
   {
    "id": "simorder",
@@ -4563,7 +5357,10 @@
    "intuition": "If some hole patterns were simply better than others, a reachable set could be replaced by its best members, and comparing two words would come down to comparing single patterns. That would give alive sets a shape (everything below the best ones) and a way to prove that one word is easier than another. Claim: some hole pattern is at least as good as a different one, move by move.",
    "statement": "There is a pair of different interface states t, t′ of the same slack, not mirror images, such that t′ can answer every move of t: for every legal next letter, every successor of t is again answered by some successor of t′, and t′ is empty whenever t is.",
    "evidence": "False for every state of slack ≤ 9 after a last letter ≤ 2: among the 1,215 states with slack ≤ 10 the only comparable pairs there are a state and its mirror image. (After a last letter ≥ 3 close to the bound the test cannot decide; those cases clear when the bound is raised.) Every hole pattern has continuations that no other single pattern can follow, so a comparison of reachable sets has to use several states together. Recheck: python3 agents/simorder/sim.py 10 (40 seconds).",
-   "refs": "agents/simorder/sim.py, REPORT.md"
+   "refs": "agents/simorder/sim.py, REPORT.md",
+   "route": "machine",
+   "added": "2026-11-23T15:25Z",
+   "since": "2026-11-23T15:25Z"
   },
   {
    "id": "alivebox",
@@ -4573,7 +5370,10 @@
    "intuition": "Alive sets are not closed in either direction under moving boxes, because both very deep and very spread-out hole patterns die. The next simplest hope is a two-sided rule: alive means fitting inside a box, not too wide and not too tall. Claim: the alive set is always exactly the states that fit in its bounding box.",
    "statement": "For every valid prefix, an interface state (λ, μ) of the current slack is alive exactly when its four dimensions (longest row and number of rows of λ and of μ) are at most the largest values of those dimensions among alive states.",
    "evidence": "Exact for only 20 of the 100 alive sets with slack ≤ 6 and 33 of 363 with slack ≤ 8. Worse, no rule using only these four dimensions (plus the split of the slack between rows and columns) works: at slack 8, with no row holes, column pattern 4 2 2 is alive while 4 3 1 is dead, and the two have the same width, height and size. Adding the number of odd parts separates every case to slack 8, but only because those features then identify every state uniquely, so that says nothing.",
-   "refs": "2026-11-23, agents/basket/twosided.py, parityfeat.py"
+   "refs": "2026-11-23, agents/basket/twosided.py, parityfeat.py",
+   "route": "machine",
+   "added": "2026-11-23T14:26Z",
+   "since": "2026-11-23T14:26Z"
   },
   {
    "id": "online",
@@ -4584,7 +5384,10 @@
    "statement": "There is a rule that places the stone of the k-th smallest diagonal knowing only n and the k smallest diagonals, and that completes a witness for every valid D.",
    "example": "n = 8: whatever the rule does, an adversary who reveals the diagonals one at a time can steer to a valid D on which the rule is stuck. No two arrangements suffice for this; the adversary needs a branching strategy.",
    "evidence": "Exhaustive game search: a rule exists for n ≤ 7 and for no n from 8 to 11. On the automaton: exists for B ≤ 2, not for B = 3…8.",
-   "refs": "agents/interface/online_fixed_n.py, online_check.py (independent recheck, n ≤ 9), online_game.py, online_cex.py"
+   "refs": "agents/interface/online_fixed_n.py, online_check.py (independent recheck, n ≤ 9), online_game.py, online_cex.py",
+   "route": "machine",
+   "added": "2026-11-23T11:40Z",
+   "since": "2026-11-23T11:40Z"
   },
   {
    "id": "summary",
@@ -4595,7 +5398,10 @@
    "statement": "For some L with 1 ≤ L ≤ 4 there is a family I(σ, e_{k−L+1}, …, e_k) of nonempty sets of interface states such that every prefix with that slack and those last L letters reaches every state of I, and each step maps I onto a superset of the next I.",
    "example": "Window of 2 letters, arrangements with slack ≤ 5: the largest family satisfying the step condition is empty, for instance at slack 1 after the letters (0, 0).",
    "evidence": "Largest such family computed exactly inside slack ≤ B: a window of L = 1 letter works only for B ≤ 2, L = 2 only for B ≤ 4, L = 3 only for B ≤ 8, L = 4 only for B ≤ 13. So no window of at most 4 letters works for all D, and the window needed grows with the slack bound. Windows of 5 or more letters were not run to failure. Replacing the window by the last letter plus a capped counter (length, largest slack so far, sum of slacks, largest letter, steps since the last rise) fails from B = 4.",
-   "refs": "agents/interface/invariant.cpp, invariant.py, invariant_other.py"
+   "refs": "agents/interface/invariant.cpp, invariant.py, invariant_other.py",
+   "route": "machine",
+   "added": "2026-11-23T11:40Z",
+   "since": "2026-11-23T11:40Z"
   },
   {
    "id": "meet",
@@ -4606,7 +5412,10 @@
    "statement": "For every valid no-tight-cut D of size n and k = ⌊n/2⌋: |F_k| + |G_k| > N_k, where F_k is the set of interface states reachable by placing the k smallest diagonals, G_k the set reachable backwards by placing the n − k largest, and N_k the number of all interface states at that cut.",
    "example": "n = 15, D = {−9, …, 0, 2, 8, 10, 12, 13}, cut after 7 stones: the two sets together have 0.973 times the number of states (they still meet).",
    "evidence": "True for every D with n ≤ 14 (exhaustive; the smallest ratio falls steadily: 2, 1.75, 1.6, 1.56, 1.47, 1.41, 1.33, 1.23, 1.14, 1.10, 1.03 for n = 4…14). Fails at n = 15 (example).",
-   "refs": "agents/interface/meet.cpp, meet.py"
+   "refs": "agents/interface/meet.cpp, meet.py",
+   "route": "machine",
+   "added": "2026-11-23T12:51Z",
+   "since": "2026-11-23T12:51Z"
   },
   {
    "id": "twice",
@@ -4617,7 +5426,10 @@
    "statement": "Let d_1 ≤ … ≤ d_n be integers in which no value occurs more than twice, with Σ_{i≤k} (d_i + n − i) ≥ C(k,2) for all k and equality at k = n. Then some permutation has exactly these diagonals, with these multiplicities.",
    "example": "n = 4, diagonals {−1, −1, 1, 1}: the permutation 2 1 4 3 has them.\nn = 6, diagonals {−2, −2, −2, 2, 2, 2} (Landau holds): no permutation. Rows 1, 2 need diagonal +2 and rows 5, 6 need −2, and both pairs land in columns 3, 4.",
    "evidence": "Exhaustive for n ≤ 15 (174,292,169 multisets at n = 15, no failure), and for every n when all slacks are ≤ 12 (automaton with repeats, 207,436 states). Among all multisets passing Landau, those with no solution number 1, 6, 32, 145, 634 for n = 6…10 and every one has a diagonal used at least three times. The fractional test stays exact for all multisets up to n = 11 and first fails at n = 12 with a diagonal used five times (the saturation card's example). Does not depend on the conjecture. Recheck: g++ -O2 -o twice twice.cpp && ./twice 13 2.",
-   "refs": "agents/interface/twice.cpp, nonstrict.py, slack_dfa2.cpp, lp_fails.py"
+   "refs": "agents/interface/twice.cpp, nonstrict.py, slack_dfa2.cpp, lp_fails.py",
+   "route": "repeats",
+   "added": "2026-11-23T11:40Z",
+   "since": "2026-11-23T11:40Z"
   },
   {
    "id": "thrice",
@@ -4628,7 +5440,10 @@
    "statement": "The same statement with 'no value occurs more than three times'.",
    "example": "n = 6, diagonals {−2, −2, −2, 2, 2, 2}: Landau holds, no permutation.",
    "evidence": "Smallest failure is n = 6 (unique there).",
-   "refs": "agents/interface/twice.cpp (./twice 6 3)"
+   "refs": "agents/interface/twice.cpp (./twice 6 3)",
+   "route": "repeats",
+   "added": "2026-11-23T11:40Z",
+   "since": "2026-11-23T11:40Z"
   },
   {
    "id": "pairsum",
@@ -4639,7 +5454,10 @@
    "statement": "If c_1 < … < c_m are integers with Σ_{i≤j} c_i ≥ j(2j+1) for all j and equality at j = m, then {1, …, 2m} can be split into pairs whose sums are c_1, …, c_m.",
    "example": "m = 4, sums (4, 8, 10, 14): no pairing of {1, …, 8}. Even sums pair odd with odd and even with even; the odd numbers can make {4,12}, {6,10} or {8,8} and the even ones {6,14}, {8,12} or {10,10}.",
    "evidence": "With all sums odd this is the conjecture (no failure, m ≤ 8). With even sums allowed: 1 of 37 fails at m = 4, 1026 of 50944 at m = 8.",
-   "refs": "agents/interface/pairsum.cpp"
+   "refs": "agents/interface/pairsum.cpp",
+   "route": "repeats",
+   "added": "2026-11-23T11:40Z",
+   "since": "2026-11-23T11:40Z"
   },
   {
    "id": "l1",
@@ -4651,7 +5469,11 @@
    "example": "n = 8, word + + 0 − 0 + − −. Diagonals {−6, −4, −3, −2, 1, 4, 4, 6}. The proof run backwards from the empty pattern gives the witness 7 6 4 8 3 2 1 5 (python3 agents/l1sets/solve.py + + 0 - 0 + - - prints it with the rows in reverse order).",
    "proof": "Hand proof in agents/l1sets/REPORT.md §2 (five lemmas on Maya diagrams), written by one sub-session and read line by line by a second one acting as referee (agents/referee/REPORT.md): no gap; one sentence of Lemma 4 missed a case that the lemma's hypothesis excludes, now repaired. No human has read it. Two finite sub-cases (the four patterns at slack 4m² + 1, for m ≤ 3 and m ≤ 5) are done by a script, run to m = 8.",
    "evidence": "Checks: the lemmas on all 3,131 patterns of slack ≤ 12; G(s) equals the largest slack-only family for s ≤ 17 (sizes 1, 2, 4, 8, 12, 24, 48, 80, 126, 212, …); the proof run as an algorithm solves all 41,835 valid words of length 13 and all shorter ones, and 300 random words with slack up to 193. Not proved: the exact reachable sets (tested, slack ≤ 16: only 70 distinct sets, each 'all patterns whose class is allowed', with 6 exceptions). For letters in {−2, …, 2} no family depending on the slack, or on the slack and the last letter, exists (slack ≤ 9): a central pattern can have no predecessor under the letter 2.",
-   "refs": "agents/l1sets/REPORT.md, runs.sh (1 minute), solve.py, check.py, local.py; agents/interface/letters_notes.md"
+   "refs": "agents/l1sets/REPORT.md, runs.sh (1 minute), solve.py, check.py, local.py; agents/interface/letters_notes.md",
+   "route": "cuts",
+   "added": "2026-11-23T13:35Z",
+   "since": "2026-11-23T18:00Z",
+   "was": "empirical"
   },
   {
    "id": "zigzag",
@@ -4662,7 +5484,10 @@
    "statement": "Let M be a word as in the parent card, W any witness of M, and add corner stones to get a witness of 0 M 0. Move stone 1 up one row; the stone it displaces is then one short and is moved one column right; continue, alternating rows and columns (or columns first). For every M and W the chain reaches the last stone, giving a witness of + M −.",
    "example": "n = 10, M = + 0 − + + 0 − −: from 4 of the 8 witnesses of M the chain returns to its starting position after 28 moves without ever touching the last stone.",
    "evidence": "True for every witness of every M up to n = 9. At n = 10 it fails for 4 witnesses of one word; the other 4 work. What survives: start only from witnesses that this induction built (direct sums and chain results). That class is non-empty for every word with n ≤ 13 (41,835 words at n = 13; the chain loops in 1,096 of about 200,000 runs, never for all witnesses of a word). No simple choice of witness (least displacement, fewest inversions, lexicographic) always works. The chain never gets stuck at the border: by the leapfrog card its only failure is a closed loop.",
-   "refs": "agents/interface/letters_zigzag.py, letters_zigzag_exc.py, letters_closed.py, letters_static.py, leapfrog.py"
+   "refs": "agents/interface/letters_zigzag.py, letters_zigzag_exc.py, letters_closed.py, letters_static.py, leapfrog.py",
+   "route": "leapfrog",
+   "added": "2026-11-23T13:35Z",
+   "since": "2026-11-23T13:35Z"
   },
   {
    "id": "rounds",
@@ -4674,7 +5499,10 @@
    "example": "M = (+ 0 −)(+ + 0 − −), n = 10. The witness of + 0 − built rows-first always lets the mark through and hands it on by a column move; the one built columns-first hands it on by a row move. A witness of + + 0 − − built rows-first lets a row move through and sends a column move back. So the chain loops exactly when both blocks were built with the same first move.",
    "proof": "Proof: let I_i be the rows (= columns) of U_i. By induction on the moves, below the marked block each boundary has exactly one pair of neighbouring lines exchanged (the two rows or the two columns at the boundary), and above it nothing has moved; so a move either stays inside a block, or exchanges the two lines at a boundary going up, or undoes that exchange going down. When the mark comes down into U_{j−1}, no stone of U_{j−1} or below has moved since the mark left, so the stone that receives it is the one that passed it up, back in its earlier place, and its next move is of the kind by which it first received the mark; that move is its own inverse, so it undoes the earlier one, and so on down to the bottom stone.",
    "evidence": "Checked on 1,705,474 chain runs (n ≤ 15): no exception.",
-   "refs": "agents/interface/letters_pass.py (15: 25 seconds), letters_trace.py, letters_notes.md"
+   "refs": "agents/interface/letters_pass.py (15: 25 seconds), letters_trace.py, letters_notes.md",
+   "route": "leapfrog",
+   "added": "2026-11-23T14:11Z",
+   "since": "2026-11-23T14:11Z"
   },
   {
    "id": "pass",
@@ -4685,7 +5513,10 @@
    "statement": "Let K be the class of witnesses built by direct sums and the zigzag chain (K(0) = one stone; K(+ M −) = all results of the chain from direct sums of members of K of the blocks of M). For every block B = + M − and for each kind of move m (row or column) there is a witness in K(B) which, placed between two corner stones, lets a mark that enters by m through to the top stone.",
    "example": "B = + + 0 − −: the witness built rows-first lets a row move through and sends a column move back; the one built columns-first does the opposite.",
    "evidence": "True for all 9,360 blocks of length ≤ 13 (69,907 distinct witnesses in K; 510 of them send both kinds of move back, first at length 10). The claim for B is about a second mark crossing the trail of the first, and is not an induction by itself: for + 0 … 0 − the second mark visits every third stone, so what a block does depends on its length mod 3.",
-   "refs": "agents/interface/letters_pass.py (15: 25 seconds), letters_scatter.py"
+   "refs": "agents/interface/letters_pass.py (15: 25 seconds), letters_scatter.py",
+   "route": "leapfrog",
+   "added": "2026-11-23T14:11Z",
+   "since": "2026-11-23T14:11Z"
   },
   {
    "id": "shorten3",
@@ -4700,7 +5531,11 @@
    "vis": {
     "file": "labs/shorten.html",
     "title": "Shorten an arrangement"
-   }
+   },
+   "route": "shorten",
+   "added": "2026-11-23T15:10Z",
+   "since": "2026-11-23T15:23Z",
+   "was": "empirical"
   },
   {
    "id": "shorten3set",
@@ -4711,7 +5546,10 @@
    "statement": "F(x) = set of interface states reachable after the prefix x. For every legal prefix x: F(x 0) ⊆ F(x 1 0 −1), F(x −1) ⊆ F(x 0 −1), and F(x u) ⊆ F(x v) for every RUN(a, b).",
    "example": "RUN(2, 1) fails after x = (4, 3, 2, 1): two hole patterns are reached by x 1 1 0 and not by x 2 1 0 −1 (slack 13 on the way). ZERO fails after x = (2, 3, 3, 2, 2, 1, 1, 0), slack 14. PEAK fails after x = (3, 4, 3, 3, 2, 1), slack 17: three hole patterns reached by x 0 are not reached by x 1 0 −1 (proved by hand, card 'Counting rows, columns and sums modulo m').",
    "evidence": "Slack ≤ 12: 6,061 cases (rule, reachable set, slack, last letter), 0 failures. Slack ≤ 14: ZERO fails in 1 of 904 situations, RUN(2, 1) in 2 of 1,344. PEAK holds for slack ≤ 16 (4,100 situations) and fails in 1 of 5,959 at slack 17 (found by a sub-session with a C++ check and confirmed by brute force on the board). Asking for two zeros before the −1 does not repair ZERO (fails after (2, 6, 5, 4, 3, 2, 1, 0, 0), slack 23, proved by hand in agents/zero/REPORT.md), and a second system of five rules that also uses the mirror side holds to slack 14 and fails between 16 and 23. A sub-session checked up to slack 22: RUN(a, 1) for a = 2…5, RUN(a, 2) for a = 1…5 and RUN(1, 3) also fail, and so do other short rules; testing one more letter, or only patterns that can still be completed, repairs none of them. All failures are after steep beginnings: few stones far above their evenly spaced places. Lesson: a check up to slack 14 says little about claims of this kind. The missing patterns can still be completed, so they are not dead states. With multiplicity (number of placements per pattern) PEAK holds in all 2,812 tests at slack ≤ 6, ZERO and RUN(2, 1) fail. Recheck: python3 zero_fail.py 14 (12 minutes; prints the shortest failing words), run_rule.py 12 (50 seconds), count_rule.py 6 8.",
-   "refs": "agents/interface/run_rule.py, zero_fail.py, count_rule.py, shorten.py (search that found the rules), letters_notes.md"
+   "refs": "agents/interface/run_rule.py, zero_fail.py, count_rule.py, shorten.py (search that found the rules), letters_notes.md",
+   "route": "shorten",
+   "added": "2026-11-23T15:23Z",
+   "since": "2026-11-23T15:23Z"
   },
   {
    "id": "countrule",
@@ -4722,7 +5560,10 @@
    "statement": "N(w) = number of permutation matrices with diagonal word w. For all letter strings x, y and each of PEAK, ZERO, RUN(a, b) with shorter piece u and longer piece v: N(x u y) ≤ N(x v y).",
    "example": "(1, 0, −1) has 2 solutions and comes from (0), which has 1. (1, 0, 0, −1) has 2 and comes from (1, 0, −1) by ZERO: equality.",
    "evidence": "All 19,559 valid nonzero words with slacks ≤ 8 and length ≤ 12: 0 violations in 15,718 ZERO, 7,929 PEAK, 9,334 RUN applications. Behind 15 beginnings where the set comparison fails (slack 18 and 20): 22,017 words, 0 violations, the longer word always has at least 2.2 times as many solutions. Independent brute force over permutations, the canonical step only, every valid word up to n = 10: 0 violations; the ratio is at least 2 for PEAK, 1.5 for RUN, 1 for ZERO. A cleaner statement that contains ZERO and PEAK also holds in tests (all words up to n = 10): inserting a valid block b anywhere multiplies the number of solutions by at least N(b), that is N(x b y) ≥ N(b)·N(x y), and likewise N(x b y) ≥ N(b)·N(x 0 y); a block is worth at least as much inside a word as at its end. Proved only at cuts of slack ≤ 1, where the two sides factor exactly (there are two hole patterns and they are mirror images). At cuts of slack 2 the inequality for inserting a 0 is reduced to five linear inequalities between the three numbers that describe a beginning at slack 2 (γ ≤ 4β, β ≤ 2α and three triangle inequalities; the reduction is proved, the inequalities hold for all 33,975 beginnings with slack ≤ 8 and length ≤ 12, and they are preserved by the letter 0; agents/runrule/COUNT2_REPORT.md). A proof for all slacks would need such a cone for every slack at once; the natural uniform guess (among the counts of the patterns obtained by adding one box to a fixed smaller pattern, none exceeds the sum of the others) is exact at slack 2 and 3, true at slack 4 and false at slack 5 (agents/runrule/COUNT3_REPORT.md), so no uniform description is known. No proof idea beyond that: the inequality holds for each row diagram at one cut but fails as soon as both cuts are fixed, no matching 'delete one stone' exists, and the difference is not a positive form (sub-session, five refuted proof shapes; also agents/reflect/NOTES.md). Recheck: python3 agents/countmono/canon.py 9 (15 seconds), agents/runrule/wordcount.py 8 12 (70 seconds).",
-   "refs": "agents/runrule/REPORT.md, agents/runrule/COUNT_REPORT.md (sub-session), agents/countmono/canon.py"
+   "refs": "agents/runrule/REPORT.md, agents/runrule/COUNT_REPORT.md (sub-session), agents/countmono/canon.py",
+   "route": "shorten",
+   "added": "2026-11-23T15:56Z",
+   "since": "2026-11-23T15:56Z"
   },
   {
    "id": "countmoves",
@@ -4733,7 +5574,10 @@
    "statement": "For valid D of size n and D′ obtained from D by one minimal move (stones at a < b, a+1 and b−1 empty, every mark between them occupied, moved to a+1 and b−1): N(D) ≤ N(D′).",
    "example": "n = 6: D = {−4, −2, 0, 1, 2, 3} has 8 solutions; moving −4 and 0 to −3 and −1 gives {−3, −2, −1, 1, 2, 3} with 6.",
    "evidence": "Violations: 2 of 32 minimal moves at n = 6, 5 of 103 at n = 7, 16 of 338 at n = 8, 67 of 1,115 at n = 9; least ratio 2/3. Recheck: python3 agents/countmono/majmono.py 8 (10 seconds).",
-   "refs": "agents/countmono/majmono.py"
+   "refs": "agents/countmono/majmono.py",
+   "route": "moves",
+   "added": "2026-11-23T15:56Z",
+   "since": "2026-11-23T15:56Z"
   },
   {
    "id": "l1red",
@@ -4744,7 +5588,10 @@
    "statement": "For a prefix x with letters in {−1, 0, +1} and partial sums ≥ 0 let F(x) be the set of interface states (pairs of diagrams) reachable after x. (A) F(x 0) ⊆ F(x 0 0). (B) F(x 0) ⊆ F(x + 0 −). (C) F(x) ⊆ F(x + −). All three hold for every such x.",
    "example": "P_n is + 0 … 0 −: rule (A) shortens it to + 0 −, rule (B) to 0.",
    "evidence": "All three hold for every prefix with slack ≤ 23 (233 distinct situations), so every word of the family with slack ≤ 23 is solvable for every n. No proof for all slacks: that needs a description of the reachable sets, or a direct way to turn a solution of the short word into one of the long word with the same hole pattern. Recheck: python3 l1_reduce.py 24 (1 minute).",
-   "refs": "agents/interface/l1_reduce.py, rewrite_l1.py, letters_notes.md"
+   "refs": "agents/interface/l1_reduce.py, rewrite_l1.py, letters_notes.md",
+   "route": "shorten",
+   "added": "2026-11-23T14:54Z",
+   "since": "2026-11-23T14:54Z"
   },
   {
    "id": "residue",
@@ -4756,7 +5603,10 @@
    "example": "PEAK after x = (3, 4, 3, 3, 2, 1). The pattern rows = columns = {1, 2, 3, 4, 7, 8, 11} is reached by x 0. For x 1 0 −1 the sums are 5, 8, 9, 11, 12, 13, 15, 16, 17: none is ≡ 2 (mod 4), so the four rows ≡ 1 need columns ≡ 0, 2, 3; only one column is ≡ 0 and one ≡ 3, so two stones have sum ≡ 3, and by symmetry two more: four stones with sum ≡ 3 (mod 4), but only 11 and 15 exist.",
    "proof": "Proof: n(i, j) = number of stones in a row ≡ i and a column ≡ j.",
    "evidence": "Not sufficient: the fractional test together with these counts for m = 2, 3, 4, 5, 6, 8 still passes 114 unreachable patterns (length and slack ≤ 7). Tests that fix the row remainder of every stone are exact longer (mod 2 through length and slack 7, fails at 8; mod 3 has no exception at 8) but each fixed depth is expected to fail. Sub-session report, sections 2 and 3.",
-   "refs": "agents/fshape/REPORT.md, counts.py, peak16.py, exact2.py"
+   "refs": "agents/fshape/REPORT.md, counts.py, peak16.py, exact2.py",
+   "route": "machine",
+   "added": "2026-11-23T15:57Z",
+   "since": "2026-11-23T15:57Z"
   },
   {
    "id": "paritycount",
@@ -4768,7 +5618,10 @@
    "example": "After + + + + + + 0 the pattern ((2,1), (2,1)) is the only one of 65 missing: it would need two stones on (odd, odd) cells and there is one even letter.",
    "proof": "Proof: count stones by (row parity, column parity); even letters give equal parities, odd letters unequal.",
    "evidence": "The condition is far from exact: for words with letters −1, 0, +1 and distinct diagonals, slack ≤ 6 and length ≤ 9, of 1,935 unreachable (prefix, pattern) pairs it rules out 45; adding a sum test inside each parity class rules out 1,182. The rest need the same split repeated on rows mod 4, 8, …: e.g. after + + + + the pattern rows {1,2,3,6}, columns {1,2,4,5} fails because no free cell has row + column = 9.",
-   "refs": "agents/interface/parity_test.py (6 9 l1: 1 minute), letters_notes.md"
+   "refs": "agents/interface/parity_test.py (6 9 l1: 1 minute), letters_notes.md",
+   "route": "machine",
+   "added": "2026-11-23T15:05Z",
+   "since": "2026-11-23T15:05Z"
   },
   {
    "id": "neardiag",
@@ -4779,7 +5632,10 @@
    "statement": "Every word with letters −1, 0, +1 (distinct diagonals) has a witness in which each + stone k is at (k, k+1) or (k+1, k) and each − stone at (k−1, k) or (k, k−1), in reflected rows.",
    "example": "+ + 0 0 − − (n = 6) has no such witness; its witnesses move a − stone two rows away.",
    "evidence": "Fails for 1 of 17 words at n = 6, 106 of 423 at n = 10, 770 of 2,283 at n = 12. With the choice fixed (+ at (k, k+1), − at (k−1, k)) it already fails for + 0 0 −.",
-   "refs": "agents/l1form/form2.py, form.py"
+   "refs": "agents/l1form/form2.py, form.py",
+   "route": "leapfrog",
+   "added": "2026-11-23T15:05Z",
+   "since": "2026-11-23T15:05Z"
   },
   {
    "id": "zeros",
@@ -4790,7 +5646,10 @@
    "statement": "For every legal prefix x (any letters) after which a letter 0 is allowed, F(x) ⊆ F(x 0 0).",
    "example": "Fails first at slack 8, after a prefix ending in +1: 131 patterns are reachable and one of them is lost.",
    "evidence": "True for slack ≤ 7. With slack ≤ 12 it fails in 15 of 1,236 situations (reachable set, slack, last letter), first at slack 8. Among rewrites of at most 2 letters, four lose nothing for slack ≤ 12: (−1) → (0, −1), (−2) → (−2, 0), (−1, −1) → (−2, 0), (−1, −2) → (−2, −1). Inside the family with letters −1, 0, +1 the rule does hold (card 'Two shortening rules').",
-   "refs": "agents/interface/rewrite.py (10 2: 11 seconds), letters_notes.md"
+   "refs": "agents/interface/rewrite.py (10 2: 11 seconds), letters_notes.md",
+   "route": "machine",
+   "added": "2026-11-23T14:54Z",
+   "since": "2026-11-23T14:54Z"
   },
   {
    "id": "lookahead",
@@ -4801,7 +5660,10 @@
    "statement": "For every slack bound B there is a rule that places the k-th stone knowing only the diagonals of stones 1 … k+3.",
    "example": "Seeing three ahead is enough for slack ≤ 8 and fails at slack 9.",
    "evidence": "Exact game search, knowing L letters (the current one and L − 1 ahead): L = 1, 2 win only for B ≤ 2, L = 3 only for B ≤ 4, L = 4 only for B ≤ 8 (loses at B = 9 and 10). L = 5 wins at B = 9, 11, 13; B = 14 was not run. The thresholds 2, 4, 8 are the same as for an invariant that remembers L − 1 past letters (card 'Invariant from the slack and the last few diagonals'), so the lookahead needed seems to grow with the slack bound; whether some larger fixed lookahead works for all B is not settled.",
-   "refs": "agents/interface/lookahead_game.py (9 4: under a minute)"
+   "refs": "agents/interface/lookahead_game.py (9 4: under a minute)",
+   "route": "machine",
+   "added": "2026-11-23T14:54Z",
+   "since": "2026-11-23T14:54Z"
   },
   {
    "id": "twoends",
@@ -4812,7 +5674,10 @@
    "statement": "Let M be a word as in the card 'Every stone within one mark of evenly spaced', w ANY witness of M, with corner stones added. A bottom round is the zigzag chain from the bottom stone (rows first or columns first) until the mark is on the top stone (success) or back on the bottom stone; a top round is the same from the top stone downwards (the top stone is one too high: swap it with the previous row or column, and so on). A round that comes back leaves another witness of M. From every w, some sequence of rounds that come back, followed by one that succeeds, exists; so a witness of + M − is reached.",
    "example": "n = 10, M = + 0 − + + 0 − −: from the 4 witnesses where the bottom chain loops, a round from the top succeeds.",
    "evidence": "True for all 596,013 witnesses (distinct boards) of all middle words up to n = 15. Bottom rounds alone fail for 4, 20, 88, 392, 1,604, 6,940 witnesses at n = 10 … 15. From n = 12 some witnesses have no successful single round of either kind (10, 42, 210, 922 at n = 12 … 15), so a mixed sequence is needed. Moving the two marks in any order (not in whole rounds) also always reaches a witness (n ≤ 13). No rule for the order of the rounds and no proof. It is not known whether this is more than 'a successful round exists somewhere and the round graph is connected'.",
-   "refs": "agents/interface/letters_two_rounds.py (15: 1 minute), letters_two.py (13: 7 seconds), letters_notes.md"
+   "refs": "agents/interface/letters_two_rounds.py (15: 1 minute), letters_two.py (13: 7 seconds), letters_notes.md",
+   "route": "leapfrog",
+   "added": "2026-11-23T14:31Z",
+   "since": "2026-11-23T14:31Z"
   },
   {
    "id": "flip",
@@ -4823,7 +5688,11 @@
    "statement": "With M = B_1 … B_k and K as in the card 'Every block lets each kind of move through', call the two results of the chain from the same start (rows first, columns first) siblings. If the chain from a_1 ⊕ … ⊕ a_k (a_i ∈ K(B_i), plus corner stones) closes into a loop, then for some i it reaches the last stone after a_i is replaced by its sibling.",
    "example": "n = 15, M = (+ 0 −)(+ + 0 − −)(+ + 0 − −) with all three built rows-first. The second block sends the mark back. Switching the first or the second block gets the mark past the second block, but for one of the two ways the inside of the second block can be built the third block then sends it back; switching the third block changes nothing.",
    "evidence": "True for every loop up to n = 14. Fails at n = 15 (the example); 138 of 42,052 loops up to n = 16 are not cured by one switch. Switching both the first and the third block cures the example.",
-   "refs": "agents/interface/letters_flip.py (16: 1 minute), letters_trace.py, letters_bits.py, letters_chir.py, letters_canon.py, letters_pos.py"
+   "refs": "agents/interface/letters_flip.py (16: 1 minute), letters_trace.py, letters_bits.py, letters_chir.py, letters_canon.py, letters_pos.py",
+   "route": "leapfrog",
+   "added": "2026-11-23T13:53Z",
+   "since": "2026-11-23T14:11Z",
+   "was": "empirical"
   },
   {
    "id": "leapfrog",
@@ -4835,7 +5704,10 @@
    "example": "D = {−1, 0, 1}, n = 2, targets 3 and 4. X has three states: stones (1,1), (2,2) with (1,1) marked; stones (1,2), (2,1) with either one marked. R and C join the first to the other two, so X is one path, and D has two witnesses, 1 3 2 and 2 1 3.",
    "proof": "Proof: R swaps rows r, r+1 where the marked stone is in row r; the marked stone gains 1 and is now exact, the other loses 1 and is now the marked one, in row r; applying R again swaps back. A witness of D has its top stone at (n, n+1) or (n+1, n), since its sum is 2n+1; the stone in row n+1 (or column n+1) moved back by one gives a state with the mark in the last row (column), and conversely. With distinct diagonals the mark is never at (n, n), so these states are exactly the vertices with one edge.",
    "evidence": "Checked against direct counts for n+1 ≤ 8. X is the union over j of the witnesses of 'D without its top stone, stone j one diagonal lower', so X is non-empty whenever one of those smaller arrangements is solvable.",
-   "refs": "agents/interface/leapfrog_check.py, leapfrog_cycles.py, letters_notes.md"
+   "refs": "agents/interface/leapfrog_check.py, leapfrog_cycles.py, letters_notes.md",
+   "route": "leapfrog",
+   "added": "2026-11-23T13:35Z",
+   "since": "2026-11-23T13:35Z"
   },
   {
    "id": "nocycle",
@@ -4846,7 +5718,10 @@
    "statement": "For D as in the parent card, X has no cycle component.",
    "example": "n + 1 = 10, word + + 0 − + + 0 − − −: 8 paths and 2 cycles.",
    "evidence": "No cycle for n+1 ≤ 9 (2,031 paths at 9). At n+1 = 10: 8 cycles against 12,216 paths, in 4 words. Every word still has a path.",
-   "refs": "agents/interface/leapfrog_cycles.py"
+   "refs": "agents/interface/leapfrog_cycles.py",
+   "route": "leapfrog",
+   "added": "2026-11-23T13:35Z",
+   "since": "2026-11-23T13:35Z"
   }
  ],
  "edges": [
@@ -5404,11 +6279,11 @@
    "why": "Parities of the path counts of the machine."
   },
   {
-   "from": "oddsplit",
-   "to": "paritylr",
+   "from": "paritylr",
+   "to": "oddsplit",
    "kind": "related",
    "status": "unchecked",
-   "why": "Uses the parity theorem on two complementary sets of stones."
+   "why": "Odd splits use the parity theorem on two complementary sets of stones."
   },
   {
    "from": "rrsplit",
@@ -5418,11 +6293,11 @@
    "why": "An RR-split is an odd split whose two parities are both exactly 1 (Lemma R)."
   },
   {
-   "from": "uni2",
-   "to": "rrsplit",
+   "from": "rrsplit",
+   "to": "uni2",
    "kind": "related",
    "status": "unchecked",
-   "why": "The case of a single stone, which is proved."
+   "why": "Its single-stone case is the proved card."
   },
   {
    "from": "paritylr",
