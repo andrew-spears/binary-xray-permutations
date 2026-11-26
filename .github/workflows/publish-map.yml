@@ -1,11 +1,10 @@
 name: Publish map
 # Publishes the map/ folder, and nothing else in the repository, to GitHub Pages.
-# The job is skipped until the repository variable PUBLISH_MAP is set to "true".
 # Steps and the address of the site: docs/claims-map-guide.md, section 7.
 on:
   push:
     branches: [main]
-    paths: ["map/**"]
+    paths: ["map/**", ".github/workflows/publish-map.yml"]
   workflow_dispatch:
 permissions:
   contents: read
@@ -16,7 +15,6 @@ concurrency:
   cancel-in-progress: true
 jobs:
   publish:
-    if: vars.PUBLISH_MAP == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

@@ -96,10 +96,6 @@ Examples on the map:
 **Opening it.**
 - From disk: open `map/index.html` in a browser. The pages read `graph.js`, so no server is needed.
 - As one file: `python3 map/bundle.py` writes `map/dashboard-single.html` (not tracked by git), with the data, the labs and the graph inlined. It opens from a message attachment in any browser.
-- As a link, with GitHub Pages. Pages is **not** switched on, and switching it on makes the published pages readable by anyone who has the address, even though the repository is private. Pages for a private repository also needs a paid GitHub plan (Pro or Team); on the free plan the repository would have to be public. Two ways:
-  1. *Only the `map/` folder (recommended).* Settings → Pages → Source: **GitHub Actions**. Then Settings → Secrets and variables → Actions → Variables → New repository variable `PUBLISH_MAP` with value `true`. Then Actions → **Publish map** → Run workflow. After that, every push to `main` that touches `map/` republishes. The workflow is `.github/workflows/publish-map.yml`.
-  2. *The whole repository.* Settings → Pages → Source: **Deploy from a branch**, branch `main`, folder `/ (root)`. The root `index.html` forwards to `map/`. This also publishes `docs/` and `agents/`.
-
-  Either way the address is https://andrew-spears.github.io/binary-xray-permutations/.
+- As a link: https://andrew-spears.github.io/binary-xray-permutations/. GitHub Pages publishes the `map/` folder, and only that folder, with the workflow `.github/workflows/publish-map.yml` (Settings → Pages → Source: **GitHub Actions**). Every push to `main` that changes `map/` republishes it within a few minutes, and Actions → **Publish map** → Run workflow republishes by hand. The repository is public, so anyone can read the site.
 
 **Checking a change to the pages.** Headless Chrome is enough: `google-chrome --headless --no-sandbox --disable-gpu --window-size=390,844 --virtual-time-budget=8000 --screenshot=out.png "file://$PWD/map/index.html#/families"`. Addresses: `#/overview`, `#/families`, `#/routes`, `#/routes/<route id>`, `#/cards`, `#/graph/<card id>`; add `~<card id>` or `~f.<family id>` to open a card or a family.

@@ -1,6 +1,6 @@
 # Binary x-rays of permutations
 
-Research notes, data and code for an open conjecture about permutation matrices. **[Progress dashboard](https://claude.ai/artifact/PnNNnhXRqfmtgrEThzoG9Z)**: what is proved, what holds in tests, and what has been ruled out (other ways to open it are under [Opening the dashboard](#opening-the-dashboard)).
+Research notes, data and code for an open conjecture about permutation matrices. **[Progress dashboard](https://andrew-spears.github.io/binary-xray-permutations/)**: what is proved, what holds in tests, and what has been ruled out (other ways to open it are under [Opening the dashboard](#opening-the-dashboard)).
 
 ## The question
 
@@ -58,7 +58,7 @@ That is the conjecture (Bebeacua–Mansour–Postnikov–Severini 2005, Conjectu
 
 - **On this machine:** open `map/index.html` in a browser. Nothing needs to be served.
 - **As one file:** `python3 map/bundle.py` writes `map/dashboard-single.html` with the data, the labs and the graph inside. Send it as an attachment and open it in a browser.
-- **As a link:** a snapshot of the dashboard is published at https://claude.ai/artifact/PnNNnhXRqfmtgrEThzoG9Z. It is rebuilt by hand, so it can lag behind `main`.
+- **As a link:** https://andrew-spears.github.io/binary-xray-permutations/. GitHub Pages republishes it automatically after every push to `main` that changes `map/`.
 - **On GitHub Pages:** the repository is ready for Pages; it is not switched on. The steps, and what becomes public, are in `docs/claims-map-guide.md` §7. The address would be https://andrew-spears.github.io/binary-xray-permutations/.
 
 ## For contributors and agents
