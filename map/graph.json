@@ -74,10 +74,10 @@
   {
    "id": "moves",
    "name": "Minimal moves",
-   "state": "stalled",
-   "summary": "Every valid arrangement is reached from the evenly spaced one by minimal moves: two stones each move one mark towards each other (proved). The conjecture follows if every such move keeps the board solvable.",
-   "gap": "That a move keeps solvability. Repairing a given solution can need changes to more and more stones as the size grows, and a move can lower the number of solutions.",
-   "key": "mm move ratio goodwitness"
+   "state": "active",
+   "summary": "Every valid arrangement is reached from the evenly spaced one by minimal moves: two stones each move one mark towards each other (proved). The conjecture follows if every such move keeps the board solvable. After a move, mirroring a chain of stones in an anti-diagonal repairs a solution unless the two moving stones sit on two different chains that run off the board (proved). Carrying every repaired solution along the path that always opens the first run never runs out, up to size 12 (tested).",
+   "gap": "A description of the solutions that the mirror repairs carry along, kept from one move to the next. Following every path fails at size 7, and keeping one solution per arrangement fails at size 10.",
+   "key": "mm move hallwalk halltree hallnear goodwitness"
   },
   {
    "id": "leapfrog",
