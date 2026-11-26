@@ -172,6 +172,11 @@
   },
   {
    "kind": "lead",
+   "id": "halltree",
+   "text": "After a minimal move, mirroring a chain of stones in an anti-diagonal repairs a solution unless the two moving stones sit on two different chains that run off the board (proved). Carrying every repaired solution along the path that always opens the first run never runs out, for every arrangement up to size 12. For all sizes this would give the conjecture."
+  },
+  {
+   "kind": "lead",
    "id": "intervalorder",
    "text": "The same question for intervals on a line holds for every arrangement up to size 14. Its machine has one partition as state, in place of two Young diagrams. It is neither weaker nor stronger than the conjecture."
   },
@@ -229,6 +234,11 @@
    "kind": "dead",
    "id": "nocycle",
    "text": "Leapfrog paths do close up into loops, first at size 10. Every word tested still has a path."
+  },
+  {
+   "kind": "dead",
+   "id": "hallanypath",
+   "text": "Carrying the mirror-repaired solutions along an arbitrary path of moves can run out, first at size 7. So the path has to be chosen; one solution per arrangement is not enough either (size 10)."
   },
   {
    "kind": "dead",
