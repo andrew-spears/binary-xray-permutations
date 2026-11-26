@@ -97,6 +97,15 @@ Limits of Claim 5, all computed:
   all solutions at n = 9 (10,371 of 12,657), all of them for 181 of 490 arrangements, and at least a quarter for
   each (union.py 9). The solutions never reached include 25314 and 41352 for −3, −1, 0, 1, 3 and 2413 ⊕ 1, 3142 ⊕ 1,
   1 ⊕ 2413, 1 ⊕ 3142 for −2, …, 2 (written as columns by row), although 2413 itself is reached at n = 4.
+- Loops do not fill the gaps. U is not a union of loop-reflection classes (Claim 1 (a), any s): at n = 8, 74 of
+  the 324 classes are split by U and 44 are missed entirely (loops.py 8). Closing U under loop reflections as well
+  as repairs still misses 6 of the 23 solutions at n = 5 and 118 of 2,113 at n = 8.
+- Why U misses solutions: in the repair graph (every solution of every valid D, an edge for each repair along a
+  minimal move) some solutions other than the evenly spaced one have no incoming edge, so no un-move can be
+  un-repaired. There are 1, 3, 11, 49, 195 of these sources for n = 4 … 8 (sources.py 8). The smallest are 25314
+  and 41352 for −3, −1, 0, 1, 3; most of those at n = 6 are an n = 5 source with one extra stone in a corner, for
+  example 364251. A proof that U(D′) ≠ ∅ has to show that no arrangement has all its solutions downstream of
+  sources other than the start.
 - It needs sets. Keeping one solution per arrangement, namely the first repair that works in a fixed order of the
   four, fails by n = 10 for all 8 × 24 combinations of rule and order; the best five (all with the rule "run
   furthest from the middle") work up to n = 9 (tree1.py).
@@ -132,6 +141,7 @@ Limits of Claim 5, all computed:
     python3 tree.py 10        # Claim 5 for n ≤ 10, 5 seconds (n = 12: about 4 minutes per rule); "tree.py 9 near" for the near-middle version
     python3 treesub.py 9      # which of the four repairs are needed (4 minutes); treeshape.py 9: sizes of the sets
     (run from agents/hallwalk/ or with the path in front; the scripts find refl.py beside themselves)
+    python3 loops.py 8        # loop classes split or missed by U (1 minute); sources.py 8: sources of the repair graph
     python3 allpaths.py 7     # every path instead of one: A becomes empty
     python3 tree1.py 10 "run furthest from the middle"   # one solution per arrangement fails at n = 10
 
